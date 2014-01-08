@@ -1,0 +1,22 @@
+Simulator? Oenskelig å fortsette i simulatorverden.
+
+Gem5 -- legg inn verdier i den, som vi kan lese ut igjen. Kjoer nye tester på
+hardware og software og se om de er like.
+
+HMACsim? Gem5?
+
+Utvide SHMAC-simulator med power estimates?
+
+Hvis vi finner ut hva som allerede er gjort innen simulatorverden, spesielt
+stroemsimulering, kan vi enklere finne ut hva vi skal gjoere.
+
+Interessant å vite trenden i korte syntetiske programmer, eller lange real-world
+program?
+
+Veldig nyttig med power-aware simulator for SHMAC.
+
+Undersoeke hva som finnes med stroemmodellerende simulatorer. Hvordan fungerer
+de?
+
+Hvis vi skal lage egen modell; bruk tallene vi har i bunn og legg til (adder) en
+stroemmodell for minnebruk.
