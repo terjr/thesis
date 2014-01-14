@@ -1,0 +1,20 @@
+\clearpage
+\pagenumbering{roman} 				
+\setcounter{page}{1}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\renewcommand{\headrulewidth}{0.1ex}
+\renewcommand{\footrulewidth}{0.1ex}
+\fancyfoot[LE,RO]{\thepage}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\thepage}\renewcommand{\headrulewidth}{0ex}}
+
+\section*{\Huge Summary}
+\addcontentsline{toc}{chapter}{Summary}	
+$\\[0.5cm]$
+
+\noindent Write your summary here...
+
+\clearpage

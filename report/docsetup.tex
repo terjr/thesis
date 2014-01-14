@@ -1,0 +1,44 @@
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage[Lenny]{fncychap}
+\usepackage[pdftex,bookmarks=true]{hyperref}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+    colorlinks,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=black
+}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{fancyhdr}
+\usepackage{times}
+%\usepackage[intoc]{nomencl}
+%\renewcommand{\nomname}{List of Abbreviations}
+%\makenomenclature
+\usepackage{natbib}
+\usepackage{float}
+%\floatstyle{boxed} 
+\restylefloat{figure}
+
+\usepackage[nonumberlist]{glossaries}
+%\makeglossary
+\newglossary[abr]{abbr}{abt}{abl}{Abbreviations}
+\newglossary[alg]{acronyms}{acr}{acn}{Abbreviations}
+%\makeabbr
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\renewcommand*\contentsname{Table of Contents}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\renewcommand{\headrulewidth}{0.1ex}
+\renewcommand{\footrulewidth}{0.1ex}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\thepage}\renewcommand{\headrulewidth}{0ex}}
