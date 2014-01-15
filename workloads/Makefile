@@ -1,7 +1,8 @@
-CC=/opt/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-gcc
+include config.mk
+
 CFLAGS+=-static
 
-SOURCES=$(shell find -name '*.c')
+SOURCES=$(wildcard */*.c)
 TARGETS=$(patsubst %.c, %, $(SOURCES))
 
 all: $(TARGETS)
@@ -12,7 +13,7 @@ clean:
 	rm -f $(TARGETS)
 
 test: $(TARGETS)
-	$(foreach f,$^,../../gem5-stable/build/ARM/gem5.opt ../../gem5-stable/configs/example/se.py -c $(f);)
+	$(foreach f,$^,${GEM5}/build/ARM/gem5.opt ${GEM5}/configs/example/se.py -c $(f);)
 
 
 
