@@ -15,7 +15,8 @@ clean:
 
 test: $(shell echo ${TESTS} |  sed 's|/|-|g' )
 
-test-%: all
-	${GEM5}/build/ARM/gem5.opt ${GEM5}/configs/example/se.py -c $(subst -,/,$*)
+test-%: all m5out
+	${GEM5}/build/ARM/gem5.opt -d m5out/$* ${GEM5}/configs/example/se.py -c $(subst -,/,$*)
 
-
+m5out:
+	mkdir m5out
