@@ -1,0 +1,10 @@
+Krysskompilator fungerer også.
+
+McPat vs. lage noe selv? Lag selv :)
+
+Hva med minnesystemer osv?
+
+Trendgrafer: Faktiske kjoeringer, vår modell, McPat
+
+Cache warmup i Gem5: Proev å gjoer det så likt som mulig som på hardwaren. Fjern
+bruk av performance countere (ikke stoettet i simulatoren).
