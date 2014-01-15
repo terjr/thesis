@@ -2,12 +2,10 @@
 
 #define TEST_BLOCK(instr1, instr2, label, iterations) \
     printf(LOG_PREFIX"Running "instr1" and "instr2" for "iterations" iterations\n"); \
-    CACHE_WARMUP(label); \
     FAST_LOOP_nHAZARDS(label, instr1, instr2, iterations); \
 
 #define TEST_BLOCK_3(instr1, instr2, instr3, label, iterations) \
     printf(LOG_PREFIX"Running "instr1", "instr2" and "instr3" for "iterations" iterations\n"); \
-    CACHE_WARMUP(label); \
     FAST_LOOP_3(label, instr1, instr2, instr3, iterations); \
 
 #define TEST_BENCH(instr1, instr2) \
