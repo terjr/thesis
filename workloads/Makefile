@@ -1,4 +1,5 @@
-CC=../scripts/compile.sh
+CC=/opt/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-gcc
+CFLAGS+=-static
 
 SOURCES=$(shell find -name '*.c')
 TARGETS=$(patsubst %.c, %, $(SOURCES))
