@@ -1,6 +1,6 @@
 #define num_iterations "0x1fffffff"
 
-#define LOG_PREFIX "tdt4501:"
+#define LOG_PREFIX "tdt4900:"
 
 #define INIT_ITER_COUNT(iter_count) \
     __asm__ volatile ( \

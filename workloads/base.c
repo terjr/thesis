@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "test_bench.h"
 
 #define CONST0 "#1"
