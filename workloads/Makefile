@@ -4,6 +4,7 @@ CFLAGS+=-static -mcpu=cortex-a9
 
 SOURCES=$(wildcard */*.c)
 TARGETS=$(patsubst %.c, %, $(SOURCES))
+TESTS=$(patsubst %.c, test-%, $(SOURCES))
 
 all: $(TARGETS)
 
@@ -12,9 +13,9 @@ all: $(TARGETS)
 clean:
 	rm -f $(TARGETS)
 
-test: $(TARGETS)
-	$(foreach f,$^,${GEM5}/build/ARM/gem5.opt ${GEM5}/configs/example/se.py -c $(f);)
+test: $(shell echo ${TESTS} |  sed 's|/|-|g' )
 
-
+test-%: all
+	${GEM5}/build/ARM/gem5.opt ${GEM5}/configs/example/se.py -c $(subst -,/,$*)
 
 
