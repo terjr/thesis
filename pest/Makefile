@@ -14,8 +14,8 @@ pest: $(OBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJ) -o $@
 
 dep/%.d: src/%.cpp dep
-	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -M $< | sed "s|$*.o|$@|g" > $@'
-	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -M $< | sed "s|\($*.o\) \?:|obj/\1: obj|g" >> $@'
+	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -MM $< | sed "s|$*.o|$@|g" > $@'
+	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -MM $< | sed "s|\($*.o\) \?:|obj/\1: obj|g" >> $@'
 	@echo '	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -c -o obj/$*.o' >> $@
 
 -include $(DEP)
