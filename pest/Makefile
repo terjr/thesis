@@ -1,5 +1,5 @@
 CXX=clang++
-CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++
+CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11
 LDFLAGS=-L/usr/lib
 
 SRC=$(wildcard src/*.cpp)
