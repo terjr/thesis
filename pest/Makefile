@@ -1,5 +1,5 @@
 CXX=clang++
-CXXFLAGS=-Iinclude -I/usr/include/boost
+CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++
 LDFLAGS=-L/usr/lib
 
 SRC=$(wildcard src/*.cpp)
@@ -8,9 +8,11 @@ DEP=$(patsubst src/%.cpp, dep/%.d, $(SRC))
 
 .PHONY: all clean
 
-all: pest
+TARGET=pest
 
-pest: $(OBJ)
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJ) -o $@
 
 dep/%.d: src/%.cpp dep
@@ -27,4 +29,4 @@ dep:
 	mkdir dep
 
 clean:
-	rm -rf pest obj dep
+	rm -rf $(TARGET) obj dep
