@@ -10,14 +10,12 @@ DEP=$(patsubst src/%.cpp, dep/%.d, $(SRC))
 
 all: pest
 
-print:
-	@echo ${OBJ}
-
-pest: dep $(DEP) $(OBJ)
+pest: $(OBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJ) -o $@
 
 dep/%.d: src/%.cpp dep
-	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -M $< | sed "s|\($*.o\) \?:|obj/\1 $@: obj |g" > $@'
+	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -M $< | sed "s|$*.o|$@|g" > $@'
+	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -M $< | sed "s|\($*.o\) \?:|obj/\1: obj|g" >> $@'
 	@echo '	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -c -o obj/$*.o' >> $@
 
 include $(DEP)
