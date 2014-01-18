@@ -1,6 +1,8 @@
 CXX=clang++
-CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11
-LDFLAGS=-L/usr/lib
+CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -DBOOST_ALL_DYN_LINK
+LDFLAGS=-lboost_unit_test_framework
+
+TEST_LDFLAGS=-lboost -lboost_unit_test_framework
 
 SRC=$(wildcard src/*.cpp)
 OBJ=$(patsubst src/%.cpp, obj/%.o, $(SRC))
@@ -35,4 +37,5 @@ clean:
 TEST_SRC=$(wildcard tests/*.cpp)
 TEST_OBJ=$(patsubst tests/*.cpp, obj/%.o, $(TEST_SRC))
 
-test: $(TEST_OBJ)
+test: $(TEST_OBJ) $(OBJ)
+	$(CXX) $(CXXFLAGS) $(TESTLDFLAGS) $(TEST_OBJ) $(OBJ) -o $@ -DTESTING
