@@ -30,3 +30,9 @@ dep:
 
 clean:
 	rm -rf $(TARGET) obj dep
+
+##### TESTS #####
+TEST_SRC=$(wildcard tests/*.cpp)
+TEST_OBJ=$(patsubst tests/*.cpp, obj/%.o, $(TEST_SRC))
+
+test: $(TEST_OBJ)
