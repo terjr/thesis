@@ -1,8 +1,8 @@
-CXX=g++
-CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -DBOOST_ALL_DYN_LINK -DBOOST_TEST_DYN_LINK
-LDFLAGS=-lboost_unit_test_framework
+CXX=clang++
+CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -DBOOST_TEST_DYN_LINK
+LDFLAGS=
 
-TEST_LDFLAGS=-lboost -lboost_unit_test_framework
+TEST_LDFLAGS=-lboost_unit_test_framework
 
 SRC=$(wildcard src/*.cpp)
 OBJ=$(patsubst src/%.cpp, obj/%.o, $(SRC))
@@ -12,14 +12,14 @@ DEP=$(patsubst src/%.cpp, dep/%.d, $(SRC))
 
 TARGET=pest
 
-all: $(TARGET)
+all: test $(TARGET)
 
 $(TARGET): $(OBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(OBJ) -o $@
 
 dep/%.d: src/%.cpp dep
 	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -MM $< | sed "s|$*.o|$@|g" > $@'
-	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -MM $< | sed "s|\($*.o\) \?:|obj/\1: obj|g" >> $@'
+	$(SHELL) -ec '$(CXX) $(CXXFLAGS) -MM $< | sed "s|\($*.o\) \?:|obj/\1: \$$(filter-out \$$(wildcard obj), obj) |g" >> $@'
 	@echo '	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -c -o obj/$*.o' >> $@
 
 -include $(DEP)
@@ -39,3 +39,4 @@ TEST_OBJ=$(patsubst tests/*.cpp, obj/%.o, $(TEST_SRC)) $(OBJ:obj/main.o= )
 
 test: $(TEST_OBJ)
 	$(CXX) $(CXXFLAGS) $(TESTLDFLAGS) $(TEST_OBJ) -o $@ -DTESTING
+	./$@
