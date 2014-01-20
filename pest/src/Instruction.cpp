@@ -4,7 +4,14 @@
 
 using namespace std;
 
+Instruction::Instruction() : op(vector<string>()) {}
+
 Instruction::Instruction(string assembly, InstrType type) : op(vector<string>())
+{
+    parseAssembly(assembly);
+}
+
+void Instruction::parseAssembly(string assembly)
 {
     boost::regex pattern("([^ ]+) ([^,]*),?([^,]*),?([^,]*),?([^,]*),?");
     boost::smatch result;
@@ -14,23 +21,19 @@ Instruction::Instruction(string assembly, InstrType type) : op(vector<string>())
         if (result.size() > 1)
             mnemonic = result[1];
         for (unsigned i = 2; result.size() > i; i++)
-        {
             if (result[i].length())
-            {
                 op.push_back(result[i]);
-                cout << "Pushed back " << result[i] << getOp(i-2) << endl;
-            }
-        }
-    }
-    else
-    {
-        cout << "Noo";
     }
 }
 
 Instruction::~Instruction()
 {
 
+}
+
+InstrType Instruction::instrTypeFromString(std::string)
+{
+    return IntAlu;
 }
 
 unsigned int Instruction::getNumOp()

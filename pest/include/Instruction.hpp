@@ -14,7 +14,9 @@ class Instruction
     public:
 
         Instruction(std::string assembly, InstrType type);
+        Instruction();
         virtual ~Instruction();
+        void parseAssembly(std::string assembly);
         const std::string getMnemonic();
         const std::string getOp(unsigned int index);
         unsigned int getNumOp();

@@ -10,7 +10,11 @@ class TraceLine {
         int getTick();
         int getCPU();
         int getPC();
+        Instruction getInstr();
 
-        Instruction* getInstr();
     private:
+        int tick;
+        int cpu;
+        int pc;
+        Instruction instr;
 };
