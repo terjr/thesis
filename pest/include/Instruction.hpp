@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <vector>
 
 enum InstrType {
     IntAlu,
@@ -15,9 +15,9 @@ class Instruction
 
         Instruction(std::string assembly, InstrType type);
         virtual ~Instruction();
-        const std::string *getInstr();
-        const std::string *getOp(int index);
-        int getNumOp();
+        const std::string getMnemonic();
+        const std::string getOp(unsigned int index);
+        unsigned int getNumOp();
         InstrType getExecType();
 
         static InstrType instrTypeFromString(std::string instrType);
@@ -25,6 +25,8 @@ class Instruction
 
     private:
         InstrType instrType;
+        std::vector<std::string> op;
+        std::string mnemonic;
 
 };
 

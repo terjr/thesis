@@ -1,10 +1,31 @@
+#include <boost/regex.hpp>
+
 #include <Instruction.hpp>
 
 using namespace std;
 
-Instruction::Instruction(string assembly, InstrType type)
+Instruction::Instruction(string assembly, InstrType type) : op(vector<string>())
 {
+    boost::regex pattern("([^ ]+) ([^,]*),?([^,]*),?([^,]*),?([^,]*),?");
+    boost::smatch result;
 
+    if (boost::regex_search(assembly, result, pattern))
+    {
+        if (result.size() > 1)
+            mnemonic = result[1];
+        for (unsigned i = 2; result.size() > i; i++)
+        {
+            if (result[i].length())
+            {
+                op.push_back(result[i]);
+                cout << "Pushed back " << result[i] << getOp(i-2) << endl;
+            }
+        }
+    }
+    else
+    {
+        cout << "Noo";
+    }
 }
 
 Instruction::~Instruction()
@@ -12,19 +33,22 @@ Instruction::~Instruction()
 
 }
 
-int Instruction::getNumOp()
+unsigned int Instruction::getNumOp()
 {
-    return 2;
+    return op.size();
 }
 
-const string* Instruction::getInstr()
+const string Instruction::getMnemonic()
 {
-    return new string("mov fp, #0");
+    return mnemonic;
 }
 
-const string* Instruction::getOp(int index)
+const string Instruction::getOp(unsigned int index)
 {
-    return new string("fp");
+    if (getNumOp() > index)
+        return op[index];
+    else
+        return string();
 }
 
 InstrType Instruction::getExecType()

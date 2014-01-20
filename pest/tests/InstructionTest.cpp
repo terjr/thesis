@@ -3,15 +3,31 @@
 
 using namespace std;
 
-BOOST_AUTO_TEST_CASE ( InstructionBasicParseTest )
-{
-    std::string input_1("mov fp,#0");
-    Instruction instr_1(input_1, IntAlu);
+struct Basic {
+    Basic() : instr_1(Instruction("mov fp,#0", IntAlu)) { }
+    ~Basic() { }
 
-    BOOST_CHECK_EQUAL(*instr_1.getInstr(), string("mov"));
-    BOOST_CHECK_EQUAL(instr_1.getNumOp(), 2);
-    BOOST_CHECK_EQUAL(*instr_1.getOp(1), string("fp"));
-    BOOST_CHECK_EQUAL(*instr_1.getOp(2), string("#0"));
-    BOOST_CHECK(!instr_1.getOp(3));
+    Instruction instr_1;
+};
+
+
+BOOST_FIXTURE_TEST_SUITE( InstructionParsing, Basic )
+
+BOOST_AUTO_TEST_CASE ( InstructionStoreType )
+{
     BOOST_CHECK_EQUAL(instr_1.getExecType(), IntAlu);
 }
+
+BOOST_AUTO_TEST_CASE ( InstructionParseMnemonic )
+{
+    BOOST_CHECK_EQUAL(instr_1.getMnemonic(), string("mov"));
+}
+
+BOOST_AUTO_TEST_CASE ( InstructionParseOperands )
+{
+    BOOST_CHECK_EQUAL(instr_1.getNumOp(), 2);
+    BOOST_CHECK_EQUAL(instr_1.getOp(0), string("fp"));
+    BOOST_CHECK_EQUAL(instr_1.getOp(1), string("#0"));
+}
+
+BOOST_AUTO_TEST_SUITE_END()
