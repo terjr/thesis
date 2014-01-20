@@ -1,7 +1,7 @@
 #include <iostream>
+#include <Pest.hpp>
 
-#ifndef TESTING
-int main(int argc, char **args) {
+int Pest::main(int argc, char** argv)
+{
     return 0;
 }
-#endif
