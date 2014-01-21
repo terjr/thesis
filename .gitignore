@@ -2,7 +2,6 @@ config.mk
 m5out/
 dep/
 obj/
-pest
 pest_test
 report/*.abl
 report/*.acn
