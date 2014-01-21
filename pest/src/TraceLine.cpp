@@ -43,4 +43,8 @@ int TraceLine::getPC()
     return pc;
 }
 
+Instruction TraceLine::getInstr()
+{
+    return instr;
+}
 
