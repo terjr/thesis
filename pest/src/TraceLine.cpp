@@ -28,23 +28,27 @@ TraceLine::~TraceLine()
 
 }
 
-int TraceLine::getTick()
+int TraceLine::getTick() const
 {
     return tick;
 }
 
-int TraceLine::getCPU()
+int TraceLine::getCPU() const
 {
     return cpu;
 }
 
-int TraceLine::getPC()
+int TraceLine::getPC() const
 {
     return pc;
 }
 
-Instruction TraceLine::getInstr()
+Instruction TraceLine::getInstr() const
 {
     return instr;
 }
 
+ostream& operator <<(ostream& outputStream, const TraceLine& traceLine)
+{
+    return outputStream << traceLine.getInstr();
+}

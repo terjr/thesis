@@ -8,5 +8,5 @@
 
 int main(int argc, char** argv)
 {
-    return Pest().main(argc, argv);
+    return Pest::main(argc, argv);
 }

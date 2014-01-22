@@ -7,10 +7,10 @@ class TraceLine {
         TraceLine(std::string line);
         virtual ~TraceLine();
 
-        int getTick();
-        int getCPU();
-        int getPC();
-        Instruction getInstr();
+        int getTick() const;
+        int getCPU() const;
+        int getPC() const;
+        Instruction getInstr() const;
 
     private:
         int tick;
@@ -18,3 +18,5 @@ class TraceLine {
         int pc;
         Instruction instr;
 };
+
+std::ostream& operator <<(std::ostream& outputStream, const TraceLine& traceLine);
