@@ -14,7 +14,7 @@ bool processProgramOptions(int ac, char **av, vector<istream *>& inputStreams, u
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help,h", "show help message")
-        ("input-file,i", po::value< vector<string> >()->required(), "input file")
+        ("input-file,i", po::value< vector<string> >(), "input file")
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&outputFile)->default_value("-"), "output file (defaults to stdout)")
         ("config-file", po::value<string>(), "config-file")
@@ -58,9 +58,15 @@ bool processProgramOptions(int ac, char **av, vector<istream *>& inputStreams, u
     }
     cout << "Number of threads was set to " << numThreads << endl;
 
-    vector<string> v = vm["input-file"].as< vector<string> >();
-    for (vector<string>::iterator it = v.begin(); it != v.end(); ++it) {
-        inputStreams.push_back(new ifstream(*it));
+    if (vm.count("input-file")) {
+        vector<string> v = vm["input-file"].as< vector<string> >();
+        for (vector<string>::iterator it = v.begin(); it != v.end(); ++it) {
+            inputStreams.push_back(new ifstream(*it));
+        }
+
+    } else {
+        // Read from stdin
+        inputStreams.push_back(&cin);
     }
     return true;
 
