@@ -34,7 +34,7 @@ void Instruction::parseAssembly(string assembly)
             mnemonic = result[1];
             boost::trim(mnemonic);
         }
-        for (unsigned i = 2; result.size() > i; i++)
+        for (unsigned i = 2; i < result.size(); i++)
         {
             if (result[i].length())
                 op.push_back(result[i]);
@@ -64,7 +64,7 @@ const string Instruction::getMnemonic() const
     return mnemonic;
 }
 
-const string Instruction::getOp(unsigned int index) const
+const string Instruction::getOp(const unsigned int index) const
 {
     if (getNumOp() > index)
         return op[index];

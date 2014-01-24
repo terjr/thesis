@@ -5,9 +5,9 @@
 
 using namespace std;
 
-TraceLine::TraceLine(string line)
+TraceLine::TraceLine(const string line)
 {
-    boost::regex pattern(" *([[:digit:]]+) *: *([^ :]+) T([[:digit:]]+) *: *([^:]+): *([^:]+): *([^ :]+) *: *(.*)");
+    const boost::regex pattern(" *([[:digit:]]+) *: *([^ :]+) T([[:digit:]]+) *: *([^:]+): *([^:]+): *([^ :]+) *: *(.*)");
     boost::smatch result;
 
     if (boost::regex_search(line, result, pattern) && result.size() == 8 )
@@ -19,7 +19,7 @@ TraceLine::TraceLine(string line)
     }
     else
     {
-        cout << "NOOOOOO" << endl;
+        cerr << "Could not match regex from: " << line << endl;
     }
 }
 

@@ -18,7 +18,7 @@ int printStream(istream* s)
     while (*s)
     {
         string str;
-        std::getline(*s,str);
+        std::getline(*s, str);
         cout << str << '\n' << TraceLine(str) << endl << endl;
     }
     return 0;
@@ -33,7 +33,7 @@ Pest::Pest(vector<istream*> *inputs, int numThreads)
     boost::thread_group threadpool;
 
     /*
-     * This will assign tasks to the thread pool. 
+     * This will assign tasks to the thread pool.
      * More about boost::bind: "http://www.boost.org/doc/libs/1_54_0/libs/bind/bind.html#with_functions"
      */
     for (vector<istream*>::iterator it = inputs->begin(); it != inputs->end(); ++it)
@@ -41,9 +41,10 @@ Pest::Pest(vector<istream*> *inputs, int numThreads)
 
 
     /*
-     * This will start the ioService processing loop. All tasks 
-     * assigned with ioService.post() will start executing. 
+     * This will start the ioService processing loop. All tasks
+     * assigned with ioService.post() will start executing.
      */
+
     //    boost::asio::io_service::work work(ioService);
 
     /*
@@ -65,9 +66,9 @@ Pest::Pest(vector<istream*> *inputs, int numThreads)
     //    ioService.stop();
 
     /*
-     * Will wait till all the treads in the thread pool are finished with 
+     * Will wait till all the treads in the thread pool are finished with
      * their assigned tasks and 'join' them. Just assume the threads inside
-     * the threadpool will be destroyed by this method.
+     * the thread pool will be destroyed by this method.
      */
     threadpool.join_all();
 }
@@ -127,7 +128,7 @@ int Pest::main(int ac, char** av)
         vector<string> args;
         copy(tok.begin(), tok.end(), back_inserter(args));
         // Parse the file and store the options
-        store(po::command_line_parser(args).options(desc).run(), vm);     
+        store(po::command_line_parser(args).options(desc).run(), vm);
     }
     if (vm.count("include-path"))
     {
@@ -147,7 +148,7 @@ int Pest::main(int ac, char** av)
     vector<istream*> input_streams;
     for (vector<string>::iterator it = v.begin(); it != v.end(); ++it)
         input_streams.push_back(new ifstream(*it));
-    Pest pest(&input_streams, numThreads );
+    Pest pest(&input_streams, numThreads);
 
     return 0;
 }
