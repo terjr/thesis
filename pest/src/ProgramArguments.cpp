@@ -18,6 +18,7 @@ bool processProgramOptions(int ac, char **av, vector<istream *>& inputStreams, u
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&outputFile)->default_value("-"), "output file (defaults to stdout)")
         ("config-file", po::value<string>(), "config-file")
+        ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ;
 
     po::positional_options_description p;
@@ -59,11 +60,12 @@ bool processProgramOptions(int ac, char **av, vector<istream *>& inputStreams, u
     cout << "Number of threads was set to " << numThreads << endl;
 
     if (vm.count("input-file")) {
+        const bool decompress = vm["decompress"].as<bool>();
+        // TODO: Add support for gzipped streams
         vector<string> v = vm["input-file"].as< vector<string> >();
-        for (vector<string>::iterator it = v.begin(); it != v.end(); ++it) {
+        for (vector<string>::const_iterator it = v.begin(); it != v.end(); ++it) {
             inputStreams.push_back(new ifstream(*it));
         }
-
     } else {
         // Read from stdin
         inputStreams.push_back(&cin);
