@@ -1,7 +1,7 @@
 #include <boost/regex.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
-#include <Instruction.hpp>
+#include "Instruction.hpp"
 
 using namespace std;
 
