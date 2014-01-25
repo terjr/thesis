@@ -1,10 +1,13 @@
 #include <fstream>
+#include <boost/iostreams/filtering_stream.hpp>
 #include <boost/program_options.hpp>
 #include <boost/tokenizer.hpp>
 
+#include "Gzip.hpp"
 #include "ProgramArguments.hpp"
 
 using namespace std;
+using boost::iostreams::filtering_istream;
 
 namespace po = boost::program_options;
 
@@ -60,11 +63,21 @@ bool processProgramOptions(int ac, char **av, vector<istream *>& inputStreams, u
     cout << "Number of threads was set to " << numThreads << endl;
 
     if (vm.count("input-file")) {
-        const bool decompress = vm["decompress"].as<bool>();
-        // TODO: Add support for gzipped streams
         vector<string> v = vm["input-file"].as< vector<string> >();
-        for (vector<string>::const_iterator it = v.begin(); it != v.end(); ++it) {
-            inputStreams.push_back(new ifstream(*it));
+        const bool decompressed = vm["decompress"].as<bool>();
+        if (decompressed) {
+            for (vector<string>::const_iterator it = v.begin(); it != v.end(); ++it) {
+
+                filtering_istream *decompressedStream = new filtering_istream();
+                decompress(*it, *decompressedStream); // result ends up in decompressedStream
+                inputStreams.push_back(decompressedStream);
+            }
+
+        } else {
+            // TODO: Add support for gzipped streams
+            for (vector<string>::const_iterator it = v.begin(); it != v.end(); ++it) {
+                inputStreams.push_back(new ifstream(*it));
+            }
         }
     } else {
         // Read from stdin
