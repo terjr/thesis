@@ -24,7 +24,7 @@ class Instruction
         InstrType getExecType() const;
         std::string toString() const;
 
-        static InstrType instrTypeFromString(std::string instrType);
+        static InstrType instrTypeFromString(const std::string &instrType);
 
 
     private:

@@ -3,8 +3,9 @@
 #include <boost/thread.hpp>
 
 #include "Pest.hpp"
-#include "TraceLine.hpp"
 #include "ProgramArguments.hpp"
+#include "SimpleStats.hpp"
+#include "TraceLine.hpp"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int printStream(istream* s)
     {
         string str;
         std::getline(*s, str);
-        cout << str << '\n' << TraceLine(str) << endl << endl;
+        cout << str << endl << TraceLine(str) << endl;
     }
     return 0;
 }
@@ -22,9 +23,9 @@ int printStream(istream* s)
 Pest::Pest(vector<istream*> *inputs, unsigned int numThreads) {
     this->inputStreams = inputs;
     this->numThreads = numThreads;
-    // Assign tasks to the thread pool.
+    // Assign tasks to the thread pool
     for (vector<istream*>::iterator it = inputs->begin(); it != inputs->end(); ++it) {
-        this->ioService.post( boost::bind(printStream, *it) );
+        this->ioService.post( boost::bind(countAdds, *it) );
     }
 
 }

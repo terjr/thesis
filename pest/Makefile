@@ -1,5 +1,5 @@
 CXX=clang++
-CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -O2 -DBOOST_ALL_DYN_LINK
+CXXFLAGS=-Iinclude -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -O2 -DBOOST_ALL_DYN_LINK -g
 LDFLAGS=-lboost_regex -lboost_program_options -lboost_thread -lboost_system
 
 TEST_LDFLAGS=$(LDFLAGS) -lboost_unit_test_framework

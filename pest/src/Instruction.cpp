@@ -49,9 +49,16 @@ Instruction::~Instruction()
 
 }
 
-InstrType Instruction::instrTypeFromString(std::string)
+InstrType Instruction::instrTypeFromString(const std::string &instr)
 {
-    return IntAlu;
+    if (instr == "IntAlu") return IntAlu;
+    else if (instr == "IntMult") return IntMult;
+    else if (instr == "MemRead") return MemRead;
+    else if (instr == "MemWrite") return MemWrite;
+    else if (instr == "SimdFloatMisc") return SimdFloatMisc;
+    else {
+        cerr << "Instruction type not implemented." << endl;
+    }
 }
 
 unsigned int Instruction::getNumOp() const
