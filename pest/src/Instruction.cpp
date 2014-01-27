@@ -12,14 +12,17 @@ Instruction::Instruction(string assembly) : op(vector<string>())
     parseAssembly(assembly);
 }
 
-Instruction::Instruction(string assembly, string type) : Instruction(assembly)
-{
-        instrType = instrTypeFromString(type);
+Instruction::Instruction(string assembly, string type) : Instruction(assembly) {
+    this->instrType = Instruction::instrTypeFromString(type);
 }
 
-Instruction::Instruction(string assembly, InstrType type) : Instruction(assembly)
-{
-    instrType = type;
+Instruction::Instruction(string assembly, InstrType type) : Instruction(assembly) {
+    this->instrType = type;
+}
+
+void Instruction::setInstrType(const string &instrType) {
+
+    this->instrType = Instruction::instrTypeFromString(instrType);
 }
 
 void Instruction::parseAssembly(string assembly)
@@ -57,7 +60,8 @@ InstrType Instruction::instrTypeFromString(const std::string &instr)
     else if (instr == "MemWrite") return MemWrite;
     else if (instr == "SimdFloatMisc") return SimdFloatMisc;
     else {
-        cerr << "Instruction type not implemented." << endl;
+        cerr << "Instruction type " << instr << " not implemented." << endl;
+        return ErrorType;
     }
 }
 

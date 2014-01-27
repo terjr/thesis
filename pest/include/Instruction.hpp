@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include <iostream>
 
@@ -7,15 +8,18 @@ enum InstrType {
     IntMult,
     MemRead,
     MemWrite,
-    SimdFloatMisc
+    SimdFloatMisc,
+    ErrorType
 };
 
 class Instruction
 {
     public:
-        Instruction(std::string assembly, std::string type);
-        Instruction(std::string assembly, InstrType type);
+        Instruction(std::string assembly);
         Instruction();
+        Instruction(std::string assembly, InstrType type);
+        Instruction(std::string assembly, std::string type);
+        void setInstrType(const std::string &instrtype);
         virtual ~Instruction();
         void parseAssembly(std::string assembly);
         const std::string getMnemonic() const;
@@ -28,7 +32,6 @@ class Instruction
 
 
     private:
-        Instruction(std::string assembly);
         InstrType instrType;
         std::vector<std::string> op;
         std::string mnemonic;
