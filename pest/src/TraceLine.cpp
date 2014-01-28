@@ -17,9 +17,10 @@ TraceLine::TraceLine(const std::string line)
     tokenizer tokens(line, sep);
 
 
+    int index = 0;
     for (tokenizer::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
-        const int index = std::distance(tokens.begin(), it);
-        switch (index) {
+//        const int index = std::distance(tokens.begin(), it);
+        switch (index++) {
             case 0:
                 {
                     std::string s(*it);
@@ -63,7 +64,6 @@ TraceLine::TraceLine(const std::string line)
                 {
                 }
         }
-
     }
 }
 

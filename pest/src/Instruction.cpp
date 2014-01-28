@@ -1,49 +1,48 @@
-#include <boost/regex.hpp>
+#include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
 #include "Instruction.hpp"
 
-using namespace std;
+using namespace boost;
 
-Instruction::Instruction() : op(vector<string>()) {}
+Instruction::Instruction() : op(std::vector<std::string>()) {}
 
-Instruction::Instruction(string assembly) : op(vector<string>())
+Instruction::Instruction(std::string assembly) : op(std::vector<std::string>())
 {
     parseAssembly(assembly);
 }
 
-Instruction::Instruction(string assembly, string type) : Instruction(assembly) {
+Instruction::Instruction(std::string assembly, std::string type) : Instruction(assembly) {
     this->instrType = Instruction::instrTypeFromString(type);
 }
 
-Instruction::Instruction(string assembly, InstrType type) : Instruction(assembly) {
+Instruction::Instruction(std::string assembly, InstrType type) : Instruction(assembly) {
     this->instrType = type;
 }
 
-void Instruction::setInstrType(const string &instrType) {
+void Instruction::setInstrType(const std::string &instrType) {
 
     this->instrType = Instruction::instrTypeFromString(instrType);
 }
 
-void Instruction::parseAssembly(string assembly)
+void Instruction::parseAssembly(std::string assembly)
 {
-    boost::regex pattern("([^ ]+) ([^,]*),?([^,]*),?([^,]*),?([^,]*),?");
-    boost::smatch result;
+    typedef tokenizer<char_separator<char> > tokenizer;
+    trim(assembly);
 
-    if (boost::regex_search(assembly, result, pattern))
-    {
-        if (result.size() > 1)
-        {
-            mnemonic = result[1];
-            boost::trim(mnemonic);
-        }
-        for (unsigned i = 2; i < result.size(); i++)
-        {
-            if (result[i].length())
-                op.push_back(result[i]);
-        }
-        for (unsigned i = 0; i < getNumOp(); i++)
-                boost::trim(op[i]);
+    int mnemLen = assembly.find(' ');
+    mnemonic = assembly.substr(0, mnemLen);
+    trim(mnemonic);
+
+    std::string args = assembly.substr(mnemLen);
+    static const char_separator<char> sep(",");
+    tokenizer tokens(args, sep);
+
+    for (tokenizer::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
+            if (it->length()) {
+                op.push_back(*it);
+                trim(op.back());
+            }
     }
 }
 
@@ -60,7 +59,7 @@ InstrType Instruction::instrTypeFromString(const std::string &instr)
     else if (instr == "MemWrite") return MemWrite;
     else if (instr == "SimdFloatMisc") return SimdFloatMisc;
     else {
-        cerr << "Instruction type " << instr << " not implemented." << endl;
+        std::cerr << "Instruction type " << instr << " not implemented." << std::endl;
         return ErrorType;
     }
 }
@@ -70,17 +69,17 @@ unsigned int Instruction::getNumOp() const
     return op.size();
 }
 
-const string Instruction::getMnemonic() const
+const std::string Instruction::getMnemonic() const
 {
     return mnemonic;
 }
 
-const string Instruction::getOp(const unsigned int index) const
+const std::string Instruction::getOp(const unsigned int index) const
 {
     if (getNumOp() > index)
         return op[index];
     else
-        return string();
+        return std::string();
 }
 
 InstrType Instruction::getExecType() const
@@ -88,8 +87,8 @@ InstrType Instruction::getExecType() const
     return IntAlu;
 }
 
-string Instruction::toString() const {
-    string output(mnemonic + " ");
+std::string Instruction::toString() const {
+    std::string output(mnemonic + " ");
 
     for (unsigned i = 0; i < getNumOp(); i++)
     {
@@ -121,7 +120,7 @@ bool operator!=(const Instruction& first, const Instruction& second)
 }
 
 
-ostream& operator <<(ostream& outputStream, const Instruction& instr)
+std::ostream& operator <<(std::ostream& outputStream, const Instruction& instr)
 {
     return outputStream << instr.toString();
 }
