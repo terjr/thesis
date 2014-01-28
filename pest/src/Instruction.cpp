@@ -25,25 +25,35 @@ void Instruction::setInstrType(const std::string &instrType) {
     this->instrType = Instruction::instrTypeFromString(instrType);
 }
 
-void Instruction::parseAssembly(std::string assembly)
+bool Instruction::parseAssembly(std::string assembly)
 {
+    if (assembly.length() == 0)
+        return false;
     typedef tokenizer<char_separator<char> > tokenizer;
     trim(assembly);
 
-    int mnemLen = assembly.find(' ');
-    mnemonic = assembly.substr(0, mnemLen);
-    trim(mnemonic);
+    size_t mnemLen = assembly.find(' ');
+    if (mnemLen == std::string::npos) {
+        mnemonic = assembly;
+    }
+    else
+    {
 
-    std::string args = assembly.substr(mnemLen);
-    static const char_separator<char> sep(",");
-    tokenizer tokens(args, sep);
+        mnemonic = assembly.substr(0, mnemLen);
+        trim(mnemonic);
 
-    for (tokenizer::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
+        std::string args = assembly.substr(mnemLen);
+        static const char_separator<char> sep(",");
+        tokenizer tokens(args, sep);
+
+        for (tokenizer::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
             if (it->length()) {
                 op.push_back(*it);
                 trim(op.back());
             }
+        }
     }
+    return true;
 }
 
 Instruction::~Instruction()
