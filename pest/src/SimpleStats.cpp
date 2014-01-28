@@ -1,24 +1,26 @@
 #include "SimpleStats.hpp"
 
-#include <iostream>
+#include <string>
+#include <boost/lockfree/queue.hpp>
+#include <boost/thread.hpp>
 
 #include "TraceLine.hpp"
 
-using namespace std;
+using namespace boost;
 
-static unsigned long count = 0;
-
-int countAdds(istream *s) {
-    while (*s) {
-        string str;
-        std::getline(*s, str);
-        TraceLine tl(str);
-        
-        if ("add" == tl.getInstr().getMnemonic()) {
-            // TODO: Do I need a mutex here?
-            count++;
+int countAdds(lockfree::queue<std::string*> *q, atomic<bool> *done, atomic<unsigned long> *count) {
+    std::string *s;
+    unsigned long local = 0;
+    while (!(*done)) {
+        while (q->pop(s)) {
+            if ("add" == TraceLine(*s).getInstr().getMnemonic()) {
+                // TODO: Do I need a mutex here?
+                local++;
+            }
+            delete s;
         }
+        thread::yield();
     }
-    cout << "count is now: " << count << endl;
+    *count += local;
     return 0;
 }

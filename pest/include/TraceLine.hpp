@@ -4,6 +4,7 @@
 
 class TraceLine {
     public:
+        TraceLine();
         TraceLine(std::string line);
         virtual ~TraceLine();
 

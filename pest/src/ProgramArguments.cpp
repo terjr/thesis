@@ -8,13 +8,13 @@ using namespace std;
 
 namespace po = boost::program_options;
 
-bool processProgramOptions(int ac, char **av, vector<istream *>& inputStreams, unsigned int& numThreads) {
+bool processProgramOptions(int ac, char **av, istream **inputStream, unsigned int& numThreads) {
     string outputFile;
 
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help,h", "show help message")
-        ("input-file,i", po::value< vector<string> >(), "input file")
+        ("input-file,i", po::value<string>(), "input file")
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&outputFile)->default_value("-"), "output file (defaults to stdout)")
         ("config-file", po::value<string>(), "config-file")
@@ -60,15 +60,12 @@ bool processProgramOptions(int ac, char **av, vector<istream *>& inputStreams, u
     cout << "Number of threads was set to " << numThreads << endl;
 
     if (vm.count("input-file")) {
-        const bool decompress = vm["decompress"].as<bool>();
         // TODO: Add support for gzipped streams
-        vector<string> v = vm["input-file"].as< vector<string> >();
-        for (vector<string>::const_iterator it = v.begin(); it != v.end(); ++it) {
-            inputStreams.push_back(new ifstream(*it));
-        }
-    } else {
+        *inputStream = new ifstream(vm["input-file"].as<string>());
+    }
+    else {
         // Read from stdin
-        inputStreams.push_back(&cin);
+        *inputStream = &cin;
     }
     return true;
 
