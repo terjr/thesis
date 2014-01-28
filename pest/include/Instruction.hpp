@@ -21,7 +21,7 @@ class Instruction
         Instruction(std::string assembly, std::string type);
         void setInstrType(const std::string &instrtype);
         virtual ~Instruction();
-        void parseAssembly(std::string assembly);
+        bool  parseAssembly(std::string assembly);
         const std::string getMnemonic() const;
         const std::string getOp(unsigned int index) const;
         unsigned int getNumOp() const;
