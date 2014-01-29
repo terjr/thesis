@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/lockfree/queue.hpp>
+#include <boost/thread.hpp>
 #include <boost/atomic.hpp>
 #include <string>
 #include <vector>
@@ -15,4 +16,5 @@ class SimpleModel : public PowerModel {
         virtual OutputVector getOutput() const;
     private:
         OutputVector output;
+        boost::mutex m;
 };

@@ -26,7 +26,6 @@ class Instruction
         InstrType getInstrType() const;
         const std::string getOp(unsigned int index) const;
         unsigned int getNumOp() const;
-        InstrType getExecType() const;
         std::string toString() const;
 
         static InstrType instrTypeFromString(const std::string &instrType);

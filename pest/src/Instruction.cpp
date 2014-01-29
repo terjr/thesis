@@ -97,11 +97,6 @@ const std::string Instruction::getOp(const unsigned int index) const
         return std::string();
 }
 
-InstrType Instruction::getExecType() const
-{
-    return IntAlu;
-}
-
 std::string Instruction::toString() const {
     std::string output(mnemonic + " ");
 
@@ -118,7 +113,7 @@ bool operator==(const Instruction& first, const Instruction& second)
 {
     if (first.getMnemonic() == second.getMnemonic() &&
             first.getNumOp() == second.getNumOp() &&
-            first.getExecType() == second.getExecType())
+            first.getInstrType() == second.getInstrType())
     {
         for (unsigned i = 0; i < first.getNumOp(); i++)
             if (first.getOp(i) != second.getOp(i))

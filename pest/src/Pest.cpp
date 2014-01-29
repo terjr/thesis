@@ -63,7 +63,7 @@ void Pest::processStreams() {
 
     int bucket = 0;
     for (OutputVector::const_iterator it = pm->getOutput().begin(); it != pm->getOutput().end(); it++)
-        cout << bucket++ << ": " << *(*it) << '\n';
+        cout << bucket++ << ": " << *it << '\n';
 }
 
 

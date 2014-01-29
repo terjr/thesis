@@ -20,12 +20,6 @@ struct Basic {
 
 BOOST_FIXTURE_TEST_SUITE( InstructionParsing, Basic )
 
-BOOST_AUTO_TEST_CASE ( InstructionStoreType )
-{
-    BOOST_CHECK_EQUAL(instr_mov.getExecType(), IntAlu);
-    BOOST_CHECK_EQUAL(instr_add.getExecType(), IntAlu);
-}
-
 BOOST_AUTO_TEST_CASE ( InstructionParseMnemonic )
 {
     BOOST_CHECK_EQUAL(instr_mov.getMnemonic(), string("mov"));
@@ -70,6 +64,7 @@ BOOST_AUTO_TEST_CASE ( InstructionAltConstr )
 {
     Instruction instr_add;
     instr_add.parseAssembly(string(BASIC_MOV));
+    instr_add.setInstrType("IntAlu");
     BOOST_CHECK_EQUAL(instr_mov, instr_add);
 }
 
