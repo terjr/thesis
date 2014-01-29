@@ -23,6 +23,7 @@ class Instruction
         virtual ~Instruction();
         bool  parseAssembly(std::string assembly);
         const std::string getMnemonic() const;
+        InstrType getInstrType() const;
         const std::string getOp(unsigned int index) const;
         unsigned int getNumOp() const;
         InstrType getExecType() const;

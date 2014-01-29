@@ -25,10 +25,15 @@ void Instruction::setInstrType(const std::string &instrType) {
     this->instrType = Instruction::instrTypeFromString(instrType);
 }
 
-static const char_separator<char> sep(",");
+InstrType Instruction::getInstrType() const
+{
+    return instrType;
+}
+
 bool Instruction::parseAssembly(std::string assembly)
 {
     typedef tokenizer<char_separator<char> > tokenizer;
+    const char_separator<char> sep(",");
 
     if (assembly.length() == 0)
         return false;

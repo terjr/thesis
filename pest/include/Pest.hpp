@@ -8,6 +8,8 @@
 #include <vector>
 #include <string>
 
+#include "PowerModel.hpp"
+
 using std::vector;
 using std::istream;
 
@@ -20,6 +22,8 @@ class Pest
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
         boost::lockfree::queue<std::string*> lineQueue;
+
+        PowerModel *pm;
     public:
         Pest(std::istream *input, unsigned int numThreads = 0);
 

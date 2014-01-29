@@ -5,7 +5,7 @@
 
 #include "Pest.hpp"
 #include "ProgramArguments.hpp"
-#include "SimpleStats.hpp"
+#include "SimpleModel.hpp"
 #include "TraceLine.hpp"
 
 using namespace std;
@@ -33,17 +33,23 @@ int readLines(istream *s, boost::lockfree::queue<string*> *q, boost::atomic<bool
     cout << "Done reading input file" << endl;
     *done = true;
     return 0;
-   
+}
+
+int run(PowerModel *pm)
+{
+    return pm->run();
 }
 
 Pest::Pest(istream *input, unsigned int numThreads) : done(false), count(0), lineQueue(128) {
     this->numThreads = numThreads;
-    
+
+    pm = new SimpleModel(&lineQueue, &done);
+
     // Assign tasks to the thread pool
     boost::thread(&readLines, input, &lineQueue, &done);
 
     for (unsigned int i = 0; i < numThreads; ++i)
-        this->ioService.post( boost::bind(countAdds, &lineQueue, &done, &count) );
+        this->ioService.post( boost::bind(run, pm) );
 }
 
 void Pest::processStreams() {
@@ -54,7 +60,10 @@ void Pest::processStreams() {
 
     // Wait for threads to finish
     this->threadpool.join_all();
-    cout << "There was " << this->count << " adds" << endl;
+
+    int bucket = 0;
+    for (OutputVector::const_iterator it = pm->getOutput().begin(); it != pm->getOutput().end(); it++)
+        cout << bucket++ << ": " << *(*it) << '\n';
 }
 
 
@@ -64,9 +73,14 @@ int Pest::main(int ac, char **av)
 
     istream *inputStream;
     bool progOptParsed = processProgramOptions(ac, av, &inputStream, numThreads);
+    if (!progOptParsed)
+        return 1;
 
     Pest pest(inputStream, numThreads);
     pest.processStreams();
+
+    if (inputStream != &cin)
+        delete inputStream;
 
     return 0;
 }

@@ -38,6 +38,13 @@ BOOST_AUTO_TEST_CASE ( InstructionToString )
     BOOST_CHECK_EQUAL (instr_add.toString(), string("add r1,r2,r3"));
 }
 
+BOOST_AUTO_TEST_CASE ( InstructionTypes )
+{
+    BOOST_CHECK_EQUAL (instr_mov.getInstrType(), InstrType::IntAlu);
+    BOOST_CHECK_EQUAL (instr_add.getInstrType(), InstrType::IntAlu);
+    BOOST_CHECK_EQUAL (instr_mem.getInstrType(), InstrType::MemRead);
+}
+
 BOOST_AUTO_TEST_CASE ( InstructionParseOperands )
 {
     BOOST_CHECK_EQUAL(instr_mov.getNumOp(), 2);

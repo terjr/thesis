@@ -11,10 +11,10 @@ using namespace boost;
 
 TraceLine::TraceLine() {};
 
-static const char_separator<char> sep(":");
 TraceLine::TraceLine(const std::string line)
 {
     typedef tokenizer<char_separator<char> > tokenizer;
+    const char_separator<char> sep(":");
 
     tokenizer tokens(line, sep);
 
