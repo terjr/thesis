@@ -1,13 +1,15 @@
 #include <vector>
 #include <boost/thread.hpp>
 
+#include "PowerModel.hpp"
+
 class OutputFormatter {
     public:
-        OutputFormatter(const std::vector<boost::atomic<long> > &statistics);
-        void createBarchart() const;
+        OutputFormatter(const OutputVector &statistics);
+        void showBarchart(const std::string &title = "<title>") const;
     private:
         std::vector<double> dVector;
 
-        void importAsDouble(const std::vector<boost::atomic<long> > &statistics);
+        void importAsDouble(const OutputVector &statistics);
 };
 

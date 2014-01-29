@@ -5,20 +5,23 @@
 
 using namespace std;
 
-OutputFormatter::OutputFormatter(const vector<boost::atomic<long> > &statistics) {
+OutputFormatter::OutputFormatter(const OutputVector &statistics) {
     importAsDouble(statistics);
 }
 
-void OutputFormatter::createBarchart() const {
-    Gnuplot plot(this->dVector);
+void OutputFormatter::showBarchart(const string &title) const {
+    Gnuplot plot(this->dVector, title, "lines");
     plot.showonscreen();
+    cout << "Press any char..." << endl;
+    cin.get();
+
 }
 
 
-void OutputFormatter::importAsDouble(const vector<boost::atomic<long> > &statistics) {
+void OutputFormatter::importAsDouble(const OutputVector &statistics) {
     dVector.resize(statistics.size());
     transform(statistics.begin(), statistics.end(), dVector.begin(),
-            [](long l) -> double {
-            return boost::numeric_cast<double>(l);
+            [](boost::atomic<unsigned long> *l) -> double {
+            return *l;
             });
 }

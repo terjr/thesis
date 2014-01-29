@@ -7,6 +7,7 @@
 #include "ProgramArguments.hpp"
 #include "SimpleModel.hpp"
 #include "TraceLine.hpp"
+#include "OutputFormatter.hpp"
 
 using namespace std;
 
@@ -61,9 +62,15 @@ void Pest::processStreams() {
     // Wait for threads to finish
     this->threadpool.join_all();
 
+
+    OutputFormatter gnuplotter(this->pm->getOutput());
+    gnuplotter.showBarchart();
+
+    /*
     int bucket = 0;
     for (OutputVector::const_iterator it = pm->getOutput().begin(); it != pm->getOutput().end(); it++)
         cout << bucket++ << " " << *(*it) << '\n';
+    */
 }
 
 
