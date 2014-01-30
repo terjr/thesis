@@ -7,6 +7,9 @@ TARGETS=$(patsubst %.c, bin/%, $(SOURCES))
 FOLDERS=$(shell dirname $(TARGETS))
 TESTS=$(patsubst %.c, test-%, $(SOURCES))
 
+GEM5_OPTIONS=--debug-flags=Exec --remote-gdb-port=0 --trace-file=trace.out
+SIM_OPTIONS=--cpu-type=arm_detailed --caches --l2cache
+
 all: $(TARGETS)
 
 .PHONY: clean test
@@ -24,7 +27,7 @@ purge: clean
 test: $(subst /,-,$(TESTS))
 
 test-%: all m5out
-	${GEM5}/build/ARM/gem5.opt -d m5out/$* ${GEM5}/configs/example/se.py -c bin/$(subst -,/,$*)
+	${GEM5}/build/ARM/gem5.opt ${GEM5_OPTIONS} -d m5out/$* ${GEM5}/configs/example/se.py -c bin/$(subst -,/,$*) ${SIM_OPTIONS}
 
 m5out:
 	mkdir m5out
