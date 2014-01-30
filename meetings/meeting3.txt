@@ -1,0 +1,15 @@
+Skop er dårlig. :(
+
+Er multimetermålingene gode nok?
+- 10000 samples per sekund.
+- Skal jo uansett akkumulere, så hoey samplingrate er ikke noedvendig.
+==> Multimetermålingene er OK.
+
+Vi må skille mellom minneaksesser som treffer cachen eller ikke.
+
+-- Tasks --
+
+* Lag Cortex-A9-modell til gem5
+* Minnemodell -- loads/stores?
+    Lag faste access patterns og se hvordan det oppfoerer seg.
+* Legg inn skikkelige tall i stroemmodellen.
