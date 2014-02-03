@@ -3,51 +3,35 @@
 
 using namespace boost;
 
-#define TICKS 100000
+SimpleModel::SimpleModel(lockfree::queue<std::string*> *q, atomic<bool> *done, unsigned long buckets) : PowerModel(q, done, buckets), m(){ }
 
-SimpleModel::SimpleModel(lockfree::queue<std::string*> *q, atomic<bool> *done) : PowerModel(q, done), output(), m() { }
-
-SimpleModel::~SimpleModel()
-{
-    for (unsigned long i = 0; i < output.size(); ++i)
-    {
-        if (output[i])
-        {
-            delete output[i];
-            output[i] = 0;
-        }
-    }
-}
-
-OutputVector SimpleModel::getOutput() const
-{
-    return output;
-}
+SimpleModel::~SimpleModel() {}
 
 int SimpleModel::calculate(TraceLine tr)
 {
-    while (output.size() <= (tr.getTick()/TICKS)) {
+    while (output.size() <= (tr.getTick()/bucket_size)) {
         atomic<unsigned long> *ul = new atomic<unsigned long>(0L);
         m.lock();
         output.push_back(ul);
         m.unlock();
     }
+    if (!(output.size() % 10000)) printf("Output vector is %lu long.", output.size());
     switch (tr.getInstr().getInstrType())
     {
         case IntAlu:
-            *(output[tr.getTick()/TICKS]) += 28;
+            *(output[tr.getTick()/bucket_size]) += 28;
             break;
         case IntMult:
-            *(output[tr.getTick()/TICKS]) += 23;
+            *(output[tr.getTick()/bucket_size]) += 23;
             break;
         case MemRead:
-            *(output[tr.getTick()/TICKS]) += 18;
+            *(output[tr.getTick()/bucket_size]) += 18;
             break;
         case MemWrite:
-            *(output[tr.getTick()/TICKS]) += 13;
+            *(output[tr.getTick()/bucket_size]) += 13;
             break;
         case SimdFloatMisc:
-            *(output[tr.getTick()/TICKS]) += 43;
+            *(output[tr.getTick()/bucket_size]) += 43;
             break;
         case ErrorType:
             break;

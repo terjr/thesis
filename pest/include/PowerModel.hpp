@@ -13,12 +13,14 @@ typedef std::vector<boost::atomic<unsigned long>*> OutputVector;
 
 class PowerModel {
     public:
-        PowerModel(boost::lockfree::queue<std::string*> *q, boost::atomic<bool> *done);
+        PowerModel(boost::lockfree::queue<std::string*> *q, boost::atomic<bool> *done, unsigned long bucket_size = 10000);
         virtual ~PowerModel();
         virtual int calculate(TraceLine tr) = 0;
-        virtual OutputVector getOutput() const = 0;
+        OutputVector getOutput() const;
         int run();
     protected:
         boost::lockfree::queue<std::string*> *q;
         boost::atomic<bool> *done;
+        OutputVector output;
+        unsigned long bucket_size;
 };

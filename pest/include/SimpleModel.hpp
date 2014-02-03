@@ -10,11 +10,9 @@
 
 class SimpleModel : public PowerModel {
     public:
-        SimpleModel(boost::lockfree::queue<std::string*> *q, boost::atomic<bool> *done);
+        SimpleModel(boost::lockfree::queue<std::string*> *q, boost::atomic<bool> *done, unsigned long bucket_size = 100000);
         virtual ~SimpleModel();
         virtual int calculate(TraceLine tr);
-        virtual OutputVector getOutput() const;
     private:
-        OutputVector output;
         boost::mutex m;
 };
