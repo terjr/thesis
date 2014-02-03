@@ -3,9 +3,21 @@
 
 using namespace boost;
 
-#define TICKS 10000
+#define TICKS 100000
 
 SimpleModel::SimpleModel(lockfree::queue<std::string*> *q, atomic<bool> *done) : PowerModel(q, done), output(), m() { }
+
+SimpleModel::~SimpleModel()
+{
+    for (unsigned long i = 0; i < output.size(); ++i)
+    {
+        if (output[i])
+        {
+            delete output[i];
+            output[i] = 0;
+        }
+    }
+}
 
 OutputVector SimpleModel::getOutput() const
 {

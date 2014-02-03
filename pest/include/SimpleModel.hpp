@@ -11,7 +11,7 @@
 class SimpleModel : public PowerModel {
     public:
         SimpleModel(boost::lockfree::queue<std::string*> *q, boost::atomic<bool> *done);
-        virtual ~SimpleModel() {};
+        virtual ~SimpleModel();
         virtual int calculate(TraceLine tr);
         virtual OutputVector getOutput() const;
     private:

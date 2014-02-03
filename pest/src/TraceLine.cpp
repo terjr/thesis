@@ -9,9 +9,9 @@ using namespace boost;
 
 //static const boost::regex pattern(" *([[:digit:]]+) *: *([^ :]+) T([[:digit:]]+) *: *([^:]+): *([^:]+): *([^ :]+) *: *(.*)");
 
-TraceLine::TraceLine() {};
+TraceLine::TraceLine() : tick(0), cpu(0), pc(0), instr()  {};
 
-TraceLine::TraceLine(const std::string line)
+TraceLine::TraceLine(const std::string line) : TraceLine()
 {
     typedef tokenizer<char_separator<char> > tokenizer;
     const char_separator<char> sep(":");
@@ -25,22 +25,20 @@ TraceLine::TraceLine(const std::string line)
         switch (index++) {
             case 0:
                 {
-                    std::string s(*it);
-                    trim(s);
-                    this->tick = lexical_cast<int>(s);
+                    this->tick = stoul(*it, NULL, 10);
                     break;
                 }
             case 1:
                 {
                     /*
-                    static const regex pattern("system.cpu T([[:digit:]]+)");
-                    smatch result;
-                    std::string s(*it);
-                    trim(s);
-                    if (regex_search(s, result, pattern) && result.size() == 1) {
-                        this->cpu = lexical_cast<int>(result[0]);
-                    }
-                    */
+                       static const regex pattern("system.cpu T([[:digit:]]+)");
+                       smatch result;
+                       std::string s(*it);
+                       trim(s);
+                       if (regex_search(s, result, pattern) && result.size() == 1) {
+                       this->cpu = lexical_cast<int>(result[0]);
+                       }
+                       */
                     this->cpu = 0;
                     break;
                 }
@@ -74,17 +72,17 @@ TraceLine::~TraceLine()
 
 }
 
-int TraceLine::getTick() const
+unsigned long TraceLine::getTick() const
 {
     return tick;
 }
 
-int TraceLine::getCPU() const
+unsigned int TraceLine::getCPU() const
 {
     return cpu;
 }
 
-int TraceLine::getPC() const
+unsigned long TraceLine::getPC() const
 {
     return pc;
 }

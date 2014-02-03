@@ -44,13 +44,17 @@ int run(PowerModel *pm)
 Pest::Pest(istream *input, unsigned int numThreads) : done(false), count(0), lineQueue(128) {
     this->numThreads = numThreads;
 
-    pm = new SimpleModel(&lineQueue, &done);
+    this->pm = new SimpleModel(&lineQueue, &done);
 
     // Assign tasks to the thread pool
     boost::thread(&readLines, input, &lineQueue, &done);
 
     for (unsigned int i = 0; i < numThreads; ++i)
         this->ioService.post( boost::bind(run, pm) );
+}
+
+Pest::~Pest() {
+    delete this->pm;
 }
 
 void Pest::processStreams() {
@@ -62,15 +66,8 @@ void Pest::processStreams() {
     // Wait for threads to finish
     this->threadpool.join_all();
 
-
     OutputFormatter gnuplotter(this->pm->getOutput());
     gnuplotter.showBarchart();
-
-    /*
-    int bucket = 0;
-    for (OutputVector::const_iterator it = pm->getOutput().begin(); it != pm->getOutput().end(); it++)
-        cout << bucket++ << " " << *(*it) << '\n';
-    */
 }
 
 

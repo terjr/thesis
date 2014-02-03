@@ -26,6 +26,7 @@ class Pest
         PowerModel *pm;
     public:
         Pest(std::istream *input, unsigned int numThreads = 0);
+        virtual ~Pest();
 
         void processStreams();
 

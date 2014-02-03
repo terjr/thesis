@@ -8,15 +8,15 @@ class TraceLine {
         TraceLine(std::string line);
         virtual ~TraceLine();
 
-        int getTick() const;
-        int getCPU() const;
-        int getPC() const;
+        unsigned long getTick() const;
+        unsigned int getCPU() const;
+        unsigned long getPC() const;
         Instruction getInstr() const;
 
     private:
-        int tick;
-        int cpu;
-        int pc;
+        unsigned long tick;
+        unsigned int cpu;
+        unsigned long pc;
         Instruction instr;
 };
 
