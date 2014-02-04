@@ -10,13 +10,12 @@ OutputFormatter::OutputFormatter(const OutputVector &statistics) {
 }
 
 void OutputFormatter::saveBarchart(const string &filename, const string &title) const {
-    Gnuplot plot(this->dVector, title, "lines");
-    plot.savetofigure(filename);
+    Gnuplot plot("lines");
+    plot.savetofigure(filename).plot_x(this->dVector, title);
 }
 
 void OutputFormatter::showBarchart(const string &title) const {
     Gnuplot plot(this->dVector, title, "lines");
-    plot.showonscreen();
     cout << "Press any char..." << endl;
     cin.get();
 
@@ -26,7 +25,7 @@ void OutputFormatter::showBarchart(const string &title) const {
 void OutputFormatter::importAsDouble(const OutputVector &statistics) {
     dVector.resize(statistics.size());
     transform(statistics.begin(), statistics.end(), dVector.begin(),
-            [](boost::atomic<unsigned long> *l) -> double {
-            return *l;
+            [](unsigned long l) -> double {
+            return l;
             });
 }

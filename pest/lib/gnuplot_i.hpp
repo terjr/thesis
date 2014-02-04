@@ -1169,7 +1169,7 @@ Gnuplot& Gnuplot::savetofigure(const std::string &filename,
     cmd(cmdstr.str() );
 
     cmdstr.str("");     // Clear cmdstr
-    cmdstr << " set output \"" << filename << "\"";
+    cmdstr << " set output '" << filename << "'";
     cmd(cmdstr.str());
 
     return *this;
