@@ -2,6 +2,11 @@
 
 #include <vector>
 #include <iostream>
+#include <boost/thread.hpp>
+
+#ifndef MUU
+extern boost::mutex muu;
+#endif
 
 enum InstrType {
     IntAlu,

@@ -8,7 +8,7 @@ using namespace std;
 
 namespace po = boost::program_options;
 
-bool processProgramOptions(int ac, char **av, istream **inputStream, unsigned int& numThreads) {
+bool processProgramOptions(int ac, char **av, istream **inputStream, unsigned int& numThreads, string &output) {
     string outputFile;
 
     po::options_description desc("Allowed options");
@@ -16,7 +16,7 @@ bool processProgramOptions(int ac, char **av, istream **inputStream, unsigned in
         ("help,h", "show help message")
         ("input-file,i", po::value<string>(), "input file")
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
-        ("output-file,o", po::value<string>(&outputFile)->default_value("-"), "output file (defaults to stdout)")
+        ("output-file,o", po::value<string>(&outputFile)->default_value(""), "output file")
         ("config-file", po::value<string>(), "config-file")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ;
@@ -58,6 +58,10 @@ bool processProgramOptions(int ac, char **av, istream **inputStream, unsigned in
         store(po::command_line_parser(args).options(desc).run(), vm);
     }
     cout << "Number of threads was set to " << numThreads << endl;
+
+    if (vm.count("output-file")) {
+        output = vm["output-file"].as<string>();
+    }
 
     if (vm.count("input-file")) {
         // TODO: Add support for gzipped streams

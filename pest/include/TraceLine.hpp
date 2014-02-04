@@ -5,7 +5,7 @@
 class TraceLine {
     public:
         TraceLine();
-        TraceLine(std::string line);
+        TraceLine(const std::string &line);
         virtual ~TraceLine();
 
         unsigned long getTick() const;

@@ -10,6 +10,8 @@
 
 #include "PowerModel.hpp"
 
+#define MUU
+
 using std::vector;
 using std::istream;
 
@@ -22,10 +24,11 @@ class Pest
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
         boost::lockfree::queue<std::string*> lineQueue;
+        std::string output;
 
         PowerModel *pm;
     public:
-        Pest(std::istream *input, unsigned int numThreads = 0);
+        Pest(std::istream *input, unsigned int numThreads = 0, const std::string &output = std::string());
         virtual ~Pest();
 
         void processStreams();

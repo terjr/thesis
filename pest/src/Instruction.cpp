@@ -1,6 +1,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
+#include "Pest.hpp"
 #include "Instruction.hpp"
 
 using namespace boost;
@@ -37,6 +38,7 @@ bool Instruction::parseAssembly(std::string assembly)
 
     if (assembly.length() == 0)
         return false;
+
     trim(assembly);
 
     size_t mnemLen = assembly.find(' ');

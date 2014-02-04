@@ -11,16 +11,7 @@
 
 using namespace std;
 
-int printStream(istream* s)
-{
-    while (*s)
-    {
-        string str;
-        std::getline(*s, str);
-        cout << str << endl << TraceLine(str) << endl;
-    }
-    return 0;
-}
+boost::mutex muu;
 
 int readLines(istream *s, boost::lockfree::queue<string*> *q, boost::atomic<bool> *done)
 {
@@ -41,13 +32,13 @@ int run(PowerModel *pm)
     return pm->run();
 }
 
-Pest::Pest(istream *input, unsigned int numThreads) : done(false), count(0), lineQueue(128) {
+Pest::Pest(istream *input, unsigned int numThreads, const string &output) : done(false), count(0), lineQueue(128), output(output) {
     this->numThreads = numThreads;
-
-    this->pm = new SimpleModel(&lineQueue, &done);
 
     // Assign tasks to the thread pool
     boost::thread(&readLines, input, &lineQueue, &done);
+
+    this->pm = new SimpleModel(&lineQueue, &done);
 
     for (unsigned int i = 0; i < numThreads; ++i)
         this->ioService.post( boost::bind(run, pm) );
@@ -67,7 +58,10 @@ void Pest::processStreams() {
     this->threadpool.join_all();
 
     OutputFormatter gnuplotter(this->pm->getOutput());
-    gnuplotter.showBarchart();
+    if (this->output.empty())
+        gnuplotter.showBarchart();
+    else
+        gnuplotter.saveBarchart(this->output);
 }
 
 
@@ -76,11 +70,12 @@ int Pest::main(int ac, char **av)
     unsigned int numThreads = boost::thread::hardware_concurrency();
 
     istream *inputStream;
-    bool progOptParsed = processProgramOptions(ac, av, &inputStream, numThreads);
+    string output;
+    bool progOptParsed = processProgramOptions(ac, av, &inputStream, numThreads, output);
     if (!progOptParsed)
         return 1;
 
-    Pest pest(inputStream, numThreads);
+    Pest pest(inputStream, numThreads, output);
     pest.processStreams();
 
     if (inputStream != &cin)

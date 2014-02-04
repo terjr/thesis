@@ -4,6 +4,7 @@
 #include <boost/tokenizer.hpp>
 
 #include "TraceLine.hpp"
+#include "Pest.hpp"
 
 using namespace boost;
 
@@ -11,11 +12,12 @@ using namespace boost;
 
 TraceLine::TraceLine() : tick(0), cpu(0), pc(0), instr()  {};
 
-TraceLine::TraceLine(const std::string line) : TraceLine()
+TraceLine::TraceLine(const std::string &line) : TraceLine()
 {
     typedef tokenizer<char_separator<char> > tokenizer;
-    const char_separator<char> sep(":");
 
+    muu.lock();
+    const char_separator<char> sep(":");
     tokenizer tokens(line, sep);
 
 
@@ -65,6 +67,7 @@ TraceLine::TraceLine(const std::string line) : TraceLine()
                 }
         }
     }
+    muu.unlock();
 }
 
 TraceLine::~TraceLine()

@@ -9,6 +9,11 @@ OutputFormatter::OutputFormatter(const OutputVector &statistics) {
     importAsDouble(statistics);
 }
 
+void OutputFormatter::saveBarchart(const string &filename, const string &title) const {
+    Gnuplot plot(this->dVector, title, "lines");
+    plot.savetofigure(filename);
+}
+
 void OutputFormatter::showBarchart(const string &title) const {
     Gnuplot plot(this->dVector, title, "lines");
     plot.showonscreen();

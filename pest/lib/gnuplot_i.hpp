@@ -233,7 +233,7 @@ public:
 
     /// Saves a gnuplot to a file named filename.  Defaults to saving pdf
     Gnuplot& savetofigure(const std::string &filename,
-                          const std::string &terminal="ps");
+                          const std::string &terminal="pdfcairo");
 
     //--------------------------------------------------------------------------
     // set and unset
@@ -1151,8 +1151,8 @@ Gnuplot& Gnuplot::set_smooth(const std::string &stylestr)
 //
 Gnuplot& Gnuplot::showonscreen()
 {
-    cmd("set output");
-    cmd("set terminal " + Gnuplot::terminal_std);
+    cmd(" set output");
+    cmd(" set terminal " + Gnuplot::terminal_std);
 
     return *this;
 }
@@ -1165,11 +1165,11 @@ Gnuplot& Gnuplot::savetofigure(const std::string &filename,
                                const std::string &terminal)
 {
     std::ostringstream cmdstr;
-    cmdstr << "set terminal " << terminal;
+    cmdstr << " set terminal " << terminal;
     cmd(cmdstr.str() );
 
     cmdstr.str("");     // Clear cmdstr
-    cmdstr << "set output \"" << filename << "\"";
+    cmdstr << " set output \"" << filename << "\"";
     cmd(cmdstr.str());
 
     return *this;
