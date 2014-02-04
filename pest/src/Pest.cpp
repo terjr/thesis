@@ -11,8 +11,6 @@
 
 using namespace std;
 
-boost::mutex muu;
-
 int readLines(istream *s, boost::lockfree::queue<string*> *q, boost::atomic<bool> *done)
 {
     cout << "Reading lines" << endl;
@@ -38,14 +36,19 @@ Pest::Pest(istream *input, unsigned int numThreads, const string &output) : done
     // Assign tasks to the thread pool
     boost::thread(&readLines, input, &lineQueue, &done);
 
-    this->pm = new SimpleModel(&lineQueue, &done);
+    this->pm = vector<PowerModel*>();
 
     for (unsigned int i = 0; i < numThreads; ++i)
-        this->ioService.post( boost::bind(run, pm) );
+    {
+        SimpleModel *sm = new SimpleModel(&lineQueue, &done);
+        this->ioService.post( boost::bind(run, sm) );
+        pm.push_back(sm);
+    }
 }
 
 Pest::~Pest() {
-    delete this->pm;
+    for (unsigned long i = 0; i < this->pm.size(); ++i)
+        delete pm[i];
 }
 
 void Pest::processStreams() {
@@ -57,7 +60,18 @@ void Pest::processStreams() {
     // Wait for threads to finish
     this->threadpool.join_all();
 
-    OutputFormatter gnuplotter(this->pm->getOutput());
+    unsigned long max_size = 0;
+    for (unsigned long i = 0; i < this->pm.size(); ++i)
+        if (this->pm[i]->getOutput().size() > max_size)
+            max_size = this->pm[i]->getOutput().size();
+
+    vector<unsigned long> results(max_size);
+    for (unsigned long i = 0; i < this->pm.size(); ++i)
+        for (unsigned long j = 0; j < this->pm[i]->getOutput().size(); ++j)
+            results[j] += this->pm[i]->getOutput()[j];
+
+
+    OutputFormatter gnuplotter(results);
     if (this->output.empty())
         gnuplotter.showBarchart();
     else

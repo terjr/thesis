@@ -9,8 +9,7 @@
 
 #include "TraceLine.hpp"
 
-typedef std::vector<boost::atomic<unsigned long>*> OutputVector;
-typedef std::vector<boost::atomic<unsigned long>*> OutputVector;
+typedef std::vector<unsigned long> OutputVector;
 
 class PowerModel {
     public:

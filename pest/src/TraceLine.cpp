@@ -16,7 +16,6 @@ TraceLine::TraceLine(const std::string &line) : TraceLine()
 {
     typedef tokenizer<char_separator<char> > tokenizer;
 
-    muu.lock();
     const char_separator<char> sep(":");
     tokenizer tokens(line, sep);
 
@@ -67,7 +66,6 @@ TraceLine::TraceLine(const std::string &line) : TraceLine()
                 }
         }
     }
-    muu.unlock();
 }
 
 TraceLine::~TraceLine()

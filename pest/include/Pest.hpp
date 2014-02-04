@@ -10,8 +10,6 @@
 
 #include "PowerModel.hpp"
 
-#define MUU
-
 using std::vector;
 using std::istream;
 
@@ -26,7 +24,7 @@ class Pest
         boost::lockfree::queue<std::string*> lineQueue;
         std::string output;
 
-        PowerModel *pm;
+        std::vector<PowerModel*> pm;
     public:
         Pest(std::istream *input, unsigned int numThreads = 0, const std::string &output = std::string());
         virtual ~Pest();

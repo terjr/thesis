@@ -5,17 +5,7 @@ using namespace boost;
 #define DELETE_STACK_SIZE 4096
 PowerModel::PowerModel(lockfree::queue<std::string*> *q, atomic<bool> *done, unsigned long bucket_size) : q(q), done(done), output(), bucket_size(bucket_size) { }
 
-PowerModel::~PowerModel()
-{
-    for (unsigned long i = 0; i < output.size(); ++i)
-    {
-        if (output[i])
-        {
-            delete output[i];
-            output[i] = 0;
-        }
-    }
-};
+PowerModel::~PowerModel() { };
 
 OutputVector PowerModel::getOutput() const
 {
