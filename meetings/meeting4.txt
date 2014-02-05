@@ -1,0 +1,14 @@
+Problem: Minne og aksessmoenster
+
+Finn ut hvordan aksessmoensteret påvirker stroemforbruket: Er det en enkel
+sammenheng mellom aksessmoenster og stroemforbruk?
+- Stride, random og sequential
+
+Proev pi-programmet med O1/O2.
+
+Masteroppgave: Skriv alt som det er fornuftig å ta med :p
+
+phys_to_virt-saken
+Bruk kmalloc og spoer om et sekvensielt minneområde
+
+Les inn vekter fra fil
