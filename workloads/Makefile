@@ -1,6 +1,6 @@
 include config.mk
 
-CFLAGS+=-static -mcpu=cortex-a9
+CFLAGS+=-static -mcpu=cortex-a9 -O0 -gdwarf-2
 
 SOURCES=$(wildcard */*.c)
 TARGETS=$(patsubst %.c, bin/%, $(SOURCES))
