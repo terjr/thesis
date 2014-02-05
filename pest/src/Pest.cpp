@@ -4,12 +4,27 @@
 #include <boost/lockfree/queue.hpp>
 
 #include "Pest.hpp"
-#include "ProgramArguments.hpp"
 #include "SimpleModel.hpp"
 #include "TraceLine.hpp"
 #include "OutputFormatter.hpp"
 
 using namespace std;
+
+unsigned long numTicks(istream *is)
+{
+    is->seekg(0, is->end);
+    unsigned long length = is->tellg();
+    length-=3;
+    while(is->peek() != '\n') {
+        is->seekg(length--);
+    }
+    is->seekg(length+2);
+
+    string str;
+    getline(*is, str);
+    is->seekg(0, is->beg);
+    return strtoul(str.c_str(), NULL, 10);
+}
 
 int readLines(istream *s, boost::lockfree::queue<string*> *q, boost::atomic<bool> *done)
 {
@@ -30,17 +45,31 @@ int run(PowerModel *pm)
     return pm->run();
 }
 
-Pest::Pest(istream *input, unsigned int numThreads, const string &output) : done(false), count(0), lineQueue(128), output(output) {
-    this->numThreads = numThreads;
+Pest::Pest(options_t &options) :
+      numThreads(options.numThreads),
+      done(false),
+      count(0),
+      lineQueue(128),
+      output(options.output)
+{
+    if (options.numBuckets && options.bucketSize)
+    {
+        cerr << "Cannot have both bucket size and number of buckets defined at once!" << endl;
+        return;
+    }
+    else if (options.numBuckets && !options.bucketSize)
+        options.bucketSize = numTicks(options.inputStream)/options.numBuckets;
+    else if (!options.numBuckets && !options.bucketSize)
+        options.bucketSize = numTicks(options.inputStream)/1000;
 
     // Assign tasks to the thread pool
-    boost::thread(&readLines, input, &lineQueue, &done);
+    boost::thread(&readLines, options.inputStream, &lineQueue, &done);
 
     this->pm = vector<PowerModel*>();
 
-    for (unsigned int i = 0; i < numThreads; ++i)
+    for (unsigned int i = 0; i < numThreads-1; ++i) // one thread is reading the file
     {
-        SimpleModel *sm = new SimpleModel(&lineQueue, &done);
+        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.bucketSize);
         this->ioService.post( boost::bind(run, sm) );
         pm.push_back(sm);
     }
@@ -83,17 +112,20 @@ int Pest::main(int ac, char **av)
 {
     unsigned int numThreads = boost::thread::hardware_concurrency();
 
-    istream *inputStream;
-    string output;
-    bool progOptParsed = processProgramOptions(ac, av, &inputStream, numThreads, output);
-    if (!progOptParsed)
+    options_t progOptParsed = processProgramOptions(ac, av);
+    if (progOptParsed.error)
         return 1;
+    if (progOptParsed.help)
+        return 0;
 
-    Pest pest(inputStream, numThreads, output);
+    if (progOptParsed.numThreads < 1)
+        progOptParsed.numThreads = numThreads;
+
+    Pest pest(progOptParsed);
     pest.processStreams();
 
-    if (inputStream != &cin)
-        delete inputStream;
+    if (progOptParsed.inputStream != &cin)
+        delete progOptParsed.inputStream;
 
     return 0;
 }

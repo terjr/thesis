@@ -9,6 +9,7 @@
 #include <string>
 
 #include "PowerModel.hpp"
+#include "ProgramArguments.hpp"
 
 using std::vector;
 using std::istream;
@@ -26,6 +27,7 @@ class Pest
 
         std::vector<PowerModel*> pm;
     public:
+        Pest(options_t &options);
         Pest(std::istream *input, unsigned int numThreads = 0, const std::string &output = std::string());
         virtual ~Pest();
 
