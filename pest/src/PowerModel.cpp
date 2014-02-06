@@ -1,5 +1,7 @@
 #include "PowerModel.hpp"
 
+#include "TraceLine.hpp"
+
 using namespace boost;
 
 #define DELETE_STACK_SIZE 128
@@ -25,7 +27,9 @@ int PowerModel::run()
     int ds = 0;
     while (!(*done) || !q->empty()) {
         while (q->pop(s)) {
-            calculate(TraceLine(*s));
+            TraceLine tr = TraceLine(*s);
+            
+            calculate(tr.getSimEvent());
             if (ds < DELETE_STACK_SIZE) {
                 delete_stack[ds++] = s;
             } else {

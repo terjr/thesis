@@ -12,7 +12,7 @@ class SimpleModel : public PowerModel {
     public:
         SimpleModel(boost::lockfree::queue<std::string*> *q, boost::atomic<bool> *done, unsigned long bucket_size = 10000000);
         virtual ~SimpleModel();
-        virtual int calculate(const TraceLine &tr);
+        virtual int calculate(const SimEvent *inst);
     private:
         boost::mutex m;
 };

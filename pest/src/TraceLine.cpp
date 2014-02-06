@@ -4,21 +4,24 @@
 #include <boost/tokenizer.hpp>
 
 #include "TraceLine.hpp"
+#include "Instruction.hpp"
 #include "Pest.hpp"
 
 using namespace boost;
 
 //static const boost::regex pattern(" *([[:digit:]]+) *: *([^ :]+) T([[:digit:]]+) *: *([^:]+): *([^:]+): *([^ :]+) *: *(.*)");
 
-TraceLine::TraceLine() : tick(0), cpu(0), pc(0), instr()  {};
+TraceLine::TraceLine() : tick(0), simEvent(new Instruction()) {};
 
-TraceLine::TraceLine(const std::string &line) : TraceLine()
-{
+TraceLine::TraceLine(const std::string &line) : TraceLine() {
     typedef tokenizer<char_separator<char> > tokenizer;
 
     const char_separator<char> sep(":");
     tokenizer tokens(line, sep);
 
+    // TODO: For now, SimEvent is always an Instruction
+    
+    Instruction *inst = (Instruction *) simEvent;
 
     int index = 0;
     for (tokenizer::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
@@ -26,7 +29,7 @@ TraceLine::TraceLine(const std::string &line) : TraceLine()
         switch (index++) {
             case 0:
                 {
-                    this->tick = stoul(*it, NULL, 10);
+                    simEvent->setTick(stoul(*it, NULL, 10));
                     break;
                 }
             case 1:
@@ -40,17 +43,18 @@ TraceLine::TraceLine(const std::string &line) : TraceLine()
                        this->cpu = lexical_cast<int>(result[0]);
                        }
                        */
-                    this->cpu = 0;
+                    // TODO: Ignore cpu # for now
+                    //this->cpu = 0;
                     break;
                 }
             case 2:
                 {
-                    this->pc = stoul(*it, NULL, 16);
+                    inst->setPC(stoul(*it, NULL, 16));
                     break;
                 }
             case 3:
                 {
-                    this->instr = Instruction(*it);
+                    inst->parseAssembly(*it);
                     break;
 
                 }
@@ -58,7 +62,7 @@ TraceLine::TraceLine(const std::string &line) : TraceLine()
                 {
                     std::string s(*it);
                     trim(s);
-                    this->instr.setInstrType(s);
+                    inst->setInstrType(s);
                     break;
                 }
             default:
@@ -68,32 +72,15 @@ TraceLine::TraceLine(const std::string &line) : TraceLine()
     }
 }
 
-TraceLine::~TraceLine()
-{
+TraceLine::~TraceLine() {
 
 }
 
-unsigned long TraceLine::getTick() const
-{
-    return tick;
+SimEvent* TraceLine::getSimEvent() const {
+    return simEvent;
 }
 
-unsigned int TraceLine::getCPU() const
-{
-    return cpu;
-}
-
-unsigned long TraceLine::getPC() const
-{
-    return pc;
-}
-
-Instruction TraceLine::getInstr() const
-{
-    return instr;
-}
-
-std::ostream& operator <<(std::ostream& outputStream, const TraceLine& traceLine)
-{
-    return outputStream << traceLine.getInstr();
+std::ostream& operator <<(std::ostream& outputStream, const TraceLine& traceLine) {
+    // TODO: Handle all cases
+    return outputStream << ((Instruction *)traceLine.getSimEvent())->toString();
 }

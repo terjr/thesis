@@ -8,8 +8,7 @@ using namespace boost;
 
 Instruction::Instruction() : op(std::vector<std::string>()) {}
 
-Instruction::Instruction(std::string assembly) : op(std::vector<std::string>())
-{
+Instruction::Instruction(std::string assembly) : op(std::vector<std::string>()) {
     parseAssembly(assembly);
 }
 
@@ -21,18 +20,28 @@ Instruction::Instruction(std::string assembly, InstrType type) : Instruction(ass
     this->instrType = type;
 }
 
+unsigned int Instruction::getCPU() const {
+    return cpu;
+}
+
+unsigned long Instruction::getPC() const {
+    return pc;
+}
+
+void Instruction::setPC(unsigned long pc) {
+    this->pc = pc;
+}
+
 void Instruction::setInstrType(const std::string &instrType) {
 
     this->instrType = Instruction::instrTypeFromString(instrType);
 }
 
-InstrType Instruction::getInstrType() const
-{
+InstrType Instruction::getInstrType() const {
     return instrType;
 }
 
-bool Instruction::parseAssembly(std::string assembly)
-{
+bool Instruction::parseAssembly(std::string assembly) {
     typedef tokenizer<char_separator<char> > tokenizer;
     const char_separator<char> sep(",");
 
@@ -63,13 +72,11 @@ bool Instruction::parseAssembly(std::string assembly)
     return true;
 }
 
-Instruction::~Instruction()
-{
+Instruction::~Instruction() {
 
 }
 
-InstrType Instruction::instrTypeFromString(const std::string &instr)
-{
+InstrType Instruction::instrTypeFromString(const std::string &instr) {
     if (instr == "IntAlu") return IntAlu;
     else if (instr == "IntMult") return IntMult;
     else if (instr == "MemRead") return MemRead;
@@ -81,18 +88,15 @@ InstrType Instruction::instrTypeFromString(const std::string &instr)
     }
 }
 
-unsigned int Instruction::getNumOp() const
-{
+unsigned int Instruction::getNumOp() const {
     return op.size();
 }
 
-const std::string Instruction::getMnemonic() const
-{
+const std::string Instruction::getMnemonic() const {
     return mnemonic;
 }
 
-const std::string Instruction::getOp(const unsigned int index) const
-{
+const std::string Instruction::getOp(const unsigned int index) const {
     if (getNumOp() > index)
         return op[index];
     else
@@ -111,8 +115,7 @@ std::string Instruction::toString() const {
     return output;
 }
 
-bool operator==(const Instruction& first, const Instruction& second)
-{
+bool operator==(const Instruction& first, const Instruction& second) {
     if (first.getMnemonic() == second.getMnemonic() &&
             first.getNumOp() == second.getNumOp() &&
             first.getInstrType() == second.getInstrType())
@@ -126,13 +129,11 @@ bool operator==(const Instruction& first, const Instruction& second)
         return false;
 }
 
-bool operator!=(const Instruction& first, const Instruction& second)
-{
+bool operator!=(const Instruction& first, const Instruction& second) {
     return !(first==second);
 }
 
 
-std::ostream& operator <<(std::ostream& outputStream, const Instruction& instr)
-{
+std::ostream& operator <<(std::ostream& outputStream, const Instruction& instr) {
     return outputStream << instr.toString();
 }

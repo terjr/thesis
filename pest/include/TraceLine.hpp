@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Instruction.hpp"
+#include "SimEvent.hpp"
 
 class TraceLine {
     public:
@@ -8,16 +8,11 @@ class TraceLine {
         TraceLine(const std::string &line);
         virtual ~TraceLine();
 
-        unsigned long getTick() const;
-        unsigned int getCPU() const;
-        unsigned long getPC() const;
-        Instruction getInstr() const;
+        SimEvent* getSimEvent() const;
 
     private:
         unsigned long tick;
-        unsigned int cpu;
-        unsigned long pc;
-        Instruction instr;
+        SimEvent *simEvent;
 };
 
 std::ostream& operator <<(std::ostream& outputStream, const TraceLine& traceLine);
