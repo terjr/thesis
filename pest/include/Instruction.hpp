@@ -17,15 +17,13 @@ enum InstrType {
 
 class Instruction : public SimEvent {
     public:
-        Instruction(std::string assembly);
+        Instruction(const std::string &line);
         Instruction();
-        Instruction(std::string assembly, InstrType type);
-        Instruction(std::string assembly, std::string type);
 
         unsigned int getCPU() const;
         unsigned long getPC() const;
         void setPC(unsigned long pc);
-        void setInstrType(const std::string &instrtype);
+        void setInstrType(std::string instrtype);
         virtual ~Instruction();
         bool  parseAssembly(std::string assembly);
         const std::string getMnemonic() const;

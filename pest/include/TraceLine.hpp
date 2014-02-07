@@ -4,14 +4,12 @@
 
 class TraceLine {
     public:
-        TraceLine();
         TraceLine(const std::string &line);
         virtual ~TraceLine();
 
         SimEvent* getSimEvent() const;
 
     private:
-        unsigned long tick;
         SimEvent *simEvent;
 };
 

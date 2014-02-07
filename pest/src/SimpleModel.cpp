@@ -12,6 +12,9 @@ SimpleModel::~SimpleModel() {}
 
 int SimpleModel::calculate(const SimEvent *se) {
 
+    if (se->getType() == EventType::Unknown)
+        return 0;
+
     const Instruction *inst = (Instruction *) se;
 
     while (output.size() <= (se->getTick() / bucket_size)) {

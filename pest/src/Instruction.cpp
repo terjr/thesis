@@ -4,20 +4,55 @@
 #include "Pest.hpp"
 #include "Instruction.hpp"
 
+#define TICK_COL    0
+#define PC_COL      2
+#define INSTR_COL   3
+#define TYPE_COL    4
+
+
+
 using namespace boost;
+
+
 
 Instruction::Instruction() : op(std::vector<std::string>()) {}
 
-Instruction::Instruction(std::string assembly) : op(std::vector<std::string>()) {
-    parseAssembly(assembly);
-}
+Instruction::Instruction(const std::string &line) : op(std::vector<std::string>()) {
+    typedef tokenizer<char_separator<char> > tokenizer;
+    const char_separator<char> sep(":");
+    tokenizer tokens(line, sep);
 
-Instruction::Instruction(std::string assembly, std::string type) : Instruction(assembly) {
-    this->instrType = Instruction::instrTypeFromString(type);
-}
+    int column = 0;
+    for (tokenizer::const_iterator it = tokens.begin();
+            it != tokens.end(); ++it, ++column) {
 
-Instruction::Instruction(std::string assembly, InstrType type) : Instruction(assembly) {
-    this->instrType = type;
+        switch (column) {
+            case TICK_COL:
+                {
+                    setTick(stoul(*it, NULL, 16));
+                    break;
+                }
+            case PC_COL:
+                {
+                    setPC(stoul(*it, NULL, 16));
+                    break;
+                }
+            case INSTR_COL:
+                {
+                    parseAssembly(*it);
+                    break;
+                }
+            case TYPE_COL:
+                {
+                    setInstrType(*it);
+                    break;
+                }
+            default:
+                {
+                }
+        }
+    }
+
 }
 
 unsigned int Instruction::getCPU() const {
@@ -32,8 +67,8 @@ void Instruction::setPC(unsigned long pc) {
     this->pc = pc;
 }
 
-void Instruction::setInstrType(const std::string &instrType) {
-
+void Instruction::setInstrType(std::string instrType) {
+    trim(instrType);
     this->instrType = Instruction::instrTypeFromString(instrType);
 }
 

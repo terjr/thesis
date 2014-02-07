@@ -62,13 +62,13 @@ Pest::Pest(options_t &options) :
     else if (!options.numBuckets && !options.bucketSize)
         options.bucketSize = numTicks(options.inputStream)/1000;
 
-    // Assign tasks to the thread pool
-    boost::thread(&readLines, options.inputStream, &lineQueue, &done);
+    //boost::thread(&readLines, options.inputStream, &lineQueue, &done);
+    this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, &done) );
 
     this->pm = vector<PowerModel*>();
 
-    for (unsigned int i = 0; i < numThreads-1; ++i) // one thread is reading the file
-    {
+    // Assign tasks to the thread pool
+    for (unsigned int i = 0; i < numThreads; ++i) { // one thread is reading the file
         SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.bucketSize);
         this->ioService.post( boost::bind(run, sm) );
         pm.push_back(sm);
@@ -100,11 +100,13 @@ void Pest::processStreams() {
             results[j] += this->pm[i]->getOutput()[j];
 
 
+    /*
     OutputFormatter gnuplotter(results);
     if (this->output.empty())
         gnuplotter.showBarchart();
     else
         gnuplotter.saveBarchart(this->output);
+        */
 }
 
 
