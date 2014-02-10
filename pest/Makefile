@@ -31,7 +31,10 @@ dep:
 	mkdir dep
 
 clean:
-	rm -rf $(TARGET) obj dep test_pest
+	rm -rf $(TARGET) obj test_pest
+
+purge: clean
+	rm -rf dep
 
 ##### TESTS #####
 TEST_SRC=$(wildcard tests/*.cpp)
