@@ -23,7 +23,9 @@ TraceLine::TraceLine(const std::string &line) {
 
     if (eventType == "system.cpu T0") {
         simEvent = new Instruction(line);
-    } else {
+    } else if (eventType == "system.") {
+        simEvent = new Instruction(line);
+    } else{
         simEvent = new UnknownEvent();
         std::cerr << "Unknown event type: <<" << eventType << ">>" << std::endl;
 
