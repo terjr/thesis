@@ -100,13 +100,11 @@ void Pest::processStreams() {
             results[j] += this->pm[i]->getOutput()[j];
 
 
-    /*
     OutputFormatter gnuplotter(results);
     if (this->output.empty())
         gnuplotter.showBarchart();
     else
         gnuplotter.saveBarchart(this->output);
-        */
 }
 
 

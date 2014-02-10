@@ -15,9 +15,10 @@ using namespace boost;
 
 
 
-Instruction::Instruction() : op(std::vector<std::string>()) {}
+Instruction::Instruction() : SimEvent(InstEvent), op(std::vector<std::string>()) {}
 
-Instruction::Instruction(const std::string &line) : op(std::vector<std::string>()) {
+Instruction::Instruction(const std::string &line) : Instruction() {
+
     typedef tokenizer<char_separator<char> > tokenizer;
     const char_separator<char> sep(":");
     tokenizer tokens(line, sep);
@@ -29,7 +30,7 @@ Instruction::Instruction(const std::string &line) : op(std::vector<std::string>(
         switch (column) {
             case TICK_COL:
                 {
-                    setTick(stoul(*it, NULL, 16));
+                    setTick(stoul(*it, NULL, 10));
                     break;
                 }
             case PC_COL:

@@ -6,7 +6,7 @@
 
 using namespace boost;
 
-SimpleModel::SimpleModel(lockfree::queue<std::string*> *q, atomic<bool> *done, unsigned long buckets) : PowerModel(q, done, buckets), m(){ }
+SimpleModel::SimpleModel(lockfree::queue<std::string*> *q, atomic<bool> *done, unsigned long bucket_size) : PowerModel(q, done, bucket_size), m(){ }
 
 SimpleModel::~SimpleModel() {}
 

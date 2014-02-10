@@ -10,6 +10,7 @@ enum EventType {
 class SimEvent {
     public:
         SimEvent() {};
+        SimEvent(EventType type) : type(type) {};
         SimEvent(unsigned long tick, EventType type) : tick(tick), type(type) {};
 
         unsigned long getTick() const;
