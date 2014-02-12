@@ -3,6 +3,7 @@
 
 #include "SimEvent.hpp"
 #include "Instruction.hpp"
+#include "Memory.hpp"
 
 using namespace boost;
 
@@ -15,8 +16,6 @@ int SimpleModel::calculate(const SimEvent *se) {
     if (se->getType() == EventType::Unknown)
         return 0;
 
-    const Instruction *inst = (Instruction *) se;
-
     while (output.size() <= (se->getTick() / bucket_size)) {
         output.push_back(0L);
         if (!(output.size() % 10000)) {
@@ -24,7 +23,9 @@ int SimpleModel::calculate(const SimEvent *se) {
         }
     }
 
-    if (inst->getType() == EventType::InstEvent) {
+    // TODO: Use dynamic_cast instead
+    if (se->getType() == EventType::InstEvent) {
+        const Instruction *inst = (Instruction *) se;
 
         switch (inst->getInstrType()) {
             case IntAlu:
@@ -45,8 +46,29 @@ int SimpleModel::calculate(const SimEvent *se) {
             case ErrorType:
                 break;
         }
-    } else {
-        // For now, don't care about MemEvents and others.
+    } else if (se->getType() == EventType::MemEvent) {
+        const Memory *mem = (Memory *) se;
+        switch (mem->getMemType()) {
+            case L1I:
+            case L1D:
+                {
+                    output[mem->getTick()/bucket_size] += 3;
+                    break;
+                }
+            case L2:
+                {
+                    output[mem->getTick()/bucket_size] += 30;
+                    break;
+                }
+            case Phys:
+                {
+                    output[mem->getTick()/bucket_size] += 300;
+                    break;
+                }
+            default:
+                break;
+
+        }
     }
     return 0;
 }

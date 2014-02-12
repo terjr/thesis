@@ -4,6 +4,7 @@
 
 #include "TraceLine.hpp"
 #include "Instruction.hpp"
+#include "Memory.hpp"
 #include "Pest.hpp"
 #include "UnknownEvent.hpp"
 
@@ -23,11 +24,14 @@ TraceLine::TraceLine(const std::string &line) {
 
     if (eventType == "system.cpu T0") {
         simEvent = new Instruction(line);
-    } else if (eventType == "system.") {
-        simEvent = new Instruction(line);
+    } else if (eventType == "system.cpu.icache"
+            || eventType == "system.cpu.dcache"
+            || eventType == "system.l2"
+            || eventType == "system.physmem") {
+        simEvent = new Memory(line);
     } else{
         simEvent = new UnknownEvent();
-        std::cerr << "Unknown event type: <<" << eventType << ">>" << std::endl;
+        //std::cerr << "Unknown event type: <<" << eventType << ">>" << std::endl;
 
     }
 }
