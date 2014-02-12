@@ -17,8 +17,8 @@ enum InstrType {
 
 class Instruction : public SimEvent {
     public:
-        Instruction(const std::string &line);
         Instruction();
+        Instruction(const std::string &line);
 
         unsigned int getCPU() const;
         unsigned long getPC() const;

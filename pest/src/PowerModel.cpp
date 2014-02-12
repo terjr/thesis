@@ -9,8 +9,7 @@ PowerModel::PowerModel(lockfree::queue<std::string*> *q, atomic<bool> *done, uns
 
 PowerModel::~PowerModel() { };
 
-OutputVector PowerModel::getOutput() const
-{
+OutputVector PowerModel::getOutput() const {
     return output;
 }
 
@@ -20,8 +19,7 @@ int inline clean_stack(std::string *delete_stack[DELETE_STACK_SIZE], int ds) {
     return 0;
 }
 
-int PowerModel::run()
-{
+int PowerModel::run() {
     std::string *s = 0;
     std::string *delete_stack[DELETE_STACK_SIZE];
     int ds = 0;
