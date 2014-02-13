@@ -24,6 +24,7 @@ class Pest
         boost::thread_group threadpool;
         boost::lockfree::queue<std::string*> lineQueue;
         std::string output;
+        options_t &options;
 
         std::vector<PowerModel*> pm;
     public:

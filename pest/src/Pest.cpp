@@ -50,10 +50,15 @@ Pest::Pest(options_t &options) :
       done(false),
       count(0),
       lineQueue(128),
-      output(options.output)
+      output(options.output),
+      options(options)
 {
-    if (options.numBuckets && options.bucketSize)
-    {
+
+    if (options.error) {
+        cerr << "Error while parsing program arguments." << endl;
+    }
+
+    if (options.numBuckets && options.bucketSize) {
         cerr << "Cannot have both bucket size and number of buckets defined at once!" << endl;
         return;
     }
@@ -98,6 +103,31 @@ void Pest::processStreams() {
     for (unsigned long i = 0; i < this->pm.size(); ++i)
         for (unsigned long j = 0; j < this->pm[i]->getOutput().size(); ++j)
             results[j] += this->pm[i]->getOutput()[j];
+
+    unsigned long normalize;
+    if (options.bucketSize < 500000)
+    {
+        if (options.bucketSize >= 500)
+        {
+            normalize = options.bucketSize/500;
+        }
+        else if (options.bucketSize >= 5)
+        {
+            normalize = options.bucketSize/5;
+        }
+        else
+        {
+            std::cerr << "Unable to normalize results, " << std::endl;
+                normalize = 1;
+        }
+    }
+    else
+    {
+        normalize = options.bucketSize/500000;
+    }
+
+    for (unsigned long i = 0; i < results.size(); ++i)
+        results[i] /= normalize;
 
 
     OutputFormatter gnuplotter(results);

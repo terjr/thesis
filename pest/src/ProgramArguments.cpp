@@ -9,6 +9,7 @@ using namespace std;
 namespace po = boost::program_options;
 
 options_t processProgramOptions(int ac, char **av) {
+    // TODO: Wouldn't options become out of scope when this function returns?
     options_t options;
     string outputFile;
 
@@ -18,7 +19,7 @@ options_t processProgramOptions(int ac, char **av) {
         ("input-file,i", po::value<string>(), "input file")
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&outputFile)->default_value(""), "output file")
-        ("config-file", po::value<string>(), "config-file")
+        ("config-file,c", po::value<string>(), "config-file")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
         ("bucket-size,B", po::value<unsigned long>(), "number of ticks in each bucket")
@@ -36,22 +37,15 @@ options_t processProgramOptions(int ac, char **av) {
         options.help = true;
         cout << desc << endl;
         return options;
-    }
-    else
-    {
+    } else {
         options.help = false;
     }
 
-    if (vm.count("max-threads")) {
-        options.numThreads = vm["max-threads"].as<unsigned int>();
-    } else {
-        options.numThreads = 0;
-    }
     if (vm.count("config-file")) {
         // Load the file and tokenize it
         ifstream ifs(vm["config-file"].as<string>().c_str());
         if (!ifs) {
-            cout << "Could no open the config file" << endl;
+            cout << "Could not open the config file" << endl;
             options.error = true;
             return options;
         }
@@ -67,24 +61,25 @@ options_t processProgramOptions(int ac, char **av) {
         store(po::command_line_parser(args).options(desc).run(), vm);
     }
 
+    if (vm.count("max-threads")) {
+        options.numThreads = vm["max-threads"].as<unsigned int>();
+    } else {
+        options.numThreads = 0;
+    }
+
     if (vm.count("output-file")) {
         options.output = vm["output-file"].as<string>();
     }
+
     if (vm.count("num-buckets")) {
-        // TODO: Add support for gzipped streams
         options.numBuckets = vm["num-buckets"].as<unsigned long>();
-    }
-    else
-    {
+    } else {
         options.numBuckets = 0;
     }
 
     if (vm.count("bucket-size")) {
-        // TODO: Add support for gzipped streams
         options.bucketSize = vm["bucket-size"].as<unsigned long>();
-    }
-    else
-    {
+    } else {
         options.bucketSize = 0;
     }
 
@@ -92,12 +87,12 @@ options_t processProgramOptions(int ac, char **av) {
         // TODO: Add support for gzipped streams
         options.inputStream = new ifstream(vm["input-file"].as<string>());
         options.inputName = vm["input-file"].as<string>();
-    }
-    else {
+    } else {
         // Read from stdin
         options.inputStream = &cin;
         options.inputName = "-";
     }
+
     options.error = false;
     return options;
 
