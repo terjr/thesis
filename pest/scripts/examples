@@ -1,0 +1,2 @@
+# This file contains examples of command line usage
+pest trace.out -b 10 -a <(./scripts/annotate.sh ../../bin/add/adc )

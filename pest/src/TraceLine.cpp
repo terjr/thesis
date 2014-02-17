@@ -19,7 +19,7 @@ TraceLine::TraceLine(const std::string &line) {
         return;
     }
 
-    string eventType = line.substr(from, to-from);
+    std::string eventType = line.substr(from, to-from);
     trim(eventType);
 
     if (eventType == "system.cpu T0") {

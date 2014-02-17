@@ -1,11 +1,17 @@
 #include "PowerModel.hpp"
 
 #include "TraceLine.hpp"
+#include "Instruction.hpp"
 
 using namespace boost;
 
 #define DELETE_STACK_SIZE 1024
-PowerModel::PowerModel(lockfree::queue<std::string*, boost::lockfree::fixed_sized<true>> *q, atomic<bool> *done, unsigned long bucket_size, unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks) { }
+PowerModel::PowerModel(lockfree::queue<std::string*,
+        boost::lockfree::fixed_sized<true>> *q,
+        atomic<bool> *done,
+        std::map<unsigned long, std::string> *annotations,
+        unsigned long bucket_size,
+        unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks), annotations(annotations), annotation_map() { }
 
 PowerModel::~PowerModel() { };
 
@@ -13,10 +19,25 @@ OutputVector PowerModel::getOutput() const {
     return output;
 }
 
+std::map<unsigned long, std::string> PowerModel::getAnnotations() const {
+    return annotation_map;
+}
+
 int inline clean_stack(std::string *delete_stack[DELETE_STACK_SIZE], int ds) {
     for (int i = 0; i < ds; i++)
         delete delete_stack[i];
     return 0;
+}
+
+void PowerModel::annotate(SimEvent *se) {
+    if (se->getType() != InstEvent)
+        return;
+
+    Instruction *instr = static_cast<Instruction*>(se);
+    instr->getPC();
+    auto it = annotations->find(instr->getPC());
+    if (it != annotations->end())
+        annotation_map.insert(std::pair<unsigned long, std::string>(instr->getTick()/bucket_size, it->second));
 }
 
 int PowerModel::run() {
@@ -27,10 +48,11 @@ int PowerModel::run() {
     while (!(*done) || !q->empty()) {
         while (q->pop(s)) {
             TraceLine tr = TraceLine(*s);
-            
+
             calculate(tr.getSimEvent());
-            if (numTicks > 0 && cnt++ % 2048 == 0)
-            {
+            if (annotations)
+                annotate(tr.getSimEvent());
+            if (numTicks > 0 && cnt++ % 2048 == 0) {
                 printf("\rTicks prosessed: %ld/%llu (%f%%)", tr.getSimEvent()->getTick(), numTicks, (((double)tr.getSimEvent()->getTick())/numTicks)*100);
             }
             if (ds < DELETE_STACK_SIZE) {

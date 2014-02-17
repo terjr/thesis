@@ -5,20 +5,29 @@
 
 using namespace std;
 
+
 OutputFormatter::OutputFormatter(const OutputVector &statistics) {
+    plot = new Gnuplot("lines");
     importAsDouble(statistics);
 }
 
-void OutputFormatter::saveBarchart(const string &filename, const string &title) const {
-    Gnuplot plot("lines");
-    plot.savetofigure(filename).plot_x(this->dVector, title);
+OutputFormatter::~OutputFormatter() {
+    delete plot;
 }
 
-void OutputFormatter::showBarchart(const string &title) const {
-    Gnuplot plot(this->dVector, title, "lines");
+void OutputFormatter::saveBarchart(const string &filename, const string &title) {
+    plot->savetofigure(filename).plot_x(this->dVector, title);
+}
+
+void OutputFormatter::showBarchart(const string &title) {
+    plot->plot_x(this->dVector, title).showonscreen();
     cout << "Displaying graph. Press any char to continue..." << endl;
     cin.get();
 
+}
+
+void OutputFormatter::addLabel(unsigned long x, unsigned long y, const string& label) {
+    plot->addLabel(x,y,label);
 }
 
 

@@ -7,7 +7,14 @@
 
 using namespace boost;
 
-SimpleModel::SimpleModel(lockfree::queue<std::string*, boost::lockfree::fixed_sized<true>> *q, atomic<bool> *done, unsigned long bucket_size, unsigned long long numTicks) : PowerModel(q, done, bucket_size, numTicks), m(){ }
+SimpleModel::SimpleModel(
+        lockfree::queue<std::string*, boost::lockfree::fixed_sized<true>> *q,
+        atomic<bool> *done,
+        std::map<unsigned long,
+        std::string> *annotations,
+        unsigned long bucket_size,
+        unsigned long long numTicks)
+    : PowerModel(q, done, annotations, bucket_size, numTicks), m(){ }
 
 SimpleModel::~SimpleModel() {}
 

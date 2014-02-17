@@ -77,7 +77,6 @@ Pest::Pest(options_t &options) :
             options.bucketSize = nTicks/1000;
     }
 
-
     //boost::thread(&readLines, options.inputStream, &lineQueue, &done);
     this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, &done) );
 
@@ -85,7 +84,7 @@ Pest::Pest(options_t &options) :
 
     // Assign tasks to the thread pool
     for (unsigned int i = 0; i < numThreads; ++i) { // one thread is reading the file
-        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.bucketSize, nTicks);
+        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.annotations, options.bucketSize, nTicks);
         nTicks = 0;
         this->ioService.post( boost::bind(run, sm) );
         pm.push_back(sm);
@@ -95,6 +94,7 @@ Pest::Pest(options_t &options) :
 Pest::~Pest() {
     for (unsigned long i = 0; i < this->pm.size(); ++i)
         delete pm[i];
+    delete options.annotations;
 }
 
 void Pest::processStreams() {
@@ -118,32 +118,36 @@ void Pest::processStreams() {
             results[j] += this->pm[i]->getOutput()[j];
 
     unsigned long normalize;
-    if (options.bucketSize < 500000)
-    {
-        if (options.bucketSize >= 500)
-        {
+    if (options.bucketSize < 500000) {
+        if (options.bucketSize >= 500) {
             normalize = options.bucketSize/500;
-        }
-        else if (options.bucketSize >= 5)
-        {
+        } else if (options.bucketSize >= 5) {
             normalize = options.bucketSize/5;
-        }
-        else
-        {
+        } else {
             std::cerr << "Unable to normalize results, " << std::endl;
             normalize = 1;
         }
-    }
-    else
-    {
+    } else {
         normalize = options.bucketSize/500000;
     }
 
     for (unsigned long i = 0; i < results.size(); ++i)
         results[i] /= normalize;
 
-
     OutputFormatter gnuplotter(results);
+
+    string prev;
+    for (unsigned long i = 0; i < this->pm.size(); ++i)
+    {
+        auto annot = this->pm[i]->getAnnotations();
+        for (auto it=annot.begin(); it!=annot.end(); ++it) {
+            if (prev != it->second) {
+                prev = it->second;
+                gnuplotter.addLabel(it->first, results[it->first]+10, it->second);
+            }
+        }
+    }
+
     if (this->output.empty())
         gnuplotter.showBarchart();
     else

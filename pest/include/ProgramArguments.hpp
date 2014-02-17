@@ -1,11 +1,10 @@
 #pragma once
 
-using namespace std;
-
 typedef struct {
     bool help;
     bool error;
-    istream *inputStream;
+    std::istream *inputStream;
+    std::map<unsigned long, std::string> *annotations;
     std::string inputName;
     unsigned int numThreads;
     unsigned int numBuckets;

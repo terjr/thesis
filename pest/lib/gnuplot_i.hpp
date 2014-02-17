@@ -1,3 +1,4 @@
+#pragma once
 ////////////////////////////////////////////////////////////////////////////////
 ///
 ///  \brief A C++ interface to gnuplot.
@@ -146,6 +147,15 @@ private:
     static bool    file_exists(const std::string &filename, int mode=0);
 
 public:
+
+    Gnuplot& addLabel(unsigned long x, unsigned long y, const std::string &label) {
+        static unsigned long i = 1;
+
+        std::ostringstream cmdstr;
+        cmdstr << "set label " << std::to_string(i++) <<  "\"" << label << "\" at " << std::to_string(x) << ", " << std::to_string(y) << " rotate by 90";
+        cmd(cmdstr.str() );
+        return *this;
+    }
 
     // ----------------------------------------------------------------------------
     /// \brief optional function: set Gnuplot path manual

@@ -1,5 +1,7 @@
 #include <fstream>
+#include <string>
 #include <boost/program_options.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
 
 #include "ProgramArguments.hpp"
@@ -7,6 +9,25 @@
 using namespace std;
 
 namespace po = boost::program_options;
+
+map<unsigned long, string>* parseAnnotationfile(const string &filename) {
+    auto *m = new map<unsigned long, string>();
+
+    ifstream ifs(filename);
+    // 88aabb88 symbol
+    string s;
+    while (ifs) {
+        getline(ifs, s);
+        char* rest;
+        unsigned long pc = strtol(s.c_str(), &rest, 16);
+        string symbol(rest);
+        boost::trim(symbol);
+        m->insert( pair<unsigned long, string>(pc, symbol) );
+    }
+
+    return m;
+}
+
 
 options_t processProgramOptions(int ac, char **av) {
     // TODO: Wouldn't options become out of scope when this function returns?
@@ -20,6 +41,7 @@ options_t processProgramOptions(int ac, char **av) {
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&outputFile)->default_value(""), "output file")
         ("config-file,c", po::value<string>(), "config-file")
+        ("annotation,a", po::value<string>(), "annotation-map")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
         ("bucket-size,B", po::value<unsigned long>(), "number of ticks in each bucket")
@@ -83,8 +105,13 @@ options_t processProgramOptions(int ac, char **av) {
         options.bucketSize = 0;
     }
 
+    if (vm.count("annotation")) {
+        options.annotations = parseAnnotationfile(vm["annotation"].as<string>());
+    } else {
+        options.annotations = NULL;
+    }
+
     if (vm.count("input-file")) {
-        // TODO: Add support for gzipped streams
         options.inputStream = new ifstream(vm["input-file"].as<string>());
         options.inputName = vm["input-file"].as<string>();
     } else {
