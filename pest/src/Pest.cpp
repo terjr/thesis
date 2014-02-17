@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include <boost/asio/io_service.hpp>
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
@@ -12,6 +14,8 @@ using namespace std;
 
 unsigned long numTicks(istream *is)
 {
+    if (!dynamic_cast<ifstream*>(is)) return 0; // check that stream is from file
+
     is->seekg(0, is->end);
     unsigned long length = is->tellg();
     length-=3;
@@ -49,7 +53,7 @@ Pest::Pest(options_t &options) :
       numThreads(options.numThreads),
       done(false),
       count(0),
-      lineQueue(1024),
+      lineQueue(8192),
       output(options.output),
       options(options)
 {
@@ -64,10 +68,15 @@ Pest::Pest(options_t &options) :
         return;
     }
     long long int nTicks = numTicks(options.inputStream);
-    if (options.numBuckets && !options.bucketSize)
-        options.bucketSize = nTicks/options.numBuckets;
-    else if (!options.numBuckets && !options.bucketSize)
-        options.bucketSize = nTicks/1000;
+    if (!options.bucketSize) {
+        if (!nTicks)
+            options.bucketSize = 100000;
+        else if (options.numBuckets)
+            options.bucketSize = nTicks/options.numBuckets;
+        else
+            options.bucketSize = nTicks/1000;
+    }
+
 
     //boost::thread(&readLines, options.inputStream, &lineQueue, &done);
     this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, &done) );
@@ -122,7 +131,7 @@ void Pest::processStreams() {
         else
         {
             std::cerr << "Unable to normalize results, " << std::endl;
-                normalize = 1;
+            normalize = 1;
         }
     }
     else

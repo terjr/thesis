@@ -18,9 +18,6 @@ int SimpleModel::calculate(const SimEvent *se) {
 
     while (output.size() <= (se->getTick() / bucket_size)) {
         output.push_back(0L);
-        if (!(output.size() % 10000)) {
-            printf("Output vector is %lu long.", output.size());
-        }
     }
 
     // TODO: Use dynamic_cast instead
