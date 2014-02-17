@@ -1,6 +1,6 @@
 #!/bin/sh
 BINARY=$1
-OBJDUMP=$(which arms-linux-gnueabi-objdump)
+OBJDUMP=$(which arm-linux-gnueabi-objdump)
 if [ -z "$OBJDUMP" ]
 then
     OBJDUMP=$(find / -name 'arm-*-objdump' -print -quit 2>/dev/null )
