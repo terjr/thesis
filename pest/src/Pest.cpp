@@ -26,7 +26,7 @@ unsigned long numTicks(istream *is)
     return strtoul(str.c_str(), NULL, 10);
 }
 
-int readLines(istream *s, boost::lockfree::queue<string*> *q, boost::atomic<bool> *done)
+int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<true>> *q, boost::atomic<bool> *done)
 {
     cout << "Reading lines" << endl;
     while (*s)
@@ -49,7 +49,7 @@ Pest::Pest(options_t &options) :
       numThreads(options.numThreads),
       done(false),
       count(0),
-      lineQueue(128),
+      lineQueue(1024),
       output(options.output),
       options(options)
 {

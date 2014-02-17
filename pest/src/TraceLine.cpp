@@ -37,7 +37,7 @@ TraceLine::TraceLine(const std::string &line) {
 }
 
 TraceLine::~TraceLine() {
-
+    delete simEvent;
 }
 
 SimEvent* TraceLine::getSimEvent() const {

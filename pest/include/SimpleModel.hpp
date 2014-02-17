@@ -10,7 +10,7 @@
 
 class SimpleModel : public PowerModel {
     public:
-        SimpleModel(boost::lockfree::queue<std::string*> *q, boost::atomic<bool> *done, unsigned long bucket_size = 10000000, unsigned long long numTicks = 0);
+        SimpleModel(boost::lockfree::queue<std::string*, boost::lockfree::fixed_sized<true>> *q, boost::atomic<bool> *done, unsigned long bucket_size = 10000000, unsigned long long numTicks = 0);
         virtual ~SimpleModel();
         virtual int calculate(const SimEvent *inst);
     private:

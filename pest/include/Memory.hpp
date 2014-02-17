@@ -14,6 +14,7 @@ class Memory : public SimEvent {
     public:
         Memory();
         Memory(const std::string &line);
+        virtual ~Memory() {};
         MemType getMemType() const;
         bool isHit() const;
     private:

@@ -4,8 +4,8 @@
 
 using namespace boost;
 
-#define DELETE_STACK_SIZE 128
-PowerModel::PowerModel(lockfree::queue<std::string*> *q, atomic<bool> *done, unsigned long bucket_size, unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks) { }
+#define DELETE_STACK_SIZE 1024
+PowerModel::PowerModel(lockfree::queue<std::string*, boost::lockfree::fixed_sized<true>> *q, atomic<bool> *done, unsigned long bucket_size, unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks) { }
 
 PowerModel::~PowerModel() { };
 
@@ -29,7 +29,7 @@ int PowerModel::run() {
             TraceLine tr = TraceLine(*s);
             
             calculate(tr.getSimEvent());
-            if (numTicks > 0 && cnt++ % 1024 == 0)
+            if (numTicks > 0 && cnt++ % 2048 == 0)
             {
                 printf("\rTicks prosessed: %ld/%llu (%f%%)", tr.getSimEvent()->getTick(), numTicks, (((double)tr.getSimEvent()->getTick())/numTicks)*100);
             }

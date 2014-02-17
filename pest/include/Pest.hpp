@@ -22,7 +22,7 @@ class Pest
         boost::atomic<unsigned long> count;
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
-        boost::lockfree::queue<std::string*> lineQueue;
+        boost::lockfree::queue<std::string*, boost::lockfree::fixed_sized<true> > lineQueue;
         std::string output;
         options_t &options;
 
