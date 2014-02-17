@@ -7,7 +7,7 @@
 
 using namespace boost;
 
-SimpleModel::SimpleModel(lockfree::queue<std::string*> *q, atomic<bool> *done, unsigned long bucket_size) : PowerModel(q, done, bucket_size), m(){ }
+SimpleModel::SimpleModel(lockfree::queue<std::string*> *q, atomic<bool> *done, unsigned long bucket_size, unsigned long long numTicks) : PowerModel(q, done, bucket_size, numTicks), m(){ }
 
 SimpleModel::~SimpleModel() {}
 
@@ -62,7 +62,7 @@ int SimpleModel::calculate(const SimEvent *se) {
                 }
             case Phys:
                 {
-                    output[mem->getTick()/bucket_size] += 300;
+                    output[mem->getTick()/bucket_size] += 30000;
                     break;
                 }
             default:

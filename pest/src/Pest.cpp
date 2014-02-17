@@ -56,16 +56,18 @@ Pest::Pest(options_t &options) :
 
     if (options.error) {
         cerr << "Error while parsing program arguments." << endl;
+        return;
     }
 
     if (options.numBuckets && options.bucketSize) {
         cerr << "Cannot have both bucket size and number of buckets defined at once!" << endl;
         return;
     }
-    else if (options.numBuckets && !options.bucketSize)
-        options.bucketSize = numTicks(options.inputStream)/options.numBuckets;
+    long long int nTicks = numTicks(options.inputStream);
+    if (options.numBuckets && !options.bucketSize)
+        options.bucketSize = nTicks/options.numBuckets;
     else if (!options.numBuckets && !options.bucketSize)
-        options.bucketSize = numTicks(options.inputStream)/1000;
+        options.bucketSize = nTicks/1000;
 
     //boost::thread(&readLines, options.inputStream, &lineQueue, &done);
     this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, &done) );
@@ -74,7 +76,8 @@ Pest::Pest(options_t &options) :
 
     // Assign tasks to the thread pool
     for (unsigned int i = 0; i < numThreads; ++i) { // one thread is reading the file
-        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.bucketSize);
+        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.bucketSize, nTicks);
+        nTicks = 0;
         this->ioService.post( boost::bind(run, sm) );
         pm.push_back(sm);
     }
