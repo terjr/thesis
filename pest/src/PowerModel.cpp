@@ -44,6 +44,6 @@ int PowerModel::run() {
         this_thread::yield();
     }
     ds = clean_stack(delete_stack, ds);
-    std::cout << "Thread " << this_thread::get_id() << std::endl;
+//    std::cout << "Thread " << this_thread::get_id() << std::endl;
     return 0;
 }

@@ -16,7 +16,7 @@ void OutputFormatter::saveBarchart(const string &filename, const string &title) 
 
 void OutputFormatter::showBarchart(const string &title) const {
     Gnuplot plot(this->dVector, title, "lines");
-    cout << "Press any char..." << endl;
+    cout << "Displaying graph. Press any char to continue..." << endl;
     cin.get();
 
 }

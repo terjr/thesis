@@ -35,7 +35,7 @@ int readLines(istream *s, boost::lockfree::queue<string*> *q, boost::atomic<bool
         std::getline(*s, *str);
         while(!q->push(str));
     }
-    cout << "Done reading input file" << endl;
+    cout << "\nDone reading input file" << endl;
     *done = true;
     return 0;
 }
@@ -96,6 +96,7 @@ void Pest::processStreams() {
 
     // Wait for threads to finish
     this->threadpool.join_all();
+    cout << "\nDone! Processing graphs..." << endl;
 
     unsigned long max_size = 0;
     for (unsigned long i = 0; i < this->pm.size(); ++i)
