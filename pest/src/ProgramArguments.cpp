@@ -10,7 +10,26 @@ using namespace std;
 
 namespace po = boost::program_options;
 
-map<unsigned long, string>* parseAnnotationfile(const string &filename) {
+map<string, unsigned long>* parseWeightFile(const string &filename) {
+    auto *m = new map<string, unsigned long>();
+
+    ifstream ifs(filename);
+    string s;
+    while (ifs) {
+        getline(ifs, s);
+        boost::trim(s);
+        auto idx = s.find(' ');
+        string symbol = s.substr(0, idx);
+        string weight_str = s.substr(idx);
+        unsigned long weight = strtol(weight_str.c_str(), NULL, 10);
+        m->insert( pair<string, unsigned long>(symbol, weight) );
+    }
+
+    return m;
+}
+
+
+map<unsigned long, string>* parseAnnotationFile(const string &filename) {
     auto *m = new map<unsigned long, string>();
 
     ifstream ifs(filename);
@@ -41,6 +60,7 @@ options_t processProgramOptions(int ac, char **av) {
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&outputFile)->default_value(""), "output file")
         ("config-file,c", po::value<string>(), "config-file")
+        ("weight-file,w", po::value<string>(), "weight-file")
         ("annotation,a", po::value<string>(), "annotation-map")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
@@ -106,10 +126,18 @@ options_t processProgramOptions(int ac, char **av) {
     }
 
     if (vm.count("annotation")) {
-        options.annotations = parseAnnotationfile(vm["annotation"].as<string>());
+        options.annotations = parseAnnotationFile(vm["annotation"].as<string>());
     } else {
         options.annotations = NULL;
     }
+
+    if (vm.count("annotation")) {
+        options.weights = parseWeightFile(vm["weight-file"].as<string>());
+    } else {
+        options.weights = NULL;
+    }
+
+
 
     if (vm.count("input-file")) {
         options.inputStream = new ifstream(vm["input-file"].as<string>());

@@ -84,7 +84,7 @@ Pest::Pest(options_t &options) :
 
     // Assign tasks to the thread pool
     for (unsigned int i = 0; i < numThreads; ++i) { // one thread is reading the file
-        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.annotations, options.bucketSize, nTicks);
+        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.annotations, options.weights, options.bucketSize, nTicks);
         nTicks = 0;
         this->ioService.post( boost::bind(run, sm) );
         pm.push_back(sm);

@@ -5,6 +5,7 @@ typedef struct {
     bool error;
     std::istream *inputStream;
     std::map<unsigned long, std::string> *annotations;
+    std::map<std::string, unsigned long> *weights;
     std::string inputName;
     unsigned int numThreads;
     unsigned int numBuckets;
