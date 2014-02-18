@@ -177,12 +177,13 @@ void Pest::processStreams() {
         else
             out = fopen(this->output.c_str(), "w");
 
-        fprintf(out, "__________________________\n");
+        fprintf(out, "/-------------------------\\\n");
         fprintf(out, "|   Bucket   |   Energy   |\n");
-        fprintf(out, "__________________________\n");
+        fprintf(out, "|-------------------------|\n");
 
         for (unsigned long i = 0; i < results.size(); ++i)
             fprintf(out, "|%11lu |%11lu |\n", i, results[i]);
+        fprintf(out, "\\-------------------------/\n");
 
         if (out != stdout) delete out;
     }
