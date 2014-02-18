@@ -26,6 +26,12 @@ map<string, unsigned long>* parseWeightFile(const string &filename) {
         cout << "Loading weights:" << endl;
 
     ifstream ifs(filename);
+    if (!ifs)
+    {
+        cout << "ERROR: No such weight file: " << filename << endl;
+        return NULL;
+    }
+
     string s;
     while (ifs) {
         getline(ifs, s);
@@ -47,6 +53,12 @@ map<unsigned long, string>* parseAnnotationFile(const string &filename) {
     auto *m = new map<unsigned long, string>();
 
     ifstream ifs(filename);
+    if (!ifs)
+    {
+        cout << "ERROR: No such annotation file: " << filename << endl;
+        return NULL;
+    }
+
     // 88aabb88 symbol
 
     vPrint("Loading annotation map\n");
@@ -79,8 +91,8 @@ options_t processProgramOptions(int ac, char **av) {
         ("output-file,o", po::value<string>(&outputFile)->default_value(""), "output file")
         ("output-format,f", po::value<string>(&outputFile)->default_value("graph"), "output format, \"graph\", \"plain\" or \"table\"")
         ("config-file,c", po::value<string>(), "config-file")
-        ("weights,w", po::value<string>(), "weight-file")
-        ("annotation,a", po::value<string>(), "annotation-map")
+        ("weights,w", po::value<string>(&outputFile)->default_value("weights.conf"), "weight-file")
+        ("annotations,a", po::value<string>(), "annotation-map")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
         ("bucket-size,B", po::value<unsigned long>(), "number of ticks in each bucket")
@@ -148,7 +160,7 @@ options_t processProgramOptions(int ac, char **av) {
         else
         {
             cout << "Unknown output format " << format << "\n" << " Use 'graph', 'plain' or 'table'" << endl;
-            options.error = false;
+            options.error = true;
             return options;
         }
         vPrint("Output format set to " + format + "\n");
@@ -168,14 +180,25 @@ options_t processProgramOptions(int ac, char **av) {
         options.bucketSize = 0;
     }
 
-    if (vm.count("annotation")) {
-        options.annotations = parseAnnotationFile(vm["annotation"].as<string>());
+    if (vm.count("annotations")) {
+        options.annotations = parseAnnotationFile(vm["annotations"].as<string>());
+        if (options.annotations == NULL)
+        {
+            options.error = true;
+            return options;
+        }
     } else {
         options.annotations = NULL;
     }
 
     if (vm.count("weights")) {
         options.weights = parseWeightFile(vm["weights"].as<string>());
+        if (options.weights == NULL)
+        {
+            options.error = true;
+            return options;
+        }
+
     } else {
         options.weights = NULL;
     }

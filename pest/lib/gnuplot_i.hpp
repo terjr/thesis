@@ -152,7 +152,7 @@ public:
         static unsigned long i = 1;
 
         std::ostringstream cmdstr;
-        cmdstr << "set label " << std::to_string(i++) <<  "\"" << label << "\" at " << std::to_string(x) << ", " << std::to_string(y) << " rotate by 90";
+        cmdstr << "set label " << std::to_string(i++) <<  "\"" << label << "\" at " << std::to_string(x) << ", " << std::to_string(y) << " rotate by 60";
         cmd(cmdstr.str() );
         return *this;
     }
