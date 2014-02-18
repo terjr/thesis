@@ -23,4 +23,5 @@ class Memory : public SimEvent {
         bool read;
 };
 
-MemType getTypeFromString(const std::string &str);
+MemType memTypeFromString(const std::string &str);
+std::string memTypeToString(MemType type);

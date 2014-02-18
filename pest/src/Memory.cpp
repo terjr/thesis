@@ -10,7 +10,7 @@
 
 using namespace boost;
 
-MemType getTypeFromString(const std::string &str) {
+MemType memTypeFromString(const std::string &str) {
     if (str == "system.cpu.icache")
         return L1I;
     else if (str == "system.cpu.dcache")
@@ -21,6 +21,22 @@ MemType getTypeFromString(const std::string &str) {
         return Phys;
     else
         return Null;
+}
+
+std::string memTypeToString(MemType type) {
+    switch (type) {
+        case L1I:
+            return "L1I";
+        case L1D:
+            return "L1D";
+        case L2:
+            return "L2";
+        case Phys:
+            return "Phys";
+        case Null:
+        default:
+            return "Null";
+    }
 }
 
 Memory::Memory() : SimEvent(MemEvent) {}
@@ -47,7 +63,7 @@ Memory::Memory(const std::string &line) : Memory() {
                     } else {
                         std::string s(*it);
                         trim(s);
-                        type = getTypeFromString(s);
+                        type = memTypeFromString(s);
                     }
                     break;
                 }
@@ -75,6 +91,11 @@ Memory::Memory(const std::string &line) : Memory() {
                             {
                                 read = starts_with(s, "ReadReq");
                                 bool write = ends_with(s, "updated in Cache");
+                                if (!read && !write)
+                                {
+                                    type = Null;
+                                    break;
+                                }
                                 hit = s.find("miss") == std::string::npos;
                                 break;
                             }

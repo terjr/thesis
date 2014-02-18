@@ -134,6 +134,8 @@ void Pest::processStreams() {
     for (unsigned long i = 0; i < results.size(); ++i)
         results[i] /= normalize;
 
+    if (options.outputFormat == Graph)
+    {
     OutputFormatter gnuplotter(results);
 
     string prev;
@@ -152,6 +154,38 @@ void Pest::processStreams() {
         gnuplotter.showBarchart();
     else
         gnuplotter.saveBarchart(this->output);
+
+    }
+    else if (options.outputFormat == Plain)
+    {
+        ostream *out;
+        if (this->output.empty())
+            out = &cout;
+        else
+            out = new ofstream(this->output);
+
+        for (unsigned long i = 0; i < results.size(); ++i)
+            *out << i << "\t" << results[i] << '\n';
+
+        if (out != &cout) delete out;
+    }
+    else if (options.outputFormat == Table)
+    {
+        FILE *out;
+        if (this->output.empty())
+            out = stdout;
+        else
+            out = fopen(this->output.c_str(), "w");
+
+        fprintf(out, "__________________________\n");
+        fprintf(out, "|   Bucket   |   Energy   |\n");
+        fprintf(out, "__________________________\n");
+
+        for (unsigned long i = 0; i < results.size(); ++i)
+            fprintf(out, "|%11lu |%11lu |\n", i, results[i]);
+
+        if (out != stdout) delete out;
+    }
 }
 
 

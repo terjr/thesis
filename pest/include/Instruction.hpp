@@ -31,11 +31,6 @@ class Instruction : public SimEvent {
         const std::string getOp(unsigned int index) const;
         unsigned int getNumOp() const;
         std::string toString() const;
-
-        static InstrType instrTypeFromString(const std::string &instrType);
-        static std::string instrTypeToString(InstrType type);
-
-
     private:
         unsigned int cpu;
         unsigned long pc;
@@ -44,6 +39,11 @@ class Instruction : public SimEvent {
         std::string mnemonic;
 
 };
+
+InstrType instrTypeFromString(const std::string &instrType);
+std::string instrTypeToString(InstrType type);
+
+
 
 bool operator==(const Instruction& first, const Instruction& other);
 bool operator!=(const Instruction& first, const Instruction& other);

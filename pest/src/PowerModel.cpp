@@ -12,7 +12,7 @@ PowerModel::PowerModel(lockfree::queue<std::string*,
         std::map<unsigned long, std::string> *annotations,
         std::map<std::string, unsigned long> *weights,
         unsigned long bucket_size,
-        unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks), annotations(annotations), annotation_map() { }
+        unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks), annotations(annotations), weights(weights), annotation_map() { }
 
 PowerModel::~PowerModel() { };
 
@@ -31,10 +31,10 @@ int inline clean_stack(std::string *delete_stack[DELETE_STACK_SIZE], int ds) {
 }
 
 unsigned long PowerModel::getWeight(MemType type) const {
-    return 0;
+    return getWeight(memTypeToString(type));
 }
 unsigned long PowerModel::getWeight(InstrType type) const {
-    return 0;
+    return getWeight(instrTypeToString(type));
 }
 unsigned long PowerModel::getWeight(const std::string &name) const {
     if (weights == 0) return 0;

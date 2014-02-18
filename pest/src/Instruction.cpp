@@ -70,7 +70,7 @@ void Instruction::setPC(unsigned long pc) {
 
 void Instruction::setInstrType(std::string instrType) {
     trim(instrType);
-    this->instrType = Instruction::instrTypeFromString(instrType);
+    this->instrType = instrTypeFromString(instrType);
 }
 
 InstrType Instruction::getInstrType() const {
@@ -112,7 +112,7 @@ Instruction::~Instruction() {
 
 }
 
-InstrType Instruction::instrTypeFromString(const std::string &instr) {
+InstrType instrTypeFromString(const std::string &instr) {
     if (instr == "IntAlu") return IntAlu;
     else if (instr == "IntMult") return IntMult;
     else if (instr == "MemRead") return MemRead;
@@ -124,7 +124,7 @@ InstrType Instruction::instrTypeFromString(const std::string &instr) {
     }
 }
 
-std::string Instruction::instrTypeToString(InstrType type) {
+std::string instrTypeToString(InstrType type) {
     switch (type)
     {
     case IntAlu:

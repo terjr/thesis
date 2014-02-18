@@ -9,19 +9,33 @@
 using namespace std;
 
 namespace po = boost::program_options;
+bool verbose = false;
+
+bool isVerbose() {
+    return verbose;
+}
+
+inline void vPrint(const string str) {
+    if (verbose) cout << str;
+}
 
 map<string, unsigned long>* parseWeightFile(const string &filename) {
     auto *m = new map<string, unsigned long>();
+
+    if (verbose)
+        cout << "Loading weights:" << endl;
 
     ifstream ifs(filename);
     string s;
     while (ifs) {
         getline(ifs, s);
         boost::trim(s);
+        if (s.empty() || s[0] == '#') continue;
         auto idx = s.find(' ');
         string symbol = s.substr(0, idx);
         string weight_str = s.substr(idx);
         unsigned long weight = strtol(weight_str.c_str(), NULL, 10);
+        vPrint(weight_str + " " + symbol + "\n");
         m->insert( pair<string, unsigned long>(symbol, weight) );
     }
 
@@ -34,6 +48,9 @@ map<unsigned long, string>* parseAnnotationFile(const string &filename) {
 
     ifstream ifs(filename);
     // 88aabb88 symbol
+
+    vPrint("Loading annotation map\n");
+
     string s;
     while (ifs) {
         getline(ifs, s);
@@ -56,11 +73,13 @@ options_t processProgramOptions(int ac, char **av) {
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help,h", "show help message")
+        ("verbose,V", po::value<bool>()->default_value(false), "be verbose")
         ("input-file,i", po::value<string>(), "input file")
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&outputFile)->default_value(""), "output file")
+        ("output-format,f", po::value<string>(&outputFile)->default_value("graph"), "output format, \"graph\", \"plain\" or \"table\"")
         ("config-file,c", po::value<string>(), "config-file")
-        ("weight-file,w", po::value<string>(), "weight-file")
+        ("weights,w", po::value<string>(), "weight-file")
         ("annotation,a", po::value<string>(), "annotation-map")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
@@ -103,24 +122,48 @@ options_t processProgramOptions(int ac, char **av) {
         store(po::command_line_parser(args).options(desc).run(), vm);
     }
 
+    if (vm.count("verbose")) {
+        verbose = true;
+    }
+
     if (vm.count("max-threads")) {
         options.numThreads = vm["max-threads"].as<unsigned int>();
+        vPrint("Max threads set to " + to_string(options.numThreads) + "\n");
     } else {
         options.numThreads = 0;
     }
 
     if (vm.count("output-file")) {
         options.output = vm["output-file"].as<string>();
+        vPrint("Output file set to " + options.output + "\n");
+    }
+    if (vm.count("output-format")) {
+        string format = vm["output-format"].as<string>();
+        if (format == "graph")
+            options.outputFormat = Graph;
+        else if (format == "plain")
+            options.outputFormat = Plain;
+        else if (format == "table")
+            options.outputFormat = Table;
+        else
+        {
+            cout << "Unknown output format " << format << "\n" << " Use 'graph', 'plain' or 'table'" << endl;
+            options.error = false;
+            return options;
+        }
+        vPrint("Output format set to " + format + "\n");
     }
 
     if (vm.count("num-buckets")) {
         options.numBuckets = vm["num-buckets"].as<unsigned long>();
+        vPrint("Number of buckets set to " + to_string(options.numBuckets) + "\n");
     } else {
         options.numBuckets = 0;
     }
 
     if (vm.count("bucket-size")) {
         options.bucketSize = vm["bucket-size"].as<unsigned long>();
+        vPrint("Number of buckets set to " + to_string(options.numBuckets) + "\n");
     } else {
         options.bucketSize = 0;
     }
@@ -131,8 +174,8 @@ options_t processProgramOptions(int ac, char **av) {
         options.annotations = NULL;
     }
 
-    if (vm.count("annotation")) {
-        options.weights = parseWeightFile(vm["weight-file"].as<string>());
+    if (vm.count("weights")) {
+        options.weights = parseWeightFile(vm["weights"].as<string>());
     } else {
         options.weights = NULL;
     }
