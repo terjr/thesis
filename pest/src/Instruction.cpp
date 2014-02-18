@@ -124,6 +124,25 @@ InstrType Instruction::instrTypeFromString(const std::string &instr) {
     }
 }
 
+std::string Instruction::instrTypeToString(InstrType type) {
+    switch (type)
+    {
+    case IntAlu:
+        return "IntAlu";
+    case IntMult:
+        return "IntMult";
+    case MemRead:
+        return "MemRead";
+    case MemWrite:
+        return "MemWrite";
+    case SimdFloatMisc:
+        return "SimdFloatMisc";
+    case ErrorType:
+    default:
+        return "ErrorType";
+    }
+}
+
 unsigned int Instruction::getNumOp() const {
     return op.size();
 }

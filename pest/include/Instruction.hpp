@@ -33,6 +33,7 @@ class Instruction : public SimEvent {
         std::string toString() const;
 
         static InstrType instrTypeFromString(const std::string &instrType);
+        static std::string instrTypeToString(InstrType type);
 
 
     private:
