@@ -3,7 +3,6 @@
 import sys
 
 def distance(graph1, graph2):
-    print(min(len(graph1), len(graph2) ))
     diff = 0
     for i in range( min(len(graph1), len(graph2))):
         diff += abs(graph1[i] - graph2[i])
@@ -26,7 +25,7 @@ def align(graph1, graph2):
         if dist < least_diff:
             least_diff = dist
             best = i
-    print("Best alignment at idx "+str(i))
+    print("Best alignment at idx "+str(best)+" with diff of "+str(least_diff))
     return best
 
 
@@ -43,10 +42,7 @@ def read_graph(filename):
 
 
 
-
 #
 
-idx = align(read_graph("file1"), read_graph("file2"))
-print(idx)
-
+idx = align(read_graph(sys.argv[1]), read_graph(sys.argv[2]))
 

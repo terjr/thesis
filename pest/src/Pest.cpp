@@ -165,7 +165,7 @@ void Pest::processStreams() {
             out = new ofstream(this->output);
 
         for (unsigned long i = 0; i < results.size(); ++i)
-            *out << i << "\t" << results[i] << '\n';
+            *out << i << " " << results[i] << '\n';
 
         if (out != &cout) delete out;
     }
