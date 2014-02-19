@@ -1,5 +1,6 @@
+#!/usr/bin/python
 import array, random
-#from fitness import eval_individual
+from fitness import eval_individual
 from deap import creator, base, tools, algorithms
 
 NUM_WEIGHTS = 9
@@ -13,12 +14,12 @@ def create_population():
     toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_int, NUM_WEIGHTS)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
-    #toolbox.register("evaluate", eval_individual)
+    toolbox.register("evaluate", eval_individual)
     toolbox.register("mate", tools.cxTwoPoints)
     toolbox.register("mutate", tools.mutUniformInt, low=0, up=150, indpb=0.05)
     toolbox.register("select", tools.selTournament, tournsize=5)
 
-    population = toolbox.population(n=300)
+    population = toolbox.population(n=3)
     return population
 
 def run_evolution(population, NGEN):
@@ -28,12 +29,15 @@ def run_evolution(population, NGEN):
         for fit, ind in zip(fits, offspring):
             ind.fitness.values = fit
         population = offspring
+        sorted_pop = sorted(population, key=lambda ind: ind.fitness, reverse=False)
+        print(sorted_pop)
+    return population
 
 def main():
     population = create_population()
     #ind1 = toolbox.individual()
     #print ind1
     #print toolbox.mutate(ind1)[0]
-    run_evolution(population, 400)
+    print(run_evolution(population, 3))
 
 main()

@@ -56,7 +56,10 @@ def write_weights_file(weights, filename):
 def eval_individual(weights):
     name = ''.join(map(str, weights))
     write_weights_file(weights, "/tmp/"+name+"_weights.conf")
-    return run_tests("/tmp/"+name+".output", "/tmp/"+name+"_weights.conf")
+    fitness = run_tests("/tmp/"+name+".output", "/tmp/"+name+"_weights.conf")
+    print("Fitness = "+str(fitness))
+    return (fitness,)
+
 
 
 def run_tests(output, weightfile):
@@ -68,7 +71,7 @@ def run_tests(output, weightfile):
 #    print(process.returncode)
     return align(read_graph(output), read_graph("/tmp/pi-power"))
 
-print(eval_individual([1,2,3,4,5,6,7,8,9]))
-print(eval_individual([22,30,15,40,30,3,3,30,90]))
+#print(eval_individual([1,2,3,4,5,6,7,8,9]))
+#print(eval_individual([22,30,15,40,30,3,3,30,90]))
 #idx = align(read_graph(sys.argv[1]), read_graph(sys.argv[2]))
 
