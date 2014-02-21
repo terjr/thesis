@@ -12,8 +12,7 @@
 
 using namespace std;
 
-unsigned long numTicks(istream *is)
-{
+unsigned long numTicks(istream *is) {
     if (!dynamic_cast<ifstream*>(is)) return 0; // check that stream is from file
 
     is->seekg(0, is->end);
@@ -30,8 +29,7 @@ unsigned long numTicks(istream *is)
     return strtoul(str.c_str(), NULL, 10);
 }
 
-int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<true>> *q, boost::atomic<bool> *done)
-{
+int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<true>> *q, boost::atomic<bool> *done) {
     cout << "Reading lines" << endl;
     while (*s)
     {
@@ -44,8 +42,7 @@ int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed
     return 0;
 }
 
-int run(PowerModel *pm)
-{
+int run(PowerModel *pm) {
     return pm->run();
 }
 
@@ -55,8 +52,7 @@ Pest::Pest(options_t &options) :
       count(0),
       lineQueue(8192),
       output(options.output),
-      options(options)
-{
+      options(options) {
 
     if (options.error) {
         cerr << "Error while parsing program arguments." << endl;
@@ -97,6 +93,7 @@ Pest::~Pest() {
     delete options.annotations;
 }
 
+
 void Pest::processStreams() {
     // Create worker threads
     for (unsigned int i = 0; i < this->numThreads; i++) {
@@ -107,57 +104,33 @@ void Pest::processStreams() {
     this->threadpool.join_all();
     cout << "\nDone! Processing graphs..." << endl;
 
-    unsigned long max_size = 0;
-    for (unsigned long i = 0; i < this->pm.size(); ++i)
-        if (this->pm[i]->getOutput().size() > max_size)
-            max_size = this->pm[i]->getOutput().size();
+    // Collect and massage data
+    unsigned long maxSize = findWorkerMaxSize(this->pm);
+    vector<unsigned long> results(maxSize);
+    sumBuckets(this->pm, results);
+    normalize(options.bucketSize, results);
 
-    vector<unsigned long> results(max_size);
-    for (unsigned long i = 0; i < this->pm.size(); ++i)
-        for (unsigned long j = 0; j < this->pm[i]->getOutput().size(); ++j)
-            results[j] += this->pm[i]->getOutput()[j];
+    // TODO: Move this stuff out to the OutputFormatter
+    if (options.outputFormat == Graph) {
+        OutputFormatter gnuplotter(results, options.outputFormat);
 
-    unsigned long normalize;
-    if (options.bucketSize < 500000) {
-        if (options.bucketSize >= 500) {
-            normalize = options.bucketSize/500;
-        } else if (options.bucketSize >= 5) {
-            normalize = options.bucketSize/5;
-        } else {
-            std::cerr << "Unable to normalize results, " << std::endl;
-            normalize = 1;
-        }
-    } else {
-        normalize = options.bucketSize/500000;
-    }
-
-    for (unsigned long i = 0; i < results.size(); ++i)
-        results[i] /= normalize;
-
-    if (options.outputFormat == Graph)
-    {
-    OutputFormatter gnuplotter(results);
-
-    string prev;
-    for (unsigned long i = 0; i < this->pm.size(); ++i)
-    {
-        auto annot = this->pm[i]->getAnnotations();
-        for (auto it=annot.begin(); it!=annot.end(); ++it) {
-            if (prev != it->second) {
-                prev = it->second;
-                gnuplotter.addLabel(it->first, results[it->first]+10, it->second);
+        string prev;
+        for (unsigned long i = 0; i < this->pm.size(); ++i) {
+            auto annot = this->pm[i]->getAnnotations();
+            for (auto it=annot.begin(); it!=annot.end(); ++it) {
+                if (prev != it->second) {
+                    prev = it->second;
+                    gnuplotter.addLabel(it->first, results[it->first]+10, it->second);
+                }
             }
         }
-    }
 
-    if (this->output.empty())
-        gnuplotter.showBarchart();
-    else
-        gnuplotter.saveBarchart(this->output);
+        if (this->output.empty())
+            gnuplotter.showBarchart();
+        else
+            gnuplotter.saveBarchart(this->output);
 
-    }
-    else if (options.outputFormat == Plain)
-    {
+    } else if (options.outputFormat == Plain) {
         ostream *out;
         if (this->output.empty())
             out = &cout;
@@ -168,9 +141,7 @@ void Pest::processStreams() {
             *out << i << " " << results[i] << '\n';
 
         if (out != &cout) delete out;
-    }
-    else if (options.outputFormat == Table)
-    {
+    } else if (options.outputFormat == Table) {
         FILE *out;
         if (this->output.empty())
             out = stdout;
@@ -210,4 +181,39 @@ int Pest::main(int ac, char **av)
         delete progOptParsed.inputStream;
 
     return 0;
+}
+
+unsigned long findWorkerMaxSize(vector<PowerModel*> &modelworkers) {
+    // Find max size among all PowerModel workers
+    unsigned long maxSize = 0;
+    for (unsigned long i = 0; i < modelworkers.size(); ++i) {
+        if (modelworkers[i]->getOutput().size() > maxSize)
+            maxSize = modelworkers[i]->getOutput().size();
+    }
+    return maxSize;
+}
+
+void sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) {
+    for (unsigned long i = 0; i < in.size(); ++i)
+        for (unsigned long j = 0; j < in[i]->getOutput().size(); ++j)
+            out[j] += in[i]->getOutput()[j];
+}
+
+void normalize(const unsigned long bucketSize, vector<unsigned long> &results) {
+    unsigned long normalize;
+    if (bucketSize < 500000) {
+        if (bucketSize >= 500) {
+            normalize = bucketSize/500;
+        } else if (bucketSize >= 5) {
+            normalize = bucketSize/5;
+        } else {
+            cerr << "Unable to normalize results, " << std::endl;
+            normalize = 1;
+        }
+    } else {
+        normalize = bucketSize/500000;
+    }
+
+    for (unsigned long i = 0; i < results.size(); ++i)
+        results[i] /= normalize;
 }

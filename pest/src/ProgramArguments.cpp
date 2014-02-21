@@ -26,8 +26,7 @@ map<string, unsigned long>* parseWeightFile(const string &filename) {
         cout << "Loading weights:" << endl;
 
     ifstream ifs(filename);
-    if (!ifs)
-    {
+    if (!ifs) {
         cout << "ERROR: No such weight file: " << filename << endl;
         return NULL;
     }
@@ -40,6 +39,7 @@ map<string, unsigned long>* parseWeightFile(const string &filename) {
         auto idx = s.find(' ');
         string symbol = s.substr(0, idx);
         string weight_str = s.substr(idx);
+        boost::trim(weight_str);
         unsigned long weight = strtol(weight_str.c_str(), NULL, 10);
         vPrint(weight_str + " " + symbol + "\n");
         m->insert( pair<string, unsigned long>(symbol, weight) );
@@ -59,8 +59,6 @@ map<unsigned long, string>* parseAnnotationFile(const string &filename) {
         return NULL;
     }
 
-    // 88aabb88 symbol
-
     vPrint("Loading annotation map\n");
 
     string s;
@@ -78,20 +76,18 @@ map<unsigned long, string>* parseAnnotationFile(const string &filename) {
 
 
 options_t processProgramOptions(int ac, char **av) {
-    // TODO: Wouldn't options become out of scope when this function returns?
     options_t options;
-    string outputFile;
 
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help,h", "show help message")
-        ("verbose,V", po::value<bool>()->default_value(false), "be verbose")
+        ("verbose,v", "be verbose")
         ("input-file,i", po::value<string>(), "input file")
         ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
-        ("output-file,o", po::value<string>(&outputFile)->default_value(""), "output file")
-        ("output-format,f", po::value<string>(&outputFile)->default_value("graph"), "output format, \"graph\", \"plain\" or \"table\"")
+        ("output-file,o", po::value<string>(&options.output)->default_value(""), "output file")
+        ("output-format,f", po::value<string>()->default_value("graph"), "output format, \"graph\", \"plain\" or \"table\"")
         ("config-file,c", po::value<string>(), "config-file")
-        ("weights,w", po::value<string>(&outputFile)->default_value("weights.conf"), "weight-file")
+        ("weights,w", po::value<string>()->default_value("weights.conf"), "weight-file")
         ("annotations,a", po::value<string>(), "annotation-map")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
@@ -146,7 +142,7 @@ options_t processProgramOptions(int ac, char **av) {
     }
 
     if (vm.count("output-file")) {
-        options.output = vm["output-file"].as<string>();
+        //options.output = vm["output-file"].as<string>();
         vPrint("Output file set to " + options.output + "\n");
     }
     if (vm.count("output-format")) {
@@ -157,8 +153,7 @@ options_t processProgramOptions(int ac, char **av) {
             options.outputFormat = Plain;
         else if (format == "table")
             options.outputFormat = Table;
-        else
-        {
+        else {
             cout << "Unknown output format " << format << "\n" << " Use 'graph', 'plain' or 'table'" << endl;
             options.error = true;
             return options;
@@ -193,8 +188,7 @@ options_t processProgramOptions(int ac, char **av) {
 
     if (vm.count("weights")) {
         options.weights = parseWeightFile(vm["weights"].as<string>());
-        if (options.weights == NULL)
-        {
+        if (options.weights == NULL) {
             options.error = true;
             return options;
         }

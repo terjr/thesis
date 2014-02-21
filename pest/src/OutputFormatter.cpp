@@ -1,14 +1,17 @@
 #include "OutputFormatter.hpp"
 
 #include <boost/numeric/conversion/cast.hpp>
+#include "ProgramArguments.hpp"
 #include "gnuplot_i.hpp"
 
 using namespace std;
 
 
-OutputFormatter::OutputFormatter(const OutputVector &statistics) {
-    plot = new Gnuplot("lines");
+OutputFormatter::OutputFormatter(const OutputVector &statistics, const OutputFormat &format) {
     importAsDouble(statistics);
+    if (Graph == format) {
+        plot = new Gnuplot("lines");
+    }
 }
 
 OutputFormatter::~OutputFormatter() {
@@ -16,7 +19,10 @@ OutputFormatter::~OutputFormatter() {
 }
 
 void OutputFormatter::saveBarchart(const string &filename, const string &title) {
-    plot->savetofigure(filename).plot_x(this->dVector, title);
+    if (plot)
+        plot->savetofigure(filename).plot_x(this->dVector, title);
+    else
+        cerr << "Cannot save barchart without Gnuplot instance." << endl;
 }
 
 void OutputFormatter::showBarchart(const string &title) {

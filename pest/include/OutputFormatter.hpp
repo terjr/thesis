@@ -2,12 +2,13 @@
 #include <boost/thread.hpp>
 
 #include "PowerModel.hpp"
+#include "ProgramArguments.hpp"
 
 class Gnuplot;
 
 class OutputFormatter {
     public:
-        OutputFormatter(const OutputVector &statistics);
+        OutputFormatter(const OutputVector &statistics, const OutputFormat &format);
         ~OutputFormatter();
         void saveBarchart(const std::string &filename, const std::string &title = "<title>");
         void showBarchart(const std::string &title = "<title>");
