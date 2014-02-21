@@ -73,7 +73,6 @@ Pest::Pest(options_t &options) :
             options.bucketSize = nTicks/1000;
     }
 
-    //boost::thread(&readLines, options.inputStream, &lineQueue, &done);
     this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, &done) );
 
     this->pm = vector<PowerModel*>();
@@ -110,10 +109,11 @@ void Pest::processStreams() {
     sumBuckets(this->pm, results);
     normalize(options.bucketSize, results);
 
-    // TODO: Move this stuff out to the OutputFormatter
+    OutputFormatter gnuplotter(results, &options);
     if (options.outputFormat == Graph) {
-        OutputFormatter gnuplotter(results, options.outputFormat);
 
+        // Add annotations
+        // TODO: Do this elsewhere
         string prev;
         for (unsigned long i = 0; i < this->pm.size(); ++i) {
             auto annot = this->pm[i]->getAnnotations();
@@ -124,40 +124,9 @@ void Pest::processStreams() {
                 }
             }
         }
-
-        if (this->output.empty())
-            gnuplotter.showBarchart();
-        else
-            gnuplotter.saveBarchart(this->output);
-
-    } else if (options.outputFormat == Plain) {
-        ostream *out;
-        if (this->output.empty())
-            out = &cout;
-        else
-            out = new ofstream(this->output);
-
-        for (unsigned long i = 0; i < results.size(); ++i)
-            *out << i << " " << results[i] << '\n';
-
-        if (out != &cout) delete out;
-    } else if (options.outputFormat == Table) {
-        FILE *out;
-        if (this->output.empty())
-            out = stdout;
-        else
-            out = fopen(this->output.c_str(), "w");
-
-        fprintf(out, "/-------------------------\\\n");
-        fprintf(out, "|   Bucket   |   Energy   |\n");
-        fprintf(out, "|-------------------------|\n");
-
-        for (unsigned long i = 0; i < results.size(); ++i)
-            fprintf(out, "|%11lu |%11lu |\n", i, results[i]);
-        fprintf(out, "\\-------------------------/\n");
-
-        if (out != stdout) delete out;
     }
+    gnuplotter.produceOutput();
+
 }
 
 

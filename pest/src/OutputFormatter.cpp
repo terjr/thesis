@@ -7,9 +7,9 @@
 using namespace std;
 
 
-OutputFormatter::OutputFormatter(const OutputVector &statistics, const OutputFormat &format) {
+OutputFormatter::OutputFormatter(const OutputVector &statistics, const options_t *options) : options(options) {
     importAsDouble(statistics);
-    if (Graph == format) {
+    if (Graph == options->outputFormat) {
         plot = new Gnuplot("lines");
     }
 }
@@ -43,4 +43,35 @@ void OutputFormatter::importAsDouble(const OutputVector &statistics) {
             [](unsigned long l) -> double {
             return l;
             });
+}
+
+void OutputFormatter::produceOutput() {
+    switch (options->outputFormat) {
+        case Graph:
+            showBarchart();
+            break;
+        case Plain:
+            {
+                // TODO: Output to file if specified
+                ostream *out = &cout;
+                for (unsigned long i = 0; i < dVector.size(); ++i)
+                    *out << i << " " << dVector[i] << '\n';
+                break;
+            }
+        case Table:
+            {
+                FILE *out = stdout;
+
+                fprintf(out, "/-------------------------\\\n");
+                fprintf(out, "|   Bucket   |   Energy   |\n");
+                fprintf(out, "|-------------------------|\n");
+
+                for (unsigned long i = 0; i < dVector.size(); ++i)
+                    fprintf(out, "|%11lu |%11f |\n", i, dVector[i]);
+                fprintf(out, "\\-------------------------/\n");
+                break;
+            }
+        default:
+            cerr << "Could not show output." << endl;
+    }
 }
