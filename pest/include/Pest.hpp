@@ -23,7 +23,6 @@ class Pest
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
         boost::lockfree::queue<std::string*, boost::lockfree::fixed_sized<true> > lineQueue;
-        std::string output;
         options_t &options;
 
         std::vector<PowerModel*> pm;

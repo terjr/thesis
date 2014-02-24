@@ -51,7 +51,6 @@ Pest::Pest(options_t &options) :
       done(false),
       count(0),
       lineQueue(8192),
-      output(options.output),
       options(options) {
 
     if (options.error) {
