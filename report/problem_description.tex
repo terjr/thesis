@@ -9,14 +9,47 @@
 \vspace{4ex}
 \noindent\textbf{Problem description:}
 \vspace{2ex}
+The SHMAC prototype is an ongoing research project within the Energy
+ Efficient Computing Systems (EECS) strategic research area. SHMAC is planned
+ to run in an FPGA and be an evaluation platform for research on
+ heterogeneous multi-core systems. Due to the Dark silicon effect, future
+ computing systems are expected to be power limited. The goal of the SHMAC
+ project is to propose software and hardware solutions for future
+ power-limited heterogeneous systems.
 
-\noindent \Blindtext[2][1]
+The micro architecture level is an implementation of the Instruction Set
+ Architecture (ISA). Energy efficiency of an ISA is as such given by the
+ chosen micro architecture. To be able to take the "right" design choice to
+ optimize for energy efficiency, knowledge of energy and power for
+ instruction types, e.g. instructions of type float, nop, copy, are needed.
+
+The goal of this sub-project within the SHMAC platform is to gain knowledge
+ of energy/power consumption of different instruction types to be able to
+ extract information that can be used to improve the micro architecture
+ design of SHMAC-cores. This project will take a twofold approach; 1)
+ Investigate the power/energy consumption of simple benchmark programs on
+ real hardware, i.e. create benchmark programs and evaluate performance by
+ measurements. 2) Investigate the same benchmark programs in simulations as
+ to ensure a good understanding of the relation between measurements and
+ simulated results.
+
+\noindent The project will include:
+\setitemize[0]{topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0pt}
+\begin{itemize}
+    \item Devising small benchmark programs, e.g. c or assembly, that isolate specific functions at the micro architecture level.
+    \item Run test on real hardware to collect data.
+    \item Run tests in simulation to relate measurements to simulation results.
+\end{itemize}
+
+An ARM processor is going to be the target ISA for measurements and
+simulations.
 \vspace{6ex}
 
 \noindent
 \begin{tabular}{@{}p{4cm}l}
-\textbf{Responsible professor:} 	& \theprofessor \\
-\textbf{Supervisor:}			& \thesupervisor \\
+    \textbf{Responsible professor:} 	& \theprofessor \\
+    \textbf{Supervisor:}			& \thesupervisor \\
+    \textbf{Cosupervisor:}			& \thecosupervisor \\
 \end{tabular}
 
 \end{titlingpage}
