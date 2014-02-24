@@ -36,3 +36,8 @@ class Pest
 
         static int main(int argc, char** argv);
 };
+
+// Utility functions used to collect and prepare data for presentation.
+unsigned long findWorkerMaxSize(vector<PowerModel*> &modelworkers);
+void sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out);
+void normalize(const unsigned long bucketSize, vector<unsigned long> &results);
