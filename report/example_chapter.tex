@@ -1,0 +1,75 @@
+\chapter{Example}
+\label{chp:example} 
+
+Here is an example of how to use acronyms such as \gls{ntnu}. The second time only \gls{ntnu} is shown and if there were several you would write \glspl{ntnu}. And here is an example\footnote{A footnote} of citation~\cite{Author:year:XYZ}. 
+
+\Blindtext[3][1]
+
+\begin{figure}
+\centering
+% dummy figure replacement 
+\begin{tabular}{@{}c@{}}
+\rule{.5\textwidth}{.5\textwidth} \\
+\end{tabular}
+\caption{\label{fig:example}A figure}
+\end{figure}
+
+\section{First section}\label{sec:first_section}
+
+\subsection{First subsection with some \texorpdfstring{$\mathcal{M}ath$}{Math} symbol}\label{sec:first_ssection}
+
+\blindtext
+\begin{itemize}[topsep=-1em,parsep=0em,itemsep=0em] % see http://mirror.ctan.org/macros/latex/contrib/enumitem/enumitem.pdf for details about the parameters
+ \item item1
+ \item item2
+ \item ...
+\end{itemize}
+
+\subsection{Mathematics}
+
+\blindmathtrue
+\blindtext
+
+\begin{proposition}\label{def:a_proposition}
+A proposition... (similar environments include: theorem, corrolary, conjecture, lemma)
+
+\end{proposition}
+
+\begin{proof}
+\vspace*{-1em} % Adjust the space when parskip is set to 1em
+And its proof.
+\end{proof}
+
+\begin{table}
+\caption{\label{tab:example}A table}
+\centering
+\begin{tabular}[b]{| c | c | c | c | c |}
+\hline
+a & b & c & d & e \\ \hline
+f & g & h & i & j \\ \hline
+k & l & m & n & o \\ \hline
+p & q & r & s & t \\ \hline
+u & v & w & x & y \\ \hline
+z & æ & ø & å &   \\ \hline
+\end{tabular} 
+\end{table}
+
+\subsection{Source code example}
+
+% \floatname{algorithm}{Source code} % if you want to rename 'Algorithm' to 'Source code'
+\begin{algorithm}[h]
+  \caption{The Hello World! program in Java.}
+  \label{hello_world}
+  % alternatively you may use algorithmic, or lstlisting from the listings package
+  \begin{verbatim}
+  
+class HelloWorldApp {
+  public static void main(String[] args) {
+    //Display the string
+    System.out.println("Hello World!");
+  }
+}
+\end{verbatim}
+\end{algorithm}
+
+You can refer to figures using the predefined command like \fref{fig:example}, to pages like \pref{fig:example}, to tables like \tref{tab:example}, to chapters like \Cref{chp:example} and to sections like \Sref{sec:first_section} and you may define similar commands to refer to proposition, algorithms etc.
