@@ -286,6 +286,9 @@
 \let\@professor\@empty
 \newcommand{\professor}[1]{\def\@professor{#1}}
 \newcommand{\theprofessor}{\@professor}
+\let\@cosupervisor\@empty
+\newcommand{\cosupervisor}[1]{\def\@cosupervisor{#1}}
+\newcommand{\thecosupervisor}{\@cosupervisor}
 
 \newcommand{\titlefont}{\fontsize{2.3em}{0em}\sffamily}
 \newcommand{\authorfont}{\fontsize{1.6em}{0em}\sffamily\bfseries}
@@ -309,9 +312,10 @@
          Submission date:       & \dateITEM\@date \\
          Responsible professor: & \@professor     \\
          Supervisor:            & \@supervisor    \\
+         Co-supervisor:         & \@cosupervisor    \\
        \end{tabular}\par
       }\vspace{.5cm}
-      {\noindent Norwegian University of Science and Technology\\Department of Telematics}
+      {\noindent Norwegian University of Science and Technology\\Department of Computer and Information Science}
     }%
     \null
   \endgroup%
