@@ -90,7 +90,8 @@ Memory::Memory(const std::string &line) : Memory() {
                         case L2:
                             {
                                 read = starts_with(s, "ReadReq");
-                                bool write = ends_with(s, "updated in Cache");
+                                bool write = ends_with(s, "updated in Cache")
+                                        || starts_with(s, "ReadExReq");
                                 if (!read && !write)
                                 {
                                     type = Null;

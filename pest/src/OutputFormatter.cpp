@@ -15,7 +15,9 @@ OutputFormatter::OutputFormatter(const OutputVector &statistics, const options_t
 }
 
 OutputFormatter::~OutputFormatter() {
-    delete plot;
+    if (Graph == options->outputFormat) {
+        delete plot;
+    }
 }
 
 void OutputFormatter::saveBarchart(const string &filename, const string &title) {
@@ -48,19 +50,35 @@ void OutputFormatter::importAsDouble(const OutputVector &statistics) {
 void OutputFormatter::produceOutput() {
     switch (options->outputFormat) {
         case Graph:
-            showBarchart();
+            if (!options->output.empty())
+                saveBarchart(options->output);
+            else
+                showBarchart();
             break;
         case Plain:
             {
                 // TODO: Output to file if specified
-                ostream *out = &cout;
+                ostream *out;
+                if (!options->output.empty())
+                    out = new ofstream(options->output);
+                else
+                    out = &cout;
+
                 for (unsigned long i = 0; i < dVector.size(); ++i)
                     *out << i << " " << dVector[i] << '\n';
+
+                if (out != &cout)
+                    delete out;
+
                 break;
             }
         case Table:
             {
-                FILE *out = stdout;
+                FILE *out;
+                if (!options->output.empty())
+                    out = fopen(options->output.c_str(), "w+");
+                else
+                    out = stdout;
 
                 fprintf(out, "/-------------------------\\\n");
                 fprintf(out, "|   Bucket   |   Energy   |\n");
@@ -69,6 +87,10 @@ void OutputFormatter::produceOutput() {
                 for (unsigned long i = 0; i < dVector.size(); ++i)
                     fprintf(out, "|%11lu |%11f |\n", i, dVector[i]);
                 fprintf(out, "\\-------------------------/\n");
+
+                if (out == stdout)
+                    fclose(out);
+
                 break;
             }
         default:
