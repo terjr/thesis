@@ -46,21 +46,13 @@ def read_graph(filename):
 
 
 def write_weights_file(weights, filename):
+    print(weights)
     f = open(filename, 'w+')
-    f.write("IntAlu "+str(weights[0])+"\n")
-    f.write("IntMult "+str(weights[1])+"\n")
-    f.write("MemRead "+str(weights[2])+"\n")
-    f.write("MemWrite "+str(weights[3])+"\n")
-    f.write("SimdFloat "+str(weights[4])+"\n")
-    f.write("L1I "+str(weights[5])+"\n")
-    f.write("L1D "+str(weights[6])+"\n")
-    f.write("L2 "+str(weights[7])+"\n")
-    f.write("Phys "+str(weights[8])+"\n")
+    f.write('\n'.join(['%s %s' % (key,value) for (key,value) in weights.items()]) + '\n')
     f.close()
 
-
 def eval_individual(weights):
-    name = ''.join(map(str, weights))
+    name = ''.join(['%03d' % (value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
     write_weights_file(weights, "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
     fitness = run_tests("/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+".output", "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
     print("Fitness = "+str(fitness)+"\n")
