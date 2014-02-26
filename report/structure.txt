@@ -1,0 +1,23 @@
+Problem Description
+
+Abstract
+
+Preface
+- Acknowledgement
+
+Table of Contents
+
+Introduction
+
+Background
+- Power estimation (fall project)
+- gem5 simulator
+- Genetic algorithm / simulated annealing / 1 + lambda
+
+PEsT
+- Methodology
+- Design
+- ...
+- Testing and verification
+
+Conclusion and Future Work
