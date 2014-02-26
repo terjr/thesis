@@ -1,0 +1,4 @@
+GA / 1 + lambda
+
+-- Rapport --
+Skriv litt om GA-greiene vi har gjort.
