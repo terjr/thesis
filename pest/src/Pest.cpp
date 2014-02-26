@@ -29,7 +29,7 @@ unsigned long numTicks(istream *is) {
     return strtoul(str.c_str(), NULL, 10);
 }
 
-int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<true>> *q, boost::atomic<bool> *done) {
+int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<FIXED>> *q, boost::atomic<bool> *done) {
     cout << "Reading lines" << endl;
     while (*s)
     {

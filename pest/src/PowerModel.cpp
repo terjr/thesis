@@ -7,7 +7,7 @@ using namespace boost;
 
 #define DELETE_STACK_SIZE 1024
 PowerModel::PowerModel(lockfree::queue<std::string*,
-        boost::lockfree::fixed_sized<true>> *q,
+        boost::lockfree::fixed_sized<FIXED>> *q,
         atomic<bool> *done,
         std::map<unsigned long, std::string> *annotations,
         std::map<std::string, unsigned long> *weights,
