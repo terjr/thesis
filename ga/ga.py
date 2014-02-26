@@ -4,14 +4,17 @@ from math import ceil,floor
 from fitness import eval_individual
 from deap import creator, base, tools, algorithms
 
+from operator import attrgetter
+
 NUM_WEIGHTS = 9
 toolbox = base.Toolbox()
 
 def mutate_weights(individual, indpb):
-    print(individual)
+    degree = (individual.fitness.values[0] / 20000) + 10
+    print("Degree is " + str(degree))
     for (key, value) in individual.items():
         if random.random() < indpb:
-            individual[key] = floor(value + ((random.random()-0.5) * 10))
+            individual[key] = floor(value + ((random.random()-0.5) * degree))
             if individual[key] < 0:
                     individual[key] = -individual[key]
     return check_individual(individual),
@@ -41,7 +44,7 @@ def create_individual():
     ind['L1I'] = f()
     ind['L1D'] = f()
     ind['L2'] = f()
-    ind['Phys'] = f()
+    ind['Phys'] = f()*3
 
     ind = check_individual(ind)
 
@@ -58,22 +61,17 @@ def create_population(popsize):
 
     toolbox.register("evaluate", eval_individual)
     toolbox.register("mate", tools.cxTwoPoints)
-    toolbox.register("mutate", mutate_weights, indpb=0.2)
+    toolbox.register("mutate", mutate_weights, indpb=0.15)
     toolbox.register("select", tools.selBest)
 
     population = toolbox.population(n=popsize)
     return population
 
-
+def sortmap(d):
+    return ['%s %d' % (key, value) for (key,value) in sorted(d.items(), key=lambda t: t[0])]
 
 def run_evolution(population, ngen, file=None):
     cxpb, mutpb = 0.0, 1
-#    stats = tools.Statistics()
-#    halloffame = tools.HallOfFame(20)
-#    final = algorithms.eaMuPlusLambda(pop, toolbox, 1, 4, CXPB, MUTPB, NGEN, stats, halloffame, True)
-#    print(halloffame)
-#    print(final)
-#    return final
 
     if not file is None:
         file.write("\nGeneration 0\n")
@@ -82,8 +80,10 @@ def run_evolution(population, ngen, file=None):
     for ind, fit in zip(population, fitnesses):
         ind.fitness.values = fit
         if not file is None:
-            file.write(str(ind) + ", fitness: " + str(fit) + "\n")
+            file.write(str(sortmap(ind)) + ", fitness: " + "{:,}".format(fit[0]) + "\n")
             file.flush()
+
+    population = toolbox.select(population, 1)
 
     for i in range(ngen):
         file.write("\nGeneration " + str(i+1) + "\n")
@@ -93,40 +93,29 @@ def run_evolution(population, ngen, file=None):
         for ind, fit in zip(offspring, fitnesses):
             ind.fitness.values = fit
             if not file is None:
-                file.write(str(ind) + ", fitness: " + str(fit) + "\n")
+                file.write(str(sortmap(ind)) + ", fitness: " + "{:,}".format(fit[0]) + "\n")
                 file.flush()
+
         population = toolbox.select(population + offspring, 1)
     return population
 
-#    toolbox.evaluate(pop)
-#    for gen in range(NGEN):
-#        if not file is None:
-#            file.write("\nGeneration " + str(gen) + "\n")
-#        # Select and clone the next generation individuals
-#        offspring = map(toolbox.clone, toolbox.select(pop, len(pop)))
-#
-#        # Apply crossover and mutation on the offspring
-#        offspring = algorithms.varAnd(offspring, toolbox, CXPB, MUTPB)
-#
-#        # Evaluate the individuals with an invalid fitness
-#        invalid_ind = [ind for ind in offspring if not ind.fitness.valid]
-#        fitnesses = toolbox.map(toolbox.evaluate, invalid_ind)
-#        for ind, fit in zip(invalid_ind, fitnesses):
-#            ind.fitness.values = fit
-#            if not file is None:
-#                file.write(str(ind) + ", fitness: " + str(fit) + "\n")
-#                file.flush()
-#
-#        # The population is entirely replaced by the offspring
-#        pop[:] = offspring
-#    return pop
-
 def main():
-    popsize = 1
+    popsize = 5
     population = create_population(popsize)
-#    ind1 = toolbox.individual()
-#    ind1.fitness.values = toolbox.evaluate(ind1)
-#    print(str(ind1) + ", fitness: " + str(ind1.fitness.values))
-    run_evolution(population, 10, open("/home/hvatum/ga-results", "a"))
+
+    #has good fitness: ['IntAlu 22', 'IntMult 129', 'L1D 3', 'L1I 0', 'L2 3', 'MemRead 26', 'MemWrite 19', 'Phys 299', 'SimdFloatMisc 136']
+    ind1 = toolbox.individual()
+    ind1['IntAlu'] = 22
+    #ind1['IntMult'] = 129
+    #ind1['MemRead'] = 26
+    #ind1['MemWrite'] = 19
+    #ind1['SimdFloatMisc'] = 136
+    ind1['L1D'] = 20
+    ind1['L1I'] = 20
+    ind1['L2'] = 100
+    ind1['Phys'] = 299
+    population += [ind1]
+
+    run_evolution(population, 200, open("/home/hvatum/ga-results", "a"))
 
 main()

@@ -35,29 +35,20 @@ def read_graph(filename):
     with open(filename) as f:
         return [int(number) for number in [line[line.find(' '):-1].strip() for line in f] if number.isdigit()]
 
-
-#def read_graph(filename):
-#    lines = []
-#    for line in open(filename):
-#        number = line[line.find(' '):-1].strip()
-#        if number.isdigit():
-#            lines.append(int(number))
-#    return lines;
-
-
 def write_weights_file(weights, filename):
-    print(weights)
     f = open(filename, 'w+')
     f.write('\n'.join(['%s %s' % (key,value) for (key,value) in weights.items()]) + '\n')
     f.close()
 
 def eval_individual(weights):
+
+    print(['%s %d' % (key, value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
+
     name = ''.join(['%03d' % (value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
     write_weights_file(weights, "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
     fitness = run_tests("/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+".output", "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
     print("Fitness = "+str(fitness)+"\n")
     return (fitness,)
-
 
 def run_test(output, weightfile, test):
     tf = output + "-" + test
@@ -70,12 +61,5 @@ def run_test(output, weightfile, test):
         os.system(" ".join(prog))
     return align(read_graph(tf), read_graph(hw))
 
-
-
 def run_tests(output, weightfile):
-    return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend")
-
-#print(eval_individual([1,2,3,4,5,6,7,8,9]))
-#print(eval_individual([22,30,15,40,30,3,3,30,90]))
-#idx = align(read_graph(sys.argv[1]), read_graph(sys.argv[2]))
-
+    return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend")*4 + run_test(output, weightfile, "sha2")
