@@ -13,9 +13,17 @@ often by passing them to the host operating system. In FS mode, the simulator
 can load an operating system binary and run application within the OS. The
 latter mode is well suited when the OS in its entirity must be simulated.
 
+% TODO: Write about the input to gem5 (i.e. arm binaries)
+
 During simulation, gem5 keeps track of hundreds of events related to the CPU
 core and memory system. In-detail statistics, similar to performance counters on
 real hardware, are then dumped for off-line inspection. gem5 can also output a
 trace of what it is currently doing, originally intended for debugging of gem5.
 These traces grow quickly in size, but provide useful insights of the simulated
-execution.
+execution. In particular, it describes CPU activity down to the
+microarchitecture level and outputs simulated processor activity.
+
+Drawing energy profiles from the trace files can be done by simply adding a cost
+to the different types of CPU activity. Finding the weights with best fit
+(as compared with measurements on real hardware) is simply the problem of
+parameter optimization.
