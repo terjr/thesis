@@ -1,3 +1,5 @@
+!TEX root = ../main.tex
+
 \section{The gem5 Simulator}
 
 Joint effort between many academic and industrial institutions has resulted in
@@ -12,3 +14,10 @@ In SE mode, the simulator traps system calls in the binary and emulates them,
 often by passing them to the host operating system. In FS mode, the simulator
 can load an operating system binary and run application within the OS. The
 latter mode is well suited when the OS in its entirity must be simulated.
+
+During simulation, gem5 keeps track of hundreds of events related to the CPU
+core and memory system. In-detail statistics, similar to performance counters on
+real hardware, are then dumped for off-line inspection. gem5 can also output a
+trace of what it is currently doing, originally intended for debugging of gem5.
+These traces grow quickly in size, but provide useful insights of the simulated
+execution.
