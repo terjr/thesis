@@ -1,0 +1,14 @@
+\section{The gem5 Simulator}
+
+Joint effort between many academic and industrial institutions has resulted in
+an open source computer simulation framework, the gem5 simulator \cite{gem5}.
+Its core is written in C++ and has a highly modular interface that allows users
+to specify simulator target through simple Python scripts.
+
+The project merges the best features of M5 \cite{M5} and GEMS \cite{GEMS} and
+includes a wide range of CPU and memory models. The simulator has two main
+execution modes; \textit{Syscall Emulation} (SE) or \textit{Full System} (FS).
+In SE mode, the simulator traps system calls in the binary and emulates them,
+often by passing them to the host operating system. In FS mode, the simulator
+can load an operating system binary and run application within the OS. The
+latter mode is well suited when the OS in its entirity must be simulated.
