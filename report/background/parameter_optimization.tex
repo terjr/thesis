@@ -1,4 +1,23 @@
-\section{Parameter Optimization}
+\section{Global Optimization}
 
+Optimization is a field of applied mathematics that deals with finding the
+best set of parameters to optimize an objective function. A problem with
+$N$ variables $\{n_0, \dots, n_{N-1}\}$ in range $n_i \in \{0, \dots, k-1\}$ will have a
+search space with $k^N$ possible solutions. As both $k$ and $N$ grow large, it
+becomes infeasible to search through all permutations and other techniques must
+be employed. A wide range of algorithms to search through a subset of the
+solution space exists, each with a different approaches and properties.
 
-\subsection{Genetic Algorithms}
+\begin{description}
+    \item[Simulated Annealing] is a technique that belongs to the field of
+        stochastic optimization and metaheuristics, inspired by the process of
+        annealing in metallurgy. Initially, it starts in a random state $s$ and
+        for each iteration it probabilistically decides between moving the
+        system to a neighboring state $s'$ or staying in in state $s$. To avoid
+        ending up in a local minima, the probability starts high, but decreases
+        after time.
+    \item[Evolutionary Algorithms] is a term that refers to computational
+        methods inspired by the process and mechanisms of biological evolution.         Many variations exists, 
+
+\end{description}
+
