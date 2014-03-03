@@ -5,7 +5,7 @@
 #include "TraceLine.hpp"
 #include "Instruction.hpp"
 #include "Memory.hpp"
-#include "Pest.hpp"
+#include "Pet.hpp"
 #include "UnknownEvent.hpp"
 
 using namespace boost;

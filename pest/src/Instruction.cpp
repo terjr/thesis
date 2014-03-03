@@ -1,7 +1,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
-#include "Pest.hpp"
+#include "Pet.hpp"
 #include "Instruction.hpp"
 
 #define TICK_COL    0

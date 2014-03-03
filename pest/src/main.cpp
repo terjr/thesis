@@ -4,9 +4,9 @@
  *
  */
 
-#include "Pest.hpp"
+#include "Pet.hpp"
 
 int main(int argc, char** argv)
 {
-    return Pest::main(argc, argv);
+    return Pet::main(argc, argv);
 }

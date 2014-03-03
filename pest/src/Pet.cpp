@@ -5,7 +5,7 @@
 #include <boost/thread.hpp>
 #include <boost/lockfree/queue.hpp>
 
-#include "Pest.hpp"
+#include "Pet.hpp"
 #include "SimpleModel.hpp"
 #include "TraceLine.hpp"
 #include "OutputFormatter.hpp"
@@ -46,7 +46,7 @@ int run(PowerModel *pm) {
     return pm->run();
 }
 
-Pest::Pest(options_t &options) :
+Pet::Pet(options_t &options) :
       numThreads(options.numThreads),
       done(false),
       count(0),
@@ -85,14 +85,14 @@ Pest::Pest(options_t &options) :
     }
 }
 
-Pest::~Pest() {
+Pet::~Pet() {
     for (unsigned long i = 0; i < this->pm.size(); ++i)
         delete pm[i];
     delete options.annotations;
 }
 
 
-void Pest::processStreams() {
+void Pet::processStreams() {
     // Create worker threads
     for (unsigned int i = 0; i < this->numThreads; i++) {
         this->threadpool.create_thread( boost::bind(&boost::asio::io_service::run, &ioService) );
@@ -129,7 +129,7 @@ void Pest::processStreams() {
 }
 
 
-int Pest::main(int ac, char **av)
+int Pet::main(int ac, char **av)
 {
     unsigned int numThreads = boost::thread::hardware_concurrency();
 
@@ -142,7 +142,7 @@ int Pest::main(int ac, char **av)
     if (progOptParsed.numThreads < 1)
         progOptParsed.numThreads = numThreads;
 
-    Pest pest(progOptParsed);
+    Pet pest(progOptParsed);
     pest.processStreams();
 
     if (progOptParsed.inputStream != &cin)

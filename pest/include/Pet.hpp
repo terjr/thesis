@@ -14,7 +14,7 @@
 using std::vector;
 using std::istream;
 
-class Pest
+class Pet
 {
     private:
         unsigned int numThreads;
@@ -27,9 +27,9 @@ class Pest
 
         std::vector<PowerModel*> pm;
     public:
-        Pest(options_t &options);
-        Pest(std::istream *input, unsigned int numThreads = 0, const std::string &output = std::string());
-        virtual ~Pest();
+        Pet(options_t &options);
+        Pet(std::istream *input, unsigned int numThreads = 0, const std::string &output = std::string());
+        virtual ~Pet();
 
         void processStreams();
 
