@@ -1,0 +1,11 @@
+\section{gem5 CPU Model}
+
+PET relies heavily on a front-end that can execute a binary on a simulator and
+output $(time, event)$ tuples to a trace file. We are using the gem5 simulator,
+but technically PET could be modified to support any simulator front-end.
+Several factors affect the accuracy of the model and there are several points of
+tuning and optimization throughout the workflow. The power profile coming from
+PET are derived from the weight configuration given as input and the simulation
+trace, so it is important that the simulator trace is similar to a hardware
+execution.
+
