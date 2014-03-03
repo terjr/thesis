@@ -55,7 +55,7 @@ def run_test(output, weightfile, test):
     hw = "/home/hvatum/NAS/stian/Skole/pest-tmp/" + test + "-power";
     buckets = sum(1 for line in open(hw))
 
-    prog = ["/home/hvatum/Skole/thesis/pest/pest", "/home/hvatum/Skole/thesis/workloads/m5out/" + test + "/trace.out", "-b", str(buckets), "-f", "plain", "-o", tf, "-w", weightfile]
+    prog = ["/home/hvatum/Skole/thesis/pet/pet", "/home/hvatum/Skole/thesis/workloads/m5out/" + test + "/trace.out", "-b", str(buckets), "-f", "plain", "-o", tf, "-w", weightfile]
     if not os.path.isfile(tf):
         print(" ".join(prog)+"\n")
         os.system(" ".join(prog))
