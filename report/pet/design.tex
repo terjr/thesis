@@ -18,22 +18,23 @@ easily configurable CPU- and memory system along with the pre-implemented ARM
 processors and in-department hands-on experience with this simulator made GEM5
 the most logical choise.
 
-When run with \texttt{--debug-flags=Bus,Cache,MemoryAccess,Exec} GEM5 will output trace files look like this:
-\begin{lstlisting}
-234320: system.cpu.dcache: Block addr 81f00 moving from state 0 to state: 7 (E) valid: 1
-234320: system.cpu.dcache: Leaving recvTimingResp with ReadResp for address 81f00
-234320: system.tol2bus.respLayer1: The bus is now busy from tick 234320 to 236376
-116424: system.cpu T0 : 0x89d4.0  :   ldr   r1, [sp] #4        : MemRead :  D=0x00000000
-116424: system.cpu T0 : 0x89d4.1  :   addi_uop   sp, sp, #4    : IntAlu :  D=0x00000000b
-117012: system.cpu T0 : 0x89d8    :   mov   r2, sp             : IntAlu :  D=0x00000000b
-117012: system.cpu T0 : 0x89dc.0  :   str   r2, [sp, #-4]!     : MemWrite :  D=0x0000000
-117600: system.cpu T0 : 0x89dc.1  :   subi_uop   sp, sp, #4    : IntAlu :  D=0x00000000b
-117600: system.cpu T0 : 0x89e0.0  :   str   r0, [sp, #-4]!     : MemWrite :  D=0x0000000
-240000: system.membus: recvTimingResp: src system.membus.master[0] ReadResp 0x1640
-240000: system.l2: Handling response to ReadResp for address 1640
-240000: system.l2: Block for addr 1640 being updated in Cache
-\end{lstlisting}
+When run with \texttt{--debug-flags=Bus,Cache,MemoryAccess,Exec} GEM5 will output trace files look like
+the text displayed in \autoref{lst:trace}.
 
+\begin{lstlisting}[basicstyle=\tiny,caption={gem5 trace log},label={lst:trace}]
+3432: system.cpu.dcache: Block addr 81f0 moving from state 0 to state:7 valid: 1
+3432: system.cpu.dcache: Leaving recvTimingResp with ReadResp for address 81f00
+3432: system.tol2bus.respLayer1: The bus is now busy from tick 234320 to 236376
+1642: system.cpu T0 : 0x89d4.0 : ldr   r1, [sp] #4     : MemRead :  D=0x00000000
+1642: system.cpu T0 : 0x89d4.1 : addi_uop   sp, sp, #4 : IntAlu :  D=0x00000000b
+1701: system.cpu T0 : 0x89d8   : mov   r2, sp          : IntAlu :  D=0x00000000b
+1701: system.cpu T0 : 0x89dc.0 : str   r2, [sp, #-4]!  : MemWrite :  D=0x0000000
+1760: system.cpu T0 : 0x89dc.1 : subi_uop   sp, sp, #4 : IntAlu :  D=0x00000000b
+1760: system.cpu T0 : 0x89e0.0 : str   r0, [sp, #-4]!  : MemWrite :  D=0x0000000
+4000: system.membus: recvTimingResp: src system.membus.master[0] ReadResp 0x1640
+4000: system.l2: Handling response to ReadResp for address 1640
+4000: system.l2: Block for addr 1640 being updated in Cache
+\end{lstlisting}
 %weightfiles
 
 \subsection{Output}
