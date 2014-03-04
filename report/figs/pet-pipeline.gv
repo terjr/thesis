@@ -23,7 +23,11 @@ digraph PET {
     split -> parse3->merge [style="dashed",arrowhead="none"]
 
 
+<<<<<<< HEAD
     parse1, parse2, parse4 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
+=======
+    parse1, parse2, parse4 [label=<Parse<br/>worker>];
+>>>>>>> small fixes to PET-pipeline figure
 
     merge [label=<Accumulate<br/>numbers>]
     output [label=<Format<br/>output>]
