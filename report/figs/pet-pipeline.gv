@@ -10,7 +10,9 @@ digraph PET {
         read
         parse3 [shape="none",label=<.<br/>.<br/>.>,height="0.3",margin="0",fixedsize="true"]
         read->parse1
-        parse1->parse2,parse2->parse3,parse3->parse4 [style="invis"]
+        parse1->parse2 [style="invis"]
+        parse2->parse3 [style="invis"]
+        parse3->parse4 [style="invis"]
     }
 
     read [label=<Read<br/>input<br/>worker>]
@@ -19,11 +21,15 @@ digraph PET {
     setup -> split
     split [label=<Split<br/>work>];
     split -> read;
-    split -> parse1,parse2,parse4 -> merge;
+    split -> parse1 -> merge;
+    split -> parse2 -> merge;
+    split -> parse4 -> merge;
     split -> parse3->merge [style="dashed",arrowhead="none"]
 
 
-    parse1, parse2, parse4 [label=<Parse<br/>worker>];
+    parse1 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
+    parse2 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
+    parse4 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
 
     merge [label=<Accumulate<br/>numbers>]
     output [label=<Format<br/>output>]

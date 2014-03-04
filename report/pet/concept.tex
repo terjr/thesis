@@ -1,14 +1,30 @@
 \section{Concept}
-The goal for PET and this project is to ultimatly estimate power usage and thus also
-energy efficiency of still not yet implemented computer architectures. A such approach
-will of cource reside well within the term "estimation" and will doubtly reach the correct
-numbers. Never the less, PET is built by measuring real hardware with great detail, capturing
-discrete events and assigning each event a certain amount of energy consumption.
+The goal for PET and this project is to ultimatly estimate power usage and thus
+also energy efficiency of still not yet implemented computer architectures. A
+such approach will of cource reside well within the term "estimation" and will
+doubtly reach the correct numbers. Never the less, PET is built by measuring
+real hardware with great detail, capturing discrete events and assigning each
+event a certain amount of energy consumption.
 
-When selected events have been weighted, one can run a simulation of similar hardware, retreive
-a tracelog containing these events, and then apply the numbers. PET is then able to produce a data set
-containing power consumption distributed over the simulation lifetime.
+As depicted in \autoref{fig:workflow}, when selected events have been weighted,
+one can run the test program though a simulator set up to act as the new
+hardware.  The simulator will generate a tracelog containing the weighted
+events, and PET can then apply the numbers. From this workflow, PET can produce
+a data set containing power consumption distributed over the simulation
+lifetime.  As noted, the new hardware will be weighted equally of a chosen
+existing hardware, so so this method requires a certain similarity beteen the
+new and the old hardware. In general, all traditional architectures contains
+equal principles of function, and is thus mappable to each other, but accuracy
+will of cource differ as hardware differs in design, applied voltage, clock
+speed and process technology.
 
-When estimating power usage for new architectures, it is hard to tell exactly how to chose events and
-how expensive each event is. Therefore, we have to assume that the new architecture is comparable to
-an old architecture, and thus we can use the same power estimation numbers to give a new estimate.
+\begin{figure}
+    \includegraphics[width=0.9\textwidth]{figs/pet-workflow-gv.pdf}
+    \caption{Workflow using PET}
+    \label{fig:workflow}
+\end{figure}
+
+When estimating power usage for new architectures, it is hard to tell exactly
+how to chose events and how expensive each event is. Therefore, we have to
+assume that the new architecture is comparable to an old architecture, and thus
+we can use the same power estimation numbers to give a new estimate.

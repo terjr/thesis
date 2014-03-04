@@ -1,0 +1,42 @@
+\section{Methodology}
+
+\subsection{Design Choices}
+The first choices made on how PET should be designed was to decide whether it
+should be a standalone program or incorporated into an existing simulator.
+Hundreds of computer architecture simulators exists, all with strengths and
+weknesses. Often, simulators only supports a small set of architectures, memory
+systems and CPU models, and they are only good at simulating one specific
+combination.
+
+It is desirable to estimate energy consumption on literally all types of
+compututing systems, ranging from large-size clusters to embedded systems. To
+provide this flexibility it was decided to write the tool as simulator agnostic
+as possible, tracking \emph{simulator events} rather than executed instructions.
+A simulator event is defined as a unit of work that uses a specified amount of
+energy, and increases modelled energy consumption to the simulated time.
+
+%\begin{center}
+%    \begin{tabular}{|l|l|}
+%        \hline
+%        L1D & L1 data hit\\
+%        \hlinke
+%    \end{tabular}
+%\end{center}
+
+gem5 was used as a basis for development and the only simulation front-end
+implemented.
+
+
+
+
+- ARM support (Sniper has not)
+
+QEMU -- feil abstraksjonsnivå/formål
+McPat - multicore, power AND AREA???? Optimizer
+gem5 is flexible because
+    - it is easy to add new processor architectures
+    - memory system
+=> in-house experience
+
+LLVM traces?
+

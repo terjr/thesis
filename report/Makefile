@@ -1,16 +1,17 @@
 # The main latex-file
 TEXFILE = main
+DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
 
 # Fix reference file and compile source
 default: full
 
-full:
-	latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
-#	pdflatex $(TEXFILE); \
-#	bibtex $(TEXFILE); \
-#	makeglossaries $(TEXFILE);\
-#	pdflatex $(TEXFILE);\
-#	pdflatex $(TEXFILE)
+full: ${DOTFILES}
+	#latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
+	pdflatex $(TEXFILE); \
+	bibtex $(TEXFILE); \
+	makeglossaries $(TEXFILE);\
+	pdflatex $(TEXFILE);\
+	pdflatex $(TEXFILE)
 
 
 # Removes TeX-output files
