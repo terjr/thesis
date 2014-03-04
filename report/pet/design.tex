@@ -15,18 +15,23 @@ trace abilities. We have chosen GEM5 as our target simulator as it is easy to
 configure, and trace is well implemented. As mentioned in
 \autoref{subsec:design_choises} other options are available, but the support for
 easily configurable CPU- and memory system along with the pre-implemented ARM
-processors and in-department hands-on experience with this simulator made GEM5
+processors and in-department hands-on experience with this simulator made gem5
 the most logical choise.
 
+\subsection{gem5 trace logs}
 When run with \texttt{--debug-flags=Bus,Cache,MemoryAccess,Exec} GEM5 will output trace files look like
 the text displayed in \autoref{lst:trace}.
 
-\begin{lstlisting}[basicstyle=\tiny,caption={gem5 trace log},label={lst:trace}]
-3432: system.cpu.dcache: Block addr 81f0 moving from state 0 to state:7 valid: 1
+\begin{lstlisting}[basicstyle=\tiny,caption={gem5 trace log},label={lst:trace},escapeinside={@}{@},float]
+@\label{line:physmem}@3021: system.physmem: Write of size 8 on address 0x82fe0 data 0xe1a0f00eee1d0f70
+@\label{line:icache}@3021: system.cpu.icache: access for ReadReq address 9c0 size 64
+@\label{line:cachemiss}@3021: system.cpu.icache: ReadReq (ifetch) 9c0 miss-
+...
+@\label{line:cacheupdate}@3432: system.cpu.dcache: Block addr 81f0 moving from state 0 to state:7 valid: 1
 3432: system.cpu.dcache: Leaving recvTimingResp with ReadResp for address 81f00
 3432: system.tol2bus.respLayer1: The bus is now busy from tick 234320 to 236376
-1642: system.cpu T0 : 0x89d4.0 : ldr   r1, [sp] #4     : MemRead :  D=0x00000000
-1642: system.cpu T0 : 0x89d4.1 : addi_uop   sp, sp, #4 : IntAlu :  D=0x00000000b
+@\label{line:memread}@1642: system.cpu T0 : 0x89d4.0 : ldr   r1, [sp] #4     : MemRead :  D=0x00000000
+@\label{line:intalu}@1642: system.cpu T0 : 0x89d4.1 : addi_uop   sp, sp, #4 : IntAlu :  D=0x00000000b
 1701: system.cpu T0 : 0x89d8   : mov   r2, sp          : IntAlu :  D=0x00000000b
 1701: system.cpu T0 : 0x89dc.0 : str   r2, [sp, #-4]!  : MemWrite :  D=0x0000000
 1760: system.cpu T0 : 0x89dc.1 : subi_uop   sp, sp, #4 : IntAlu :  D=0x00000000b
@@ -35,13 +40,95 @@ the text displayed in \autoref{lst:trace}.
 4000: system.l2: Handling response to ReadResp for address 1640
 4000: system.l2: Block for addr 1640 being updated in Cache
 \end{lstlisting}
+
+Each line in \autoref{lst:trace} represents an event that happens in the
+simulated hardware.  \autoref{line:physmem} tells that a write access to
+physical memory has happened. \autoref{line:icache} is the event of instruction
+cache access, while \autoref{line:cachemiss} shows that this request failed.
+During this simulation, there is also events like \autoref{line:cacheupdate}
+which represents that the data cache updates some content. The discrete
+instructions running through the CPU is also logged, eg. \autoref{line:memread}
+shows a load-instruction and \autoref{line:intalu} shows an
+addition-instruction.
+
+As discrete events are picked out from the trace logs, PET accumulates power
+consumption in equally sized timeslots, called buckets. Each bucket has a
+parameter controlled size in terms of simulator ticks. Often it is more
+practical to specify the number of buckets in the output rather then specifying
+the number of simulator ticks in each bucket. Because of this, PET is able to
+estimate the bucket size by peeking at the tick at the last line of the trace
+file. It has been shown that the trace file is not nessesary in tick order,
+but it will commonly be at approximatly the last tick at the last line. The
+bucket size estimation algorithm is shown in \autoref{lst:bucket_size}.
+
+\begin{lstlisting}[caption={Bucket Size Detection Algorithm},label={lst:bucket_size},language=Python,float]
+function numTicks( traceFile ):
+    # Find file size
+    eof_pos = traceFile.getSize()
+
+    # Seek almost to end, avoid last newline
+    traceFile.seek( eof_pos - 3 )
+
+    # Trace from back of file to second last newline
+    while not traceFile.currentChar is '\n':
+        traceFile.seek_backwards
+
+    # File stream position is now at beginning of last line
+    # Parse this line
+    simulatorEvent = parseLine( traceFile.getLine() )
+
+    # Return the tick of the retreived event
+    return simulatorEvent.getTick()
+\end{lstlisting}
+
+\subsection{PET weight files}
+Equally important as finding the correct events is assigning each event the correct amount
+of power consumption. As each event will count differently depending on the architecture,
+PET will read a weight file along with the gem5 trace log. A sample weight file is listed out
+in \autoref{lst:weights_example}.
+
+\lstinputlisting[caption={Weight file example},label={lst:weights_example},float,language=Python]{../pet/weights.conf}
+
+The weights displayed in \autoref{lst:weights_example} are assigned and accumulated each time
+PET discovers a recognisable event in the log file. A simplified version of this algorithm can
+be found in \autoref{lst:power_accum_algo}
+
+\begin{lstlisting}[caption={Power Accumulation Algorithm},label={lst:power_accum_algo},language=Python,float]
+# map of accumulated power for each time step
+map<time,power> output
+
+# input is all trace log lines, elements in weight file and
+# the determined bucket size (number of simulator ticks in
+# each bucket)
+
+function assignWeights( traceLogLines, weightMap, bucketSize )
+    # run through each line
+    for each line in traceLogLines:
+        # extract event parameters from line
+        simulatorEvent = praseLine( line )
+
+        # get the assigned weight from weight file
+        eventWeight = weightMap[simulatorEvent.getEventType()]
+
+        # add this weight to the output map
+        output[simulatorEvent.getTick()/bucketSize] += eventWeight
+    return output
+\end{lstlisting}
 %weightfiles
+%
 
 \subsection{Output}
+plain, table and gnuplot
 
 \subsection{Performance}
 
-PET has to be designed for 
+PET has to be designed for good performance.
+
+
+\autoref{lst:trace} also shows that the events in the trace log is not nessesary in their
+correct order, thus PET has to be able to add power consumption to the entire timeline at all
+time. This means that we are unable to produce continous output, but have to store the
+results in memory and dump them when the entire input is parsed.
 
 \begin{figure}
     \includegraphics[width=0.9\textwidth]{figs/pet-pipeline-gv.pdf}
