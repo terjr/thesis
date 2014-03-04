@@ -1,6 +1,24 @@
 \section{Design}
+When designing a tool for parsing large input files and applying flexible configuration alternatives,
+there are quite a few aspects that needs to be considered. Through this section the design choises
+briefly explained in \autoref{subsec:design_choises} will be further explained and more deeply understood.
 
 \subsection{Input}
+New hardware architectures are not easily analysed without physical
+implementation, but often we are able to simulate its behaviour to acceptable
+accuracy, and thus we are able to test different implementations with low cost.
+These simulation runs can often be set up to produces trace logs which contains
+a user controlled amount of detail. PET can use these trace logs and scan them
+for predefined events, each affecting the power consumption of the simulated
+hardware. Different simulators have different trace log formats and different
+trace abilities. We have chosen GEM5 as our target simulator as it is easy to
+configure, and trace is well implemented. As mentioned in
+\autoref{subsec:design_choises} other options are available, but the support for
+easily configurable CPU- and memory system along with the pre-implemented ARM
+processors and in-department hands-on experience with this simulator made GEM5
+the most logical choise.
+
+When run with \texttt{--debug-flags=Bus,Cache,MemoryAccess,Exec} GEM5 will output trace files look
 
 \subsection{Output}
 
