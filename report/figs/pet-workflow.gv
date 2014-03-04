@@ -1,12 +1,14 @@
 digraph workflow {
     rankdir = LR;
-    node [shape="circle",style="filled",fillcolor="blue"]
+    node [shape="circle",style="filled",fillcolor="lightblue"]
+        weights->data [label="Apply to PET"]
+        weights [shape="square",fillcolor="red",label=<Measured<br/>weights>]
         source [shape="square",fillcolor="red",label=<Source<br/>code>]
         binary  [label=<new<br/>arch.<br/>binary>]
         source->binary [label="cross-compile"]
         trace  [label=<detailed<br/>trace<br/>log>]
         data   [shape="square",fillcolor="green",label=<Power<br/>estimate>]
-        trace->data [label="Run through PET"]
+        trace->data [label="Parse with PET"]
         binary->trace [label="Simulate new hardware"]
 
 }
