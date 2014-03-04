@@ -1,10 +1,11 @@
 # The main latex-file
 TEXFILE = main
+DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
 
 # Fix reference file and compile source
 default: full
 
-full:
+full: ${DOTFILES}
 	#latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
 	pdflatex $(TEXFILE); \
 	bibtex $(TEXFILE); \

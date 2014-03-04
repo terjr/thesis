@@ -23,7 +23,7 @@ digraph PET {
     split -> parse3->merge [style="dashed",arrowhead="none"]
 
 
-    parse1, parse2, parse4 [label=<Parse<br/>worker>,color=red];
+    parse1, parse2, parse4 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
 
     merge [label=<Accumulate<br/>numbers>]
     output [label=<Format<br/>output>]
