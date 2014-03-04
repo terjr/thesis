@@ -7,6 +7,6 @@ digraph workflow {
         trace  [label=<detailed<br/>trace<br/>log>]
         data   [shape="square",fillcolor="green",label=<Power<br/>estimate>]
         trace->data [label="Run through PET"]
-        binary->trace [label="Simulate in GEM5"]
+        binary->trace [label="Simulate new hardware"]
 
 }
