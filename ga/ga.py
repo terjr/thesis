@@ -10,7 +10,7 @@ NUM_WEIGHTS = 9
 toolbox = base.Toolbox()
 
 def mutate_weights(individual, indpb):
-    degree = (individual.fitness.values[0] / 20000) + 10
+    degree = (individual.fitness.values[0] / 3000) + 100
     print("Degree is " + str(degree))
     for (key, value) in individual.items():
         if random.random() < indpb:
@@ -34,17 +34,18 @@ def check_individual(ind):
     return ind
 
 def create_individual():
-    f = lambda: ceil(random.random() * 150);
+    f = lambda: ceil(random.random() * 1000);
     ind = {}
     ind['IntAlu'] = f()
     ind['IntMult'] = f()
     ind['MemRead'] = f()
     ind['MemWrite'] =f()
-    ind['SimdFloatMisc'] = f()
+    ind['SimdFloatMisc'] = f()*2
     ind['L1I'] = f()
     ind['L1D'] = f()
-    ind['L2'] = f()
-    ind['Phys'] = f()*3
+    ind['L2'] = f()*2
+    ind['Phys'] = f()*5
+    ind['Static'] = f()
 
     ind = check_individual(ind)
 
@@ -61,7 +62,7 @@ def create_population(popsize):
 
     toolbox.register("evaluate", eval_individual)
     toolbox.register("mate", tools.cxTwoPoints)
-    toolbox.register("mutate", mutate_weights, indpb=0.15)
+    toolbox.register("mutate", mutate_weights, indpb=0.20)
     toolbox.register("select", tools.selBest)
 
     population = toolbox.population(n=popsize)
@@ -100,21 +101,22 @@ def run_evolution(population, ngen, file=None):
     return population
 
 def main():
-    popsize = 5
+    popsize = 15
     population = create_population(popsize)
 
     #has good fitness: ['IntAlu 22', 'IntMult 129', 'L1D 3', 'L1I 0', 'L2 3', 'MemRead 26', 'MemWrite 19', 'Phys 299', 'SimdFloatMisc 136']
     ind1 = toolbox.individual()
-    ind1['IntAlu'] = 22
-    #ind1['IntMult'] = 129
-    #ind1['MemRead'] = 26
-    #ind1['MemWrite'] = 19
-    #ind1['SimdFloatMisc'] = 136
-    ind1['L1D'] = 20
-    ind1['L1I'] = 20
-    ind1['L2'] = 100
-    ind1['Phys'] = 299
-    population += [ind1]
+    ind1['IntAlu'] = 220
+    ind1['IntMult'] = 1290
+    ind1['MemRead'] = 260
+    ind1['MemWrite'] = 190
+    ind1['SimdFloatMisc'] = 1360
+    ind1['L1D'] = 200
+    ind1['L1I'] = 200
+    ind1['L2'] = 1000
+    ind1['Phys'] = 2990
+
+    population = [ind1] + population
 
     run_evolution(population, 200, open("/home/hvatum/ga-results", "a"))
 
