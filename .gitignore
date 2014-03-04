@@ -18,4 +18,11 @@ report/*.lot
 report/*.out
 report/*.pdf
 report/*.toc
+report/*.acr
+report/*.alg
+report/*.glg
+report/*.gls
+report/*.loa
+report/*.xdy
+report/figs/*-gv.pdf
 workloads/bin
