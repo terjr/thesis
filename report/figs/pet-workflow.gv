@@ -1,0 +1,12 @@
+digraph workflow {
+    rankdir = LR;
+    node [shape="circle",style="filled",fillcolor="blue"]
+        source [shape="square",fillcolor="red",label=<Source<br/>code>]
+        binary  [label=<new<br/>arch.<br/>binary>]
+        source->binary [label="cross-compile"]
+        trace  [label=<detailed<br/>trace<br/>log>]
+        data   [shape="square",fillcolor="green",label=<Power<br/>estimate>]
+        trace->data [label="Run through PET"]
+        binary->trace [label="Simulate in GEM5"]
+
+}
