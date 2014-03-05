@@ -14,7 +14,7 @@
 %% Uncomment the following in case you want subfigures; note that there will be a warning for the caption package
 % \let\subcaption\undefined
 % \let\subfloat\undefined
-% \usepackage[bf]{caption}
+ \usepackage[bf,hypcap]{caption}
 % \usepackage{subcaption}
 
 \DeclareGraphicsExtensions{.pdf,.jpg}
@@ -101,7 +101,7 @@
  }
  \renewcommand{\chaptername}{\appendixname}
 %% include below possible appendices (chapters)
- \includepdf[pages=-, addtotoc={1, chapter, 1,Exploring Instruction Level Energy Efficiency,energy}]{prosjektoppgave.pdf}
+ \includepdf[pages=-, addtotoc={1,chapter,1,{Exploring Instruction Level Energy Efficiency},energy}]{prosjektoppgave.pdf}
 
 
 \end{document} 
