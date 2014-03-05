@@ -59,9 +59,27 @@ the number of simulator ticks in each bucket. Because of this, PET is able to
 estimate the bucket size by peeking at the tick at the last line of the trace
 file. It has been shown that the trace file is not nessesary in tick order,
 but it will commonly be at approximatly the last tick at the last line. The
-bucket size estimation algorithm is shown in \autoref{lst:bucket_size}.
+bucket size estimation algorithm is shown in \autoref{alg:bucket_size}.
 
-\begin{lstlisting}[caption={Bucket Size Detection Algorithm},label={lst:bucket_size},language=Python,float]
+\begin{algorithm}
+    \caption{Bucket Size Detection Algorithm}
+    \label{alg:bucket_size}
+    \begin{algorithmic}
+        \Function{numTicks}{$traceFile$}
+
+        \State $eofPos \gets \Call{getSize}{traceFile}$
+        \State $\Call{seek}{traceFile, eofPos - 3}$
+        \State
+        \State $char \gets \Call{getChar}{traceFile}$
+        \While{$char \ne newline$}
+            \State $\Call{seek}{traceFile, -1}$
+        \EndWhile
+        \State $line \gets \Call{getLine}{traceFile}$
+        \State $simulatorEvent \gets \Call{parseLine}{line}$
+        \State \Return $\Call{getTick}{simulatorEvent}$
+        \EndFunction
+    \end{algorithmic}
+    \begin{lstlisting}[language=Python]
 function numTicks( traceFile ):
     # Find file size
     eof_pos = traceFile.getSize()
@@ -79,7 +97,8 @@ function numTicks( traceFile ):
 
     # Return the tick of the retreived event
     return simulatorEvent.getTick()
-\end{lstlisting}
+    \end{lstlisting}
+\end{algorithm}
 
 \subsection{PET weight files}
 Equally important as finding the correct events is assigning each event the
@@ -99,9 +118,12 @@ not scaled in accordence with bucket size.
 The weights displayed in \autoref{lst:weights_example} are assigned and
 accumulated each time PET discovers a recognisable event in the log file. A
 simplified version of this algorithm can be found in
-\autoref{lst:power_accum_algo}
+\autoref{alg:power_accum_algo}
 
-\begin{lstlisting}[caption={Power Accumulation Algorithm},label={lst:power_accum_algo},language=Python,float]
+\begin{algorithm}
+\caption{Power Accumulation Algorithm}
+\label{alg:power_accum_algo}
+\begin{lstlisting}[language=Python]
 # map of accumulated power for each time step
 map<time,power> output
 
@@ -122,6 +144,7 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
         output[simulatorEvent.getTick()/bucketSize] += eventWeight
     return output
 \end{lstlisting}
+\end{algorithm}
 %weightfiles
 %
 
