@@ -1,0 +1,3 @@
+Fortsatt videre på rapport.
+
+Sjekk ut Dhrystone som benchmark.
