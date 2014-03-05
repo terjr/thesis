@@ -82,16 +82,24 @@ function numTicks( traceFile ):
 \end{lstlisting}
 
 \subsection{PET weight files}
-Equally important as finding the correct events is assigning each event the correct amount
-of power consumption. As each event will count differently depending on the architecture,
-PET will read a weight file along with the gem5 trace log. A sample weight file is listed out
-in \autoref{lst:weights_example}.
+Equally important as finding the correct events is assigning each event the
+correct amount of power consumption. As each event will count differently
+depending on the architecture, PET will read a weight file along with the gem5
+trace log. A sample weight file is listed out in \autoref{lst:weights_example}.
+As the timeslots are specified in simulator ticks instead of CPU cycles,
+the values have been chosen to match a 2GHz processor, which then means
+one CPU cycle pr. 500 simulator ticks using standard gem5 simulation granularity.
+If you are applying this method to a processor with a different clock speed than
+2GHz, be aware that the numbers has to be scaled propotionally. This is not the
+case for the static power drain, as it is simply added to each timeslot, and is
+not scaled in accordence with bucket size.
 
 \lstinputlisting[caption={Weight file example},label={lst:weights_example},float,language=Python]{../pet/weights.conf}
 
-The weights displayed in \autoref{lst:weights_example} are assigned and accumulated each time
-PET discovers a recognisable event in the log file. A simplified version of this algorithm can
-be found in \autoref{lst:power_accum_algo}
+The weights displayed in \autoref{lst:weights_example} are assigned and
+accumulated each time PET discovers a recognisable event in the log file. A
+simplified version of this algorithm can be found in
+\autoref{lst:power_accum_algo}
 
 \begin{lstlisting}[caption={Power Accumulation Algorithm},label={lst:power_accum_algo},language=Python,float]
 # map of accumulated power for each time step
@@ -118,7 +126,14 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
 %
 
 \subsection{Output}
-plain, table and gnuplot
+Depending on application, different output formats might come in handy.  PET
+supports printing plain time power dump, a somewhat more readable table to
+plain, table and a gnuplot figure with time as X-axis and power drain on the
+Y-axis. The output format is understood as timeslots in which the architecture
+has a certain current drain, which should be multiplied with applied voltage
+to get numbers on consumed energy, heat generation and so on. The numbers are
+scaled as milliamperes, which of cource is equal to milliwatt if voltage is $1V$.
+
 
 \subsection{Performance}
 

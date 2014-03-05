@@ -3,7 +3,7 @@
 #include <boost/asio/io_service.hpp>
 #include <boost/thread.hpp>
 #include <boost/lockfree/queue.hpp>
-#include <boost/atomic.hpp>
+#include <atomic>
 #include <istream>
 #include <vector>
 #include <string>
@@ -18,8 +18,8 @@ class Pet
 {
     private:
         unsigned int numThreads;
-        boost::atomic<bool> done;
-        boost::atomic<unsigned long> count;
+        std::atomic<bool> done;
+        std::atomic<unsigned long> count;
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
         boost::lockfree::queue<std::string*, boost::lockfree::fixed_sized<FIXED> > lineQueue;
@@ -39,4 +39,4 @@ class Pet
 // Utility functions used to collect and prepare data for presentation.
 unsigned long findWorkerMaxSize(vector<PowerModel*> &modelworkers);
 void sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out);
-void normalize(const unsigned long bucketSize, vector<unsigned long> &results);
+void normalize(const unsigned long bucketSize, const unsigned long staticPowerDrain, vector<unsigned long> &results);

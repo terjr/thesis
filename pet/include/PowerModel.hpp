@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <atomic>
 
 #include <boost/lockfree/queue.hpp>
 #include <boost/algorithm/string/trim.hpp>
@@ -17,7 +18,7 @@ class PowerModel {
     public:
         PowerModel(
                 boost::lockfree::queue<std::string*, boost::lockfree::fixed_sized<FIXED>> *q,
-                boost::atomic<bool> *done,
+                std::atomic<bool> *done,
                 std::map<unsigned long, std::string> *annotations,
                 std::map<std::string, unsigned long> *weights,
                 unsigned long bucket_size = 10000,
@@ -33,7 +34,7 @@ class PowerModel {
     protected:
         void annotate(SimEvent *se);
         boost::lockfree::queue<std::string*, boost::lockfree::fixed_sized<FIXED>> *q;
-        boost::atomic<bool> *done;
+        std::atomic<bool> *done;
         OutputVector output;
         unsigned long bucket_size;
         unsigned long long numTicks;

@@ -29,7 +29,7 @@ unsigned long numTicks(istream *is) {
     return strtoul(str.c_str(), NULL, 10);
 }
 
-int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<FIXED>> *q, boost::atomic<bool> *done) {
+int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<FIXED>> *q, std::atomic<bool> *done) {
     cout << "Reading lines" << endl;
     while (*s)
     {
@@ -106,7 +106,7 @@ void Pet::processStreams() {
     unsigned long maxSize = findWorkerMaxSize(this->pm);
     vector<unsigned long> results(maxSize);
     sumBuckets(this->pm, results);
-    normalize(options.bucketSize, results);
+    normalize(options.bucketSize, this->pm[0]->getWeight("Static"), results);
 
     OutputFormatter gnuplotter(results, &options);
     if (options.outputFormat == Graph) {
@@ -167,21 +167,24 @@ void sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) {
             out[j] += in[i]->getOutput()[j];
 }
 
-void normalize(const unsigned long bucketSize, vector<unsigned long> &results) {
-    unsigned long normalize;
-    if (bucketSize < 500000) {
-        if (bucketSize >= 500) {
-            normalize = bucketSize/500;
-        } else if (bucketSize >= 5) {
+void normalize(const unsigned long bucketSize, const unsigned long staticPowerDrain, vector<unsigned long> &results) {
+    double staticDrain;
+    double normalize;
+    if (bucketSize < 500) {
+        if (bucketSize >= 5) {
+            cerr << "Very small buckets found, scale is amps x 10^-5" << std::endl;
             normalize = bucketSize/5;
+            staticDrain = staticPowerDrain / 100;
         } else {
-            cerr << "Unable to normalize results, " << std::endl;
+            cerr << "Unreliably small bucket size, unable to normalize results, output is " << std::endl;
             normalize = 1;
+            staticDrain = staticPowerDrain / 500;
         }
     } else {
-        normalize = bucketSize/500000;
+        normalize = bucketSize/500;
+        staticDrain = staticPowerDrain;
     }
 
     for (unsigned long i = 0; i < results.size(); ++i)
-        results[i] /= normalize;
+        results[i] = (results[i] / normalize) + staticPowerDrain;
 }
