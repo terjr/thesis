@@ -29,17 +29,26 @@ unsigned long numTicks(istream *is) {
     return strtoul(str.c_str(), NULL, 10);
 }
 
-int readLines(istream *s, std::vector<boost::lockfree::spsc_queue<std::string*>*> q, unsigned int numQueues, std::atomic<bool> *done) {
+int readLines(istream *s,
+        std::vector<boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192> > > *q,
+        unsigned int numQueues,
+        std::atomic<bool> *done)
+{
     cout << "Reading lines" << endl;
     unsigned int i = 0;
     while (*s)
     {
         string* str = new string();
         std::getline(*s, *str);
-        do {
+//        do {
+//            i++;
+//            i %= numQueues;
+//        } while (!(*q)[i].push(str));
+        if (!(*q)[i].push(str))
+        {
             i++;
             i %= numQueues;
-        } while (!q[i]->push(str));
+        }
     }
     cout << "\nDone reading input file" << endl;
     *done = true;
@@ -76,17 +85,17 @@ Pet::Pet(options_t &options) :
                 options.bucketSize = nTicks/1000;
         }
 
-        for (unsigned int i = 0; i < numThreads; ++i)
-            lineQueue[i] = new boost::lockfree::spsc_queue<std::string*>(8192);
+        //        for (unsigned int i = 0; i < numThreads; ++i)
+        //            lineQueue[i] = new boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>>();
 
-        this->ioService.post( boost::bind(readLines, options.inputStream, lineQueue, numThreads, &done) );
+        this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, numThreads, &done) );
 
 
         this->pm = vector<PowerModel*>();
 
         // Assign tasks to the thread pool
         for (unsigned int i = 0; i < numThreads; ++i) {
-            SimpleModel *sm = new SimpleModel(lineQueue[i], &done, options.annotations, options.weights, options.bucketSize, nTicks);
+            SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks);
             nTicks = 0;
             this->ioService.post( boost::bind(run, sm) );
             pm.push_back(sm);
@@ -97,7 +106,6 @@ Pet::~Pet() {
     for (unsigned long i = 0; i < this->pm.size(); ++i)
     {
         delete pm[i];
-        delete lineQueue[i];
     }
     delete options.annotations;
 }

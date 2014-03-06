@@ -11,7 +11,7 @@
 class SimpleModel : public PowerModel {
     public:
         SimpleModel(
-                boost::lockfree::spsc_queue<std::string*> *q,
+                boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>> *q,
                 std::atomic<bool> *done,
                 std::map<unsigned long, std::string> *annotations,
                 std::map<std::string, unsigned long> *weights,

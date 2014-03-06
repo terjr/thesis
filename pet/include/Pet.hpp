@@ -22,7 +22,7 @@ class Pet
         std::atomic<unsigned long> count;
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
-        std::vector<boost::lockfree::spsc_queue<std::string*>*> lineQueue;
+        std::vector<boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>>> lineQueue;
         options_t &options;
 
         std::vector<PowerModel*> pm;
