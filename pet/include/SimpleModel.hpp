@@ -1,6 +1,5 @@
 #pragma once
 
-#include <boost/lockfree/queue.hpp>
 #include <boost/thread.hpp>
 #include <string>
 #include <vector>
@@ -11,7 +10,7 @@
 class SimpleModel : public PowerModel {
     public:
         SimpleModel(
-                boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>> *q,
+                lfspscqueue *q,
                 std::atomic<bool> *done,
                 std::map<unsigned long, std::string> *annotations,
                 std::map<std::string, unsigned long> *weights,

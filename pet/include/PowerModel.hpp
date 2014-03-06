@@ -1,10 +1,10 @@
 #pragma once
+#include "QueueType.hpp"
 
 #include <string>
 #include <vector>
 #include <atomic>
 
-#include <boost/lockfree/spsc_queue.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/thread.hpp>
 
@@ -17,7 +17,7 @@ typedef std::vector<unsigned long> OutputVector;
 class PowerModel {
     public:
         PowerModel(
-                boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>> *q,
+                lfspscqueue *q,
                 std::atomic<bool> *done,
                 std::map<unsigned long, std::string> *annotations,
                 std::map<std::string, unsigned long> *weights,
@@ -33,7 +33,7 @@ class PowerModel {
         int run();
     protected:
         void annotate(SimEvent *se);
-        boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>> *q;
+        lfspscqueue *q;
         std::atomic<bool> *done;
         OutputVector output;
         unsigned long bucket_size;

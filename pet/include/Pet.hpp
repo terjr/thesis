@@ -1,8 +1,8 @@
 #pragma once
+#include "QueueType.hpp"
 
 #include <boost/asio/io_service.hpp>
 #include <boost/thread.hpp>
-#include <boost/lockfree/spsc_queue.hpp>
 #include <atomic>
 #include <istream>
 #include <vector>
@@ -22,7 +22,7 @@ class Pet
         std::atomic<unsigned long> count;
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
-        std::vector<boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>>> lineQueue;
+        std::vector<lfspscqueue> lineQueue;
         options_t &options;
 
         std::vector<PowerModel*> pm;

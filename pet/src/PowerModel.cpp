@@ -6,7 +6,7 @@
 using namespace boost;
 
 #define DELETE_STACK_SIZE 1024
-PowerModel::PowerModel(boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>> *q,
+PowerModel::PowerModel(lfspscqueue *q,
         std::atomic<bool> *done,
         std::map<unsigned long, std::string> *annotations,
         std::map<std::string, unsigned long> *weights,

@@ -30,7 +30,7 @@ unsigned long numTicks(istream *is) {
 }
 
 int readLines(istream *s,
-        std::vector<boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192> > > *q,
+        std::vector<lfspscqueue> *q,
         unsigned int numQueues,
         std::atomic<bool> *done)
 {
