@@ -2,7 +2,7 @@
 
 #include <boost/asio/io_service.hpp>
 #include <boost/thread.hpp>
-#include <boost/lockfree/queue.hpp>
+#include <boost/lockfree/spsc_queue.hpp>
 #include <atomic>
 #include <istream>
 #include <vector>
@@ -22,7 +22,7 @@ class Pet
         std::atomic<unsigned long> count;
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
-        boost::lockfree::queue<std::string*, boost::lockfree::fixed_sized<FIXED> > lineQueue;
+        std::vector<boost::lockfree::spsc_queue<std::string*>*> lineQueue;
         options_t &options;
 
         std::vector<PowerModel*> pm;
