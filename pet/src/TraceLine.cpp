@@ -1,6 +1,4 @@
 #include <cstdlib>
-#include <boost/algorithm/string/trim.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "TraceLine.hpp"
 #include "Instruction.hpp"
@@ -19,8 +17,10 @@ TraceLine::TraceLine(const std::string &line) {
         return;
     }
 
+    while (line[from] == ' ') from++;
+    while (line[to-1] == ' ') to--;
     std::string eventType = line.substr(from, to-from);
-    trim(eventType);
+//    trim(eventType);
 
     if (eventType == "system.cpu T0") {
         simEvent = new Instruction(line);
