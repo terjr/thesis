@@ -23,7 +23,7 @@ class Instruction : public SimEvent {
         unsigned int getCPU() const;
         unsigned long getPC() const;
         void setPC(unsigned long pc);
-        void setInstrType(std::string instrtype);
+        void setInstrType(const std::string &instrtype);
         virtual ~Instruction();
         bool  parseAssembly(std::string assembly);
         const std::string getMnemonic() const;

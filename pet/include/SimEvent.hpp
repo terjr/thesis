@@ -1,6 +1,5 @@
 #pragma once
 
-
 enum EventType {
     InstEvent,
     MemEvent,

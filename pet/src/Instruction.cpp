@@ -3,6 +3,7 @@
 
 #include "Pet.hpp"
 #include "Instruction.hpp"
+#include "trim.hpp"
 
 #define TICK_COL    0
 #define PC_COL      2
@@ -68,9 +69,8 @@ void Instruction::setPC(unsigned long pc) {
     this->pc = pc;
 }
 
-void Instruction::setInstrType(std::string instrType) {
-    trim(instrType);
-    this->instrType = instrTypeFromString(instrType);
+void Instruction::setInstrType(const std::string &instrType) {
+    this->instrType = instrTypeFromString(trim_str(instrType));
 }
 
 InstrType Instruction::getInstrType() const {
@@ -92,16 +92,14 @@ bool Instruction::parseAssembly(std::string assembly) {
     }
     else
     {
-        mnemonic = assembly.substr(0, mnemLen);
-        trim(mnemonic);
+        mnemonic = trim_str(assembly.substr(0, mnemLen));
 
         std::string args = assembly.substr(mnemLen);
         tokenizer tokens(args, sep);
 
         for (tokenizer::const_iterator it = tokens.begin(); it != tokens.end(); ++it) {
             if (it->length()) {
-                op.push_back(*it);
-                trim(op.back());
+                op.push_back(trim_str(*it));
             }
         }
     }

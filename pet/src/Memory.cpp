@@ -1,7 +1,7 @@
 #include "Memory.hpp"
+#include "trim.hpp"
 
 #include <boost/algorithm/string/predicate.hpp>
-#include <boost/algorithm/string/trim.hpp>
 #include <boost/tokenizer.hpp>
 
 #define TICK_COL 0
@@ -61,16 +61,14 @@ Memory::Memory(const std::string &line) : Memory() {
                     if (getTick() == 0) {
                         type = Null;
                     } else {
-                        std::string s(*it);
-                        trim(s);
+                        std::string s = trim_str(*it);
                         type = memTypeFromString(s);
                     }
                     break;
                 }
             case DESC_COL:
                 {
-                    std::string s(*it);
-                    trim(s);
+                    std::string s = trim_str(*it);
 
                     switch (type) {
                         case L1I:
