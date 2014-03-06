@@ -40,10 +40,6 @@ int readLines(istream *s,
     {
         string* str = new string();
         std::getline(*s, *str);
-//        do {
-//            i++;
-//            i %= numQueues;
-//        } while (!(*q)[i].push(str));
         if (!(*q)[i].push(str))
         {
             i++;
