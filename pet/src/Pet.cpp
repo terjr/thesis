@@ -3,7 +3,7 @@
 #include <boost/asio/io_service.hpp>
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
-#include <boost/lockfree/queue.hpp>
+#include <boost/lockfree/spsc_queue.hpp>
 
 #include "Pet.hpp"
 #include "SimpleModel.hpp"
@@ -29,13 +29,26 @@ unsigned long numTicks(istream *is) {
     return strtoul(str.c_str(), NULL, 10);
 }
 
-int readLines(istream *s, boost::lockfree::queue<string*, boost::lockfree::fixed_sized<FIXED>> *q, std::atomic<bool> *done) {
+int readLines(istream *s,
+        std::vector<lfspscqueue> *q,
+        unsigned int numQueues,
+        std::atomic<bool> *done)
+{
     cout << "Reading lines" << endl;
+    unsigned int i = 0;
     while (*s)
     {
         string* str = new string();
         std::getline(*s, *str);
-        while(!q->push(str));
+//        do {
+//            i++;
+//            i %= numQueues;
+//        } while (!(*q)[i].push(str));
+        if (!(*q)[i].push(str))
+        {
+            i++;
+            i %= numQueues;
+        }
     }
     cout << "\nDone reading input file" << endl;
     *done = true;
@@ -47,47 +60,53 @@ int run(PowerModel *pm) {
 }
 
 Pet::Pet(options_t &options) :
-      numThreads(options.numThreads),
-      done(false),
-      count(0),
-      lineQueue(8192),
-      options(options) {
+    numThreads(options.numThreads),
+    done(false),
+    count(0),
+    lineQueue(options.numThreads),
+    options(options) {
 
-    if (options.error) {
-        cerr << "Error while parsing program arguments." << endl;
-        return;
+        if (options.error) {
+            cerr << "Error while parsing program arguments." << endl;
+            return;
+        }
+
+        if (options.numBuckets && options.bucketSize) {
+            cerr << "Cannot have both bucket size and number of buckets defined at once!" << endl;
+            return;
+        }
+        long long int nTicks = numTicks(options.inputStream);
+        if (!options.bucketSize) {
+            if (!nTicks)
+                options.bucketSize = 100000;
+            else if (options.numBuckets)
+                options.bucketSize = nTicks/options.numBuckets;
+            else
+                options.bucketSize = nTicks/1000;
+        }
+
+        //        for (unsigned int i = 0; i < numThreads; ++i)
+        //            lineQueue[i] = new boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>>();
+
+        this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, numThreads, &done) );
+
+
+        this->pm = vector<PowerModel*>();
+
+        // Assign tasks to the thread pool
+        for (unsigned int i = 0; i < numThreads; ++i) {
+            SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks);
+            nTicks = 0;
+            this->ioService.post( boost::bind(run, sm) );
+            pm.push_back(sm);
+        }
     }
-
-    if (options.numBuckets && options.bucketSize) {
-        cerr << "Cannot have both bucket size and number of buckets defined at once!" << endl;
-        return;
-    }
-    long long int nTicks = numTicks(options.inputStream);
-    if (!options.bucketSize) {
-        if (!nTicks)
-            options.bucketSize = 100000;
-        else if (options.numBuckets)
-            options.bucketSize = nTicks/options.numBuckets;
-        else
-            options.bucketSize = nTicks/1000;
-    }
-
-    this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, &done) );
-
-    this->pm = vector<PowerModel*>();
-
-    // Assign tasks to the thread pool
-    for (unsigned int i = 0; i < numThreads; ++i) { // one thread is reading the file
-        SimpleModel *sm = new SimpleModel(&lineQueue, &done, options.annotations, options.weights, options.bucketSize, nTicks);
-        nTicks = 0;
-        this->ioService.post( boost::bind(run, sm) );
-        pm.push_back(sm);
-    }
-}
 
 Pet::~Pet() {
     for (unsigned long i = 0; i < this->pm.size(); ++i)
+    {
         delete pm[i];
+    }
     delete options.annotations;
 }
 
