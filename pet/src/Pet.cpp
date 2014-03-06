@@ -38,13 +38,15 @@ int readLines(istream *s,
     unsigned int i = 0;
     while (*s)
     {
-        string* str = new string();
+        string * str = new string();
         std::getline(*s, *str);
-        if (!(*q)[i].push(str))
+        while (!(*q)[i].push(str))
         {
             i++;
             i %= numQueues;
         }
+        i++;
+        i %= numQueues;
     }
     cout << "\nDone reading input file" << endl;
     *done = true;
@@ -84,13 +86,13 @@ Pet::Pet(options_t &options) :
         //        for (unsigned int i = 0; i < numThreads; ++i)
         //            lineQueue[i] = new boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>>();
 
-        this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, numThreads, &done) );
+        this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, lineQueue.size(), &done) );
 
 
         this->pm = vector<PowerModel*>();
 
         // Assign tasks to the thread pool
-        for (unsigned int i = 0; i < numThreads; ++i) {
+        for (unsigned int i = 0; i < lineQueue.size(); ++i) {
             SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks);
             nTicks = 0;
             this->ioService.post( boost::bind(run, sm) );
