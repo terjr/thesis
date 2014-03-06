@@ -4,6 +4,9 @@ import sys
 import os
 import subprocess
 
+#import queue
+#import threading
+
 def distance(graph1, graph2):
     diff = 0
     for i in range( min(len(graph1), len(graph2))):
@@ -62,4 +65,19 @@ def run_test(output, weightfile, test):
     return align(read_graph(tf), read_graph(hw))
 
 def run_tests(output, weightfile):
+#    q = queue.Queue()
+#    tests = ["pi-pi", "trend-trend", "sha2"]
+#    threads = []
+#    for test in tests:
+#        threads.append(threading.Thread(target=run_test, args=(output, weightfile, test, q)))
+#
+#    for thread in threads:
+#        thread.start()
+#    for thread in threads:
+#        thread.join()
+#    
+#    fitness = 0
+#    while not q.empty():
+#        fitness = fitness + q.get()
+#    return fitness
     return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend")*4 + run_test(output, weightfile, "sha2")

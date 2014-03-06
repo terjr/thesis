@@ -45,8 +45,6 @@ int readLines(istream *s,
             i++;
             i %= numQueues;
         }
-        i++;
-        i %= numQueues;
     }
     cout << "\nDone reading input file" << endl;
     *done = true;

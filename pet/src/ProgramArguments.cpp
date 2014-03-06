@@ -136,6 +136,10 @@ options_t processProgramOptions(int ac, char **av) {
 
     if (vm.count("max-threads")) {
         options.numThreads = vm["max-threads"].as<unsigned int>();
+        if (options.numThreads < 2) {
+            vPrint("Warning: Needs at least 2 threads!\n");
+            options.numThreads = 2;
+        }
         vPrint("Max threads set to " + to_string(options.numThreads) + "\n");
     } else {
         options.numThreads = 0;
