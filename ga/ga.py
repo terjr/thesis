@@ -42,7 +42,7 @@ def create_individual():
     ind['MemWrite'] =f()
     ind['SimdFloatMisc'] = f()*2
     ind['L1I'] = f()
-    ind['L1D'] = f()
+    ind['L1D'] = ind['L1I']+((random.random()+0.5)*10)
     ind['L2'] = f()*2
     ind['Phys'] = f()*5
     ind['Static'] = f()
@@ -113,8 +113,9 @@ def main():
     ind1['SimdFloatMisc'] = 1360
     ind1['L1D'] = 200
     ind1['L1I'] = 200
-    ind1['L2'] = 1000
-    ind1['Phys'] = 2990
+    ind1['L2'] = 2000
+    ind1['Phys'] = 4990
+    ind1['Static'] = 100
 
     population = [ind1] + population
 
