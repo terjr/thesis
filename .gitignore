@@ -2,7 +2,8 @@ config.mk
 m5out/
 dep/
 obj/
-pest_test
+pet/pest_test
+pet/pet
 report/*.abl
 report/*.acn
 report/*.aux
