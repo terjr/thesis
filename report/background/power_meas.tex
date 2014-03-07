@@ -1,16 +1,21 @@
-\section{CPU Energy Measurements}
+\section{CPU-level Energy Measurements}
 
 High quality instruction level energy models can be derived for pipelined
 processors by monitoring the instantaneous current drawn by the processor at
 each clock cycle \cite{nikolaidis2005instruction}. As modern processors commonly
 operate at a few GHz, expensive measurement devices are required to sample
-at sufficient frequency. 
+at sufficient frequency.
 
 In \cite{rundehvatum2013exploring}, we conducted experiments to quantify the
 energy cost of an instruction executing on a modern out-of-order mobile
 processor while sampling at significantly lower rate. We were able to do this by
 completely bypassing the memory hierarchy utilizing special hardware
-(\emph{fast-loop mode}) and sampling a running average.
+(\emph{fast-loop mode}) and sampling a running average. Voltage drop
+over a shunt resistor in series with the ODROID-X2 development board is
+measured, and we calculate energy used in the processor itself. We isolate
+the energy used in the CPU (in which we are interested in) with energy used for
+on-board peripherals by modifying the development board and driving the CPU core
+with a separate power supply.
 
 The ultimate goal in this context is to estimate power consumption and energy
 efficiency of new hardware, the first step is to measure different more or less
