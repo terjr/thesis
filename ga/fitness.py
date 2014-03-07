@@ -62,7 +62,7 @@ def run_test(output, weightfile, test):
     if not os.path.isfile(tf):
         print(" ".join(prog)+"\n")
         os.system(" ".join(prog))
-    return align(read_graph(tf), read_graph(hw))
+    return round(align(read_graph(tf), read_graph(hw))*100/buckets)
 
 def run_tests(output, weightfile):
 #    q = queue.Queue()
@@ -80,4 +80,4 @@ def run_tests(output, weightfile):
 #    while not q.empty():
 #        fitness = fitness + q.get()
 #    return fitness
-    return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend")*4 + run_test(output, weightfile, "sha2")
+    return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend") + run_test(output, weightfile, "sha2")
