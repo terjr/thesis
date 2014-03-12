@@ -1,6 +1,19 @@
 \section{Optimization Algorithm}
 
 With an accurate CPU model, the weights must now be tuned to match measured
-power consumption on real hardware. We do this by running an evolutionary
-algorithm that tests various combinations of the weight configuration and
-compares the results with real hardware measurements.
+power consumption on real hardware. We do this by running an optimization
+algorithm that tests various combinations of the weight configuration. We tested
+many evolutionary strategies and were able to prototype quickly using DEAP
+\cite{DEAP_JMLR2012}, a Python framework for evolutionary algorithms. In the
+end, we do not care how the weights are found, as long as they match well to the
+hardware measurements. Please note that any optimization algorithm could be used
+to find a proper set of weights.
+
+The genome is a set of CPU events, each mapped to an energy cost. E.g.
+\texttt{\{IntAlu: 170, IntMult: 1300, MemRead: 80, MemWrite: 50, SimdFloatMisc:
+1400, L1R: 230, L1W: 340, L2R: 1100, L2W: 1300, PhysR: 2600, PhysW: 2800\}} is a
+valid individual in the population. To calculate the fitness of an individual,
+we run PET with the genome weights on a set of workloads and compare the energy
+profiles with measurements on hardware. Note that hardware measurements only
+needs to be done once per workload. The evolution can now run without
+supervision until a set of reasonable weights are evaluated.
