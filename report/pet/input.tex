@@ -106,13 +106,18 @@ Equally important as finding the correct events is assigning each event the
 correct amount of power consumption. As each event will count differently
 depending on the architecture, PET will read a weight file along with the gem5
 trace log. A sample weight file is listed out in \autoref{lst:weights_example}.
-As the timeslots are specified in simulator ticks instead of CPU cycles,
-the values have been chosen to match a 2GHz processor, which then means
-one CPU cycle pr. 500 simulator ticks using standard gem5 simulation granularity.
-If you are applying this method to a processor with a different clock speed than
+As the timeslots are specified in simulator ticks instead of CPU cycles, the
+values have been chosen to match a 2GHz processor, which then means one CPU
+cycle pr. 500 simulator ticks using standard gem5 simulation granularity.  If
+you are applying this method to a processor with a different clock speed than
 2GHz, be aware that the numbers has to be scaled propotionally. This is not the
 case for the static power drain, as it is simply added to each timeslot, and is
-not scaled in accordence with bucket size.
+not scaled in accordance with bucket size. It is also important to understand
+that the weight is applied once for each event, so events that naturally takes a
+number of cycles will have a high weight which is in reality distributed over
+many ticks. This will not be accurate if an expensive event is applied at the
+border of a bucket, but we assume that accuracy at this level is not important
+enought to add complexity to PET in order to get correct.
 
 \lstinputlisting[caption={Weight file example},label={lst:weights_example},float,language=Python]{examples/weights.conf}
 
@@ -136,7 +141,7 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
     # run through each line
     for each line in traceLogLines:
         # extract event parameters from line
-        simulatorEvent = praseLine( line )
+        simulatorEvent = parseLine( line )
 
         # get the assigned weight from weight file
         eventWeight = weightMap[simulatorEvent.getEventType()]
