@@ -100,7 +100,9 @@ def run_evolution(population, ngen, file=None):
                 file.write(str(sortmap(ind)) + ", fitness: " + "{:,}".format(fit[0]) + "\n")
                 file.flush()
 
-        population = toolbox.select(population + offspring, 1)
+        np = toolbox.select(offspring, 1)
+        if np[0].values.fitness <= population[0].values.fitness:
+            population = np
     return population
 
 def main():
