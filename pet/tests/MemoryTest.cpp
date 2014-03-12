@@ -32,20 +32,20 @@ BOOST_FIXTURE_TEST_SUITE( MemoryParsing, BasicMem )
 
 BOOST_AUTO_TEST_CASE ( MemoryTypes )
 {
-    BOOST_CHECK_EQUAL (mem_read_l1_hit.getMemType(), MemType::L1I);
-    BOOST_CHECK_EQUAL (mem_write_l1_hit.getMemType(), MemType::L1D);
-    BOOST_CHECK_EQUAL (mem_read_l1_miss.getMemType(), MemType::L1I);
-    BOOST_CHECK_EQUAL (mem_write_l1_miss.getMemType(), MemType::L1D);
+    BOOST_CHECK_EQUAL (mem_read_l1_hit.getMemType(), MemType::L1R);
+    BOOST_CHECK_EQUAL (mem_write_l1_hit.getMemType(), MemType::L1W);
+    BOOST_CHECK_EQUAL (mem_read_l1_miss.getMemType(), MemType::L1R);
+    BOOST_CHECK_EQUAL (mem_write_l1_miss.getMemType(), MemType::L1W);
 
-    BOOST_CHECK_EQUAL (mem_read_l2_hit.getMemType(), MemType::L2);
-    BOOST_CHECK_EQUAL (mem_write_l2_hit.getMemType(), MemType::L2);
-    BOOST_CHECK_EQUAL (mem_read_l2_miss.getMemType(), MemType::L2);
-    BOOST_CHECK_EQUAL (mem_write_l2_miss.getMemType(), MemType::L2);
+    BOOST_CHECK_EQUAL (mem_read_l2_hit.getMemType(), MemType::L2R);
+    BOOST_CHECK_EQUAL (mem_write_l2_hit.getMemType(), MemType::L2W);
+    BOOST_CHECK_EQUAL (mem_read_l2_miss.getMemType(), MemType::L2R);
+    BOOST_CHECK_EQUAL (mem_write_l2_miss.getMemType(), MemType::L2W);
 
-    BOOST_CHECK_EQUAL (mem_read.getMemType(), MemType::Phys);
-    BOOST_CHECK_EQUAL (mem_write.getMemType(), MemType::Phys);
+    BOOST_CHECK_EQUAL (mem_read.getMemType(), MemType::PhysR);
+    BOOST_CHECK_EQUAL (mem_write.getMemType(), MemType::PhysW);
     BOOST_CHECK_EQUAL (mem_null.getMemType(), MemType::Null);
-    BOOST_CHECK_EQUAL (mem_iread.getMemType(), MemType::Phys);
+    BOOST_CHECK_EQUAL (mem_iread.getMemType(), MemType::PhysR);
 }
 
 BOOST_AUTO_TEST_CASE ( MemoryIsHit )
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE ( MemoryIsHit )
 
     BOOST_CHECK (mem_read.isHit());
     BOOST_CHECK (mem_write.isHit());
-    BOOST_CHECK (mem_null.isHit());
+    BOOST_CHECK (!mem_null.isHit());
     BOOST_CHECK (mem_iread.isHit());
 }
 

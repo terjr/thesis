@@ -3,10 +3,12 @@
 #include "SimEvent.hpp"
 
 enum MemType {
-    L1I,
-    L1D,
-    L2,
-    Phys,
+    L1R,
+    L1W,
+    L2R,
+    L2W,
+    PhysR,
+    PhysW,
     Null
 };
 

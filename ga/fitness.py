@@ -47,7 +47,7 @@ def eval_individual(weights):
 
     print(['%s %d' % (key, value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
 
-    name = ''.join(['%03d' % (value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
+    name = ''.join(['%04d' % (value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
     write_weights_file(weights, "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
     fitness = run_tests("/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+".output", "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
     print("Fitness = "+str(fitness)+"\n")

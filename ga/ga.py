@@ -24,17 +24,13 @@ def swap_if_greater(d, i1, i2):
         d[i1],d[i2] = d[i2],d[i1]
 
 def check_individual(ind):
-    swap_if_greater(ind, 'L1D', 'Phys')
-    swap_if_greater(ind, 'L1I', 'Phys')
-    swap_if_greater(ind, 'L2', 'Phys')
+    swap_if_greater(ind, 'L1R', 'PhysR')
+    swap_if_greater(ind, 'L1W', 'PhysW')
+    swap_if_greater(ind, 'L2R', 'PhysR')
+    swap_if_greater(ind, 'L2W', 'PhysW')
 
-    swap_if_greater(ind, 'L1D', 'L2')
-    swap_if_greater(ind, 'L1I', 'L2')
-
-    if ind['L1I'] / ind['L1D'] > 1.4:
-        ind['L1I'] = ind['L1D'] * 1.4
-    elif ind['L1I'] / ind['L1D'] < 0.7:
-        ind['L1I'] = ind['L1D'] * 0.7
+    swap_if_greater(ind, 'L1R', 'L2R')
+    swap_if_greater(ind, 'L1W', 'L2W')
 
     return ind
 
@@ -46,10 +42,12 @@ def create_individual():
     ind['MemRead'] = f()
     ind['MemWrite'] =f()
     ind['SimdFloatMisc'] = f()*2
-    ind['L1I'] = f()
-    ind['L1D'] = ind['L1I']+((random.random()+0.5)*10)
-    ind['L2'] = f()*2
-    ind['Phys'] = f()*5
+    ind['L1R'] = f()
+    ind['L1W'] = ind['L1R']+((random.random()+0.5)*10)
+    ind['L2R'] = f()*2
+    ind['L2W'] = f()*2
+    ind['PhysR'] = f()*5
+    ind['PhysW'] = f()*5
     ind['Static'] = f()
 
     ind = check_individual(ind)
@@ -111,20 +109,26 @@ def main():
 
     #has good fitness: ['IntAlu 22', 'IntMult 129', 'L1D 3', 'L1I 0', 'L2 3', 'MemRead 26', 'MemWrite 19', 'Phys 299', 'SimdFloatMisc 136']
     #['IntAlu 228', 'IntMult 1097', 'L1D 232', 'L1I 9', 'L2 1828', 'MemRead 217', 'MemWrite 84', 'Phys 4452', 'SimdFloatMisc 1334', 'Static 36']
+    #['IntAlu 179', 'IntMult 918', 'L1D 273', 'L1I 191', 'L2 1647', 'MemRead 124', 'MemWrite 9', 'Phys 3697', 'SimdFloatMisc 1542', 'Static 70']
+    #['IntAlu 176', 'IntMult 931', 'L1D 297', 'L1I 207', 'L2 1431', 'MemRead 69', 'MemWrite 63', 'Phys 3520', 'SimdFloatMisc 1538', 'Static 69'], fitness: 1,710
+    #['IntAlu 176', 'IntMult 1021', 'L1D 303', 'L1I 212', 'L2 1149', 'MemRead 84', 'MemWrite 33', 'Phys 2589', 'SimdFloatMisc 1446', 'Static 68'], fitness: 1,160
+    #['IntAlu 176' 'IntMult 1021' 'L1D 303' 'L1I 212' 'L2 1149' 'MemRead 84' 'MemWrite 33' 'Phys 2599' 'SimdFloatMisc 1457' 'Static 68'] fitness: 1160
     ind1 = toolbox.individual()
-    ind1['IntAlu'] = 220
-    ind1['IntMult'] = 990
-    ind1['MemRead'] = 210
-    ind1['MemWrite'] = 210
-    ind1['SimdFloatMisc'] = 1360
-    ind1['L1D'] = 130
-    ind1['L1I'] = 130
-    ind1['L2'] = 1700
-    ind1['Phys'] = 4000
-    ind1['Static'] = 100
+    ind1['IntAlu'] = 176
+    ind1['IntMult'] = 1021
+    ind1['MemRead'] = 84
+    ind1['MemWrite'] = 33
+    ind1['SimdFloatMisc'] = 1457
+    ind1['L1W'] = 303
+    ind1['L1R'] = 212
+    ind1['L2R'] = 1149
+    ind1['L2W'] = 1149
+    ind1['PhysR'] = 2599
+    ind1['PhysW'] = 2599
+    ind1['Static'] = 68
 
     population = [ind1] + population
 
-    run_evolution(population, 200, open("/home/hvatum/ga-results", "a"))
+    run_evolution(population, 600, open("/home/hvatum/ga-results", "a"))
 
 main()
