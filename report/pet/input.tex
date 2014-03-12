@@ -112,7 +112,7 @@ one CPU cycle pr. 500 simulator ticks using standard gem5 simulation granularity
 If you are applying this method to a processor with a different clock speed than
 2GHz, be aware that the numbers has to be scaled propotionally. This is not the
 case for the static power drain, as it is simply added to each timeslot, and is
-not scaled in accordence with bucket size.
+not scaled in accordance with bucket size.
 
 \lstinputlisting[caption={Weight file example},label={lst:weights_example},float,language=Python]{examples/weights.conf}
 
@@ -136,7 +136,7 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
     # run through each line
     for each line in traceLogLines:
         # extract event parameters from line
-        simulatorEvent = praseLine( line )
+        simulatorEvent = parseLine( line )
 
         # get the assigned weight from weight file
         eventWeight = weightMap[simulatorEvent.getEventType()]
