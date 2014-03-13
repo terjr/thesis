@@ -28,11 +28,14 @@ int SimpleModel::calculate(const SimEvent *se) {
     }
 
     if (se->getType() == EventType::InstEvent) {
-        const Instruction *inst = (Instruction *) se;
+        const Instruction *inst = static_cast<const Instruction *>(se);
         output[inst->getTick()/bucket_size] += getWeight(inst->getInstrType());
     } else if (se->getType() == EventType::MemEvent) {
-        const Memory *mem = (Memory *) se;
-        output[mem->getTick()/bucket_size] += getWeight(mem->getMemType());
+        const Memory *mem = static_cast<const Memory *>(se);
+        // Only consider non-Null memory events
+        if (MemType::Null != mem->getMemType()) {
+            output[mem->getTick()/bucket_size] += getWeight(mem->getMemType());
+        }
     }
     return 0;
 }

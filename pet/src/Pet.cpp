@@ -99,8 +99,7 @@ Pet::Pet(options_t &options) :
     }
 
 Pet::~Pet() {
-    for (unsigned long i = 0; i < this->pm.size(); ++i)
-    {
+    for (unsigned long i = 0; i < this->pm.size(); ++i) {
         delete pm[i];
     }
     delete options.annotations;
