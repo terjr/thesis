@@ -9,6 +9,7 @@ enum OutputFormat {
 typedef struct {
     bool help;
     bool error;
+    bool stats;
     std::istream *inputStream;
     std::map<unsigned long, std::string> *annotations;
     std::map<std::string, unsigned long> *weights;

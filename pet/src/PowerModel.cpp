@@ -11,7 +11,8 @@ PowerModel::PowerModel(lfspscqueue *q,
         std::map<unsigned long, std::string> *annotations,
         std::map<std::string, unsigned long> *weights,
         unsigned long bucket_size,
-        unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks), annotations(annotations), weights(weights), annotation_map(), eventStats() { }
+        unsigned long long numTicks,
+        bool stats) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks), annotations(annotations), weights(weights), annotation_map(), eventStats(), stats(stats) { }
 
 PowerModel::~PowerModel() { };
 
@@ -44,7 +45,7 @@ unsigned long PowerModel::getWeight(const std::string &name) const {
         return 0;
 }
 
-std::map<std::string, unsigned long> PowerModel::getStats() const {
+const std::map<const std::string, unsigned long> PowerModel::getStats() const {
     return eventStats;
 }
 
@@ -59,20 +60,35 @@ void PowerModel::annotate(SimEvent *se) {
         annotation_map.insert(std::pair<unsigned long, std::string>(instr->getTick()/bucket_size, it->second));
 }
 
+void PowerModel::updateStats(SimEvent *se) {
+    switch (se->getType()) {
+        case InstEvent:
+            eventStats[instrTypeToString(static_cast<Instruction*>(se)->getInstrType())]++;
+            break;
+        case MemEvent:
+            eventStats[memTypeToString(static_cast<Memory*>(se)->getMemType())]++;
+            break;
+        default:
+            break;
+    }
+}
+
 int PowerModel::run() {
     std::string *s = 0;
     std::string *delete_stack[DELETE_STACK_SIZE];
     int ds = 0;
     short cnt = 0;
-    while (!(*done) || !q->empty()) {
+    while (!(*done && q->empty())) {
         while (q->pop(s)) {
             TraceLine tr = TraceLine(*s);
 
             calculate(tr.getSimEvent());
             if (annotations)
                 annotate(tr.getSimEvent());
+            if (stats)
+                updateStats(tr.getSimEvent());
             if (numTicks > 0 && cnt++ % 2048 == 0) {
-                printf("\rTicks prosessed: %ld/%llu (%f%%)", tr.getSimEvent()->getTick(), numTicks, (((double)tr.getSimEvent()->getTick())/numTicks)*100);
+                printf("\rTicks prosessed: \t%ld/%llu (%.3f%%)", tr.getSimEvent()->getTick(), numTicks, (((double)tr.getSimEvent()->getTick())/numTicks)*100);
             }
             if (ds < DELETE_STACK_SIZE) {
                 delete_stack[ds++] = s;

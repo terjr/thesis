@@ -13,8 +13,9 @@ SimpleModel::SimpleModel(
         std::map<unsigned long, std::string> *annotations,
         std::map<std::string, unsigned long> *weights,
         unsigned long bucket_size,
-        unsigned long long numTicks)
-    : PowerModel(q, done, annotations, weights, bucket_size, numTicks), m() {}
+        unsigned long long numTicks,
+        bool stats)
+    : PowerModel(q, done, annotations, weights, bucket_size, numTicks, stats), m() {}
 
 SimpleModel::~SimpleModel() {}
 
@@ -32,7 +33,6 @@ int SimpleModel::calculate(const SimEvent *se) {
         const Instruction *instr = static_cast<const Instruction *>(se);
 
         output[instr->getTick()/bucket_size] += getWeight(instr->getInstrType());
-        eventStats[instrTypeToString(instr->getInstrType())]++;
     } else if (se->getType() == EventType::MemEvent) {
         const Memory *mem = static_cast<const Memory *>(se);
 
@@ -40,7 +40,6 @@ int SimpleModel::calculate(const SimEvent *se) {
         if (MemType::Null != mem->getMemType()) {
             output[mem->getTick()/bucket_size] += getWeight(mem->getMemType());
         }
-        eventStats[memTypeToString(mem->getMemType())]++;
     }
 
     return 0;

@@ -91,7 +91,7 @@ Pet::Pet(options_t &options) :
 
         // Assign tasks to the thread pool
         for (unsigned int i = 0; i < lineQueue.size(); ++i) {
-            SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks);
+            SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks, options.stats);
             nTicks = 0;
             this->ioService.post( boost::bind(run, sm) );
             pm.push_back(sm);
@@ -119,7 +119,7 @@ void Pet::processStreams() {
     // Collect and massage data
     unsigned long maxSize = findWorkerMaxSize(this->pm);
     vector<unsigned long> results(maxSize);
-    map<string, unsigned long> eventStats;
+    map<const string, unsigned long> eventStats;
 
     sumBuckets(this->pm, results);
     sumStats(this->pm, eventStats);
@@ -143,6 +143,7 @@ void Pet::processStreams() {
     }
     gnuplotter.produceOutput();
 
+    // Will only print anything if map is filled, not done when stats = false
     for (auto it = eventStats.begin(); it != eventStats.end(); ++it)
         cout << it->first << ": " << it->second << endl;
 
@@ -187,11 +188,11 @@ void sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) {
             out[j] += in[i]->getOutput()[j];
 }
 
-void sumStats(const vector<PowerModel*> &in, map<string, unsigned long> &eventStats) {
-    for (auto it = in.begin(); it != in.end(); ++it) {
-        for (auto pit = (*it)->getStats().begin(); pit != (*it)->getStats().end(); ++pit) {
-            cout << pit->first  <<  pit->second << endl; 
-            eventStats[pit->first] = pit->second;
+void sumStats(const vector<PowerModel*> &in, map<const string, unsigned long> &eventStats) {
+    for (unsigned long i = 0; i < in.size(); ++i) {
+        auto stats = in[i]->getStats();
+        for (auto pit = stats.begin(); pit != stats.end(); ++pit) {
+            eventStats[pit->first] += pit->second;
         }
     }
 }

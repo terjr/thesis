@@ -17,6 +17,9 @@ all: $(TARGETS)
 $(TARGETS): $(FOLDERS) bin ${SOURCES}
 	${CC} $(patsubst bin/%, %.c, $@) ${CFLAGS} -o $@
 
+bin/dhrystone/dhry:
+	echo "Done"
+
 bin/scrypt/scrypt:
 	echo "Done"
 
@@ -42,7 +45,7 @@ purge: clean
 test: $(subst /,-,$(TESTS))
 
 test-%: all m5out
-	${GEM5}/build/ARM/gem5.opt ${GEM5_OPTIONS} -d /backup/m5out/$* ${GEM5}/configs/example/se.py -c bin/$(subst -,/,$*) ${SIM_OPTIONS}
+	${GEM5}/build/ARM/gem5.opt ${GEM5_OPTIONS} -d m5out/$* ${GEM5}/configs/example/se.py -c bin/$(subst -,/,$*) ${SIM_OPTIONS}
 
 m5out:
 	mkdir -p m5out

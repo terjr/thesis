@@ -122,7 +122,7 @@ InstrType instrTypeFromString(const std::string &instr) {
     }
 }
 
-std::string instrTypeToString(InstrType type) {
+const std::string instrTypeToString(InstrType type) {
     switch (type)
     {
     case IntAlu:

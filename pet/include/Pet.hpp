@@ -37,5 +37,5 @@ class Pet
 // Utility functions used to collect and prepare data for presentation.
 unsigned long findWorkerMaxSize(std::vector<PowerModel*> &modelworkers);
 void sumBuckets(const std::vector<PowerModel*> &in, std::vector<unsigned long> &out);
-void sumStats(const std::vector<PowerModel*> &in, std::map<std::string, unsigned long> &eventStats);
+void sumStats(const std::vector<PowerModel*> &in, std::map<const std::string, unsigned long> &eventStats);
 void normalize(const unsigned long bucketSize, const unsigned long staticPowerDrain, std::vector<unsigned long> &results);

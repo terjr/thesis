@@ -90,6 +90,7 @@ options_t processProgramOptions(int ac, char **av) {
         ("weights,w", po::value<string>()->default_value("weights.conf"), "weight-file")
         ("annotations,a", po::value<string>(), "annotation-map")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
+        ("stats,s", "print event count statistics")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
         ("bucket-size,B", po::value<unsigned long>(), "number of ticks in each bucket")
         ;
@@ -133,6 +134,8 @@ options_t processProgramOptions(int ac, char **av) {
     if (vm.count("verbose")) {
         verbose = true;
     }
+    options.stats = vm.count("stats") > 0;
+
 
     if (vm.count("max-threads")) {
         options.numThreads = vm["max-threads"].as<unsigned int>();

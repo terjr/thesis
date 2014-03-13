@@ -24,13 +24,17 @@ def swap_if_greater(d, i1, i2):
         d[i1],d[i2] = d[i2],d[i1]
 
 def check_individual(ind):
-    swap_if_greater(ind, 'L1R', 'PhysR')
-    swap_if_greater(ind, 'L1W', 'PhysW')
+    swap_if_greater(ind, 'L1IR', 'PhysR')
+    swap_if_greater(ind, 'L1IW', 'PhysW')
+    swap_if_greater(ind, 'L1DR', 'PhysR')
+    swap_if_greater(ind, 'L1DW', 'PhysW')
     swap_if_greater(ind, 'L2R', 'PhysR')
     swap_if_greater(ind, 'L2W', 'PhysW')
 
-    swap_if_greater(ind, 'L1R', 'L2R')
-    swap_if_greater(ind, 'L1W', 'L2W')
+    swap_if_greater(ind, 'L1IR', 'L2R')
+    swap_if_greater(ind, 'L1IW', 'L2W')
+    swap_if_greater(ind, 'L1DR', 'L2R')
+    swap_if_greater(ind, 'L1DW', 'L2W')
 
     return ind
 
@@ -42,8 +46,11 @@ def create_individual():
     ind['MemRead'] = f()
     ind['MemWrite'] =f()
     ind['SimdFloatMisc'] = f()*2
-    ind['L1R'] = f()
-    ind['L1W'] = ind['L1R']+((random.random()+0.5)*10)
+    ind['L1IR'] = f()
+    ind['L1IW'] = ind['L1IR']+((random.random()-0.5)*10)
+    ind['L1DR'] = f()
+    ind['L1DW'] = ind['L1DR']+((random.random()-0.5)*10)
+
     ind['L2R'] = f()*2
     ind['L2W'] = f()*2
     ind['PhysR'] = f()*5
@@ -119,8 +126,10 @@ def main():
     ind1 = toolbox.individual()
     ind1['IntAlu'] = 176
     ind1['IntMult'] = 999
-    ind1['L1R'] = 243
-    ind1['L1W'] = 363
+    ind1['L1DR'] = 243
+    ind1['L1DW'] = 363
+    ind1['L1IR'] = 243
+    ind1['L1IW'] = 363
     ind1['L2R'] = 1122
     ind1['L2W'] = 1149
     ind1['MemRead'] = 86

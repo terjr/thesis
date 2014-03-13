@@ -21,18 +21,20 @@ class PowerModel {
                 std::map<unsigned long, std::string> *annotations,
                 std::map<std::string, unsigned long> *weights,
                 unsigned long bucket_size = 10000,
-                unsigned long long numTicks = 0);
+                unsigned long long numTicks = 0,
+                bool stats = false);
         virtual ~PowerModel();
         virtual int calculate(const SimEvent *se) = 0;
         unsigned long getWeight(const std::string &name) const;
         unsigned long getWeight(InstrType type) const;
         unsigned long getWeight(MemType type) const;
-        std::map<std::string, unsigned long> getStats() const;
+        const std::map<const std::string, unsigned long> getStats() const;
         OutputVector getOutput() const;
         std::map<unsigned long, std::string> getAnnotations() const;
         int run();
     protected:
         void annotate(SimEvent *se);
+        void updateStats(SimEvent *se);
         lfspscqueue *q;
         std::atomic<bool> *done;
         OutputVector output;
@@ -41,5 +43,6 @@ class PowerModel {
         std::map<unsigned long, std::string> *annotations;
         std::map<std::string, unsigned long> *weights;
         std::map<unsigned long, std::string> annotation_map;
-        std::map<std::string, unsigned long> eventStats;
+        std::map<const std::string, unsigned long> eventStats;
+        bool stats;
 };
