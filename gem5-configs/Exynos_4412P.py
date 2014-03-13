@@ -32,11 +32,12 @@ from m5.objects import *
 # Simple ALU Instructions have a latency of 1
 class Exynos_Simple_Int(FUDesc):
     opList = [ OpDesc(opClass='IntAlu', opLat=1) ]
-    count = 2
+    count = 1
 
 # Complex ALU instructions have a variable latencies
 class Exynos_Complex_Int(FUDesc):
-    opList = [ OpDesc(opClass='IntMult', opLat=3, issueLat=1),
+    opList = [ OpDesc(opClass='IntMult', opLat=4, issueLat=1),
+               OpDesc(opClass='IntAlu', opLat=1),
                OpDesc(opClass='IntDiv', opLat=12, issueLat=12),
                OpDesc(opClass='IprAccess', opLat=3, issueLat=1) ]
     count = 1
@@ -70,41 +71,39 @@ class Exynos_FP(FUDesc):
                OpDesc(opClass='FloatDiv', opLat=9, issueLat=9),
                OpDesc(opClass='FloatSqrt', opLat=33, issueLat=33),
                OpDesc(opClass='FloatMult', opLat=4) ]
-    count = 2
+    count = 1
 
 
 # Load/Store Units
-class Exynos_Load(FUDesc):
-    opList = [ OpDesc(opClass='MemRead',opLat=2) ]
+class Exynos_LS(FUDesc):
+    opList = [ OpDesc(opClass='MemRead',opLat=2),
+               OpDesc(opClass='MemWrite',opLat=2) ]
     count = 1
 
-class Exynos_Store(FUDesc):
-    opList = [OpDesc(opClass='MemWrite',opLat=2) ]
-    count = 1
 
 # Functional Units for this CPU
 class Exynos_FUP(FUPool):
     FUList = [Exynos_Simple_Int(), Exynos_Complex_Int(),
-              Exynos_Load(), Exynos_Store(), Exynos_FP()]
+              Exynos_LS(), Exynos_FP()]
 
 # Tournament Branch Predictor
 class Exynos_BP(BranchPredictor):
     predType = "tournament"
-    localPredictorSize = 2048
+    localPredictorSize = 1024
     localCtrBits = 2
     localHistoryTableSize = 1024
-    globalPredictorSize = 8192
+    globalPredictorSize = 4096
     globalCtrBits = 2
-    choicePredictorSize = 8192
+    choicePredictorSize = 4096
     choiceCtrBits = 2
-    BTBEntries = 2048
+    BTBEntries = 512
     BTBTagSize = 18
-    RASSize = 16
+    RASSize = 8
     instShiftAmt = 2
 
 class Exynos_3(DerivO3CPU):
-    LQEntries = 16
-    SQEntries = 16
+    LQEntries = 4
+    SQEntries = 4
     LSQDepCheckShift = 0
     LFSTSize = 1024
     SSITSize = 1024
@@ -125,21 +124,21 @@ class Exynos_3(DerivO3CPU):
     renameWidth = 4
     renameToIEWDelay = 1
     issueToExecuteDelay = 1
-    dispatchWidth = 2
-    issueWidth = 2
+    dispatchWidth = 4
+    issueWidth = 4
     wbWidth = 4
     wbDepth = 1
     fuPool = Exynos_FUP()
     iewToCommitDelay = 1
     renameToROBDelay = 1
-    commitWidth = 4
+    commitWidth = 2
     squashWidth = 8
     trapLatency = 13
     backComSize = 5
     forwardComSize = 5
-    numPhysIntRegs = 128
-    numPhysFloatRegs = 128
-    numIQEntries = 32
+    numPhysIntRegs = 56
+    numPhysFloatRegs = 56
+    numIQEntries = 16
     numROBEntries = 40
 
     switched_out = False
@@ -153,7 +152,7 @@ class Exynos_ICache(BaseCache):
     mshrs = 2
     tgts_per_mshr = 8
     size = '32kB'
-    assoc = 2
+    assoc = 4
     is_top_level = 'true'
 
 # Data Cache
@@ -164,7 +163,7 @@ class Exynos_DCache(BaseCache):
     mshrs = 6
     tgts_per_mshr = 8
     size = '32kB'
-    assoc = 2
+    assoc = 4
     write_buffers = 16
     is_top_level = 'true'
 
@@ -176,8 +175,8 @@ class ExynosWalkCache(BaseCache):
     block_size = 64
     mshrs = 6
     tgts_per_mshr = 8
-    size = '1kB'
-    assoc = 8
+    size = '2kB'
+    assoc = 2
     write_buffers = 16
     is_top_level = 'true'
 
