@@ -11,7 +11,7 @@ PowerModel::PowerModel(lfspscqueue *q,
         std::map<unsigned long, std::string> *annotations,
         std::map<std::string, unsigned long> *weights,
         unsigned long bucket_size,
-        unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks), annotations(annotations), weights(weights), annotation_map() { }
+        unsigned long long numTicks) : q(q), done(done), output(), bucket_size(bucket_size), numTicks(numTicks), annotations(annotations), weights(weights), annotation_map(), eventStats() { }
 
 PowerModel::~PowerModel() { };
 
@@ -42,6 +42,10 @@ unsigned long PowerModel::getWeight(const std::string &name) const {
         return it->second;
     else
         return 0;
+}
+
+std::map<std::string, unsigned long> PowerModel::getStats() const {
+    return eventStats;
 }
 
 void PowerModel::annotate(SimEvent *se) {

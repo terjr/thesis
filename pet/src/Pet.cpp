@@ -119,7 +119,10 @@ void Pet::processStreams() {
     // Collect and massage data
     unsigned long maxSize = findWorkerMaxSize(this->pm);
     vector<unsigned long> results(maxSize);
+    map<string, unsigned long> eventStats;
+
     sumBuckets(this->pm, results);
+    sumStats(this->pm, eventStats);
     normalize(options.bucketSize, this->pm[0]->getWeight("Static"), results);
 
     OutputFormatter gnuplotter(results, &options);
@@ -139,6 +142,9 @@ void Pet::processStreams() {
         }
     }
     gnuplotter.produceOutput();
+
+    for (auto it = eventStats.begin(); it != eventStats.end(); ++it)
+        cout << it->first << ": " << it->second << endl;
 
 }
 
@@ -179,6 +185,15 @@ void sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) {
     for (unsigned long i = 0; i < in.size(); ++i)
         for (unsigned long j = 0; j < in[i]->getOutput().size(); ++j)
             out[j] += in[i]->getOutput()[j];
+}
+
+void sumStats(const vector<PowerModel*> &in, map<string, unsigned long> &eventStats) {
+    for (auto it = in.begin(); it != in.end(); ++it) {
+        for (auto pit = (*it)->getStats().begin(); pit != (*it)->getStats().end(); ++pit) {
+            cout << pit->first  <<  pit->second << endl; 
+            eventStats[pit->first] = pit->second;
+        }
+    }
 }
 
 void normalize(const unsigned long bucketSize, const unsigned long staticPowerDrain, vector<unsigned long> &results) {

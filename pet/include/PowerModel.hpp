@@ -5,7 +5,6 @@
 #include <vector>
 #include <atomic>
 
-#include <boost/algorithm/string/trim.hpp>
 #include <boost/thread.hpp>
 
 #include "SimEvent.hpp"
@@ -28,6 +27,7 @@ class PowerModel {
         unsigned long getWeight(const std::string &name) const;
         unsigned long getWeight(InstrType type) const;
         unsigned long getWeight(MemType type) const;
+        std::map<std::string, unsigned long> getStats() const;
         OutputVector getOutput() const;
         std::map<unsigned long, std::string> getAnnotations() const;
         int run();
@@ -41,4 +41,5 @@ class PowerModel {
         std::map<unsigned long, std::string> *annotations;
         std::map<std::string, unsigned long> *weights;
         std::map<unsigned long, std::string> annotation_map;
+        std::map<std::string, unsigned long> eventStats;
 };
