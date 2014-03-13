@@ -10,6 +10,8 @@ struct BasicMem {
         mem_write_l1_hit(" 374500: system.cpu.dcache: WriteReq 80dcc hit state: f (M) valid: 1 writable: 1 readable: 1 dirty: 1 tag: 10 data: 0"),
         mem_read_l1_miss(" 202500: system.cpu.icache: ReadReq (ifetch) bc0 miss"),
         mem_write_l1_miss(" 374500: system.cpu.dcache: WriteReq 80dcc miss"),
+        mem_d_read_l1_hit(" 2748694788: system.cpu.dcache: ReadReq 80dc4 hit state: f (M) valid: 1 writable: 1 readable: 1 dirty: 1 tag: 10 data: aa"),
+        mem_i_write_l1("3017009816: system.cpu.icache: Block for addr 1980 being updated in Cache"),
 
         mem_read_l2_hit(" 556500: system.l2: ReadReq dd40 hit state: 7 (E) valid: 1 writable: 1 readable: 1 dirty: 0 tag: 0 data: 3"),
         mem_write_l2_hit("7380104000: system.l2: Block for addr 81900 being updated in Cache"),
@@ -24,7 +26,8 @@ struct BasicMem {
     { }
     virtual ~BasicMem() { }
 
-    Memory  mem_read_l1_hit, mem_write_l1_hit, mem_read_l1_miss, mem_write_l1_miss,  mem_read_l2_hit, mem_write_l2_hit,mem_read_l2_miss, mem_write_l2_miss, mem_write, mem_read, mem_null, mem_iread;
+    Memory  mem_read_l1_hit, mem_write_l1_hit, mem_read_l1_miss, mem_write_l1_miss, mem_d_read_l1_hit, mem_i_write_l1,
+             mem_read_l2_hit, mem_write_l2_hit,mem_read_l2_miss, mem_write_l2_miss, mem_write, mem_read, mem_null, mem_iread;
 };
 
 
@@ -32,10 +35,12 @@ BOOST_FIXTURE_TEST_SUITE( MemoryParsing, BasicMem )
 
 BOOST_AUTO_TEST_CASE ( MemoryTypes )
 {
-    BOOST_CHECK_EQUAL (mem_read_l1_hit.getMemType(), MemType::L1R);
-    BOOST_CHECK_EQUAL (mem_write_l1_hit.getMemType(), MemType::L1W);
-    BOOST_CHECK_EQUAL (mem_read_l1_miss.getMemType(), MemType::L1R);
-    BOOST_CHECK_EQUAL (mem_write_l1_miss.getMemType(), MemType::L1W);
+    BOOST_CHECK_EQUAL (mem_read_l1_hit.getMemType(), MemType::L1IR);
+    BOOST_CHECK_EQUAL (mem_write_l1_hit.getMemType(), MemType::L1DW);
+    BOOST_CHECK_EQUAL (mem_read_l1_miss.getMemType(), MemType::L1IR);
+    BOOST_CHECK_EQUAL (mem_write_l1_miss.getMemType(), MemType::L1DW);
+    BOOST_CHECK_EQUAL (mem_d_read_l1_hit.getMemType(), MemType::L1DR);
+    BOOST_CHECK_EQUAL (mem_i_write_l1.getMemType(), MemType::L1IW);
 
     BOOST_CHECK_EQUAL (mem_read_l2_hit.getMemType(), MemType::L2R);
     BOOST_CHECK_EQUAL (mem_write_l2_hit.getMemType(), MemType::L2W);
@@ -62,7 +67,7 @@ BOOST_AUTO_TEST_CASE ( MemoryIsHit )
 
     BOOST_CHECK (mem_read.isHit());
     BOOST_CHECK (mem_write.isHit());
-    BOOST_CHECK (!mem_null.isHit());
+    BOOST_CHECK (mem_null.isHit());
     BOOST_CHECK (mem_iread.isHit());
 }
 

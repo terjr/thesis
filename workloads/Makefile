@@ -7,7 +7,7 @@ TARGETS=$(patsubst %.c, bin/%, $(SOURCES))
 FOLDERS=$(shell dirname $(TARGETS))
 TESTS=$(patsubst %.c, test-%, $(SOURCES))
 
-GEM5_OPTIONS=--debug-flags=Bus,Cache,MemoryAccess,Exec --remote-gdb-port=0 --trace-file=trace.out
+GEM5_OPTIONS=--debug-flags=Cache,MemoryAccess,Exec --remote-gdb-port=0 --debug-file=trace.out
 SIM_OPTIONS=--cpu-type=exynos_4412p --caches --l2cache --mem-type=LPDDR2_S4_1066_x32 --sys-clock=400MHz --cpu-clock=1.7GHz
 
 all: $(TARGETS)
@@ -16,6 +16,9 @@ all: $(TARGETS)
 
 $(TARGETS): $(FOLDERS) bin ${SOURCES}
 	${CC} $(patsubst bin/%, %.c, $@) ${CFLAGS} -o $@
+
+bin/dhrystone/dhry:
+	echo "Done"
 
 bin/scrypt/scrypt:
 	echo "Done"

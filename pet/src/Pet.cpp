@@ -91,7 +91,7 @@ Pet::Pet(options_t &options) :
 
         // Assign tasks to the thread pool
         for (unsigned int i = 0; i < lineQueue.size(); ++i) {
-            SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks);
+            SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks, options.stats);
             nTicks = 0;
             this->ioService.post( boost::bind(run, sm) );
             pm.push_back(sm);
@@ -99,8 +99,7 @@ Pet::Pet(options_t &options) :
     }
 
 Pet::~Pet() {
-    for (unsigned long i = 0; i < this->pm.size(); ++i)
-    {
+    for (unsigned long i = 0; i < this->pm.size(); ++i) {
         delete pm[i];
     }
     delete options.annotations;
@@ -120,7 +119,10 @@ void Pet::processStreams() {
     // Collect and massage data
     unsigned long maxSize = findWorkerMaxSize(this->pm);
     vector<unsigned long> results(maxSize);
+    map<const string, unsigned long> eventStats;
+
     sumBuckets(this->pm, results);
+    sumStats(this->pm, eventStats);
     normalize(options.bucketSize, this->pm[0]->getWeight("Static"), results);
 
     OutputFormatter gnuplotter(results, &options);
@@ -140,6 +142,10 @@ void Pet::processStreams() {
         }
     }
     gnuplotter.produceOutput();
+
+    // Will only print anything if map is filled, not done when stats = false
+    for (auto it = eventStats.begin(); it != eventStats.end(); ++it)
+        cout << it->first << ": " << it->second << endl;
 
 }
 
@@ -180,6 +186,15 @@ void sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) {
     for (unsigned long i = 0; i < in.size(); ++i)
         for (unsigned long j = 0; j < in[i]->getOutput().size(); ++j)
             out[j] += in[i]->getOutput()[j];
+}
+
+void sumStats(const vector<PowerModel*> &in, map<const string, unsigned long> &eventStats) {
+    for (unsigned long i = 0; i < in.size(); ++i) {
+        auto stats = in[i]->getStats();
+        for (auto pit = stats.begin(); pit != stats.end(); ++pit) {
+            eventStats[pit->first] += pit->second;
+        }
+    }
 }
 
 void normalize(const unsigned long bucketSize, const unsigned long staticPowerDrain, vector<unsigned long> &results) {

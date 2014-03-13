@@ -41,7 +41,7 @@ class Instruction : public SimEvent {
 };
 
 InstrType instrTypeFromString(const std::string &instrType);
-std::string instrTypeToString(InstrType type);
+const std::string instrTypeToString(InstrType type);
 
 
 

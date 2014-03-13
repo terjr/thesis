@@ -10,9 +10,11 @@
 
 using namespace boost;
 
-MemType memTypeFromString(const std::string &str) {
-    if (str == "system.cpu.icache" || str == "system.cpu.dcache")
-        return L1R;
+MemType parseType(const std::string &str) {
+    if (str == "system.cpu.icache")
+        return L1IR;
+    else if (str == "system.cpu.dcache")
+        return L1DR;
     else if (str ==  "system.l2")
         return L2R;
     else if (str == "system.physmem")
@@ -21,12 +23,16 @@ MemType memTypeFromString(const std::string &str) {
         return Null;
 }
 
-std::string memTypeToString(MemType type) {
+const std::string memTypeToString(MemType type) {
     switch (type) {
-        case L1R:
-            return "L1R";
-        case L1W:
-            return "L1W";
+        case L1IR:
+            return "L1IR";
+        case L1IW:
+            return "L1IW";
+        case L1DR:
+            return "L1DR";
+        case L1DW:
+            return "L1DW";
         case L2R:
             return "L2R";
         case L2W:
@@ -64,7 +70,7 @@ Memory::Memory(const std::string &line) : Memory() {
                         type = Null;
                     } else {
                         std::string s = trim_str(*it);
-                        type = memTypeFromString(s);
+                        type = parseType(s);
                     }
                     break;
                 }
@@ -73,7 +79,22 @@ Memory::Memory(const std::string &line) : Memory() {
                     std::string s = trim_str(*it);
 
                     switch (type) {
-                        case L1R:
+                        case L1IR:
+                            {
+                                read = starts_with(s, "ReadReq");
+                                bool write = ends_with(s, "updated in Cache");
+                                if (!read && !write)
+                                {
+                                    type = Null;
+                                    break;
+                                } else {
+                                    hit = s.find("miss") == std::string::npos;
+                                }
+                                if (write)
+                                    type=L1IW;
+                                break;
+                            }
+                        case L1DR:
                             {
                                 read = starts_with(s, "ReadReq");
                                 bool write = starts_with(s, "WriteReq");
@@ -85,7 +106,7 @@ Memory::Memory(const std::string &line) : Memory() {
                                     hit = s.find("miss") == std::string::npos;
                                 }
                                 if (write)
-                                    type=L1W;
+                                    type=L1DW;
                                 break;
                             }
                         case L2R:

@@ -3,8 +3,10 @@
 #include "SimEvent.hpp"
 
 enum MemType {
-    L1R,
-    L1W,
+    L1IR,
+    L1IW,
+    L1DR,
+    L1DW,
     L2R,
     L2W,
     PhysR,
@@ -25,5 +27,5 @@ class Memory : public SimEvent {
         bool read;
 };
 
-MemType memTypeFromString(const std::string &str);
-std::string memTypeToString(MemType type);
+MemType parseType(const std::string &str);
+const std::string memTypeToString(MemType type);
