@@ -118,6 +118,7 @@ class Exynos_3(DerivO3CPU):
     commitToRenameDelay = 1
     commitToIEWDelay = 1
     fetchWidth = 2
+    fetchBufferSize = 16
     fetchToDecodeDelay = 3
     decodeWidth = 2
     decodeToRenameDelay = 2
@@ -137,7 +138,7 @@ class Exynos_3(DerivO3CPU):
     backComSize = 5
     forwardComSize = 5
     numPhysIntRegs = 56
-    numPhysFloatRegs = 56
+    numPhysFloatRegs = 192
     numIQEntries = 16
     numROBEntries = 40
 
@@ -148,7 +149,6 @@ class Exynos_3(DerivO3CPU):
 class Exynos_ICache(BaseCache):
     hit_latency = 1
     response_latency = 1
-    block_size = 64
     mshrs = 2
     tgts_per_mshr = 8
     size = '32kB'
@@ -159,7 +159,6 @@ class Exynos_ICache(BaseCache):
 class Exynos_DCache(BaseCache):
     hit_latency = 2
     response_latency = 2
-    block_size = 64
     mshrs = 6
     tgts_per_mshr = 8
     size = '32kB'
@@ -172,7 +171,6 @@ class Exynos_DCache(BaseCache):
 class ExynosWalkCache(BaseCache):
     hit_latency = 4
     response_latency = 4
-    block_size = 64
     mshrs = 6
     tgts_per_mshr = 8
     size = '2kB'
@@ -185,7 +183,6 @@ class ExynosWalkCache(BaseCache):
 class ExynosL2(BaseCache):
     hit_latency = 12
     response_latency = 12
-    block_size = 64
     mshrs = 16
     tgts_per_mshr = 8
     size = '1MB'

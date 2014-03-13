@@ -101,7 +101,7 @@ def run_evolution(population, ngen, file=None):
                 file.flush()
 
         np = toolbox.select(offspring, 1)
-        if np[0].values.fitness <= population[0].values.fitness:
+        if np[0].fitness.values[0] <= population[0].fitness.values[0]:
             population = np
     return population
 
@@ -115,18 +115,19 @@ def main():
     #['IntAlu 176', 'IntMult 931', 'L1D 297', 'L1I 207', 'L2 1431', 'MemRead 69', 'MemWrite 63', 'Phys 3520', 'SimdFloatMisc 1538', 'Static 69'], fitness: 1,710
     #['IntAlu 176', 'IntMult 1021', 'L1D 303', 'L1I 212', 'L2 1149', 'MemRead 84', 'MemWrite 33', 'Phys 2589', 'SimdFloatMisc 1446', 'Static 68'], fitness: 1,160
     #['IntAlu 176' 'IntMult 1021' 'L1D 303' 'L1I 212' 'L2 1149' 'MemRead 84' 'MemWrite 33' 'Phys 2599' 'SimdFloatMisc 1457' 'Static 68'] fitness: 1160
+    #['IntAlu 176', 'IntMult 999', 'L1R 243', 'L1W 401', 'L2R 1137', 'L2W 1149', 'MemRead 86', 'MemWrite 34', 'PhysR 2580', 'PhysW 2691', 'SimdFloatMisc 1414', 'Static 68'], fitness: 2,802
     ind1 = toolbox.individual()
     ind1['IntAlu'] = 176
-    ind1['IntMult'] = 1021
-    ind1['MemRead'] = 84
-    ind1['MemWrite'] = 33
-    ind1['SimdFloatMisc'] = 1457
-    ind1['L1W'] = 303
-    ind1['L1R'] = 212
-    ind1['L2R'] = 1149
+    ind1['IntMult'] = 999
+    ind1['L1R'] = 243
+    ind1['L1W'] = 363
+    ind1['L2R'] = 1122
     ind1['L2W'] = 1149
-    ind1['PhysR'] = 2599
-    ind1['PhysW'] = 2599
+    ind1['MemRead'] = 86
+    ind1['MemWrite'] = 34
+    ind1['PhysR'] = 2580
+    ind1['PhysW'] = 2647
+    ind1['SimdFloatMisc'] = 1414
     ind1['Static'] = 68
 
     population = [ind1] + population
