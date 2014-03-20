@@ -1,28 +1,30 @@
 \section{Concept}
-The goal for PET and this project is to ultimatly estimate power usage and thus
-also energy efficiency of still not yet implemented computer architectures. A
-such approach will of course reside well within the term "estimation" and will
-doubtly reach the correct numbers. Never the less, PET is built by measuring
-real hardware with great detail, capturing discrete events and assigning each
-event a certain amount of energy consumption.
-
-As depicted in \autoref{fig:workflow}, when selected events have been weighted,
-one can run the test program though a simulator set up to act as the new
-hardware.  The simulator will generate a tracelog containing the weighted
-events, and PET can then apply the numbers. From this workflow, PET can produce
-a data set containing power consumption distributed over the simulation
-lifetime.  As noted, the new hardware will be weighted equally of a chosen
-existing hardware, so so this method requires a certain similarity beteen the
-new and the old hardware. In general, all traditional architectures contains
-equal principles of function, and is thus mappable to each other, but accuracy
-will of course differ as hardware differs in design, applied voltage, clock
-speed and process technology.
+The ultimate goal for this project is to model and estimate energy consumption
+for unimplemented computer architectures. This allows new ideas to be prototyped
+and evaluated with respect to energy efficiency early in the design stage,
+easing the process of building energy efficient hardware. These evaluations will
+only serve as estimates, and will doubtedly be fully correct. Nevertheless, it
+can be used to test specific workloads and applications on specific processor
+configurations.
 
 \begin{figure}
     \includegraphics[width=0.9\textwidth]{figs/pet-workflow-gv.pdf}
     \caption{Workflow using PET}
     \label{fig:workflow}
 \end{figure}
+
+PET is built by measuring real hardware with great detail, capturing discrete
+events and assigning each event a certain energy cost. As depicted in
+\autoref{fig:workflow}, when selected events have been weighted, one can run the
+test program though a simulator set up to act as the new hardware. The simulator
+will generate a tracelog containing the weighted events, and PET can then apply
+the numbers. From this workflow, PET can produce a data set containing power
+consumption distributed over the simulation lifetime. As noted, the new hardware
+will be weighted equally of a chosen existing hardware, so so this method
+requires a certain similarity beteen the new and the old hardware. In general,
+all traditional architectures contains equal principles of function, and is thus
+mappable to each other, but accuracy will of course differ as hardware differs
+in design, applied voltage, clock speed and process technology.
 
 When estimating power usage for new architectures, it is hard to tell exactly
 how to chose events and how expensive each event is. Therefore, we have to
