@@ -1,12 +1,12 @@
 \section{Methodology}
 
 \subsection{Design Choices}
-\label{subsec:design_choises}
+\label{subsec:design_choices}
 The first choices made on how PET should be designed was to decide whether it
 should be a standalone program or incorporated into an existing simulator.
 Hundreds of computer architecture simulators exists, all with strengths and
-weknesses. Often, simulators only supports a small set of architectures, memory
-systems and CPU models, and they are only good at simulating one specific
+weaknesses. Often, simulators only supports a small set of architectures, memory
+systems and CPU models, and they only excel in simulating one specific
 combination.
 
 It is desirable to estimate energy consumption on literally all types of
@@ -14,15 +14,31 @@ compututing systems, ranging from large-size clusters to embedded systems. To
 provide this flexibility it was decided to write the tool as simulator agnostic
 as possible, tracking \emph{simulator events} rather than executed instructions.
 A simulator event is defined as a unit of work that uses a specified amount of
-energy, and increases modelled energy consumption to the simulated time.
+energy, and increases modelled energy consumption to the simulated time. We
+defined the following set of simulator events PET should consider.
 
-%\begin{center}
-%    \begin{tabular}{|l|l|}
-%        \hline
-%        L1D & L1 data hit\\
-%        \hlinke
-%    \end{tabular}
-%\end{center}
+\begin{center}
+    \begin{tabular}{|l|l|}
+        \hline
+        L1IR    & L1 instruction cache, read \\
+        \hline
+        L1IW    & L1 instruction cache, write \\
+        \hline
+        L1DR    & L1 data cache, read \\
+        \hline
+        L1DW    & L1 data cache, write \\
+        \hline
+        L2R     & L2 cache, read \\
+        \hline
+        L2W     & L2 cache, write \\
+        \hline
+        PhysR   & Main memory, read \\
+        \hline
+        PhysW   & Main memory, write \\
+        %Null
+        \hline
+    \end{tabular}
+\end{center}
 
 gem5 was used as a basis for development and the only simulation front-end
 implemented.
