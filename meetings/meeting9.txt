@@ -1,0 +1,17 @@
+Fikset bug med at minnesystemet ikke var aktivert.
+
+Har også funnet ut at systemkall er gratis. Har begynt å endre workloads slik at
+systemkall kommer foerst/sist.
+
+Send e-post til fyr med Cortex-A9-konfigurasjon.
+
+-- Rapport --
+Kutt ut alle lister i forkant (..of figures, ..of tables, ..of lists)
+
+Evaluere uimplementerte prosessorer?
+
+Skriv en bra og fin motivasjon.
+
+Motivasjon for å komme fram til tall: Hvorfor bruker vi GA?
+Også viktig å kjoere på fornuftige workloads (læreworkloads).
+Vi bruker ikke random soek.
