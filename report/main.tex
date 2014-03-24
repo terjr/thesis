@@ -45,9 +45,9 @@
 \cleardoublepage
 
 %% Only for the master's thesis; if the main text is in English and you can write Norwegian, there must be an abstract in Norwegian as well.A
- \selectlanguage{norsk}
- \include{abstract_norwegian}
- \cleardoublepage
+\selectlanguage{norsk}
+\include{abstract_norwegian}
+\cleardoublepage
 
 \selectlanguage{english}% Change to 'norsk' if you are writing in Norwegian
 
@@ -62,22 +62,22 @@
 \cleardoublepage
 
 %% include if relevant
-\listoffigures
-\cleardoublepage
+%\listoffigures
+%\cleardoublepage
 
 %% include if relevant
-\listoftables
-\cleardoublepage
+%\listoftables
+%\cleardoublepage
 
 %% include if relevant
-\listofalgorithms
-\addcontentsline{toc}{chapter}{List of Algorithms}
-\cleardoublepage
+%\listofalgorithms
+%\addcontentsline{toc}{chapter}{List of Algorithms}
+%\cleardoublepage
 
 %% include if relevant
-\printglossary[title=List of Symbols, style=long]
-\cleardoublepage
-\glsaddall[]
+%\printglossary[title=List of Symbols, style=long]
+%\cleardoublepage
+%\glsaddall[]
 
 %% include if relevant
 \printglossary[title=List of Acronyms,type=\acronymtype] % prints just the list of acronyms
@@ -98,15 +98,15 @@
 \bibliography{main}
 
 %% Uncomment the following if you have any appendix
- \appendix
- \addtocontents{toc}{%
-  \protect\vspace{1em}% 
-  \protect\noindent \bfseries \appendixtocname\protect\par
-  \protect\vspace{-.5em}%
- }
- \renewcommand{\chaptername}{\appendixname}
+\appendix
+\addtocontents{toc}{%
+ \protect\vspace{1em}% 
+ \protect\noindent \bfseries \appendixtocname\protect\par
+ \protect\vspace{-.5em}%
+}
+\renewcommand{\chaptername}{\appendixname}
 %% include below possible appendices (chapters)
- \includepdf[pages=-, addtotoc={1,chapter,1,{Exploring Instruction Level Energy Efficiency},energy}]{prosjektoppgave.pdf}
+\includepdf[pages=-, addtotoc={1,chapter,1,{Exploring Instruction Level Energy Efficiency},energy}]{prosjektoppgave.pdf}
 
 
 \end{document} 
