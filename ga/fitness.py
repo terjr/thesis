@@ -44,21 +44,21 @@ def write_weights_file(weights, filename):
     f.close()
 
 def eval_individual(weights):
-
-    print(['%s %d' % (key, value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
-
+    print('ind = {' + ', '.join(["'%s':%d" % (key, value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])]) + '}')
     name = ''.join(['%04d' % (value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
-    write_weights_file(weights, "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
-    fitness = run_tests("/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+".output", "/home/hvatum/NAS/stian/Skole/pest-tmp/"+name+"_weights.conf")
+    write_weights_file(weights, "/tmp/"+name+"_weights.conf")
+    fitness = run_tests("/tmp/"+name+".output", "/tmp/"+name+"_weights.conf")
     print("Fitness = "+str(fitness)+"\n")
     return (fitness,)
 
 def run_test(output, weightfile, test):
     tf = output + "-" + test
-    hw = "/home/hvatum/NAS/stian/Skole/pest-tmp/" + test + "-power";
+    hw = "../powerlogs/root/m5bins/" + test.replace("-", "/") + "/pet-log-cut";
+    print("Diffing results "+tf+" with "+hw)
     buckets = sum(1 for line in open(hw))
+    buckets = buckets
 
-    prog = ["/home/hvatum/Skole/thesis/pet/pet", "/home/hvatum/Skole/thesis/workloads/m5out/" + test + "/trace.out", "-b", str(buckets), "-f", "plain", "-o", tf, "-w", weightfile]
+    prog = ["../pet/pet", "../workloads/m5out/" + test + "/trace.out", "-v", "-b", str(buckets), "-f", "plain", "-o", tf, "-w", weightfile]
     if not os.path.isfile(tf):
         print(" ".join(prog)+"\n")
         os.system(" ".join(prog))
@@ -66,7 +66,7 @@ def run_test(output, weightfile, test):
 
 def run_tests(output, weightfile):
 #    q = queue.Queue()
-#    tests = ["pi-pi", "trend-trend", "sha2"]
+#    tests = ["pi-pi", "trend-trend", "sha2-sha2"]
 #    threads = []
 #    for test in tests:
 #        threads.append(threading.Thread(target=run_test, args=(output, weightfile, test, q)))
@@ -80,4 +80,4 @@ def run_tests(output, weightfile):
 #    while not q.empty():
 #        fitness = fitness + q.get()
 #    return fitness
-    return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend") + run_test(output, weightfile, "sha2")
+    return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend") + run_test(output, weightfile, "sha2-sha2") + run_test(output, weightfile, "add-add")
