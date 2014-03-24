@@ -1,12 +1,17 @@
 \section{Motivation for energy efficiency}
 % Moore, blabla Amdahl, blabla Pollac, blabla other people.
 
+% alle datagrener har behov for stroemsparing, fordi: batteri, varme,
+% driftkostnad, kombinasjon
+
 During the 90's and early 2000's, single-threaded performance doubled every 18th
 month. As more performance was crammed into larger and larger cores, heat and
 power consumption became overwhelming. To remedy this, hardware designers now
 emphasize energy efficiency over pure performance; a processor's performance per
 Watt is currently the measure designers seeks to maximize. Indeed, the overall
 performance must also improve, forcing designers to employ novel techniques.
+
+% vanskelig å oeke PPW -- mye utproevd allerede. PET gjoer forståelsen enklere
 
 Mobile processors has always been energy-constrained due to their
 battery-powered nature. Processors in this segment trades off performance in
@@ -17,11 +22,16 @@ attractive for massively parallel problems: Building datacenters from low-cost
 embedded processors is believed to have a huge potential and change the
 landscape of supercomputing the years to come.
 
+% cite Tanenbaum -- tradisjonelt har mobil-PCer vært slappe og server high-end
+% Top500: oeke cores for å minske power
+
 Not only datacenters benefit from the use of mobile processors. The SHMAC
 research project at NTNU aims to build a single-ISA heterogeneous computing
 platform with processing cores tailored to the application. Using the most
 effective processor or hardware accelerator -- in terms of both energy efficiency
 and performance -- is the key to success for such platforms.
+
+% SHMAC, power profiles. Velg beste kjerne for gitt workload/application
 
 % TODO: Introduce the notion of 'energy profiles', i.e. energy/time graphs
 
