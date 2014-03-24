@@ -1,12 +1,15 @@
 \section{Global Optimization}
 
-Optimization is a field of applied mathematics that deals with finding the
-best set of parameters to optimize an objective function. A problem with
-$N$ variables $\{n_0, \dots, n_{N-1}\}$ in range $n_i \in \{0, \dots, k-1\}$ will have a
-search space with $k^N$ possible solutions. As both $k$ and $N$ grow large, it
-becomes infeasible to search through all permutations and other techniques must
-be employed. A wide range of algorithms to search through a subset of the
-solution space exists, each with a different approaches and properties.
+Optimization is a field of applied mathematics that deals with finding the best
+set of parameters to optimize an objective function. A problem with $N$
+variables $\{n_0, \dots, n_{N-1}\}$ in range $n_i \in \{0, \dots, k-1\}$ will
+have a search space with $k^N$ possible solutions. As both $k$ and $N$ grow
+large, it becomes infeasible to search through all permutations and other
+techniques must be employed. Finding an arbitrary local minimum is often
+strightforward using classical \emph{local} optimization methods, however, these
+methods cannot be applied to find a global minimum. A wide range of algorithms
+to search through a subset of the solution space exists, each with a different
+approaches and properties.
 
 \begin{description}
     \item[Simulated Annealing] is a technique that belongs to the field of
