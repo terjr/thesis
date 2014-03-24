@@ -48,9 +48,9 @@ def create_individual():
     ind['MemWrite'] =f()
     ind['SimdFloatMisc'] = f()*2
     ind['L1IR'] = f()
-    ind['L1IW'] = ind['L1IR']+((random.random()-0.5)*10)
+    ind['L1IW'] = floor(ind['L1IR']+((random.random()-0.5)*10))
     ind['L1DR'] = f()
-    ind['L1DW'] = ind['L1DR']+((random.random()-0.5)*10)
+    ind['L1DW'] = floor(ind['L1DR']+((random.random()-0.5)*10))
 
     ind['L2R'] = f()*2
     ind['L2W'] = f()*2
@@ -118,7 +118,8 @@ def main():
     population = create_population(popsize)
 
     ind1 = toolbox.individual()
-    ind1 = {'IntAlu': 288, 'IntMult': 1291, 'L1DR': 321, 'L1DW': 348, 'L1IR': 258, 'L1IW': 625, 'L2R': 1255, 'L2W': 1356, 'MemRead': 214, 'MemWrite': 24, 'PhysR': 2714, 'PhysW': 2560, 'SimdFloatMisc': 1291, 'Static': 96}
+    print(ind1)
+    ind1.update({'IntAlu': 288, 'IntMult': 1291, 'L1DR': 321, 'L1DW': 348, 'L1IR': 258, 'L1IW': 625, 'L2R': 1255, 'L2W': 1356, 'MemRead': 214, 'MemWrite': 24, 'PhysR': 2714, 'PhysW': 2560, 'SimdFloatMisc': 1291, 'Static': 96})
     population = [ind1] + population
 
     run_evolution(population, 600, open("/home/hvatum/ga-results", "a"))
