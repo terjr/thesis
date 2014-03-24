@@ -12,7 +12,7 @@
 
 using namespace std;
 
-unsigned long numTicks(istream *is) {
+unsigned long long int numTicks(istream *is) {
     if (!dynamic_cast<ifstream*>(is)) return 0; // check that stream is from file
 
     is->seekg(0, is->end);
@@ -26,7 +26,7 @@ unsigned long numTicks(istream *is) {
     string str;
     getline(*is, str);
     is->seekg(0, is->beg);
-    return strtoul(str.c_str(), NULL, 10);
+    return strtoull(str.c_str(), NULL, 10);
 }
 
 int readLines(istream *s,
@@ -71,7 +71,7 @@ Pet::Pet(options_t &options) :
             cerr << "Cannot have both bucket size and number of buckets defined at once!" << endl;
             return;
         }
-        long long int nTicks = numTicks(options.inputStream);
+        unsigned long long int nTicks = numTicks(options.inputStream);
         if (!options.bucketSize) {
             if (!nTicks)
                 options.bucketSize = 100000;
@@ -79,6 +79,12 @@ Pet::Pet(options_t &options) :
                 options.bucketSize = nTicks/options.numBuckets;
             else
                 options.bucketSize = nTicks/1000;
+        }
+
+        if (isVerbose())
+        {
+            printf("Found %lld ticks in input file, using %lld buckets of size %d\n", nTicks, nTicks/options.bucketSize, options.bucketSize);
+            printf("Buckets pr. sec: %f\n", 1000000000000.0/options.bucketSize);
         }
 
         //        for (unsigned int i = 0; i < numThreads; ++i)
