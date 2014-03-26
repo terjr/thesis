@@ -1,11 +1,37 @@
-\section{Motivation for energy efficiency}
+\section{Motivation for Energy Efficiency}
 % Moore, blabla Amdahl, blabla Pollac, blabla other people.
+
+Ever since the birth of computers, the world has seen an ever-increasing demand
+for computing power. Computers have become a vital part of the society,
+supporting operations in government, health care and economics. Personal
+computers have become ubiquitous and have found uses ranging from home
+entertainment systems to portable tablet computers. As applications in all these
+segments becomes richer, they demand better performance. Home users require
+better performance on their multimedia applications, researchers can perform
+more accurate simulations with more powerful computer systems and wireless
+networks can increase connectivity with better encoding schemes.
+
+To meet the increasing demand for performance throughout the 80's and 90's,
+hardware designers were forced to optimize the processors designs. They were
+able increase single-threaded performance tremendously by exploiting instruction
+level paralellism, doubling the performance every 18th month. The tradeoff,
+however, was added complexity to the core.
+
+
+% 1. stoerre behov for performance
+% 2. ikke lenger mulig å få masse performance
+% 3. energi like viktig som performance (PPW)
+% 4. energi er superviktig
+% 5. Dennard scaling gjorde det lett å minimere energiforbruk
+For a long time, new process technologies allowed for smaller and less energy
+consuming transistors.
+
 
 % alle datagrener har behov for stroemsparing, fordi: batteri, varme,
 % driftkostnad, kombinasjon
 
-During the 90's and early 2000's, single-threaded performance doubled every 18th
-month. As more performance was crammed into larger and larger cores, heat and
+
+As more performance was crammed into larger and larger cores, heat and
 power consumption became overwhelming. To remedy this, hardware designers now
 emphasize energy efficiency over pure performance; a processor's performance per
 Watt is currently the measure designers seeks to maximize. Indeed, the overall
@@ -17,7 +43,7 @@ Mobile processors has always been energy-constrained due to their
 battery-powered nature. Processors in this segment trades off performance in
 return of increased energy efficiency. More recently, however, mobile processors
 has become increasingly popular in alternative domains too, such as
-supercomputing.  Their low cost and good performance per Watt ratio makes them
+supercomputing. Their low cost and good performance per Watt ratio makes them
 attractive for massively parallel problems: Building datacenters from low-cost
 embedded processors is believed to have a huge potential and change the
 landscape of supercomputing the years to come.

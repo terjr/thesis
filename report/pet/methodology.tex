@@ -1,13 +1,32 @@
 \section{Methodology}
 
-\subsection{Design Choices}
+While computer architecture simulators has been around for a long time, there
+are quite few active and open projects trying to estimate power consumption of
+unimplemented platforms. Since the public available information regarding such
+aproches are sparse, this thesis will try to reason some about the design choises
+on its own.
+
+\subsection{A brief comparison of simulators}
 \label{subsec:design_choices}
+
 The first choices made on how PET should be designed was to decide whether it
 should be a standalone program or incorporated into an existing simulator.
-Hundreds of computer architecture simulators exists, all with strengths and
+There already exists a lot of computer architecture simulators, all with strengths and
 weaknesses. Often, simulators only supports a small set of architectures, memory
 systems and CPU models, and they only excel in simulating one specific
 combination.
+
+\begin{table}
+    \begin{tabular}{l|c|c|c|c}
+        Name    &   Simulated Architectures & Active Development & License & Notes \\
+        \hline
+        gem5    &   Alpha, & Yes & BSD/MIT/LGPL & in-house experience \\
+        MARSSx86&   X86-64 & Yes & GPL-v2       &                     \\
+
+    \end{tabular}
+\end{table}
+
+\subsection{Power Consuming Events}
 
 It is desirable to estimate energy consumption on literally all types of
 compututing systems, ranging from large-size clusters to embedded systems. To
@@ -15,30 +34,56 @@ provide this flexibility it was decided to write the tool as simulator agnostic
 as possible, tracking \emph{simulator events} rather than executed instructions.
 A simulator event is defined as a unit of work that uses a specified amount of
 energy, and increases modelled energy consumption to the simulated time. We
-defined the following set of simulator events PET should consider.
+defined a set of simulator events that PET should consider. The selected events
+are briefly described in \autoref{tbl:events}.
 
-\begin{center}
-    \begin{tabular}{|l|l|}
-        \hline
-        L1IR    & L1 instruction cache, read \\
-        \hline
-        L1IW    & L1 instruction cache, write \\
-        \hline
-        L1DR    & L1 data cache, read \\
-        \hline
-        L1DW    & L1 data cache, write \\
-        \hline
-        L2R     & L2 cache, read \\
-        \hline
-        L2W     & L2 cache, write \\
-        \hline
-        PhysR   & Main memory, read \\
-        \hline
-        PhysW   & Main memory, write \\
-        %Null
-        \hline
-    \end{tabular}
-\end{center}
+\begin{table}[ht]
+    \centering
+    \begin{minipage}[b]{\linewidth}
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            IntAlu    & Integer basic ALU operation\\
+            \hline
+            IntMult    & Integer multiply ALU operation \\
+            \hline
+            MemRead    & Memory Read issued, triggers LS-unit \\
+            \hline
+            MemWrite    & Memory Write issued, triggeres LS-unit \\
+            \hline
+            SimdFloatMisc     & NEON-unit activated \\
+            \hline
+        \end{tabular}
+        \subcaption{CPU Core Events}
+    \end{minipage}
+
+    \begin{minipage}[b]{\linewidth}
+        \centering
+        \begin{tabular}{|l|l|}
+            \hline
+            L1IR    & L1 instruction cache, read \\
+            \hline
+            L1IW    & L1 instruction cache, write \\
+            \hline
+            L1DR    & L1 data cache, read \\
+            \hline
+            L1DW    & L1 data cache, write \\
+            \hline
+            L2R     & L2 cache, read \\
+            \hline
+            L2W     & L2 cache, write \\
+            \hline
+            PhysR   & Main memory, read \\
+            \hline
+            PhysW   & Main memory, write \\
+            \hline
+        \end{tabular}
+        \subcaption{Memory Events}
+    \end{minipage}
+    \caption{Power Consuming Events}
+    \label{tbl:events}
+\end{table}
+
 
 gem5 was used as a basis for development and the only simulation front-end
 implemented.
@@ -50,9 +95,10 @@ implemented.
 
 QEMU -- feil abstraksjonsnivå/formål
 McPat - multicore, power AND AREA???? Optimizer
+CACTI - cache power estimation
 gem5 is flexible because
-    - it is easy to add new processor architectures
-    - memory system
+- it is easy to add new processor architectures
+- memory system
 => in-house experience
 
 LLVM traces?
