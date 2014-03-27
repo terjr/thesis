@@ -14,28 +14,28 @@ networks can increase connectivity with better encoding schemes.
 To meet the increasing demand for performance throughout the 80's and 90's,
 hardware designers were forced to optimize the processors designs. They were
 able increase single-threaded performance tremendously by exploiting instruction
-level paralellism, doubling the performance every 18th month. The tradeoff,
-however, was added complexity to the core.
+level paralellism and increasing frequency, doubling the performance every 18th
+month. The tradeoff, however, was added complexity to the processor core.
+Greater complexity required a greater amount of transistors, so they had to be
+crammed tightly together, which was made possible by the reduction in transistor
+size. For a long time, new process technologies allowed for smaller and less
+energy consuming transistors, but as we approached the end of Dennard scaling
+\cite{dennard}, there was suddently no free lunch. Heat generation on-chip
+became overwhelming and one could not simply increase the frequency to gain
+additional performance.
 
-
-% 1. stoerre behov for performance
-% 2. ikke lenger mulig å få masse performance
-% 3. energi like viktig som performance (PPW)
-% 4. energi er superviktig
-% 5. Dennard scaling gjorde det lett å minimere energiforbruk
-For a long time, new process technologies allowed for smaller and less energy
-consuming transistors.
-
+Today's hardware designers are faced against very hard problems. They must
+continue to deliver performance boosts year after year, while maintaining
+or even lowering the energy consumption. Performance alone is no longer the most
+important attribute of processors, energy efficiency is even important.
 
 % alle datagrener har behov for stroemsparing, fordi: batteri, varme,
 % driftkostnad, kombinasjon
 
-
-As more performance was crammed into larger and larger cores, heat and
-power consumption became overwhelming. To remedy this, hardware designers now
-emphasize energy efficiency over pure performance; a processor's performance per
-Watt is currently the measure designers seeks to maximize. Indeed, the overall
-performance must also improve, forcing designers to employ novel techniques.
+To remedy this, hardware designers now emphasize energy efficiency over pure
+performance; a processor's performance per Watt is currently the measure
+designers seeks to maximize. Indeed, the overall performance must also improve,
+forcing designers to employ novel techniques.
 
 % vanskelig å oeke PPW -- mye utproevd allerede. PET gjoer forståelsen enklere
 
