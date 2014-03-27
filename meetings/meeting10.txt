@@ -1,0 +1,6 @@
+Feilen forrige uke -> ikke så fryktelig galt likevel.
+
+Fast-loop fungerer (sannsynligvis ikke) på hardware.
+
+Rapport: Få inn resultater/diskusjon og grafer; kanskje blir det lettere å
+motivere da. Skriv om GA-bakgrunn.
