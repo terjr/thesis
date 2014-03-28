@@ -89,12 +89,12 @@ class Exynos_FUP(FUPool):
 # Tournament Branch Predictor
 class Exynos_BP(BranchPredictor):
     predType = "tournament"
-    localPredictorSize = 1024
+    localPredictorSize = 512
     localCtrBits = 2
-    localHistoryTableSize = 1024
-    globalPredictorSize = 4096
+    localHistoryTableSize = 512
+    globalPredictorSize = 2048
     globalCtrBits = 2
-    choicePredictorSize = 4096
+    choicePredictorSize = 2048
     choiceCtrBits = 2
     BTBEntries = 512
     BTBTagSize = 18
@@ -102,8 +102,8 @@ class Exynos_BP(BranchPredictor):
     instShiftAmt = 2
 
 class Exynos_3(DerivO3CPU):
-    LQEntries = 4
-    SQEntries = 4
+    LQEntries = 16
+    SQEntries = 16
     LSQDepCheckShift = 0
     LFSTSize = 1024
     SSITSize = 1024
@@ -122,19 +122,19 @@ class Exynos_3(DerivO3CPU):
     fetchToDecodeDelay = 3
     decodeWidth = 2
     decodeToRenameDelay = 2
-    renameWidth = 4
+    renameWidth = 2
     renameToIEWDelay = 1
     issueToExecuteDelay = 1
-    dispatchWidth = 4
-    issueWidth = 4
-    wbWidth = 4
+    dispatchWidth = 2
+    issueWidth = 2
+    wbWidth = 1
     wbDepth = 1
     fuPool = Exynos_FUP()
     iewToCommitDelay = 1
     renameToROBDelay = 1
     commitWidth = 2
-    squashWidth = 8
-    trapLatency = 13
+    squashWidth = 2
+    trapLatency = 37
     backComSize = 5
     forwardComSize = 5
     numPhysIntRegs = 56
@@ -147,8 +147,8 @@ class Exynos_3(DerivO3CPU):
 
 # Instruction Cache
 class Exynos_ICache(BaseCache):
-    hit_latency = 1
-    response_latency = 1
+    hit_latency = 2
+    response_latency = 2
     mshrs = 2
     tgts_per_mshr = 8
     size = '32kB'
@@ -157,8 +157,8 @@ class Exynos_ICache(BaseCache):
 
 # Data Cache
 class Exynos_DCache(BaseCache):
-    hit_latency = 2
-    response_latency = 2
+    hit_latency = 4
+    response_latency = 4
     mshrs = 6
     tgts_per_mshr = 8
     size = '32kB'
@@ -169,8 +169,8 @@ class Exynos_DCache(BaseCache):
 # TLB Cache 
 # Use a cache as a L2 TLB
 class ExynosWalkCache(BaseCache):
-    hit_latency = 4
-    response_latency = 4
+    hit_latency = 7
+    response_latency = 7
     mshrs = 6
     tgts_per_mshr = 8
     size = '2kB'
@@ -181,8 +181,8 @@ class ExynosWalkCache(BaseCache):
 
 # L2 Cache
 class ExynosL2(BaseCache):
-    hit_latency = 12
-    response_latency = 12
+    hit_latency = 37
+    response_latency = 37
     mshrs = 16
     tgts_per_mshr = 8
     size = '1MB'
@@ -190,5 +190,4 @@ class ExynosL2(BaseCache):
     write_buffers = 8
     prefetch_on_access = 'true'
     # Simple stride prefetcher
-    prefetcher = StridePrefetcher(degree=8, latency = 1)
-
+    prefetcher = StridePrefetcher(degree=8, latency = 3)
