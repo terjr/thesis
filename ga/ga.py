@@ -3,6 +3,7 @@ import array, random
 from math import ceil,floor
 from fitness import eval_individual
 from deap import creator, base, tools, algorithms
+import os
 
 from operator import attrgetter
 
@@ -114,14 +115,16 @@ def run_evolution(population, ngen, file=None):
     return population
 
 def main():
-    popsize = 2
+    popsize = 12
     population = create_population(popsize)
 
-    ind1 = toolbox.individual()
-    print(ind1)
-    ind1.update({'IntAlu': 288, 'IntMult': 1291, 'L1DR': 321, 'L1DW': 348, 'L1IR': 258, 'L1IW': 625, 'L2R': 1255, 'L2W': 1356, 'MemRead': 214, 'MemWrite': 24, 'PhysR': 2714, 'PhysW': 2560, 'SimdFloatMisc': 1291, 'Static': 96})
-    population = [ind1] + population
+    #ind1 = toolbox.individual()
+    #print(ind1)
+    #ind1.update({'IntAlu': 288, 'IntMult': 1291, 'L1DR': 321, 'L1DW': 348, 'L1IR': 258, 'L1IW': 625, 'L2R': 1255, 'L2W': 1356, 'MemRead': 214, 'MemWrite': 24, 'PhysR': 2714, 'PhysW': 2560, 'SimdFloatMisc': 1291, 'Static': 96})
+    #population = [ind1] + population
 
-    run_evolution(population, 600, open("/home/hvatum/ga-results", "a"))
+
+    home = os.environ.get('HOME')
+    run_evolution(population, 600, open(home + "/ga-results", "a"))
 
 main()
