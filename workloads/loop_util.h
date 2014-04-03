@@ -18,6 +18,7 @@
 #define LOOP_HEAD(label) \
     __asm__ volatile ( \
             ".balign 64\n" \
+            "nop\n" \
             label":" \
             )
 
