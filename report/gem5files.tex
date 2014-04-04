@@ -1,0 +1,118 @@
+\chapter{Modifications to gem5}
+\label{apx:gem5files}
+All file paths are relative to the root of gem5. Diffs are based of gem5-stable revision aaf017eaad7d.
+
+\section{configs/common/Exynos\_4412P.py}
+\label{gem5exynos4412p}
+\lstinputlisting[language=python,basicstyle=\tiny,numberstyle=\tiny]{../gem5-configs/Exynos_4412P.py}
+
+\section{configs/example/se.py}
+\begin{lstlisting}[language=python]
+diff --git a/configs/example/se.py b/configs/example/se.py
+--- a/configs/example/se.py
++++ b/configs/example/se.py
+@@ -104,7 +104,7 @@
+         idx += 1
+ 
+     if options.smt:
+-        assert(options.cpu_type == "detailed" or options.cpu_type == "inorder")
++        assert(options.cpu_type == "arm_detailed" or options.cpu_type == "inorder")
+         return multiprocesses, idx
+     else:
+         return multiprocesses, 1
+@@ -219,7 +219,7 @@
+     system.cpu[i].createThreads()
+ 
+ if options.ruby:
+-    if not (options.cpu_type == "detailed" or options.cpu_type == "timing"):
++    if not (options.cpu_type == "arm_detailed" or options.cpu_type == "timing"):
+         print >> sys.stderr, "Ruby requires TimingSimpleCPU or O3CPU!!"
+         sys.exit(1)
+ 
+@@ -255,4 +255,5 @@
+     MemConfig.config_mem(options, system)
+ 
+ root = Root(full_system = False, system = system)
++print options
+ Simulation.run(options, root, system, FutureClass)
+\end{lstlisting}
+\vfill
+
+\section{configs/common/CacheConfig.py}
+\begin{lstlisting}[language=python]
+diff --git a/configs/common/CacheConfig.py b/configs/common/CacheConfig.py
+--- a/configs/common/CacheConfig.py
++++ b/configs/common/CacheConfig.py
+@@ -55,9 +55,22 @@
+ 
+         dcache_class, icache_class, l2_cache_class = \
+             O3_ARM_v7a_DCache, O3_ARM_v7a_ICache, O3_ARM_v7aL2
++    elif options.cpu_type == "exynos_4412p":
++        try:
++            from Exynos_4412P import *
++        except:
++            print "exynos_4412p is unavailable. Did you compile the O3 model?"
++            sys.exit(1)
++
++        dcache_class, icache_class, l2_cache_class = \
++            Exynos_DCache, Exynos_ICache, ExynosL2
++
+     else:
+         dcache_class, icache_class, l2_cache_class = \
+             L1Cache, L1Cache, L2Cache
++    print dcache_class
++    print icache_class
++    print l2_cache_class
+ 
+     # Set the cache line size of the system
+     system.cache_line_size = options.cacheline_size
+@@ -71,8 +84,9 @@
+                                    size=options.l2_size,
+                                    assoc=options.l2_assoc)
+ 
++        print system.cpu_clk_domain
+         system.tol2bus = CoherentBus(clk_domain = system.cpu_clk_domain,
+-                                     width = 32)
++                                     width = 64)
+         system.l2.cpu_side = system.tol2bus.master
+         system.l2.mem_side = system.membus.slave
+ 
+\end{lstlisting}
+\vfill
+
+\section{configs/common/CpuConfig.py}
+\begin{lstlisting}[language=python]
+diff --git a/configs/common/CpuConfig.py b/configs/common/CpuConfig.py
+--- a/configs/common/CpuConfig.py
++++ b/configs/common/CpuConfig.py
+@@ -116,6 +116,13 @@
+ except:
+     pass
+ 
++
++try:
++    from Exynos_4412P import Exynos_3
++    _cpu_classes["exynos_4412p"] = Exynos_3
++except:
++    pass
++
+ # Add all CPUs in the object hierarchy.
+ for name, cls in inspect.getmembers(m5.objects, is_cpu_class):
+     _cpu_classes[name] = cls
+\end{lstlisting}
+\vfill
+
+\section{src/arch/arm/linux/process.cc}
+\begin{lstlisting}[language=C++]
+diff --git a/src/arch/arm/linux/process.cc b/src/arch/arm/linux/process.cc
+--- a/src/arch/arm/linux/process.cc
++++ b/src/arch/arm/linux/process.cc
+@@ -66,7 +66,7 @@
+ 
+     strcpy(name->sysname, "Linux");
+     strcpy(name->nodename, "m5.eecs.umich.edu");
+-    strcpy(name->release, "3.0.0");
++    strcpy(name->release, "3.10.2");
+     strcpy(name->version, "#1 Mon Aug 18 11:32:15 EDT 2003");
+     strcpy(name->machine, "armv7l");
+\end{lstlisting}

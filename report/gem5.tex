@@ -1,0 +1,23 @@
+\chapter{gem5 Accuracy}
+
+A key to high accuracy power estimation is a high accuracy architectural
+simulator. Without a simulator capable of providing decent accuracy over system
+events, power estimation using methods as suggested in this report will fail.
+There exists related work that claims a very high accuracy for
+gem5\cite{butko2012accuracy,blem2013detailed}, but the results states
+good accuracy for benchmark programs with a high diversity of instructions. A common
+factor for much of this related work is that the benchmarks have been run with
+simple CPU models that are single cycle and in-order, but timing-adjusted to fit
+the performance of the real hardware.
+
+The power estimation scheme suggested in this thesis is based on accumulation of discrete
+events, each with an assigned weight related to its contribution of the global power consumption.
+This means that accurate power estimation needs these discrete events to happen, and they must
+happen with a realistic timing related to their triggering cause. This chapter will dive into
+how well gem5 does this, but also problems that one must be aware of when using gem5 or any
+other simulator this way.
+
+
+\input{gem5/cpumodels.tex}
+\input{gem5/accuracy.tex}
+

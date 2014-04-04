@@ -88,6 +88,7 @@
 \include{introduction}
 \include{background}
 \include{pet}
+\include{gem5}
 \include{para_opt}
 \include{performance}
 \include{conclusion}
@@ -107,7 +108,15 @@
 \renewcommand{\chaptername}{\appendixname}
 %% include below possible appendices (chapters)
 \includepdf[pages=-, addtotoc={1,chapter,1,{Exploring Instruction Level Energy Efficiency},energy}]{prosjektoppgave.pdf}
+\include{gem5files}
 
+\newpage
+\thispagestyle{empty}
+\vfill
+\newpage
+\thispagestyle{empty}
+\centering
 \includegraphics{figs/ohm.png}
+\vfill
 
 \end{document} 
