@@ -1,5 +1,16 @@
 \section{gem5 Accuracy}
 
+After modellign different configurations for gem5, accuracy as depicted in \autoref{tbl:gem5runtimeaccuracy}
+was achieved. Each test was run with the command written out in \autoref{lst:gem5commandline}, with \texttt{CPU}
+changed with  \texttt{exynos\_4412p}, \texttt{arm\_detailed} and \texttt{timing}.
+
+\begin{lstlisting}[language=sh,label={lst:gem5commandline},caption={gem5 Command Line}]
+build/ARM/gem5.opt --remote-gdb-port=0 -d m5out-time/sha2-sha2
+    configs/example/se.py -c bin/sha2/sha2 --cpu-type=CPU
+    --mem-type=LPDDR2_S4_1066_x32 --sys-clock=400MHz --cpu-clock=1700MHz
+    --num-l3caches=0 --caches --l2cache --l2_assoc=16 --l2_size=1MB
+    --l1d_size=32kB --mem-size=2048MB --l1d_assoc=4 --l1i_assoc=4
+\end{lstlisting}
 
 
 \begin{table}
@@ -9,9 +20,9 @@
  & add-add & pi-pi & sha2-sha2 & trend-trend \\
 \hline
 Real hardware & 0.017600  & 0.013500 & 0.022600 & 0.014600 \\
-gem5 modified O3    & 0.017541  & 0.013790 & 0.022819 & 0.011898 \\
-gem5 original 03    & & & & \\
-gem5 timing simple & & & & \\
+gem5 modified O3    & 0.017541 & 0.013790 & 0.022819 & 0.011898 \\
+gem5 original 03    & 0.008776 & 0.006707 & 0.010367 & 0.004344 \\
+gem5 timing simple  & 0.035038 & 0.019562 & 0.040658 & 0.020502 \\
 \hline
 \end{tabular}
 \caption{gem5 runtime accuracy (O3 with classic memory system)}
