@@ -71,11 +71,12 @@
 \renewcommand{\arraystretch}{1.2}
 
 % Links
+\RequirePackage[hyphens]{url}
 \RequirePackage{hyperref}
 \RequirePackage{memhfixc}
 \hypersetup{
-  colorlinks=true, 
-  urlcolor=black, 
+  colorlinks=true,
+  urlcolor=black,
   linkcolor=black,
   citecolor=black
 }
