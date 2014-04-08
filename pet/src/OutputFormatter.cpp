@@ -7,7 +7,7 @@
 using namespace std;
 
 
-OutputFormatter::OutputFormatter(const OutputVector &statistics, const options_t *options) : options(options) {
+OutputFormatter::OutputFormatter(const OutputVector &statistics, const options_t *options) : annotations(), options(options) {
     importAsDouble(statistics);
     if (Graph == options->outputFormat) {
         plot = new Gnuplot("lines");
@@ -38,6 +38,20 @@ void OutputFormatter::addLabel(unsigned long x, unsigned long y, const string& l
     plot->addLabel(x,y,label);
 }
 
+void OutputFormatter::addAnnotations(std::map<unsigned long, std::string> annot) {
+    std::string prev;
+    if (options->outputFormat == Graph) {
+        for (auto it=annot.begin(); it!=annot.end(); ++it) {
+            if (prev != it->second) {
+                prev = it->second;
+                addLabel(it->first, dVector[it->first]+10, it->second);
+            }
+        }
+    } else {
+        annotations.insert(annot.begin(), annot.end());
+    }
+}
+
 
 void OutputFormatter::importAsDouble(const OutputVector &statistics) {
     dVector.resize(statistics.size());
@@ -65,7 +79,7 @@ void OutputFormatter::produceOutput() {
                     out = &cout;
 
                 for (unsigned long i = 0; i < dVector.size(); ++i)
-                    *out << i << " " << dVector[i] << '\n';
+                    *out << i << " " << dVector[i] << annotations[i] << '\n';
 
                 if (out != &cout)
                     delete out;
@@ -80,13 +94,13 @@ void OutputFormatter::produceOutput() {
                 else
                     out = stdout;
 
-                fprintf(out, "/-------------------------\\\n");
-                fprintf(out, "|   Bucket   |   Energy   |\n");
-                fprintf(out, "|-------------------------|\n");
+                fprintf(out, "/-------------------------------------\\\n");
+                fprintf(out, "|   Bucket   |   Energy   |   Symbol  |\n");
+                fprintf(out, "|-------------------------------------|\n");
 
                 for (unsigned long i = 0; i < dVector.size(); ++i)
-                    fprintf(out, "|%11lu |%11f |\n", i, dVector[i]);
-                fprintf(out, "\\-------------------------/\n");
+                    fprintf(out, "|%11lu |%11f | %11s |\n", i, dVector[i], annotations[i].c_str());
+                fprintf(out, "\\------------------------------------/\n");
 
                 if (out == stdout)
                     fclose(out);

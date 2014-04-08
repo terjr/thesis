@@ -132,20 +132,9 @@ void Pet::processStreams() {
     normalize(options.bucketSize, this->pm[0]->getWeight("Static"), results);
 
     OutputFormatter gnuplotter(results, &options);
-    if (options.outputFormat == Graph) {
-
-        // Add annotations
-        // TODO: Do this elsewhere
-        string prev;
-        for (unsigned long i = 0; i < this->pm.size(); ++i) {
-            auto annot = this->pm[i]->getAnnotations();
-            for (auto it=annot.begin(); it!=annot.end(); ++it) {
-                if (prev != it->second) {
-                    prev = it->second;
-                    gnuplotter.addLabel(it->first, results[it->first]+10, it->second);
-                }
-            }
-        }
+    for (unsigned long i = 0; i < this->pm.size(); ++i) {
+        auto annot = this->pm[i]->getAnnotations();
+        gnuplotter.addAnnotations(annot);
     }
     gnuplotter.produceOutput();
 
