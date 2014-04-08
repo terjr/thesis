@@ -58,7 +58,7 @@ def run_test(output, weightfile, test):
     buckets = sum(1 for line in open(hw))
     buckets = buckets
 
-    prog = ["../pet/pet", "../workloads/m5out/" + test + "/trace.out", "-v", "-b", str(buckets), "-f", "plain", "-o", tf, "-w", weightfile]
+    prog = ["../pet/pet", "../workloads/m5out-stable/" + test + "/trace.out", "-v", "-b", str(buckets), "-f", "plain", "-o", tf, "-w", weightfile]
     if not os.path.isfile(tf):
         print(" ".join(prog)+"\n")
         os.system(" ".join(prog))
