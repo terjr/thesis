@@ -80,4 +80,7 @@ def run_tests(output, weightfile):
 #    while not q.empty():
 #        fitness = fitness + q.get()
 #    return fitness
-    return run_test(output, weightfile, "pi-pi") + run_test(output, weightfile, "trend-trend") + run_test(output, weightfile, "sha2-sha2") + run_test(output, weightfile, "add-add")
+    fitness = 0
+    for test in ['trend-trend', 'sha2-sha2', 'add-add']:
+        fitness += run_test(output, weightfile, test)
+    return fitness
