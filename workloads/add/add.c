@@ -1,7 +1,7 @@
 #include "../base.c"
 
 #undef num_iterations
-#define num_iterations "0x7fffffff"
+#define num_iterations "0x1e4000"
 
 
 void runtest(void) {

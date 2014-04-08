@@ -6,7 +6,7 @@
 
 main(int argc, char* argv)
 {
-   int niter=4000;
+   int niter=10000;
    double x,y;
    int i,count=0; /* # of points in the 1st quadrant of unit circle */
    double z;

@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
+#define SIZE (256*1024)
 
-#define SIZE (512*1024)
 
 int main()
 {
+    char ptr[SIZE];
     volatile long i;
-    char* ptr = malloc(sizeof(char)*SIZE);
     for (i = 0; i < SIZE; ++i)
     {
         ptr[i] = 0;
@@ -16,6 +14,5 @@ int main()
     {
         sum += i;       
     }
-    printf("%ld, %ld \n", sum, ptr[i-18]);
     return 0;
 }
