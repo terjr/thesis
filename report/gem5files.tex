@@ -102,6 +102,73 @@ diff --git a/configs/common/CpuConfig.py b/configs/common/CpuConfig.py
 \end{lstlisting}
 \vfill
 
+\section{scr/mem/SimpleDRAM.py}
+\label{gem5simpledram}
+\begin{lstlisting}[language=python,basicstyle=\tiny,numberstyle=\tiny]
+diff --git a/src/mem/SimpleDRAM.py b/src/mem/SimpleDRAM.py
+--- a/src/mem/SimpleDRAM.py
++++ b/src/mem/SimpleDRAM.py
+@@ -258,6 +258,62 @@
+     tXAW = '50ns'
+     activation_limit = 4
+ 
++# A single LPDDR2-S4 x32 400MHz interface (one command/address bus)
++class LPDDR2_S4_800_x32(SimpleDRAM):
++    # 1x32 configuration, 1 device with a 32-bit interface
++    device_bus_width = 32
++
++    # LPDDR2_S4 is a BL4 and BL8 device
++    burst_length = 8
++
++    # Each device has a page (row buffer) size of 1KB
++    # (this depends on the memory density)
++    device_rowbuffer_size = '1kB'
++
++    # 1x32 configuration, so 1 device
++    devices_per_rank = 1
++
++    # Use a single rank
++    ranks_per_channel = 1
++
++    # LPDDR2-S4 has 8 banks in all configurations
++    banks_per_rank = 8
++
++    # Fixed at 15 ns
++    tRCD = '15ns'
++
++    # 8 CK read latency, 4 CK write latency @ 533 MHz, 1.876 ns cycle time
++    tCL = '15ns'
++
++    # Pre-charge one bank 15 ns (all banks 18 ns)
++    tRP = '15ns'
++    tRAS = '42ns'
++
++    # 8 beats across an x32 DDR interface translates to 4 clocks @ 400 MHz.
++    # Note this is a BL8 DDR device.
++    # Requests larger than 32 bytes are broken down into multiple requests
++    # in the controller
++    tBURST = '7.5ns'
++
++    # LPDDR2-S4, 16Gbit
++    tRFC = '210ns'
++    tREFI = '3.9us'
++
++    # Irrespective of speed grade, tWTR is 7.5 ns
++    tWTR = '7.5ns'
++
++    # Activate to activate irrespective of density and speed grade
++    tRRD = '10.0ns'
++
++    # Irrespective of density, tFAW is 50 ns
++    tXAW = '50ns'
++    activation_limit = 4
++
+ # A single WideIO x128 interface (one command and address bus), with
+ # default timings based on an estimated WIO-200 8 Gbit part.
+ class WideIO_200_x128(SimpleDRAM):
+\end{lstlisting}
+\vfill
+
 \section{src/arch/arm/linux/process.cc}
 \begin{lstlisting}[language=C++]
 diff --git a/src/arch/arm/linux/process.cc b/src/arch/arm/linux/process.cc
