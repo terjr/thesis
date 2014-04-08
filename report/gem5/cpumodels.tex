@@ -17,14 +17,14 @@ hardware platform and the experimental setup is equalt to that in
 \cite{rundehvatum2013exploring}, so gem5 must be adapted to simulate a Samsung
 Exynos 4412P, or at least the CPU-part of it.  gem5 is made to be adapted, so
 adaption is mostly done through editing python files. A new file was created in
-\texttt{gem5/configs/common/Exynos\_4412P.py} and a few others where edited to
+\texttt{gem5/configs/common/Exynos\_4412P.py} and a few others were edited to
 include this new processor definition. The processor definition used and other
 modifications done to the original changeset aaf017eaad7d can be found in
 \autoref{apx:gem5files}.
 
 As a decent amount of implementation details often are keept secret from end users, it
 is not trivial to model any commercial processor. To get as equal as possible performance
-and event scheduling to the real hardware, parameters was fetched from around the internet,
+and event scheduling to the real hardware, parameters was fetched from around the Internet,
 and the simulator was then scripted to run with a wide variaty of configurations and
 mutations of these, all for the ARM Out-of-order CPU model. When the run time performance was
 as good as time permitted, the configuration was accepted and used further in the experiment.
