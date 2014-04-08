@@ -1,0 +1,15 @@
+-- Rapport --
+Resultatene varierer med gem5-versjon
+
+Skrive om abstraksjonsnivå
+
+Vi har masse forskjellige deler;
+    - CPU-modell for A9
+    - genetisk algoritme
+    - fysisk stroemmåling
+    - ...
+
+==> men det går fint. Skriv hvordan ting henger sammen og oppsummer med
+resultater innimellom.
+
+Vis hvordan prinsippet om stroemmåling er (fra i fjor).
