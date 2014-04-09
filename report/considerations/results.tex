@@ -1,6 +1,8 @@
-\section{gem5 Accuracy}
+\section{Results}
 
-After modellign different configurations for gem5, accuracy as depicted in \autoref{tbl:gem5runtimeaccuracy}
+\subsection{gem5 CPU model accuracy}
+
+After modelling different configurations for gem5, accuracy as depicted in \autoref{tbl:gem5runtimeaccuracy}
 was achieved. Each test was run with the command written out in \autoref{lst:gem5commandline}, with \texttt{CPU}
 changed with  \texttt{exynos\_4412p}, \texttt{arm\_detailed} and \texttt{timing}.
 
@@ -14,6 +16,7 @@ $ build/ARM/gem5.opt --remote-gdb-port=0 -d m5out-time/sha2-sha2
 \end{lstlisting}
 
 
+% Move table to result chapter
 \begin{table}
 \centering
 \begin{tabular}{|l|c|c|c|c|}
@@ -29,3 +32,22 @@ gem5 timing simple  & 0.035039 & 0.019564 & 0.040659 & 0.020503 \\
 \caption{gem5 runtime accuracy (O3 with classic memory system)}
 \label{tbl:gem5runtimeaccuracy}
 \end{table}
+
+
+
+
+\subsection{GA optimization}
+As PET has been optimized by a genetic inspired algorithm, it is likly to perform very well on the data sets it
+has been optimized for. When such training is done, a controll test is needed in order to verify that the result
+is good for the general problem solved, not only the specific instances used for training.
+
+\subsection{Training}
+
+The training sets:
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{figs/trend-training.pdf}
+\caption{Overlay of PET training results (red) and training data (green)}
+\label{fig:trend-training}
+\end{figure}
+
