@@ -59,21 +59,21 @@ bucket size estimation algorithm is shown in \autoref{alg:bucket_size}.
 \begin{algorithm}
     \caption{Bucket Size Detection Algorithm}
     \label{alg:bucket_size}
-    \begin{algorithmic}
-        \Function{numTicks}{$traceFile$}
-
-        \State $eofPos \gets \Call{getSize}{traceFile}$
-        \State $\Call{seek}{traceFile, eofPos - 3}$
-        \State
-        \State $char \gets \Call{getChar}{traceFile}$
-        \While{$char \ne newline$}
-            \State $\Call{seek}{traceFile, -1}$
-        \EndWhile
-        \State $line \gets \Call{getLine}{traceFile}$
-        \State $simulatorEvent \gets \Call{parseLine}{line}$
-        \State \Return $\Call{getTick}{simulatorEvent}$
-        \EndFunction
-    \end{algorithmic}
+%    \begin{algorithmic}
+%        \Function{numTicks}{$traceFile$}
+%
+%        \State $eofPos \gets \Call{getSize}{traceFile}$
+%        \State $\Call{seek}{traceFile, eofPos - 3}$
+%        \State
+%        \State $char \gets \Call{getChar}{traceFile}$
+%        \While{$char \ne newline$}
+%            \State $\Call{seek}{traceFile, -1}$
+%        \EndWhile
+%        \State $line \gets \Call{getLine}{traceFile}$
+%        \State $simulatorEvent \gets \Call{parseLine}{line}$
+%        \State \Return $\Call{getTick}{simulatorEvent}$
+%        \EndFunction
+%    \end{algorithmic}
     \begin{lstlisting}[language=Python]
 function numTicks( traceFile ):
     # Find file size
