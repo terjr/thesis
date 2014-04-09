@@ -8,17 +8,27 @@ get numbers on consumed energy, heat generation and so on. The numbers are
 scaled as milliamperes, which of course is equal to milliwatt if voltage is
 $1V$.
 
+All output formats supports annotation of function calls. This is achieved by
+giving PET a list of symbols and their corresponding program counter value. PET
+will tag each power bucket with the last seen symbol within that bucket, as this
+symbol is the one most likly to continue over to the next measure point. Lists
+of symbols can be extracted from non-stripped binaries using the script listed
+in \autoref{lst:annotscript}. This script is also included in the \texttt{scripts}-folder
+of PET.
+
+\lstinputlisting[label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
+
 Example of the \texttt{plain} output format can be seen in
 \autoref{lst:pet_output_plain}. The left column is the bucket number, while the
 right column is instant current draw from the modelled architecture.
 
 \begin{lstlisting}[label={lst:pet_output_plain},caption={PET Plain Output}]
-0 120
-1 113
-2 150
-3 123
-4 133
-5 117
+0 120 memcpy
+1 113 start
+2 150 main
+3 123 main
+4 133 fun1
+5 117 main
 \end{lstlisting}
 
 When reading the output directly from console, a more descriptive output format
@@ -26,23 +36,22 @@ is the \texttt{table} format. An example using this option is rendered in
 \autoref{lst:pet_output_table}.
 
 \begin{lstlisting}[label={lst:pet_output_table},caption={PET Table Output}]
-/-------------------------\
-|   Bucket   |   Energy   |
-|-------------------------|
-|          0 | 120.000000 |
-|          1 | 113.000000 |
-|          2 | 150.000000 |
-|          3 | 123.000000 |
-|          4 | 133.000000 |
-|          5 | 117.000000 |
-\-------------------------/
+/----------------------------------------\
+|   Bucket   |   Energy   |    Symbol    |
+|-------------------------|--------------|
+|          0 | 120.000000 |    memcpy    |
+|          1 | 113.000000 |    start     |
+|          2 | 150.000000 |    main      |
+|          3 | 123.000000 |    main      |
+|          4 | 133.000000 |    fun1      |
+|          5 | 117.000000 |    main      |
+\----------------------------------------/
 \end{lstlisting}
 
 Visualization is often a good thing when inspecting old or trying to understand
 new problems. As it is hard to get a good overview from huge text log files, PET
-provides, as stated in \autoref{subsec:annot}, an optionally annotated graphical
-output. In effect, it is formatting temporary output files and calling GNUPlot
-do do the hard work.
+provides, as stated in \autoref{subsec:annot}. In effect, it is formatting
+temporary output files and calling GNUPlot do do the hard work.
 
 \begin{figure}
     \includegraphics[width=0.9\textwidth]{figs/annot.pdf}
