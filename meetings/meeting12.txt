@@ -1,0 +1,6 @@
+pi-pi funker ikke så bra, men vi har oppdaget at det er den eneste testen med
+masse multiply.
+
+Loesning: La pi-pi telle mer enn de andre, e.g. scaling factor := 3.
+
+Bestemt oss for at CPU-modellen er ganske bra. Treffer OK på kjoeretidene.
