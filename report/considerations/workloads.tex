@@ -3,3 +3,11 @@ When running a genetic algorithm, it is very important to select good workloads.
 Wrong workloads will not give a fare judgement on which genomes is well fit. A
 bad workload might be to biased towards a single or a set of paramters,
 neglecting the rest, or even missconfigure them into a local minimum \cite{magic-book-of-ga}.
+
+This problem resembles a multi-objective optimization problem. There are multiple test programs with different
+instruction distributions, thus if these are not well balanced, it is easy to end up with a result which is over-fitted
+for the instruction types with highest density in the entire test suite. Another worry is that within the training set,
+there will most likly exist multiple Pareto-optimal solutions\cite{deb2014multi}, but no more than one of these can
+truly match the real power consumption.
+
+The workloads used in this experiment is
