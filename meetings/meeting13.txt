@@ -1,0 +1,8 @@
+Multi-objective optimization
+
+Vi trenger en indikasjon på at dette er bedre enn andre metoder. Argumenter for
+dette i rapporten (e.g. Pareto-front).
+
+Future work: Se på en spesifikk prosessor og proev å gjoer det samme som oss.
+
+Hva mangler vi av eksperimenter? Lag de mens vi skriver rapport.
