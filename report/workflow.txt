@@ -1,0 +1,10 @@
+scp workloads/bin/test/subtest to odroid:/root/m5bins/test/subtest
+
+ssh lab-computer
+    arm-project2/scripts/test-program.sh ODROID-IP AGILENT-IP /root/m5bins/test/subtest
+
+scp lab-computer:arm-project2/results/root/m5bins/test/subtest/log thesis/powerlogs/root/m5bins/test/subtest/log
+cd thesis/powerlogs/root/m5bins/test/subtest
+awk '{printf("%d %d\n", NR, $2*1000)}' log > pet-log
+
+-- cut pet-log manually into pet-log-cut --
