@@ -6,12 +6,12 @@ DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
 default: full
 
 full: ${DOTFILES}
-	#latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
-	pdflatex $(TEXFILE); \
-	bibtex $(TEXFILE); \
-	makeglossaries $(TEXFILE);\
-	pdflatex $(TEXFILE);\
-	pdflatex $(TEXFILE)
+	latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
+	#pdflatex $(TEXFILE); \
+	#bibtex $(TEXFILE); \
+	#makeglossaries $(TEXFILE);\
+	#pdflatex $(TEXFILE);\
+	#pdflatex $(TEXFILE)
 
 
 # Removes TeX-output files
