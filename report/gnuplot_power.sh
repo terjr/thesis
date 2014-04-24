@@ -33,7 +33,7 @@ done
 echo "#!/usr/bin/gnuplot -p -"
 case $OUTPUT in
     eps )
-        echo "set terminal postscript eps enhanced color"
+        echo "set terminal pdf enhanced color"
         ;;
     * )
         ;;
