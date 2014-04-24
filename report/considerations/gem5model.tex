@@ -77,16 +77,13 @@ programs execute in about the same number of clock cycles. Even if the processor
 implementation was completely transparent, it would be hard to leverage the use
 of a multi-architecture computer simulators. Features such as fast-loop mode
 found in certian ARM cores must have a corresponding implementation in the
-simulator for complete correctness.
+simulator for complete correctness, and it would be infeasible to include all
+details at that granularity.
 
-
-% TODO: Rewrite this section
-%around the Internet, and the simulator was then scripted to run with a wide
-%variaty of configurations and mutations of these, all for the ARM Out-of-order
-%CPU model. When the run time performance was as good as time permitted, the
-%configuration was accepted and used further in the experiment.  This final
-%configuration is the one printed in \autoref{gem5exynos4412p}. Sources
-%suggesting parameters for ARM Cortex-A9 or Samsung Exynos 4412P is listed in.
+We scripted the simulator to run a wide variety of configurations, about $50$ in
+total. We evaluated their performance by comparing simulated execution time to
+execution time on real hardware. The final CPU configuration is shown in its
+entirity in \autoref{gem5exynos4412p}.
 
 
 \subsection{gem5 memory model}
