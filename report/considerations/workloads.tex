@@ -1,13 +1,42 @@
 \section{Choosing workloads}
+
 When running a genetic algorithm, it is very important to select good workloads.
 Wrong workloads will not give a fare judgement on which genomes is well fit. A
 bad workload might be to biased towards a single or a set of paramters,
-neglecting the rest, or even missconfigure them into a local minimum \cite{magic-book-of-ga}.
+neglecting the rest, or even missconfigure them into a local minimum
+\cite{magic-book-of-ga}.
 
-This problem resembles a multi-objective optimization problem. There are multiple test programs with different
-instruction distributions, thus if these are not well balanced, it is easy to end up with a result which is over-fitted
-for the instruction types with highest density in the entire test suite. Another worry is that within the training set,
-there will most likly exist multiple Pareto-optimal solutions\cite{deb2014multi}, but no more than one of these can
+This problem resembles a multi-objective optimization problem. There are
+multiple test programs with different instruction distributions, thus if these
+are not well balanced, it is easy to end up with a result which is over-fitted
+for the instruction types with highest density in the entire test suite. Another
+worry is that within the training set, there will most likly exist multiple
+Pareto-optimal solutions\cite{deb2014multi}, but no more than one of these can
 truly match the real power consumption.
 
-The workloads used in this experiment is
+The workloads used in this experiment are selected to span the most common
+instruction types and staying simple enough to be simulated in a reasonable
+amount of time.
+
+The following four workloads were used (name of binary file in parens):
+\begin{description}
+    \item[Add (add)] \hfill \\
+        This test stresses simple integer ALU-operations in a tight loop.
+        This workload is very similar to the one used in \cite{rundehvatum2013exploring}.
+
+
+    \item[Pi (pi)] \hfill \\
+        This test calculates Pi using the Monte-Carlo method. It includes
+        floating point and more advanced operations such as multiply.
+
+    \item[Trend (trend)] \hfill \\
+        This test resembles a two-part program consisting of
+        one part with ALU-operations and one part with intense memory usage.
+
+    \item[SHA-512 (sha2)]
+        \footnote{Despite the name, this implementation runs a  SHA-512
+        algorithm} \hfill \\
+        The SHA-512 algorithm includes a mix of integer operations and
+        memory usage. Source code fetched from sha2-1.0.tgz at \cite{sha2}.
+\end{description}
+
