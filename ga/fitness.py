@@ -4,14 +4,16 @@ import sys
 import os
 import subprocess
 
+from math import sqrt
+
 #import queue
 #import threading
 
 def distance(graph1, graph2):
     diff = 0
     for i in range( min(len(graph1), len(graph2))):
-        diff += abs(graph1[i] - graph2[i])
-    return diff;
+        diff += (graph1[i] - graph2[i])**2
+    return sqrt(diff / min(len(graph1), len(graph2)));
 
 
 def align(graph1, graph2):
@@ -81,6 +83,8 @@ def run_tests(output, weightfile):
 #        fitness = fitness + q.get()
 #    return fitness
     fitness = 0
-    for test in ['trend-trend', 'sha2-sha2', 'add-add']:
-        fitness += run_test(output, weightfile, test)
-    return fitness
+    for test in ['trend-trend', 'sha2-sha2', 'add-add', 'pi-pi']:
+        score = run_test(output, weightfile, test)
+        fitness += score*score
+#    fitness += ( run_test(output, weightfile, 'pi-pi') * 2 )
+    return sqrt( fitness / 4 )

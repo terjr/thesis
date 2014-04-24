@@ -18,6 +18,7 @@ typedef struct {
     unsigned int numBuckets;
     unsigned int bucketSize;
     std::string output;
+    std::string title;
     OutputFormat outputFormat;
 } options_t;
 

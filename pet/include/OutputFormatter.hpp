@@ -19,8 +19,10 @@ class OutputFormatter {
         Gnuplot *plot;
         const options_t *options;
 
-        void saveBarchart(const std::string &filename, const std::string &title = "<title>");
-        void showBarchart(const std::string &title = "<title>");
+        void saveBarchart(const std::string &filename, const std::string &title);
+        void saveBarchart(const std::string &filename);
+        void showBarchart(const std::string &title);
+        void showBarchart();
         void importAsDouble(const OutputVector &statistics);
         void addLabel(unsigned long x, unsigned long y, const std::string &label); 
 };
