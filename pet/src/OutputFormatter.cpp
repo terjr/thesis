@@ -79,7 +79,7 @@ void OutputFormatter::produceOutput() {
                     out = &cout;
 
                 for (unsigned long i = 0; i < dVector.size(); ++i)
-                    *out << i << " " << dVector[i] << annotations[i] << '\n';
+                    *out << i << " " << dVector[i] << " " << annotations[i] << '\n';
 
                 if (out != &cout)
                     delete out;
