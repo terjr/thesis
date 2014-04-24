@@ -89,6 +89,7 @@ options_t processProgramOptions(int ac, char **av) {
         ("config-file,c", po::value<string>(), "config-file")
         ("weights,w", po::value<string>()->default_value("weights.conf"), "weight-file")
         ("annotations,a", po::value<string>(), "annotation-map")
+        ("title", po::value<string>(), "graph title")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("stats,s", "print event count statistics")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
@@ -152,6 +153,12 @@ options_t processProgramOptions(int ac, char **av) {
         //options.output = vm["output-file"].as<string>();
         vPrint("Output file set to " + options.output + "\n");
     }
+    if (vm.count("title")) {
+        options.title = vm["title"].as<string>();
+    } else {
+        options.title = "";
+    }
+
     if (vm.count("output-format")) {
         string format = vm["output-format"].as<string>();
         if (format == "graph")

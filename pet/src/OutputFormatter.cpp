@@ -20,6 +20,21 @@ OutputFormatter::~OutputFormatter() {
     }
 }
 
+void OutputFormatter::saveBarchart(const string &filename) {
+    if (!options->title.empty())
+        saveBarchart(filename, options->title);
+    else
+        saveBarchart(filename, options->inputName);
+}
+
+void OutputFormatter::showBarchart() {
+    if (!options->title.empty())
+        showBarchart(options->title);
+    else
+        showBarchart(options->inputName);
+
+}
+
 void OutputFormatter::saveBarchart(const string &filename, const string &title) {
     if (plot)
         plot->savetofigure(filename).plot_x(this->dVector, title);
