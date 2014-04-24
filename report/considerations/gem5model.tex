@@ -38,34 +38,24 @@ The gem5 simulator is bundled with an out-of-order ARMv7 core and serves as a
 basis for the evolution of our custom core meant to model an A9 core on the
 Exynos 4412. ARM cores can be configured with caches of varying sizes decided
 by the implementing vendor and will have varying performance accordingly. Thus,
-it is important to tune all CPU parameters so that it matches the modelled chip.
-It is not publicly known which chip the default configuration attempts to model,
+it is important to tune all CPU parameters so that it matches the modelled SoC.
+It is not publicly known which SoC the default configuration attempts to model,
 but according to the gem5 mailing list \cite{a15maillist} it is neither A9 or
 A15. However, the fact that it is made for the ARMv7 instruction set and is
 out-of-order makes us believe minor modifications can make it a decent model of
 the Cortex-A9.
 
-The model gem5 uses in its simulations is easily configurable using a Python
+The model gem5 uses in its simulations can easily be configured using a Python
 interface. We started with gem5 changeset \texttt{aaf017eaad7d} and added a new
 CPU configuration file for the Exynos 4412;
 \texttt{gem5/configs/common/Exynos\_4412P.py}. A few other files were edited to
 accomodate the new processor definition. Please refer to
 \autoref{apx:gem5files} to see all patches applied in these experiments.
 
-% TODO: Rewrite this section
-Implementation details are often kept secret from end users, so it is not
-trivial to model any commercial processor. To get as equal as possible
-performance and event scheduling to the real hardware, parameters can be found
-around the Internet, and the simulator was then scripted to run with a wide
-variaty of configurations and mutations of these, all for the ARM Out-of-order
-CPU model. When the run time performance was as good as time permitted, the
-configuration was accepted and used further in the experiment.  This final
-configuration is the one printed in \autoref{gem5exynos4412p}. Sources
-suggesting parameters for ARM Cortex-A9 or Samsung Exynos 4412P is listed in
-\autoref{fig:a9paramsources}
+As implementation details for commercial processors are hidden from the end
+user, the Internet can deem helpful in the search for clues. We found many
+sources of information claiming to know implementation details of the Cortex-A9:
 
-\begin{figure}
-All web references was found between january and april 2014.
 \begin{itemize}
     \item{\cite{blem2013detailed}}
     \item{\cite{butko2012accuracy}}
@@ -76,9 +66,27 @@ All web references was found between january and april 2014.
     \item{\url{http://www.7-cpu.com/cpu/Cortex-A9.html}}
     \item{\url{http://www.arm.com/products/processors/cortex-a/cortex-a9.php?tab=Specifications}}
 \end{itemize}
-\caption{Sources suggesting parameters for ARM Cortex-A9 or Samsung Exynos 4412P}
-\label{fig:a9paramsources}
-\end{figure}
+
+Combining this information helps us build a gem5 model for the Exynos SoC, but
+it is still not trivial. We found the simulator to perform different from the
+physical hardware, even though the system parameters are set equal. We claim
+that this is due to the abstraction the simulator provides us; the simulator is
+not a complete model of the hardware. To improve our results, we adjust the model
+specification such that it \textit{performs} similar to the hardware, i.e.
+programs execute in about the same number of clock cycles. Even if the processor
+implementation was completely transparent, it would be hard to leverage the use
+of a multi-architecture computer simulators. Features such as fast-loop mode
+found in certian ARM cores must have a corresponding implementation in the
+simulator for complete correctness.
+
+
+% TODO: Rewrite this section
+%around the Internet, and the simulator was then scripted to run with a wide
+%variaty of configurations and mutations of these, all for the ARM Out-of-order
+%CPU model. When the run time performance was as good as time permitted, the
+%configuration was accepted and used further in the experiment.  This final
+%configuration is the one printed in \autoref{gem5exynos4412p}. Sources
+%suggesting parameters for ARM Cortex-A9 or Samsung Exynos 4412P is listed in.
 
 
 \subsection{gem5 memory model}
