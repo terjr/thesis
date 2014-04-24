@@ -1,5 +1,5 @@
 #!/bin/sh
-options='f:n:r:t:g:'
+options='f:n:r:t:g:o:'
 while getopts $options option
 do
     case $option in
@@ -17,6 +17,9 @@ do
             ;;
         g   )
             GRID=$OPTARG:
+            ;;
+        o   )
+            OUTPUT=$OPTARG
             ;;
         *   )
             error
@@ -57,7 +60,6 @@ case $GRID in
         echo 'set grid xtics lt 0 lw 1 lc rgb "#bbbbbb"'
         ;;
     *   )
-        error
         ;;
 esac
 
