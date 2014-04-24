@@ -16,12 +16,15 @@ of symbols can be extracted from non-stripped binaries using the script listed
 in \autoref{lst:annotscript}. This script is also included in the \texttt{scripts}-folder
 of PET.
 
+\begin{minipage}{\textwidth}
 \lstinputlisting[label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
+\end{minipage}
 
 Example of the \texttt{plain} output format can be seen in
 \autoref{lst:pet_output_plain}. The left column is the bucket number, while the
 right column is instant current draw from the modelled architecture.
 
+\begin{minipage}{\textwidth}
 \begin{lstlisting}[label={lst:pet_output_plain},caption={PET Plain Output}]
 0 120 memcpy
 1 113 start
@@ -30,11 +33,13 @@ right column is instant current draw from the modelled architecture.
 4 133 fun1
 5 117 main
 \end{lstlisting}
+\end{minipage}
 
 When reading the output directly from console, a more descriptive output format
 is the \texttt{table} format. An example using this option is rendered in
 \autoref{lst:pet_output_table}.
 
+\begin{minipage}{\textwidth}
 \begin{lstlisting}[label={lst:pet_output_table},caption={PET Table Output}]
 /----------------------------------------\
 |   Bucket   |   Energy   |    Symbol    |
@@ -47,6 +52,7 @@ is the \texttt{table} format. An example using this option is rendered in
 |          5 | 117.000000 |    main      |
 \----------------------------------------/
 \end{lstlisting}
+\end{minipage}
 
 Visualization is often a good thing when inspecting old or trying to understand
 new problems. As it is hard to get a good overview from huge text log files, PET
