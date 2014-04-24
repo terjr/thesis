@@ -1,5 +1,11 @@
 \section{Results}
 
+There are several factors that together makes up the total performance of PET. First, the simulator must be
+configured as close to the real hardware as time and knowledge permits. Next, one must find power weights that
+seems close to those of the realized hardware. In this particular research, the processor is already existing,
+and the simulator, PET and the strategy of the gentetic algorithm will determine how close power consumption
+can be estimated. This section will take a closer look to each of these parameters.
+
 \subsection{gem5 CPU model accuracy}
 
 After modelling different configurations for gem5, accuracy as depicted in \autoref{tbl:gem5runtimeaccuracy}
@@ -43,8 +49,8 @@ is good for the general problem solved, not only the specific instances used for
 
 \subsection{Training}
 
-The training sets:
-\begin{figure}
+The training sets are displayed in \autoref{fig:trend-training}
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figs/trend-training.pdf}
 \caption{Overlay of PET training results (red) and training data (green)}
