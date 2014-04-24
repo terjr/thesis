@@ -49,8 +49,8 @@
             "subs r7, r7, #1\n" \
             "bne warmup"label"\n" \
             "mov %[instruction], r1\n" \
-            : [instruction] "=r"(content)); \
-            printk(LOG_PREFIX"Instr: %x\n", content)
+            : [instruction] "=r"(content));
+
 
 #define FAST_LOOP_nHAZARDS(label, instr1, instr2, iter_count) \
     INIT_ITER_COUNT(iter_count); \
