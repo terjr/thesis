@@ -1,17 +1,18 @@
 # The main latex-file
 TEXFILE = main
 DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
+TRAINING_FIGS=figs/training/add-add.pdf figs/training/pi-pi.pdf figs/training/sha2-sha2.pdf figs/training/trend-trend.pdf
 
 # Fix reference file and compile source
 default: full
 
-full: ${DOTFILES}
-	latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
-	#pdflatex $(TEXFILE); \
-	#bibtex $(TEXFILE); \
-	#makeglossaries $(TEXFILE);\
-	#pdflatex $(TEXFILE);\
-	#pdflatex $(TEXFILE)
+full: ${DOTFILES} ${TRAINING_FIGS}
+	#latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
+	pdflatex $(TEXFILE); \
+	bibtex $(TEXFILE); \
+	makeglossaries $(TEXFILE);\
+	pdflatex $(TEXFILE);\
+	pdflatex $(TEXFILE)
 
 
 # Removes TeX-output files
