@@ -83,8 +83,8 @@ def run_tests(output, weightfile):
 #        fitness = fitness + q.get()
 #    return fitness
     fitness = 0
-    for test in ['trend-trend', 'sha2-sha2', 'add-add', 'pi-pi']:
+    for test in ['trend-trend', 'sha2-sha2', 'pi-pi']:
         score = run_test(output, weightfile, test)
         fitness += score*score
 #    fitness += ( run_test(output, weightfile, 'pi-pi') * 2 )
-    return sqrt( fitness / 4 )
+    return sqrt( fitness / 3 )
