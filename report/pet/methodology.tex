@@ -1,10 +1,15 @@
 \section{Methodology}
 
-While computer architecture simulators has been around for a long time, there
-are quite few active and open projects trying to estimate power consumption of
-unimplemented platforms. Since the public available information regarding such
-aproches are sparse, this thesis will try to reason some about the design choises
-on its own.
+While computer architecture simulators have been around for quite some time,
+energy estimation techniques is a more recent necessity. Song et. al
+\cite{song2012instruction} identifies three major approaches to processor power
+modelling used in the past, and introduces an instruction-based energy
+estimation model that can be used for energy simulation at high speed.
+
+There are quite few active and open projects trying to estimate power
+consumption of unimplemented platforms. Since the public available information
+regarding such approches are sparse, this thesis will try to reason some about
+the design choises on its own.
 
 \subsection{A brief comparison of simulators}
 \label{subsec:design_choices}
@@ -18,7 +23,7 @@ combination.
 
 \begin{table}
     \begin{tabular}{l|c|c|c|c}
-        Name    &   Simulated Architectures & Active Development & License & Notes \\
+        Name    &   Simulated Architectures & Active & License & Notes \\
         \hline
         gem5    &   Alpha, & Yes & BSD/MIT/LGPL & in-house experience \\
         MARSSx86&   X86-64 & Yes & GPL-v2       &                     \\

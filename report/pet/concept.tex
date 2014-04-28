@@ -1,12 +1,12 @@
 \section{What is PET?}
 
-The final goal for this project is to model and estimate energy consumption
+The ultimate goal for this project is to model and estimate energy consumption
 for not yet implemented computer architectures. This allows new ideas to be prototyped
 and evaluated with respect to energy efficiency early in the design stage,
-easing the process of building energy efficient hardware. These evaluations will
-only serve as estimates, and will doubtedly be fully correct. Nevertheless, it
+easing the process of building energy efficient hardware. These evaluations can
+only serve as estimates and will doubtedly be fully accurate. Nevertheless, it
 can be used to test specific workloads and applications on specific processor
-configurations.
+configurations and evaluate ideas rapidly during the design phase.
 
 \begin{figure}
     \includegraphics[width=0.9\textwidth]{figs/pet-workflow-gv.pdf}
@@ -27,7 +27,10 @@ all traditional architectures contains equal principles of function, and is thus
 mappable to each other, but accuracy will of course differ as hardware differs
 in design, applied voltage, clock speed and process technology.
 
-When estimating power usage for new architectures, it is hard to tell exactly
-how to chose events and how expensive each event is. Therefore, we have to
-assume that the new architecture is comparable to an old architecture, and thus
-we can use the same power estimation numbers to give a new estimate.
+When estimating power usage for new architectures, it is hard to pick events and
+assign a cost to it. We will have to assume that the new architecture is
+comparable to an old architecture, so that we can use the old power estimation
+numbers to guide a new estimate. For instance, one can experiment with a
+larger L2 cache to see how it affects energy usage (and performance). The
+additional energy a larger L2 cache uses can be found from existing
+implementations.
