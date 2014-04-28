@@ -190,4 +190,4 @@ class ExynosL2(BaseCache):
     write_buffers = 8
     prefetch_on_access = 'true'
     # Simple stride prefetcher
-    prefetcher = StridePrefetcher(degree=1, latency = 4)
+    prefetcher = StridePrefetcher(degree=1, latency = 2)
