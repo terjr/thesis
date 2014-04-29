@@ -36,7 +36,6 @@ def check_individual(ind):
     swap_if_greater(ind, 'L1IW', 'L2W')
     swap_if_greater(ind, 'L1DR', 'L2R')
     swap_if_greater(ind, 'L1DW', 'L2W')
-    ind['Static'] = 96
 
     return ind
 
@@ -57,7 +56,7 @@ def create_individual():
     ind['L2W'] = f()*2
     ind['PhysR'] = f()*5
     ind['PhysW'] = f()*5
-    ind['Static'] = 96
+    ind['Static'] = 96*(random.random()-0.5)
 
     ind = check_individual(ind)
 
