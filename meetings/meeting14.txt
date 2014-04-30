@@ -1,0 +1,18 @@
+Hvis PET skal brukes til å lage nye prosessorer...
+
+Man vil vite hvordan CPUer man skal bygge vil oppfoere seg.
+
+Eks: Hvis noen lager en energigjerrig L2 cache: Mulig å se hvordan
+stroemforbruket vil bli påvirket hvis L2-vekten er halvparten av det
+opprinnelige.
+
+PET Results -> Experiments and Results (eller noe sånt?)
+Også Pet Adoption Considerations
+
+Skriv om SHMAC i background, men få frem at vi ikke er direkte tilknyttet det (i
+abstract, kanskje?)
+
+Problemtolkning må vi også ha med.
+
+Skriv om operander. Kanskje har det mye å si? Vi så jo at det var signifikant i
+fjor.
