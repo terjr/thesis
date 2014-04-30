@@ -14,7 +14,7 @@ networks can increase connectivity with better encoding schemes.
 
 To meet the increasing demand for performance throughout the 80's and 90's,
 hardware designers were forced to optimize the processors designs. They were
-able increase single-threaded performance tremendously by exploiting instruction
+able increase single-threaded performance tremendously as displayed in \autoref{fig:moore} by exploiting instruction
 level parallelism and increasing frequency, doubling the performance every 18th
 month. The trade-off, however, was added complexity to the processor core.
 Greater complexity required a greater amount of transistors, so they had to be
@@ -24,6 +24,12 @@ energy consuming transistors, but as we approached the end of Dennard scaling
 \cite{dennard}, there was suddenly no free lunch. Heat generation on-chip
 became overwhelming and one could not simply increase the frequency to gain
 additional performance.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{analyze-spec-benchmarks/int_graph.png}
+\caption{Single-threaded performance relative to the SUN Ultra Enterprise 2, recreated from \cite{preshing}}
+\label{fig:moore}
+\end{figure}
 
 \section{Problems of the New World}
 
