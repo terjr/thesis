@@ -1,0 +1,3 @@
+[submodule "report/analyze-spec-benchmarks"]
+	path = report/analyze-spec-benchmarks
+	url = https://github.com/preshing/analyze-spec-benchmarks.git
