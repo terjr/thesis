@@ -1,6 +1,8 @@
 % Moore, blabla Amdahl, blabla Pollac, blabla other people.
 
-\section{Historical Perspective}
+\section{Motivation}
+
+\subsection{Historical Perspective}
 
 Ever since the birth of computers, the world has seen an ever-increasing demand
 for computing power. In present time, computers have become a vital part of the
@@ -14,16 +16,16 @@ networks can increase connectivity with better encoding schemes.
 
 To meet the increasing demand for performance throughout the 80's and 90's,
 hardware designers were forced to optimize the processors designs. They were
-able increase single-threaded performance tremendously as displayed in \autoref{fig:moore} by exploiting instruction
-level parallelism and increasing frequency, doubling the performance every 18th
-month. The trade-off, however, was added complexity to the processor core.
-Greater complexity required a greater amount of transistors, so they had to be
-crammed tightly together, which was made possible by the reduction in transistor
-size. For a long time, new process technologies allowed for smaller and less
-energy consuming transistors, but as we approached the end of Dennard scaling
-\cite{dennard}, there was suddenly no free lunch. Heat generation on-chip
-became overwhelming and one could not simply increase the frequency to gain
-additional performance.
+able increase single-threaded performance tremendously as displayed in
+\autoref{fig:moore} by exploiting instruction level parallelism and increasing
+frequency, doubling the performance every 18th month. The tradeoff, however, was
+added complexity to the processor core. Greater complexity required a greater
+amount of transistors which must fit on the same die, made possible by the
+reduction of transistor size. For a long time, new process technologies allowed
+for smaller and less energy consuming transistors, but as we approached the end
+of Dennard scaling \cite{dennard}, there was suddenly no free lunch. Heat
+generation on-chip became overwhelming and one could not simply increase the
+frequency to gain additional performance.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{analyze-spec-benchmarks/int_graph.png}
@@ -31,7 +33,7 @@ additional performance.
 \label{fig:moore}
 \end{figure}
 
-\section{Problems of the New World}
+\subsection{Problems of the New World}
 
 Today's hardware designers are facing really hard problems. They must
 continue to deliver performance boosts year after year, while maintaining
@@ -48,14 +50,15 @@ forcing designers to employ novel techniques.
 
 % vanskelig å oeke PPW -- mye utproevd allerede. PET gjoer forståelsen enklere
 
-Mobile processors has always been energy-constrained due to their
-battery-powered nature. Processors in this segment trades off performance in
-return of increased energy efficiency. More recently, however, mobile processors
-has become increasingly popular in alternative domains too, such as
-supercomputing. Their low cost and good performance per Watt ratio makes them
-attractive for massively parallel problems: Building datacenters from low-cost
-embedded processors is believed to have a huge potential and change the
-landscape of supercomputing the years to come.
+Processors targeting laptops, cellphones and other mobile devices has always
+been energy-constrained due to their battery-powered nature. Processors in this
+segment trades off performance in return of increased energy efficiency. More
+recently, however, mobile processors has become increasingly popular in
+alternative domains too, such as supercomputing. Their low cost and good
+performance per Watt ratio makes them attractive for massively parallel
+problems: Building datacenters from low-cost embedded processors is believed to
+have a huge potential and change the landscape of supercomputing the years to
+come.
 
 % cite Tanenbaum -- tradisjonelt har mobil-PCer vært slappe og server high-end
 % Top500: oeke cores for å minske power
@@ -70,41 +73,41 @@ and performance -- is the key to success for such platforms.
 
 % TODO: Introduce the notion of 'energy profiles', i.e. energy/time graphs
 
-\section{Better Tools for Optimizing Energy Efficiency}
+\subsection{Better Tools for Optimizing Energy Efficiency}
 
-Given the advanced tools creating hardware present these days, it is more easy
-than ever to change, model and simulate performance and behaviour. With these
-possibilities, a tool that could estimate difference in energy efficiency given
-a simulator model would be a great help in the design process. There already
-exists some such solutions, the most known might be
-Wattch\cite{brooks2000wattch}, McPAT\cite{hpmcpat,li2013mcpat} and
-CACTI\cite{hpcacti}. The different existing solutions utilize different
-parameters and specialize in slightly different tasks.
+Given the advanced tools used to design hardware present these days, it is more
+easy than ever to change, model and simulate performance and behaviour. With
+these possibilities, tools to visualize variations in energy efficiency given a
+CPU model could very useful in the design process. There already exists some
+such solutions, the most known might be Wattch\cite{brooks2000wattch},
+McPAT\cite{hpmcpat,li2013mcpat} and CACTI\cite{hpcacti}. The different existing
+solutions utilize different parameters and specialize in slightly different
+tasks.
 
 NTNU have a long tradition of using M5/gem5 for simulation purposes, and it
 would be most beneficial for the SHMAC project if such solutions could be
 applied to an unmodified version of gem5. Wattch seems to be a good fit, but it
-works only with SimpleScalar\cite{wattchanalysis}. McPAT worked with the old
+only works with SimpleScalar\cite{wattchanalysis}. McPAT worked with the old
 M5\cite{m5mcpatparser}, which joined with GEMS to become gem5\cite{gem5hipeac},
 but seems to have problems with the latest versions of
 gem5\cite{mcpatgem5problems}. CACTI is a system for understanding trade-offs
 between power, area and performance within memory
-systems\cite{hpcacti,muralimanohar2010memory}. Both McPAT and Wattch uses
-models and methods found in CACTI\cite{li2009mcpat}.
+systems\cite{hpcacti,muralimanohar2010memory}. Both McPAT and Wattch uses models
+and methods found in CACTI\cite{li2009mcpat}.
 
 The immediate lack of a system that is easy to use and easy to set up motivates
 the creation of a new tool that works on a higher level. PET is such a tool,
 which is able to estimate power usage per time for a given workload on a given
 architecture.  It will use an energy metric profile estimated from similar
-processors together with a simulator trace log to calculate energy usage.
-Using this approach, PET will be able to detect if hardware modifications done
-to the simulation level model will be beneficial in the realized hardware. PET
-will also tell if a processor-implementation is more energy efficient than an
-other given a specific workloads, thus it can help building workload optimized tiles
-for the SHMAC project\cite{shmacwebpage}. Using the features of PET, one can also
-adjust the energy metric profile and simulate power usage as if one component was cheaper
-or more expensive in terms of energy. This will enable the hardware designers to understand
-where optimizations are most beneficial.
+processors together with a simulator trace log to calculate energy usage.  Using
+this approach, PET will be able to detect if hardware modifications done to the
+simulation level model will be beneficial in the realized hardware. PET will
+also tell if a processor-implementation is more energy efficient than an other
+given a specific workloads, thus it can help building workload optimized tiles
+for the SHMAC project\cite{shmacwebpage}. Using the features of PET, one can
+also adjust the energy metric profile and simulate power usage as if one
+component was cheaper or more expensive in terms of energy. This will enable the
+hardware designers to understand where optimizations are most beneficial.
 
 
 
