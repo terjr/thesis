@@ -19,15 +19,20 @@ $A_{datapath}$ matrix. Secondly, the energy unit vector $E_{unit}$ requires
 circuit-level knowledge of the target processor. The former information can
 often be found by reverse engineering and benchmarking, however, the latter is
 rarely available for commercial processors. When building the model for PET, we
-simplify the model from \cite{song2012instruction} by combining
-$A_{datapath}$ and $E_{unit}$ to form a vector of weights that directly
-corresponds to the cost of a workload metric. We can then model energy by the
-following formula.
+simplify the model from \cite{song2012instruction} by combining $A_{datapath}$
+and $E_{unit}$ to form a vector of weights that directly corresponds to the cost
+of an event. We can then model energy by the following formula.
 
 \[
-    P_{core}(t) = TODO
+    P_{core}(t) = \frac{C \cdot w(t) + E_{static}}{T_{sampling}}
 \]
 
+Here, C represents the global cost vector -- a matrix enumerating the cost
+for all event types. Please note that it is global and do not depend on time.
+
+The choice of events/workload metrics is an important part of our method. We
+account for two types of events; CPU instruction events and memory activity
+events.
 
 A major design choice made on how PET should be designed was decide whether it
 should be a standalone program or incorporated into an existing simulator.
