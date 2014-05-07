@@ -24,6 +24,7 @@ class Pet
         options_t &options;
 
         std::vector<PowerModel*> pm;
+        void sumBuckets(const std::vector<PowerModel*> &in, std::vector<unsigned long> &out);
     public:
         Pet(options_t &options);
         Pet(std::istream *input, unsigned int numThreads = 0, const std::string &output = std::string());

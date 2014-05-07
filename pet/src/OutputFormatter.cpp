@@ -7,7 +7,7 @@
 using namespace std;
 
 
-OutputFormatter::OutputFormatter(const OutputVector &statistics, const options_t *options) : annotations(), options(options) {
+OutputFormatter::OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options) : annotations(), options(options) {
     importAsDouble(statistics);
     if (Graph == options->outputFormat) {
         plot = new Gnuplot("lines");
@@ -68,7 +68,7 @@ void OutputFormatter::addAnnotations(std::map<unsigned long, std::string> annot)
 }
 
 
-void OutputFormatter::importAsDouble(const OutputVector &statistics) {
+void OutputFormatter::importAsDouble(const std::vector<unsigned long> &statistics) {
     dVector.resize(statistics.size());
     transform(statistics.begin(), statistics.end(), dVector.begin(),
             [](unsigned long l) -> double {

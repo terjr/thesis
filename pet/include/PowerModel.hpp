@@ -11,7 +11,12 @@
 #include "Instruction.hpp"
 #include "Memory.hpp"
 
-typedef std::vector<unsigned long> OutputVector;
+typedef struct {
+    unsigned long sum;
+    unsigned long num;
+} powerSum;
+
+typedef std::vector<powerSum> OutputVector;
 
 class PowerModel {
     public:
@@ -30,6 +35,7 @@ class PowerModel {
         unsigned long getWeight(MemType type) const;
         const std::map<const std::string, unsigned long> getStats() const;
         OutputVector getOutput() const;
+        void setOutputSize(unsigned long size);
         std::map<unsigned long, std::string> getAnnotations() const;
         int run();
     protected:
