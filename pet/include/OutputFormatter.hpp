@@ -1,14 +1,13 @@
 #include <vector>
 #include <boost/thread.hpp>
 
-#include "PowerModel.hpp"
 #include "ProgramArguments.hpp"
 
 class Gnuplot;
 
 class OutputFormatter {
     public:
-        OutputFormatter(const OutputVector &statistics, const options_t *options);
+        OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options);
         ~OutputFormatter();
         void produceOutput();
 
@@ -23,7 +22,7 @@ class OutputFormatter {
         void saveBarchart(const std::string &filename);
         void showBarchart(const std::string &title);
         void showBarchart();
-        void importAsDouble(const OutputVector &statistics);
+        void importAsDouble(const std::vector<unsigned long> &statistics);
         void addLabel(unsigned long x, unsigned long y, const std::string &label); 
 };
 

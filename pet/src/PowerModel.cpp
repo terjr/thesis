@@ -20,6 +20,13 @@ OutputVector PowerModel::getOutput() const {
     return output;
 }
 
+void PowerModel::setOutputSize(unsigned long size) {
+    while (output.size() < size) {
+        output.push_back({0L,0L});
+    }
+
+}
+
 std::map<unsigned long, std::string> PowerModel::getAnnotations() const {
     return annotation_map;
 }

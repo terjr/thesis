@@ -1,5 +1,6 @@
 CXX=clang++
-CXXFLAGS=-Iinclude -Ilib -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -O3 -mtune=native -mmmx -msse -msse2 -msse3 -mssse3 -DBOOST_ALL_DYN_LINK -DFIXED=false -flto -fno-omit-frame-pointer -falign-functions=1 
+#CXXFLAGS=-Iinclude -Ilib -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -g -O0 -DBOOST_ALL_DYN_LINK -DFIXED=false
+CXXFLAGS=-Iinclude -Ilib -I/usr/include/boost -Wall -Wextra -Weffc++ -std=c++11 -O3 -DBOOST_ALL_DYN_LINK -DFIXED=false -mtune=native -mmmx -msse -msse2 -msse3 -mssse3  -flto 
 LDFLAGS=-lboost_system -lboost_program_options -lboost_thread
 
 TEST_LDFLAGS=$(LDFLAGS) -lboost_unit_test_framework

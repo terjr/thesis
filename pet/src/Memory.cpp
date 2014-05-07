@@ -138,6 +138,7 @@ Memory::Memory(const std::string &line) : Memory() {
                             hit = true;
                             }
                         default:
+                            hit = true;
                             break;
                     }
 
