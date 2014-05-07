@@ -1,0 +1,19 @@
+Viktig å vite hva som forsynes av V_{core}.
+
+LPDDR2 går på samme spenning. Mulig den er på?
+
+Fortsatt dårlig treff på treningsdataene, e.g. trend.
+
+Påpek i rapporten at vi ikke egentlig vet hva vi måler, noedvendigvis.
+
+Background, SHMAC: Ha med figur av den tile-baserte.
+- Etter "NTNU", forklar hvordan vi er relatert til SHMAC (en del av power
+  estimation fokus)
+
+I background, GA: Adaptiv mutasjonsrate, litt som simulated annealing.
+Motivasjon for å bruke GA: Vi trenger en måte å få optimalisert flere parametre
+på. GA er bare en av flere måter å gjoere dette på.
+
+I introduksjon: Nevn GA.
+
+Bedre tittel.
