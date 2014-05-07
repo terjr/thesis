@@ -80,7 +80,7 @@ energy efficiency is even more important.
 \subsection{Better Tools for Optimizing Energy Efficiency}
 
 Given the advanced tools used to design hardware present these days, it is more
-easy than ever to change, model and simulate performance and behaviour. With
+easy than ever to change, model and simulate performance and behavior. With
 these possibilities, tools that visualize variations in energy efficiency given
 a CPU model could very useful in the design process. Some solutions supporting
 this already exists; the most known ones being Wattch\cite{brooks2000wattch},
@@ -99,10 +99,10 @@ systems\cite{hpcacti,muralimanohar2010memory}. Both McPAT and Wattch uses models
 and methods found in CACTI\cite{li2009mcpat}.
 
 The immediate lack of a system that is easy to use and easy to set up motivates
-the creation of a new tool that works on a higher level. PET is such a tool,
-which is able to estimate power usage per time for a given workload on a given
-architecture.  It will use an energy metric profile estimated from similar
-processors together with a simulator trace log to calculate energy usage.  Using
+the creation of a new tool that works on a higher level. We introduce PET; a
+tool that is able to estimate power usage per time for a given workload on a
+given architecture. It will use an energy metric profile estimated from similar
+processors together with a simulator trace log to calculate energy usage. Using
 this approach, PET will be able to detect if hardware modifications done to the
 simulation level model will be beneficial in the realized hardware. PET will
 also tell if a processor-implementation is more energy efficient than an other
@@ -110,12 +110,14 @@ given a specific workloads, thus it can help building workload optimized tiles
 for the SHMAC project\cite{shmacwebpage}. Using the features of PET, one can
 also adjust the energy metric profile and simulate power usage as if one
 component was cheaper or more expensive in terms of energy. This will enable the
-hardware designers to understand where optimizations are most beneficial.
+hardware designers to understand which optimizations are most beneficial and
+identify possible routes of exploration.
 
 
 % SHMAC, power profiles. Velg beste kjerne for gitt workload/application
 
 % TODO: Introduce the notion of 'energy profiles', i.e. energy/time graphs
 
-% motivation: early design stage, check architectural differences using same characteristics
-% or set different weights to spesific events in the hunt for which components that needs optimization
+% motivation: early design stage, check architectural differences using same
+% characteristics or set different weights to spesific events in the hunt for
+% which components that needs optimization
