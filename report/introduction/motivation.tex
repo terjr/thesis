@@ -37,7 +37,7 @@ transistor size. For a long time, new process technologies allowed for smaller
 and less energy consuming transistors, but as we approached the end of Dennard
 scaling \cite{dennard}, the amount of logic required to accomodate speedups
 could not fit on the die due to thermal constraints. Heat generation on-chip
-became a huge problem and one could not simply increase the frequency or add
+became overwhelming and one could not simply increase the frequency or add
 extra logic to gain additional performance.
 
 
@@ -45,30 +45,26 @@ extra logic to gain additional performance.
 
 Today's hardware designers are facing really hard problems. They must continue
 to meet the market demand with respect to performance, while keeping the energy
-consumption down. Increased energy consumption directly translates to more heat
-generated on-chip and becomes a huge thermal issue. To remedy this, hardware
-designers now emphasize energy efficiency over pure performance in their
-designs; a processor's performance per Watt is currently the measure designers
-seeks to maximize.
+consumption down. Energy consumption directly translates into heat generated
+on-chip and is currently the limiting factor of processor design. Dealing with
+this requires hardware designers to emphasize energy efficiency over pure
+performance during the design phase; we are now in an era where a processor's
+performance per Watt is more important than performance itself.
 
-Heat is not the the only motivation to lower energy consumption. Processors
-targeting laptops, cellphones and other mobile devices has always been
-energy-constrained due to their use of batteries. Lower energy consumption would
-allow for longer battery life and/or heavier applications. Processors in this
-segment trades off performance in return of increased energy efficiency. More
-recently, however, mobile processors has become increasingly popular in
+Heat is not the the only motivation factor to keep energy consumption down.
+Processors targeting laptops, cellphones and other mobile devices has always
+been energy-constrained due to their use of batteries. Lower energy consumption
+would allow for longer battery life and/or heavier applications. Processors in
+this segment trades off performance in return of increased energy efficiency.
+More recently, however, mobile processors has become increasingly popular in
 alternative domains too, such as supercomputing. Their low cost and good
 performance per Watt ratio makes them attractive for massively parallel
-problems: Building datacenters from low-cost embedded processors is believed to
-have a huge potential and change the landscape of supercomputing the years to
-come.
-
-
-% vanskelig å oeke PPW -- mye utproevd allerede. PET gjoer forståelsen enklere
-
-
-% cite Tanenbaum -- tradisjonelt har mobil-PCer vært slappe og server high-end
-% Top500: oeke cores for å minske power
+problems, which is currently done on large and expensive supercomputers. These
+machines have huge energy budgets and are frequently taken out of service after
+just a couple of years, and replaced by new machines that offer better
+performance for less power. For this reason, building datacenters from low-cost
+embedded processors is believed to have a huge potential and change the
+landscape of supercomputing the years to come.
 
 Not only data centers benefit from the use of mobile processors. The SHMAC
 research project at NTNU aims to build a single-ISA heterogeneous computing
@@ -76,8 +72,9 @@ platform with processing cores tailored to the application. Using the most
 effective processor or hardware accelerator -- in terms of both energy
 and performance -- is the key to success for such platforms.
 
-Performance alone is no longer the most
-important attribute of processors, energy efficiency is even more important.
+There are great reasons to minimize a processor's energy consumption.
+Performance alone is no longer the most important attribute of processors,
+energy efficiency is even more important.
 
 
 \subsection{Better Tools for Optimizing Energy Efficiency}
