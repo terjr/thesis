@@ -11,7 +11,7 @@ NUM_WEIGHTS = 9
 toolbox = base.Toolbox()
 
 def mutate_weights(individual, indpb):
-    degree = (individual.fitness.values[0])**1.3 + 100
+    degree = (individual.fitness.values[0])**1.5 + 100
     print("Degree is " + str(degree))
     for (key, value) in individual.items():
         if random.random() < indpb:
@@ -56,7 +56,8 @@ def create_individual():
     ind['L2W'] = f()*2
     ind['PhysR'] = f()*5
     ind['PhysW'] = f()*5
-    ind['Static'] = 96*(random.random()-0.5)
+    ind['Static'] = floor(96*(random.random()+0.5))
+    ind['Idle'] = floor(50*(random.random()+0.5))
 
     ind = check_individual(ind)
 
@@ -114,16 +115,16 @@ def run_evolution(population, ngen, file=None):
     return population
 
 def main():
-    popsize = 1
+    popsize = 2
     population = create_population(popsize)
 
+#    ind1 = toolbox.individual()
+#    ind1.update({'IntAlu':138, 'IntMult':1116, 'L1DR':171, 'L1DW':494, 'L1IR':430, 'L1IW':682, 'L2R':928, 'L2W':1960, 'MemRead':267, 'MemWrite':220, 'PhysR':1097, 'PhysW':3810, 'SimdFloatMisc':14, 'Static':96})
+#    print(ind1)
+#    population = [ind1] + population
+#
     ind1 = toolbox.individual()
-    ind1.update({'IntAlu':138, 'IntMult':1116, 'L1DR':171, 'L1DW':494, 'L1IR':430, 'L1IW':682, 'L2R':928, 'L2W':1960, 'MemRead':267, 'MemWrite':220, 'PhysR':1097, 'PhysW':3810, 'SimdFloatMisc':14, 'Static':96})
-    print(ind1)
-    population = [ind1] + population
-
-    ind1 = toolbox.individual()
-    ind1.update({'IntAlu':168, 'IntMult':1416, 'L1DR':171, 'L1DW':394, 'L1IR':100, 'L1IW':482, 'L2R':928, 'L2W':1960, 'MemRead':267, 'MemWrite':220, 'PhysR':1097, 'PhysW':3810, 'SimdFloatMisc':14, 'Static':96})
+    ind1.update({'IntAlu':190, 'IntMult':1437, 'L1DR':202, 'L1DW':310, 'L1IR':201, 'L1IW':511, 'L2R':1150, 'L2W':1088, 'MemRead':163, 'MemWrite':17, 'PhysR':2718, 'PhysW':2765, 'SimdFloatMisc':1294, 'Static':159, 'Idle':70})
     print(ind1)
     population = [ind1] + population
 
