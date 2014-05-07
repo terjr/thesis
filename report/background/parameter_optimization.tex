@@ -4,12 +4,50 @@ Optimization is a field of applied mathematics that deals with finding the best
 set of parameters to optimize an objective function. A problem with $N$
 variables $\{n_0, \dots, n_{N-1}\}$ in range $n_i \in \{0, \dots, k-1\}$ will
 have a search space with $k^N$ possible solutions. As both $k$ and $N$ grow
-large, it becomes infeasible to search through all permutations and other
+large, it becomes infeasible to search through all permutations, thus other
 techniques must be employed. Finding an arbitrary local minimum is often
-strightforward using classical \emph{local} optimization methods, however, these
-methods cannot be applied to find a global minimum. A wide range of algorithms
-to search through a subset of the solution space exists, each with a different
-approaches and properties.
+straight forward using classical \emph{local} optimization methods such as the
+hill climbing algorithm. However, these methods cannot be used to find a global
+minimum\cite{russellnorvig}. A wide range of algorithms to search through a
+subset of the solution space exists, each with different approaches and
+properties.
+
+The deterministic approaches can be thought of as a single path from a starting
+point to the best solution, while the non-deterministic approaches usually selects
+one or more paths which may or may not be different on each run. Deterministic algorithms
+will always find the same solution, and if the search space is large enough, it might
+take very long time to find a decent answer. When using non-deterministic algorithms,
+they tend to have a more explorative behaviour; each computation of the next state includes
+some form of randomness. E.g. simulated annealing will do the same as the hill climbing algorithm, but
+will have some chance of moving downhill, thus it will be less prone to be stuck in a local minima.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/630px-Metaheuristics_classification.png}
+    \caption{Different classifications of metaheuristics, borrowed from Johann "nojhan" Dréo and Caner Candan\cite{wikimetaheuristics}}
+    \label{fig:metaheuristics}
+\end{figure}
+
+\autoref{fig:metaheuristics} shows a map of how different optimization algorithms are related to
+each other. Most of these are described in detail in \cite{russellnorvig}.
+
+In general, the solution space has one or more dimensions, directly related to
+the number of variables in the solution. If a problem contains a single variable,
+it's solution space might look like \autoref{fig:fitnesslandscape} where the X-axis is
+the value of the single variable, while the Y-axis is the fitness of this solution. Problems
+with more variables will have more axis. The optimization algorithms can be thought of as
+methods for exploring and finding the highest or lowest point in of the fitness-axis.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/Fitness-landscape-cartoon.png}
+    \caption{Sketch of a fitness landscape, borrowed from \cite{wikifitnesslandscape}}
+    \label{fig:fitnesslandscape}
+\end{figure}
+
+Amongst the different approaches to solve global optimization problems there
+exists both deterministic and non-deterministic methods, exact evaluation and
+evaluation by heuristics
 
 \begin{description}
     \item[Simulated Annealing] is a technique that belongs to the field of
