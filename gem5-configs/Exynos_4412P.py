@@ -149,7 +149,7 @@ class Exynos_3(DerivO3CPU):
 class Exynos_ICache(BaseCache):
     hit_latency = 2 # 7cpu
     response_latency = 2 # 7cpu
-    mshrs = 2
+    mshrs = 6
     tgts_per_mshr = 8
     size = '32kB'
     assoc = 4
@@ -159,7 +159,7 @@ class Exynos_ICache(BaseCache):
 class Exynos_DCache(BaseCache):
     hit_latency = 3 # 7cpu
     response_latency = 8 # 7cpu
-    mshrs = 6
+    mshrs = 16
     tgts_per_mshr = 8
     size = '32kB'
     assoc = 4
@@ -171,7 +171,7 @@ class Exynos_DCache(BaseCache):
 class ExynosWalkCache(BaseCache):
     hit_latency = 7 #7cpu
     response_latency = 7 # 7cpu
-    mshrs = 6
+    mshrs = 16
     tgts_per_mshr = 8
     size = '2kB'
     assoc = 2
@@ -183,9 +183,9 @@ class ExynosWalkCache(BaseCache):
 class ExynosL2(BaseCache):
     hit_latency = 37 # 7cpu?
     response_latency = 37 # 7cpu?
-    mshrs = 16
+    mshrs = 32
     tgts_per_mshr = 8
-    size = '1B'
+    size = '1MB'
     assoc = 16
     write_buffers = 8
     prefetch_on_access = 'true'
