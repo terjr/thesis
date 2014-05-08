@@ -17,6 +17,7 @@ typedef struct {
     unsigned int numThreads;
     unsigned int numBuckets;
     unsigned int bucketSize;
+    unsigned int ticksInCycle;
     std::string output;
     std::string title;
     OutputFormat outputFormat;
