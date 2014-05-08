@@ -6,6 +6,10 @@
 #include <iostream>
 #include <boost/thread.hpp>
 
+/**
+ * The InstrType enum enumerates the different types of instruction types PET
+ * will recognize from the parsed simulator trace log
+ */
 enum InstrType {
     IntAlu,
     IntMult,
@@ -15,6 +19,11 @@ enum InstrType {
     ErrorType
 };
 
+/**
+ * The Instruction class simply represents the event where an instruction is
+ * taken through the simulated pipeline. It contains parser functions to
+ * extract information from trace log lines detected as Instruction type events
+ */
 class Instruction : public SimEvent {
     public:
         Instruction();
@@ -42,7 +51,6 @@ class Instruction : public SimEvent {
 
 InstrType instrTypeFromString(const std::string &instrType);
 const std::string instrTypeToString(InstrType type);
-
 
 
 bool operator==(const Instruction& first, const Instruction& other);

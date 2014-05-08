@@ -55,6 +55,10 @@ int run(PowerModel *pm) {
     return pm->run();
 }
 
+/**
+ * Create a Pet instance and run it with a configuration set.
+ * @see options_t
+ */
 Pet::Pet(options_t &options) :
     numThreads(options.numThreads),
     done(false),
@@ -104,6 +108,11 @@ Pet::Pet(options_t &options) :
         }
     }
 
+/**
+ * Clean up all PowerModels and
+ * annotations used in Pet along with
+ * destroying the Pet object itself
+ */
 Pet::~Pet() {
     for (unsigned long i = 0; i < this->pm.size(); ++i) {
         delete pm[i];
@@ -111,7 +120,10 @@ Pet::~Pet() {
     delete options.annotations;
 }
 
-
+/**
+ * Add worker threads to the thread pool and
+ * start parsing input
+ */
 void Pet::processStreams() {
     // Create worker threads
     for (unsigned int i = 0; i < this->numThreads; i++) {
@@ -144,7 +156,11 @@ void Pet::processStreams() {
 
 }
 
-
+/**
+ * This method will kick off PET along
+ * with the program arguments supplied to
+ * the real main function
+ */
 int Pet::main(int ac, char **av)
 {
     unsigned int numThreads = boost::thread::hardware_concurrency();
@@ -191,6 +207,11 @@ void setEqualSize(const vector<PowerModel*> &in)
         }
 }
 
+/**
+ * Concatenate all PowerModel bucket vectors into a single vector.  Each bucket
+ * in the new vector is equal to the sum of the same bucket index of all the
+ * input vectors
+ */
 void Pet::sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) {
     setEqualSize(in);
     for (unsigned long j = 0; j < in[0]->getOutput().size(); ++j)

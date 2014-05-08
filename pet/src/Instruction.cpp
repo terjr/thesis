@@ -15,9 +15,14 @@
 using namespace boost;
 
 
-
+/**
+ * Create an empty Instruction instance.
+ */
 Instruction::Instruction() : SimEvent(InstEvent), op(std::vector<std::string>()) {}
 
+/**
+ * Create an Instruction instance parsed from input string.
+ */
 Instruction::Instruction(const std::string &line) : Instruction() {
 
     typedef tokenizer<char_separator<char> > tokenizer;
@@ -57,26 +62,47 @@ Instruction::Instruction(const std::string &line) : Instruction() {
 
 }
 
+/**
+ * Return ID of CPU where the event took place
+ */
 unsigned int Instruction::getCPU() const {
     return cpu;
 }
 
+/**
+ * Return of program counter value when the event took place
+ */
 unsigned long Instruction::getPC() const {
     return pc;
 }
 
+/**
+ * Set the program counter value when the event took place
+ */
 void Instruction::setPC(unsigned long pc) {
     this->pc = pc;
 }
 
+/**
+ * Set the instruction type
+ */
 void Instruction::setInstrType(const std::string &instrType) {
     this->instrType = instrTypeFromString(trim_str(instrType));
 }
 
+/**
+ * Return the instruction type as InstrType
+ */
 InstrType Instruction::getInstrType() const {
     return instrType;
 }
 
+/**
+ * Parse strings from simulator trace logs
+ *
+ * Example line:
+ * "47000: system.cpu T0 : 0x89ec    :   mov   fp, #0             : IntAlu :  D=0x0000000000000000"
+ */
 bool Instruction::parseAssembly(std::string assembly) {
     typedef tokenizer<char_separator<char> > tokenizer;
     const char_separator<char> sep(",");
@@ -106,10 +132,16 @@ bool Instruction::parseAssembly(std::string assembly) {
     return true;
 }
 
+/**
+ * Destroy an Instruction instance
+ */
 Instruction::~Instruction() {
 
 }
 
+/**
+ * Convert a string to a InstrType value
+ */
 InstrType instrTypeFromString(const std::string &instr) {
     if (instr == "IntAlu") return IntAlu;
     else if (instr == "IntMult") return IntMult;
@@ -122,6 +154,10 @@ InstrType instrTypeFromString(const std::string &instr) {
     }
 }
 
+
+/**
+ * Convert an InstrType to a string instance
+ */
 const std::string instrTypeToString(InstrType type) {
     switch (type)
     {
@@ -141,14 +177,24 @@ const std::string instrTypeToString(InstrType type) {
     }
 }
 
+
+/**
+ * Return the number of operands in the current instruction
+ */
 unsigned int Instruction::getNumOp() const {
     return op.size();
 }
 
+/**
+ * Return the mnemonic of the current instruction
+ */
 const std::string Instruction::getMnemonic() const {
     return mnemonic;
 }
 
+/**
+ * Return operand number as defined by index
+ */
 const std::string Instruction::getOp(const unsigned int index) const {
     if (getNumOp() > index)
         return op[index];
@@ -156,6 +202,9 @@ const std::string Instruction::getOp(const unsigned int index) const {
         return std::string();
 }
 
+/**
+ * Convert Instruction instance to a string
+ */
 std::string Instruction::toString() const {
     std::string output(mnemonic + " ");
 
@@ -168,6 +217,10 @@ std::string Instruction::toString() const {
     return output;
 }
 
+/**
+ * Check if two Instruction instances are equal, which they are if mnemonic
+ * and all operands are equal
+ */
 bool operator==(const Instruction& first, const Instruction& second) {
     if (first.getMnemonic() == second.getMnemonic() &&
             first.getNumOp() == second.getNumOp() &&
@@ -182,11 +235,18 @@ bool operator==(const Instruction& first, const Instruction& second) {
         return false;
 }
 
+/**
+ * Check if two Instruction instances are unequal. Same as inverted value of operator==
+ * @see operator==
+ */
 bool operator!=(const Instruction& first, const Instruction& second) {
     return !(first==second);
 }
 
-
+ /**
+  * Instruction is turned to string and streamed into the output stream
+  * @see Instruction::toString
+  */
 std::ostream& operator <<(std::ostream& outputStream, const Instruction& instr) {
     return outputStream << instr.toString();
 }

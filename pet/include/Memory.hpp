@@ -2,6 +2,10 @@
 #include <string>
 #include "SimEvent.hpp"
 
+/**
+ * The MemType enum enumerates the different types of memory event types PET
+ * will recognize from the parsed simulator trace log
+ */
 enum MemType {
     L1IR,
     L1IW,

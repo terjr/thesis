@@ -11,7 +11,10 @@
 #include "PowerModel.hpp"
 #include "ProgramArguments.hpp"
 
-
+/**
+ * The Pet class is the main driver in the PET program, and is created and
+ * executed from the real main function of the program.
+ */
 class Pet
 {
     private:

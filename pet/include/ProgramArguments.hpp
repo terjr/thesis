@@ -1,11 +1,16 @@
 #pragma once
 
+/** En enumeration value for the different output types available in PET
+ */
 enum OutputFormat {
     Graph,
     Plain,
     Table
 };
 
+/** This is a struct containg all user-set options that PET uses during it's
+ * runtime
+ */
 typedef struct {
     bool help;
     bool error;
