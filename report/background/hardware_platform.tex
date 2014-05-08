@@ -1,42 +1,46 @@
 \section{Hardware Platform}
 
-The results contributed through this work relies on a method to isolate and
-measure core voltage on a hardware implemented reference CPU. One such platform
-where the core voltage is easily externally accessible is the ODROID-X2
-Development Platform\cite{hardkernelodroidx2}. This board is equiped with a
-Samsung Exynos 4412 ``Prime'', a modern System-on-Chip featuring four ARM
-Cortex-A9 CPU cores, Mali-400 GPU and 2GB of on-chip DRAM. The Cortex-A9 is one
-of ARM's mid-to-high-range application processors. It features an out-of-order
-dual-issue speculative RISC core, and it is designed with energy efficiency in
-mind. This processor is primarily found in low-powered embedded devices with
-some performance demands, typically smartphones and tablets.
+The results contributed through this work relies on the existence of a method to
+isolate and measure core voltage on a hardware implemented reference CPU. The
+ODROID-X2 developer platform \cite{hardkernelodroidx2} is one such platform; its
+core voltage is easily accessible on an attached daughter board. The kit is
+equipped with a Samsung Exynos 4412 ``Prime'', a modern System-on-Chip featuring
+four ARM Cortex-A9 CPU cores, Mali-400 GPU and 2GB of on-chip DRAM. The
+Cortex-A9 is one of ARM's mid-to-high-range application processors. It features
+an out-of-order dual-issue speculative RISC core, and it is clearly designed
+with emphasis on energy efficiency. This processor is primarily found in
+low-powered embedded devices with some performance demands, typically
+smartphones and tablets.
 
-\begin{table}
-\begin{tabular}{|c|c|}
-\hline
-Component   & Spesification\\
-\hline
-SoC         & Samsung Exynos 4412 ``Prime'' \\
-CPU         & Quad-core ARM Cortex-A9 1.7GHz \\
-Main memory & 2GB LP-DDR2 880MHz \\
-L1          & Dual 32KB \\
-L2          & 1MB \\
-\hline
-\end{tabular}
-\caption{Hardware specifications ODROID-X2}
-\label{tab:hwspecx2}
-\end{table}
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            Component   & Spesification\\
+            \hline
+            SoC         & Samsung Exynos 4412 ``Prime'' \\
+            CPU         & Quad-core ARM Cortex-A9 1.7GHz \\
+            Main memory & 2GB LP-DDR2 880MHz \\
+            L1          & Dual 32KB \\
+            L2          & 1MB \\
+            \hline
+        \end{tabular}
+        \caption{Hardware specifications ODROID-X2}
+        \label{tab:hwspecx2}
+    \end{table}
 
 After the decode stage, an out-of-order multi-issue module with speculation can
 schedule two arithmetic operations, in which one can be a multiply (the
-processor has only one hardware multiply unit). It also has a multiplexed lane
+processor has only one hardware multiply unit). It also features a multiplexed lane
 for address operations and floating point operations (the \emph{NEON} FPU). The
 Cortex-A9 is often used as 1-4 cores\cite{armsite}, where the implementation
 used on the Exynos 4412 is a 4-core variant\cite{somesite}. In this experiment,
 3 of the cores are disabled to ease both the measurement and the simulation
 process.
 
-For simulation correctness, good architectural knowledge is crucial, but most
-proparitary architectures have a lot of details that remain undisclosed to the
-public. Different sources have been used to find properties needed by the simulater,
-some details regarding the OoO cores can be read about in \cite{blem2013detailed}.
+To achieve good simulation correctness, a high level of architectural knowledge
+is crucial. Despite that most proparitary architectures have a lot of details
+that remain undisclosed to the public, much information is still available.
+Different sources have been used to find properties needed by the simulater,
+some details regarding the OoO cores can be read about in
+\cite{blem2013detailed}.
