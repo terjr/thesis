@@ -25,17 +25,20 @@ def swap_if_greater(d, i1, i2):
         d[i1],d[i2] = d[i2],d[i1]
 
 def check_individual(ind):
-    swap_if_greater(ind, 'L1IR', 'PhysR')
-    swap_if_greater(ind, 'L1IW', 'PhysW')
-    swap_if_greater(ind, 'L1DR', 'PhysR')
-    swap_if_greater(ind, 'L1DW', 'PhysW')
-    swap_if_greater(ind, 'L2R', 'PhysR')
-    swap_if_greater(ind, 'L2W', 'PhysW')
+#    swap_if_greater(ind, 'L1IR', 'PhysR')
+#    swap_if_greater(ind, 'L1IW', 'PhysW')
+#    swap_if_greater(ind, 'L1DR', 'PhysR')
+#    swap_if_greater(ind, 'L1DW', 'PhysW')
+#    swap_if_greater(ind, 'L2R', 'PhysR')
+#    swap_if_greater(ind, 'L2W', 'PhysW')
 
     swap_if_greater(ind, 'L1IR', 'L2R')
     swap_if_greater(ind, 'L1IW', 'L2W')
     swap_if_greater(ind, 'L1DR', 'L2R')
     swap_if_greater(ind, 'L1DW', 'L2W')
+
+    ind['PhysR'] = 0
+    ind['PhysW'] = 0
 
     return ind
 
@@ -54,8 +57,8 @@ def create_individual():
 
     ind['L2R'] = f()*2
     ind['L2W'] = f()*2
-    ind['PhysR'] = f()*5
-    ind['PhysW'] = f()*5
+    ind['PhysR'] = 0
+    ind['PhysW'] = 0
     ind['Static'] = floor(96*(random.random()+0.5))
     ind['Idle'] = floor(50*(random.random()+0.5))
 
@@ -115,7 +118,7 @@ def run_evolution(population, ngen, file=None):
     return population
 
 def main():
-    popsize = 2
+    popsize = 12
     population = create_population(popsize)
 
 #    ind1 = toolbox.individual()
@@ -123,10 +126,10 @@ def main():
 #    print(ind1)
 #    population = [ind1] + population
 #
-    ind1 = toolbox.individual()
-    ind1.update({'IntAlu':190, 'IntMult':1437, 'L1DR':202, 'L1DW':310, 'L1IR':201, 'L1IW':511, 'L2R':1150, 'L2W':1088, 'MemRead':163, 'MemWrite':17, 'PhysR':2718, 'PhysW':2765, 'SimdFloatMisc':1294, 'Static':159, 'Idle':70})
-    print(ind1)
-    population = [ind1] + population
+#    ind1 = toolbox.individual()
+#    ind1.update({'IntAlu':190, 'IntMult':1437, 'L1DR':202, 'L1DW':310, 'L1IR':201, 'L1IW':511, 'L2R':1150, 'L2W':1088, 'MemRead':163, 'MemWrite':17, 'PhysR':2718, 'PhysW':2765, 'SimdFloatMisc':1294, 'Static':159, 'Idle':70})
+#    print(ind1)
+#    population = [ind1] + population
 
 
     home = os.environ.get('HOME')
