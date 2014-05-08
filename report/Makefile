@@ -1,7 +1,7 @@
 # The main latex-file
 TEXFILE = main
 DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
-TRAINING_FIGS=figs/training/add-add.pdf figs/training/pi-pi.pdf figs/training/sha2-sha2.pdf figs/training/trend-trend.pdf
+TRAINING_FIGS=figs/training/add-add.pdf figs/training/pi-pi.pdf figs/training/sha2-sha2.pdf figs/training/trend-trend.pdf figs/training/dhrystone-dhry.pdf
 
 # Fix reference file and compile source
 default: full
