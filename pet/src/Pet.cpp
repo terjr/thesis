@@ -192,9 +192,7 @@ void setEqualSize(const vector<PowerModel*> &in)
 }
 
 void Pet::sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) {
-    printf("Setting equal size\n");
     setEqualSize(in);
-    printf("Set equal size\n");
     for (unsigned long j = 0; j < in[0]->getOutput().size(); ++j)
     {
         unsigned long numEvents = 0;
@@ -203,8 +201,7 @@ void Pet::sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) 
             out[j] += in[i]->getOutput()[j].sum;
             numEvents += in[i]->getOutput()[j].num;
         }
-        long idleTicks = (options.bucketSize / 500) - numEvents;
-        printf("Ticks: %u - IdleTicks: %lu - Events: %lu\n", (options.bucketSize / 500), idleTicks, numEvents);
+        long idleTicks = (options.bucketSize / options.ticksInCycle) - numEvents;
         if (idleTicks > 0)
             out[j] +=  in[0]->getWeight("Idle")*idleTicks;
     }

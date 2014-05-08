@@ -83,13 +83,14 @@ options_t processProgramOptions(int ac, char **av) {
         ("help,h", "show help message")
         ("verbose,v", "be verbose")
         ("input-file,i", po::value<string>(), "input file")
-        ("max-threads,t", po::value<unsigned>(), "maximum number of threads")
+        ("max-threads,t", po::value<unsigned int>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&options.output)->default_value(""), "output file")
         ("output-format,f", po::value<string>()->default_value("graph"), "output format, \"graph\", \"plain\" or \"table\"")
         ("config-file,c", po::value<string>(), "config-file")
         ("weights,w", po::value<string>()->default_value("weights.conf"), "weight-file")
         ("annotations,a", po::value<string>(), "annotation-map")
         ("title", po::value<string>(), "graph title")
+        ("cpu-speed", po::value<unsigned int>()->default_value(1700), "CPU-speed in MHz")
         ("decompress,d", po::value<bool>()->default_value(false), "enable gzip decompression")
         ("stats,s", "print event count statistics")
         ("num-buckets,b", po::value<unsigned long>(), "the number of buckets")
@@ -147,6 +148,10 @@ options_t processProgramOptions(int ac, char **av) {
         vPrint("Max threads set to " + to_string(options.numThreads) + "\n");
     } else {
         options.numThreads = 0;
+    }
+
+    if (vm.count("cpu-speed")) {
+        options.ticksInCycle = 1000000/vm["cpu-speed"].as<unsigned int>();
     }
 
     if (vm.count("output-file")) {
