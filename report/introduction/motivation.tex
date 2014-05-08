@@ -79,40 +79,50 @@ energy efficiency is even more important.
 
 \subsection{Better Tools for Optimizing Energy Efficiency}
 
-Given the advanced tools used to design hardware present these days, it is more
-easy than ever to change, model and simulate performance and behavior. With
-these possibilities, tools that visualize variations in energy efficiency given
-a CPU model could very useful in the design process. Some solutions supporting
-this already exists; the most known ones being Wattch\cite{brooks2000wattch},
-McPAT\cite{hpmcpat,li2013mcpat} and CACTI\cite{hpcacti}. The existing solutions
-utilize various parameters and specialize in slightly different tasks.
+Given the advanced tools used to support hardware design these days, it is more
+easy than ever to model and simulate performance of an unimplemented
+architecture. However, modelling power consumption is a much more elaborate
+process: Current techniques works on a very low level and uses circuit-level
+models to obtain energy metrics. This makes them accurate, but also heavy and
+time consuming to simulate. Being able to rapidly prototype and visualize how
+changes in the microarchitecture affects energy performance is a key to build
+energy efficient hardware, and an important metric at the design stage. Some
+solutions already exists, but most of them inspect energy consumption at very
+fine granularity and requires ASIC synthesis of HDL code to work. During the
+design process, there is a greater need for tools that help developers predict
+the changes in power consumption when new features are implemented.
+
+The immediate lack of a system that is easy to use and easy to set up motivates
+the creation of a new high-level tool. We introduce PET; a tool that is able to
+estimate power usage per time for a given workload on a given architecture. It
+will use an energy metric profile estimated from similar processors together
+with a simulator trace log to calculate energy usage. Using this approach, PET
+will be able to detect if hardware modifications done to the simulation level
+model will be beneficial in the realized hardware. PET will also tell if a
+processor-implementation is more energy efficient than an other given a specific
+workloads, thus it can help building workload optimized tiles for the SHMAC
+project \cite{shmacwebpage}. Using the features of PET, one can also adjust the
+energy metric profile and simulate power usage as if one component was cheaper
+or more expensive in terms of energy. This will enable the hardware designers to
+understand which optimizations are most beneficial and identify possible routes
+of exploration.
+
+
+\subsection{Related Work}
+
+Wattch \cite{brooks2000wattch} and McPAT \cite{hpmcpat,li2013mcpat} are two
+approaches on energy modelling, but both work on a relatively low level.
 
 NTNU have a long tradition of using M5/gem5 for simulation purposes, and it
 would be most beneficial for the SHMAC project if such solutions could be
 applied to an unmodified version of gem5. Wattch seems to be a good fit, but it
-only works with SimpleScalar\cite{wattchanalysis}. McPAT worked with the old
-M5\cite{m5mcpatparser}, which joined with GEMS to become gem5\cite{gem5hipeac},
-but seems to have problems with the latest versions of
-gem5\cite{mcpatgem5problems}. CACTI is a system for understanding trade-offs
-between power, area and performance within memory
-systems\cite{hpcacti,muralimanohar2010memory}. Both McPAT and Wattch uses models
-and methods found in CACTI\cite{li2009mcpat}.
-
-The immediate lack of a system that is easy to use and easy to set up motivates
-the creation of a new tool that works on a higher level. We introduce PET; a
-tool that is able to estimate power usage per time for a given workload on a
-given architecture. It will use an energy metric profile estimated from similar
-processors together with a simulator trace log to calculate energy usage. Using
-this approach, PET will be able to detect if hardware modifications done to the
-simulation level model will be beneficial in the realized hardware. PET will
-also tell if a processor-implementation is more energy efficient than an other
-given a specific workloads, thus it can help building workload optimized tiles
-for the SHMAC project\cite{shmacwebpage}. Using the features of PET, one can
-also adjust the energy metric profile and simulate power usage as if one
-component was cheaper or more expensive in terms of energy. This will enable the
-hardware designers to understand which optimizations are most beneficial and
-identify possible routes of exploration.
-
+only works with SimpleScalar \cite{wattchanalysis}. McPAT worked with the old M5
+\cite{m5mcpatparser}, which joined with GEMS to become gem5 \cite{gem5hipeac},
+but seems to have problems with the latest versions of gem5
+\cite{mcpatgem5problems}. CACTI is a system for understanding trade-offs between
+power, area and performance within memory systems
+\cite{hpcacti,muralimanohar2010memory}. Both McPAT and Wattch uses models and
+methods found in CACTI \cite{li2009mcpat}.
 
 % SHMAC, power profiles. Velg beste kjerne for gitt workload/application
 
