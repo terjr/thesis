@@ -7,12 +7,12 @@ TRAINING_FIGS=figs/training/add-add.pdf figs/training/pi-pi.pdf figs/training/sh
 default: full
 
 full: ${DOTFILES} ${TRAINING_FIGS}
-	#latexmk -latexoption='-interaction nonstopmode' -use-make -pdf ${TEXFILE}
-	pdflatex $(TEXFILE); \
+	#latexmk -latexoption='-interaction nonstopmode -shell-escape' -use-make -pdf ${TEXFILE}
+	pdflatex -shell-escape $(TEXFILE); \
 	bibtex $(TEXFILE); \
 	makeglossaries $(TEXFILE);\
-	pdflatex $(TEXFILE);\
-	pdflatex $(TEXFILE)
+	pdflatex -shell-escape $(TEXFILE);\
+	pdflatex -shell-escape $(TEXFILE)
 
 
 # Removes TeX-output files
