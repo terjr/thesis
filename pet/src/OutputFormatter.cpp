@@ -7,6 +7,9 @@
 using namespace std;
 
 
+/**
+ * Create a new instance of OutputFormatter using a given dataset and a set of options
+ */
 OutputFormatter::OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options) : annotations(), options(options) {
     importAsDouble(statistics);
     if (Graph == options->outputFormat) {
@@ -76,6 +79,10 @@ void OutputFormatter::importAsDouble(const std::vector<unsigned long> &statistic
             });
 }
 
+/**
+ * Produce output from current dataset
+ * with current options
+ */
 void OutputFormatter::produceOutput() {
     switch (options->outputFormat) {
         case Graph:

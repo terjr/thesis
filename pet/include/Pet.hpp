@@ -24,9 +24,12 @@ class Pet
         boost::asio::io_service ioService;
         boost::thread_group threadpool;
         std::vector<lfspscqueue> lineQueue;
+        std::vector<unsigned long> results;
+        std::map<const std::string, unsigned long> eventStats;
         options_t &options;
 
         std::vector<PowerModel*> pm;
+        unsigned long long int nTicks;
         void sumBuckets(const std::vector<PowerModel*> &in, std::vector<unsigned long> &out);
     public:
         Pet(options_t &options);
@@ -34,12 +37,13 @@ class Pet
         virtual ~Pet();
 
         void processStreams();
+        void produceOutput() const;
 
         static int main(int argc, char** argv);
 };
 
 // Utility functions used to collect and prepare data for presentation.
-unsigned long findWorkerMaxSize(std::vector<PowerModel*> &modelworkers);
+unsigned long findPowerModelMaxSize(const std::vector<PowerModel*> &modelworkers);
 void sumBuckets(const std::vector<PowerModel*> &in, std::vector<unsigned long> &out);
 void sumStats(const std::vector<PowerModel*> &in, std::map<const std::string, unsigned long> &eventStats);
 void normalize(const unsigned long bucketSize, const unsigned long staticPowerDrain, std::vector<unsigned long> &results);

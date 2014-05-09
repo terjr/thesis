@@ -5,6 +5,12 @@
 
 class Gnuplot;
 
+
+/**
+ * This class is an abstraction of generating different outputs from PET.
+ * OutputFormatter can generate graphs or text, possibly with annotations,
+ * depending on options and datasets.
+ */
 class OutputFormatter {
     public:
         OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options);

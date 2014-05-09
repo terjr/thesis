@@ -51,7 +51,7 @@ int readLines(istream *s,
     return 0;
 }
 
-int run(PowerModel *pm) {
+int doWork(PowerModel *pm) {
     return pm->run();
 }
 
@@ -64,6 +64,8 @@ Pet::Pet(options_t &options) :
     done(false),
     count(0),
     lineQueue(options.numThreads),
+    results(),
+    eventStats(),
     options(options) {
 
         if (options.error) {
@@ -75,7 +77,7 @@ Pet::Pet(options_t &options) :
             cerr << "Cannot have both bucket size and number of buckets defined at once!" << endl;
             return;
         }
-        unsigned long long int nTicks = numTicks(options.inputStream);
+        nTicks = numTicks(options.inputStream);
         if (!options.bucketSize) {
             if (!nTicks)
                 options.bucketSize = 100000;
@@ -91,21 +93,10 @@ Pet::Pet(options_t &options) :
             printf("Buckets pr. sec: %f\n", 1000000000000.0/options.bucketSize);
         }
 
-        //        for (unsigned int i = 0; i < numThreads; ++i)
-        //            lineQueue[i] = new boost::lockfree::spsc_queue<std::string*, boost::lockfree::capacity<8192>>();
-
         this->ioService.post( boost::bind(readLines, options.inputStream, &lineQueue, lineQueue.size(), &done) );
 
 
         this->pm = vector<PowerModel*>();
-
-        // Assign tasks to the thread pool
-        for (unsigned int i = 0; i < lineQueue.size(); ++i) {
-            SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks, options.stats);
-            nTicks = 0;
-            this->ioService.post( boost::bind(run, sm) );
-            pm.push_back(sm);
-        }
     }
 
 /**
@@ -114,6 +105,9 @@ Pet::Pet(options_t &options) :
  * destroying the Pet object itself
  */
 Pet::~Pet() {
+    if (options.inputStream != &cin)
+        delete options.inputStream;
+
     for (unsigned long i = 0; i < this->pm.size(); ++i) {
         delete pm[i];
     }
@@ -125,6 +119,14 @@ Pet::~Pet() {
  * start parsing input
  */
 void Pet::processStreams() {
+    // Assign tasks to the thread pool
+    for (unsigned int i = 0; i < lineQueue.size(); ++i) {
+        SimpleModel *sm = new SimpleModel(&(lineQueue[i]), &done, options.annotations, options.weights, options.bucketSize, nTicks, options.stats);
+        nTicks = 0;
+        this->ioService.post( boost::bind(doWork, sm) );
+        pm.push_back(sm);
+    }
+
     // Create worker threads
     for (unsigned int i = 0; i < this->numThreads; i++) {
         this->threadpool.create_thread( boost::bind(&boost::asio::io_service::run, &ioService) );
@@ -135,14 +137,18 @@ void Pet::processStreams() {
     cout << "\nDone! Processing graphs..." << endl;
 
     // Collect and massage data
-    unsigned long maxSize = findWorkerMaxSize(this->pm);
-    vector<unsigned long> results(maxSize);
-    map<const string, unsigned long> eventStats;
+    unsigned long maxSize = findPowerModelMaxSize(this->pm);
+    results = vector<unsigned long>(maxSize);
 
     sumBuckets(this->pm, results);
     sumStats(this->pm, eventStats);
     normalize(options.bucketSize, this->pm[0]->getWeight("Static"), results);
+}
 
+/**
+ * Produce output using an instance of OutputFormatter
+ */
+void Pet::produceOutput() const {
     OutputFormatter gnuplotter(results, &options);
     for (unsigned long i = 0; i < this->pm.size(); ++i) {
         auto annot = this->pm[i]->getAnnotations();
@@ -153,7 +159,6 @@ void Pet::processStreams() {
     // Will only print anything if map is filled, not done when stats = false
     for (auto it = eventStats.begin(); it != eventStats.end(); ++it)
         cout << it->first << ": " << it->second << endl;
-
 }
 
 /**
@@ -174,17 +179,17 @@ int Pet::main(int ac, char **av)
     if (progOptParsed.numThreads < 1)
         progOptParsed.numThreads = numThreads;
 
-    Pet pest(progOptParsed);
-    pest.processStreams();
-
-    if (progOptParsed.inputStream != &cin)
-        delete progOptParsed.inputStream;
+    Pet pet(progOptParsed);
+    pet.processStreams();
+    pet.produceOutput();
 
     return 0;
 }
 
-unsigned long findWorkerMaxSize(vector<PowerModel*> &modelworkers) {
-    // Find max size among all PowerModel workers
+/**
+ * Find the maximum vector size amongst a set of PowerModels
+ */
+unsigned long findPowerModelMaxSize(const vector<PowerModel*> &modelworkers) {
     unsigned long maxSize = 0;
     for (unsigned long i = 0; i < modelworkers.size(); ++i) {
         if (modelworkers[i]->getOutput().size() > maxSize)
@@ -193,12 +198,13 @@ unsigned long findWorkerMaxSize(vector<PowerModel*> &modelworkers) {
     return maxSize;
 }
 
+/**
+ * Let all PowerModel output vectors be of the same size,
+ * that is, increase everyone to the size of the largest
+ */
 void setEqualSize(const vector<PowerModel*> &in)
 {
-    unsigned long maxSize = 0;
-    for (unsigned long i = 0; i < in.size(); ++i)
-        if (in[i]->getOutput().size() > maxSize)
-            maxSize = in[i]->getOutput().size();
+    unsigned long maxSize = findPowerModelMaxSize(in);
 
     for (unsigned long i = 0; i < in.size(); ++i)
         if (in[i]->getOutput().size() < maxSize)
