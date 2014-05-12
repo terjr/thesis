@@ -28,3 +28,4 @@ report/*.xdy
 report/figs/*-gv.pdf
 workloads/bin
 __pycache__
+doxy/
