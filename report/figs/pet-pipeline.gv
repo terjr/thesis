@@ -3,6 +3,7 @@ digraph PET {
     size="8,5"
     splines=ortho;
     node [shape = square];
+    edge [color = blue4];
 
     subgraph {
         rankdir = TB;
@@ -10,14 +11,17 @@ digraph PET {
         read
         parse3 [shape="none",label=<.<br/>.<br/>.>,height="0.3",margin="0",fixedsize="true"]
         read->parse1
+        read->parse2
+        read->parse3 [style="dashed",arrowhead="none"]
+        read->parse4
         parse1->parse2 [style="invis"]
         parse2->parse3 [style="invis"]
         parse3->parse4 [style="invis"]
     }
 
-    read [label=<Read<br/>input<br/>worker>]
+    read [label=<Read<br/>input>]
 
-    setup [label=<Setup<br/>input>]
+    setup [label=<Setup>]
     setup -> split
     split [label=<Split<br/>work>];
     split -> read;
@@ -27,9 +31,9 @@ digraph PET {
     split -> parse3->merge [style="dashed",arrowhead="none"]
 
 
-    parse1 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
-    parse2 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
-    parse4 [label=<Parse<br/>worker>,style=filled,fillcolor=red];
+    parse1 [label=<Parse>,style=filled,fillcolor=gray];
+    parse2 [label=<Parse>,style=filled,fillcolor=gray];
+    parse4 [label=<Parse>,style=filled,fillcolor=gray];
 
     merge [label=<Accumulate<br/>numbers>]
     output [label=<Format<br/>output>]
