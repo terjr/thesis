@@ -12,7 +12,7 @@ After modelling different configurations for gem5, accuracy as depicted in \auto
 was achieved. Each test was run with the command written out in \autoref{lst:gem5commandline}, with \texttt{CPU}
 changed with  \texttt{exynos\_4412p}, \texttt{arm\_detailed} and \texttt{timing}.
 
-\begin{lstlisting}[language=sh,label={lst:gem5commandline},caption={gem5 Command Line}]
+\begin{lstlisting}[language=sh,numbers=none,label={lst:gem5commandline},caption={gem5 Command Line}]
 $ build/ARM/gem5.opt --remote-gdb-port=0 -d m5out-time/sha2-sha2
     configs/example/se.py -c bin/sha2/sha2 --cpu-type=CPU
     --mem-type=LPDDR2_S4_800_x32 --sys-clock=440MHz
