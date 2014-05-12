@@ -31,7 +31,7 @@ std::map<unsigned long, std::string> PowerModel::getAnnotations() const {
     return annotation_map;
 }
 
-int inline clean_stack(std::string *delete_stack[DELETE_STACK_SIZE], int ds) {
+int inline cleanStack(std::string *delete_stack[DELETE_STACK_SIZE], int ds) {
     for (int i = 0; i < ds; i++)
         delete delete_stack[i];
     return 0;
@@ -100,14 +100,14 @@ int PowerModel::run() {
             if (ds < DELETE_STACK_SIZE) {
                 delete_stack[ds++] = s;
             } else {
-                ds = clean_stack(delete_stack, ds);
+                ds = cleanStack(delete_stack, ds);
                 delete s;
             }
         }
-        ds = clean_stack(delete_stack, ds);
+        ds = cleanStack(delete_stack, ds);
         this_thread::yield();
     }
-    ds = clean_stack(delete_stack, ds);
+    ds = cleanStack(delete_stack, ds);
 //    std::cout << "Thread " << this_thread::get_id() << std::endl;
     return 0;
 }
