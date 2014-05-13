@@ -36,20 +36,21 @@ in detail in \cite{russellnorvig}.
 
 On a high level, optimization algorithms can be divided into deterministic and
 non-deterministic approaches. The deterministic approaches can be thought of as
-a single path from a starting point to the best solution, while the
-non-deterministic approaches usually selects one or more paths which may or may
-not be different on each run. Deterministic algorithms will always find the same
-solution, and if the search space is large enough, it might take very long time
-to find a decent answer. When using non-deterministic algorithms, they tend to
-have a more explorative behaviour; each computation of the next state includes
-some form of randomness. E.g. simulated annealing will do the same as the hill
+a single path in solution space that starts at a defined but most likely optimal
+solution and ends at the best solution, while the non-deterministic approaches
+usually selects one or more paths by random such that each run might have a
+different outcome. Deterministic algorithms will always find the same solution,
+but if the search space is large enough, this might take extremely long time do.
+With the case of non-deterministic algorithms, they tend to have a
+more explorative behaviour; each computation of next state includes some
+form of randomness. E.g. simulated annealing will do the same as the hill
 climbing algorithm, but will have some chance of moving downhill, thus it will
 be less prone to be stuck in a local minima.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figs/630px-Metaheuristics_classification.png}
-    \caption{Different classifications of metaheuristics, borrowed from Johann "nojhan" Dréo and Caner Candan\cite{wikimetaheuristics}}
+    \caption{Different classifications of searching algorithms, borrowed from Johann "nojhan" Dréo and Caner Candan\cite{wikimetaheuristics}}
     \label{fig:metaheuristics}
 \end{figure}
 
@@ -68,4 +69,10 @@ be less prone to be stuck in a local minima.
         problems.
 
 \end{description}
+
+\subsection{Cross-over}
+
+\subsection{Mutation}
+
+\subsection{Over-fitting}
 
