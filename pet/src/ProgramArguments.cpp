@@ -85,6 +85,7 @@ options_t processProgramOptions(int ac, char **av) {
         ("input-file,i", po::value<string>(), "input file")
         ("max-threads,t", po::value<unsigned int>(), "maximum number of threads")
         ("output-file,o", po::value<string>(&options.output)->default_value(""), "output file")
+        ("stats-output-file,O", po::value<string>(&options.statsOutput)->default_value(""), "stats output file")
         ("output-format,f", po::value<string>()->default_value("graph"), "output format, \"graph\", \"plain\" or \"table\"")
         ("config-file,c", po::value<string>(), "config-file")
         ("weights,w", po::value<string>()->default_value("weights.conf"), "weight-file")
@@ -157,6 +158,10 @@ options_t processProgramOptions(int ac, char **av) {
     if (vm.count("output-file")) {
         //options.output = vm["output-file"].as<string>();
         vPrint("Output file set to " + options.output + "\n");
+    }
+    if (vm.count("stats-output-file")) {
+        //options.output = vm["output-file"].as<string>();
+        vPrint("Statistics file set to " + options.statsOutput + "\n");
     }
     if (vm.count("title")) {
         options.title = vm["title"].as<string>();

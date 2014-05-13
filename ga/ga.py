@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import array, random
-from math import ceil,floor
+from math import ceil,floor,sqrt
 from fitness import eval_individual
 from deap import creator, base, tools, algorithms
 import os
@@ -11,8 +11,11 @@ NUM_WEIGHTS = 9
 toolbox = base.Toolbox()
 
 def mutate_weights(individual, indpb):
-    degree = (individual.fitness.values[0])**1.5 + 100
-    print("Degree is " + str(degree))
+    degree = (individual.fitness.values[0])**1.4 + 100
+    if random.random() < sqrt(indpb):
+        degree = degree * 3
+        indpb = 0.7
+    #print("Degree is " + str(degree))
     for (key, value) in individual.items():
         if random.random() < indpb:
             individual[key] = floor(value + ((random.random()-0.5) * degree))
@@ -77,7 +80,7 @@ def create_population(popsize):
 
     toolbox.register("evaluate", eval_individual)
     toolbox.register("mate", tools.cxTwoPoints)
-    toolbox.register("mutate", mutate_weights, indpb=0.20)
+    toolbox.register("mutate", mutate_weights, indpb=0.30)
     toolbox.register("select", tools.selBest)
 
     population = toolbox.population(n=popsize)
@@ -121,13 +124,16 @@ def main():
     popsize = 12
     population = create_population(popsize)
 
-#    ind1 = toolbox.individual()
-#    ind1.update({'IntAlu':138, 'IntMult':1116, 'L1DR':171, 'L1DW':494, 'L1IR':430, 'L1IW':682, 'L2R':928, 'L2W':1960, 'MemRead':267, 'MemWrite':220, 'PhysR':1097, 'PhysW':3810, 'SimdFloatMisc':14, 'Static':96})
+    ind1 = toolbox.individual()
+#    ind1.update({'Idle':60, 'IntAlu':140, 'IntMult':618, 'L1DR':40, 'L1DW':60, 'L1IR':30, 'L1IW':60, 'L2R':500, 'L2W':800, 'MemRead':140, 'MemWrite':160, 'PhysR':0, 'PhysW':0, 'SimdFloatMisc':1364, 'Static':60})
+#   Idle 302 IntAlu 268 IntMult 1123 L1DR 23 L1DW 846 L1IR 23 L1IW 129 L2R 1631 L2W 1588 MemRead 12 MemWrite 600 PhysR 0 PhysW 0 SimdFloatMisc 1367 Static 8
+#    ind1.update({'Idle':216, 'IntAlu':290, 'IntMult':1111, 'L1DR':11, 'L1DW':814, 'L1IR':11, 'L1IW':117, 'L2R':1619, 'L2W':1516, 'MemRead':0, 'MemWrite':588, 'PhysR':0, 'PhysW':0, 'SimdFloatMisc':1315, 'Static':20})
 #    print(ind1)
 #    population = [ind1] + population
 #
 #    ind1 = toolbox.individual()
-#    ind1.update({'IntAlu':190, 'IntMult':1437, 'L1DR':202, 'L1DW':310, 'L1IR':201, 'L1IW':511, 'L2R':1150, 'L2W':1088, 'MemRead':163, 'MemWrite':17, 'PhysR':2718, 'PhysW':2765, 'SimdFloatMisc':1294, 'Static':159, 'Idle':70})
+#   ind1.update({'IntAlu':190, 'IntMult':1437, 'L1DR':202, 'L1DW':310, 'L1IR':201, 'L1IW':511, 'L2R':1150, 'L2W':1088, 'MemRead':163, 'MemWrite':17, 'PhysR':2718, 'PhysW':2765, 'SimdFloatMisc':1294, 'Static':159, 'Idle':70})
+#    ind1.update({'Idle':97, 'IntAlu':93, 'IntMult':1042, 'L1DR':35, 'L1DW':101, 'L1IR':221, 'L1IW':233, 'L2R':803, 'L2W':1896, 'MemRead':174, 'MemWrite':621, 'PhysR':0, 'PhysW':0, 'SimdFloatMisc':1684, 'Static':130})
 #    print(ind1)
 #    population = [ind1] + population
 

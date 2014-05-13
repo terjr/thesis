@@ -157,19 +157,36 @@ void Pet::produceOutput() const {
     gnuplotter.produceOutput();
 
     // Will only print anything if map is filled, not done when stats = false
-    for (unsigned long i = 0; i < eventStats.size(); i++) {
-         auto it = options.weights->begin();
-         while (it != options.weights->end()) {
-             auto stat = eventStats[i].find(it->first);
-             cout << it->first << ": ";
-             if (stat != eventStats[i].end())
-                 cout << stat->second;
-             else
-                 cout << "0";
-             if (++it != options.weights->end())
-                 cout << ", ";
-         }
-         cout << endl;
+    if (options.stats) {
+        ostream *stats_out;
+        if (options.statsOutput.empty())
+            stats_out = &cout;
+        else
+            stats_out = new ofstream(options.statsOutput);
+        *stats_out << options.bucketSize << endl;
+
+        *stats_out << "[";
+        for (unsigned long i = 0; i < eventStats.size(); i++) {
+            auto it = options.weights->begin();
+            *stats_out << "{";
+            while (it != options.weights->end()) {
+                auto stat = eventStats[i].find(it->first);
+                *stats_out << "'" << it->first << "':";
+                if (stat != eventStats[i].end())
+                    *stats_out << stat->second;
+                else
+                    *stats_out << "0";
+                if (++it != options.weights->end())
+                    *stats_out << ", ";
+            }
+            if (i < eventStats.size()-1)
+                *stats_out << "},";
+            else
+                *stats_out << "}";
+        }
+        *stats_out << "]";
+        if (stats_out != &cout)
+            delete stats_out;
     }
 }
 

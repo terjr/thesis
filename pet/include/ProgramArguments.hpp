@@ -19,6 +19,7 @@ typedef struct {
     std::map<unsigned long, std::string> *annotations;
     std::map<std::string, unsigned long> *weights;
     std::string inputName;
+    std::string statsOutput;
     unsigned int numThreads;
     unsigned int numBuckets;
     unsigned int bucketSize;
