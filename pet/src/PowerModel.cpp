@@ -52,7 +52,7 @@ unsigned long PowerModel::getWeight(const std::string &name) const {
         return 0;
 }
 
-const std::map<const std::string, unsigned long> PowerModel::getStats() const {
+const std::vector<std::map<const std::string, unsigned long>> PowerModel::getStats() const {
     return eventStats;
 }
 
@@ -70,10 +70,16 @@ void PowerModel::annotate(SimEvent *se) {
 void PowerModel::updateStats(SimEvent *se) {
     switch (se->getType()) {
         case InstEvent:
-            eventStats[instrTypeToString(static_cast<Instruction*>(se)->getInstrType())]++;
+            {
+                Instruction *in = static_cast<Instruction*>(se);
+                eventStats[in->getTick()/bucket_size][instrTypeToString(in->getInstrType())]++;
+            }
             break;
         case MemEvent:
-            eventStats[memTypeToString(static_cast<Memory*>(se)->getMemType())]++;
+            {
+                Memory *mem = static_cast<Memory*>(se);
+                eventStats[mem->getTick()/bucket_size][memTypeToString(mem->getMemType())]++;
+            }
             break;
         default:
             break;
@@ -108,6 +114,6 @@ int PowerModel::run() {
         this_thread::yield();
     }
     ds = cleanStack(delete_stack, ds);
-//    std::cout << "Thread " << this_thread::get_id() << std::endl;
+    //    std::cout << "Thread " << this_thread::get_id() << std::endl;
     return 0;
 }

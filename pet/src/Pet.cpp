@@ -157,8 +157,18 @@ void Pet::produceOutput() const {
     gnuplotter.produceOutput();
 
     // Will only print anything if map is filled, not done when stats = false
-    for (auto it = eventStats.begin(); it != eventStats.end(); ++it)
-        cout << it->first << ": " << it->second << endl;
+    cout << "[";
+    for (unsigned long i = 0; i < eventStats.size(); i++) {
+         cout << "[";
+        for (auto it = eventStats[i].begin(); it != eventStats[i].end(); ++it) {
+           cout<< it->first << ":" << it->second << ", ";
+        }
+        if (i < eventStats.size()-1)
+            cout << "],\n";
+        else
+            cout << "]\n";
+    }
+    cout << "]" << endl;
 }
 
 /**
@@ -234,11 +244,15 @@ void Pet::sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) 
     }
 }
 
-void sumStats(const vector<PowerModel*> &in, map<const string, unsigned long> &eventStats) {
+void sumStats(const vector<PowerModel*> &in, vector<map<const string, unsigned long>> &eventStats) {
     for (unsigned long i = 0; i < in.size(); ++i) {
+        unsigned long bucket = 0;
         auto stats = in[i]->getStats();
-        for (auto pit = stats.begin(); pit != stats.end(); ++pit) {
-            eventStats[pit->first] += pit->second;
+        for (auto vit = stats.begin(); vit != stats.end(); ++vit) {
+            for (auto mit = vit->begin(); mit != vit->end(); ++mit) {
+                eventStats[bucket][mit->first] += mit->second;
+            }
+            bucket++;
         }
     }
 }
