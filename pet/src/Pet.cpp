@@ -157,8 +157,37 @@ void Pet::produceOutput() const {
     gnuplotter.produceOutput();
 
     // Will only print anything if map is filled, not done when stats = false
-    for (auto it = eventStats.begin(); it != eventStats.end(); ++it)
-        cout << it->first << ": " << it->second << endl;
+    if (options.stats) {
+        ostream *stats_out;
+        if (options.statsOutput.empty())
+            stats_out = &cout;
+        else
+            stats_out = new ofstream(options.statsOutput);
+        *stats_out << options.bucketSize << endl;
+
+        *stats_out << "[";
+        for (unsigned long i = 0; i < eventStats.size(); i++) {
+            auto it = options.weights->begin();
+            *stats_out << "{";
+            while (it != options.weights->end()) {
+                auto stat = eventStats[i].find(it->first);
+                *stats_out << "'" << it->first << "':";
+                if (stat != eventStats[i].end())
+                    *stats_out << stat->second;
+                else
+                    *stats_out << "0";
+                if (++it != options.weights->end())
+                    *stats_out << ", ";
+            }
+            if (i < eventStats.size()-1)
+                *stats_out << "},";
+            else
+                *stats_out << "}";
+        }
+        *stats_out << "]";
+        if (stats_out != &cout)
+            delete stats_out;
+    }
 }
 
 /**
@@ -234,11 +263,19 @@ void Pet::sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) 
     }
 }
 
-void sumStats(const vector<PowerModel*> &in, map<const string, unsigned long> &eventStats) {
+void sumStats(const vector<PowerModel*> &in, vector<map<const string, unsigned long>> &eventStats) {
+    if (in.size() > 0)
+        while (eventStats.size() < in[0]->getStats().size())
+            eventStats.push_back(std::map<const std::string, unsigned long>());
+
     for (unsigned long i = 0; i < in.size(); ++i) {
+        unsigned long bucket = 0;
         auto stats = in[i]->getStats();
-        for (auto pit = stats.begin(); pit != stats.end(); ++pit) {
-            eventStats[pit->first] += pit->second;
+        for (auto vit = stats.begin(); vit != stats.end(); ++vit) {
+            for (auto mit = vit->begin(); mit != vit->end(); ++mit) {
+                eventStats[bucket][mit->first] += mit->second;
+            }
+            bucket++;
         }
     }
 }

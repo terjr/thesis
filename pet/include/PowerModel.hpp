@@ -33,7 +33,7 @@ class PowerModel {
         unsigned long getWeight(const std::string &name) const;
         unsigned long getWeight(InstrType type) const;
         unsigned long getWeight(MemType type) const;
-        const std::map<const std::string, unsigned long> getStats() const;
+        const std::vector<std::map<const std::string, unsigned long>> getStats() const;
         OutputVector getOutput() const;
         void setOutputSize(unsigned long size);
         std::map<unsigned long, std::string> getAnnotations() const;
@@ -49,6 +49,6 @@ class PowerModel {
         std::map<unsigned long, std::string> *annotations;
         std::map<std::string, unsigned long> *weights;
         std::map<unsigned long, std::string> annotation_map;
-        std::map<const std::string, unsigned long> eventStats;
+        std::vector<std::map<const std::string, unsigned long>> eventStats;
         bool stats;
 };
