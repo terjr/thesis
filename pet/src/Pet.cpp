@@ -157,18 +157,20 @@ void Pet::produceOutput() const {
     gnuplotter.produceOutput();
 
     // Will only print anything if map is filled, not done when stats = false
-    cout << "[";
     for (unsigned long i = 0; i < eventStats.size(); i++) {
-         cout << "[";
-        for (auto it = eventStats[i].begin(); it != eventStats[i].end(); ++it) {
-           cout<< it->first << ":" << it->second << ", ";
-        }
-        if (i < eventStats.size()-1)
-            cout << "],\n";
-        else
-            cout << "]\n";
+         auto it = options.weights->begin();
+         while (it != options.weights->end()) {
+             auto stat = eventStats[i].find(it->first);
+             cout << it->first << ": ";
+             if (stat != eventStats[i].end())
+                 cout << stat->second;
+             else
+                 cout << "0";
+             if (++it != options.weights->end())
+                 cout << ", ";
+         }
+         cout << endl;
     }
-    cout << "]" << endl;
 }
 
 /**
@@ -245,6 +247,10 @@ void Pet::sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) 
 }
 
 void sumStats(const vector<PowerModel*> &in, vector<map<const string, unsigned long>> &eventStats) {
+    if (in.size() > 0)
+        while (eventStats.size() < in[0]->getStats().size())
+            eventStats.push_back(std::map<const std::string, unsigned long>());
+
     for (unsigned long i = 0; i < in.size(); ++i) {
         unsigned long bucket = 0;
         auto stats = in[i]->getStats();

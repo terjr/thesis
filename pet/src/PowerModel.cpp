@@ -23,8 +23,8 @@ OutputVector PowerModel::getOutput() const {
 void PowerModel::setOutputSize(unsigned long size) {
     while (output.size() < size) {
         output.push_back({0L,0L});
+        eventStats.push_back(std::map<const std::string, unsigned long>());
     }
-
 }
 
 std::map<unsigned long, std::string> PowerModel::getAnnotations() const {
