@@ -82,7 +82,7 @@ then
     echo "set yrange [$YRANGE]"
 fi
 
-echo "set title \"Training results for $NAME\""
+#echo "set title \"Training results for $NAME\""
 
 echo "plot '$FOLDER/$TRAINING' using 1:2 with lines notitle, '$REAL' using :2 with lines notitle"
 
