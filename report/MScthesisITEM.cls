@@ -91,8 +91,8 @@
 %% In case you need to have subfigures; note that there will be a warning for the caption package
 % \let\subcaption\undefined
 % \let\subfloat\undefined
-% \RequirePackage[bf]{caption}
-% \RequirePackage{subcaption}
+% \RequirePackage[bf,hypcap]{caption}
+% \RequirePackage[compatibility=false]{subcaption}
 % \setlength{\abovecaptionskip}{5.5pt}
 % \setlength{\belowcaptionskip}{4.2pt}
 
