@@ -1,5 +1,5 @@
 #!/bin/sh
-options='f:n:r:t:g:o:'
+options='f:n:r:t:g:o:y:x:'
 while getopts $options option
 do
     case $option in
@@ -21,6 +21,13 @@ do
         o   )
             OUTPUT=$OPTARG
             ;;
+        x   )
+            XRANGE=$OPTARG
+            ;;
+        y   )
+            YRANGE=$OPTARG
+            ;;
+
         *   )
             error
             ;;
@@ -73,6 +80,9 @@ fi
 echo "set xtics font \"Arial, $FONTSIZE\""
 echo "set ytics font \"Arial, $FONTSIZE\""
 
+echo "set xlabel \"Time (ms)\""
+echo "set ylabel \"Current (mA)\""
+
 if [ ! -z $XRANGE ]
 then
     echo "set xrange [$XRANGE]"
@@ -84,7 +94,7 @@ fi
 
 #echo "set title \"Training results for $NAME\""
 
-echo "plot '$FOLDER/$TRAINING' using 1:2 with lines notitle, '$REAL' using :2 with lines notitle"
+echo "plot '$FOLDER/$TRAINING' using (column(0)/10):2 with lines title \"PET Estimate\", '$REAL' using (column(0)/10):2 with lines title \"Measured\""
 
 ) | gnuplot -p
 
