@@ -4,21 +4,28 @@ With an accurate CPU model, the weights must now be tuned to match measured
 power consumption on real hardware. We formulate this as a multi-objective
 optimization problem.
 
-We start by creating a set of training workloads, $\{T_1 \dots T_n \}$.
-Essentially, these are computer programs designed to hold certain
-characteristics compiled to a native ARMv7 binary. The design and selection of
-these will be elaborated in the next section. The binaries are being executed in
-the simulator with the CPU model from last section and \texttt{(time,
-event)} tuples are outputted. We must now decide on a cost for each of the event
-types.
+We start by creating a set of training workloads, essentially computer programs
+designed to hold certain characteristics compiled to a native
+ARMv7\footnote{ARMv7 is the instruction set supported by ARM Cortex-A9.} binary.
+The design and selection of these will be elaborated in the next section. We
+execute the binaries in the gem5 simulator with the CPU model from last
+section to obtain a file containing \texttt{(time, event)} tuples from the
+(modelled) execution, just like in \autoref{lst:trace}. The next challenge is to
+assign each of these events a cost.
 
-We attack this problem by running an optimization
-algorithm that tests various combinations of the weight configuration. We tested
-many evolutionary strategies and were able to prototype quickly using DEAP
-\cite{DEAP_JMLR2012}, a Python framework for evolutionary algorithms. In the
-end, we do not care how the weights are found, as long as they match well to the
-hardware measurements. Please note that any optimization algorithm could be used
-to find a proper set of weights.
+We attack this problem by running a multi-objective optimization algorithm. We
+pick a subset of event types that is believed to impact energy consumption, as
+we described in \autoref{subsec:powerevents}.
+
+%TODO: Any kind of opt.alg. could have been used
+
+
+We tested many evolutionary strategies
+and were able to prototype quickly using DEAP \cite{DEAP_JMLR2012}, a Python
+framework for evolutionary algorithms. In the end, we do not care how the
+weights are found, as long as they match well to the hardware measurements.
+Please note that any optimization algorithm could be used to find a proper set
+of weights.
 
 The genome is a set of CPU events, each mapped to an energy cost. E.g.
 \texttt{\{IntAlu: 170, IntMult: 1300, MemRead: 80, MemWrite: 50, SimdFloatMisc:

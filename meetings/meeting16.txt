@@ -1,0 +1,9 @@
+Vi kjorer nå GAen på sammenklemte grafer, og det går (naturligvis) mye fortere.
+
+Trenger ikke begrunne valg av GA, siden det ikke er så noeye.
+
+Caption på hver figur: Det må stå noeyaktig hva som står.
+
+I abstract; sensor skal skjoenne noeyaktig hva som står.
+
+Tenk på om vi vil endre noe på oppgaven til neste uke.

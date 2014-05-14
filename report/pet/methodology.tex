@@ -42,7 +42,7 @@ architectures, memory systems and CPU models, and they only excel in simulating
 one specific combination.
 
 \subsection{A brief comparison of simulators}
-\label{subsec:design_choices}
+\label{subsec:simulators}
 There are quite few active and open projects trying to estimate power
 consumption of unimplemented platforms. Since the public available information
 regarding such approches are sparse, this thesis will try to reason some about
@@ -59,7 +59,9 @@ the design choices on its own.
     \end{tabular}
 \end{table}
 
+
 \subsection{Power Consuming Events}
+\label{subsec:powerevents}
 It is desirable to estimate energy consumption on literally all types of
 compututing systems, ranging from large-size clusters to embedded systems. To
 provide this flexibility it was decided to write the tool as simulator agnostic
@@ -86,7 +88,7 @@ are briefly described in \autoref{tbl:events}.
             SimdFloatMisc     & NEON-unit activated \\
             \hline
         \end{tabular}
-%        \subcaption{CPU Core Events}
+        \subcaption{CPU Core Events}
     \end{minipage}
 
     \begin{minipage}[b]{\linewidth}
@@ -110,7 +112,7 @@ are briefly described in \autoref{tbl:events}.
             PhysW   & Main memory, write \\
             \hline
         \end{tabular}
-%        \subcaption{Memory Events}
+        \subcaption{Memory Events}
     \end{minipage}
     \caption{Power Consuming Events}
     \label{tbl:events}
