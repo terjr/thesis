@@ -48,18 +48,20 @@ solution and ends at the best solution, while the non-deterministic approaches
 usually selects one or more paths by random such that each run might have a
 different outcome. Deterministic algorithms will always find the same solution,
 but if the search space is large enough, this might take extremely long time do.
-With the case of non-deterministic algorithms, they tend to have a more
-explorative behaviour; each computation of next state includes some form of
-randomness. E.g. simulated annealing will do the same as the hill climbing
-algorithm, but will have some chance of moving downhill, thus it will be less
-prone to be stuck in a local minima.
+With the case of non-deterministic algorithms, they tend to have an
+explorative behaviour \cite{poli2008field}; each computation of next state
+includes some form of randomness. E.g. simulated annealing will do the same as
+the hill climbing algorithm, but will have some chance of moving downhill, thus
+it will be less prone to be stuck in a local minima.
 
 
 \begin{description}
-    \item[Linear Regression] \dots.
+    \item[Linear Regression] is described as a study of dependence between
+        properties \cite{weisberg2005applied}. When set data set contains
+        values 
     \item[Simulated Annealing] is a technique that belongs to the field of
         stochastic optimization and metaheuristics, inspired by the process of
-        annealing in metallurgy. Initially, it starts in a random state $s$ and
+        annealing in metallurgy \cite{van1987simulated}. Initially, it starts in a random state $s$ and
         for each iteration it probabilistically decides between moving the
         system to a neighboring state $s'$ or staying in in state $s$. To avoid
         ending up in a local minima, the probability starts high, but decreases
