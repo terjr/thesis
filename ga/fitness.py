@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import ast
 import sys
 import os
 import subprocess
@@ -8,6 +9,7 @@ from math import sqrt
 
 #import queue
 #import threading
+
 
 def distance(graph1, graph2):
     diff = 0
@@ -32,7 +34,7 @@ def align(graph1, graph2):
         if dist < least_diff:
             least_diff = dist
             best = i
-    print("Best alignment at idx "+str(best)+" with diff of "+str(least_diff))
+#    print("Best alignment at idx "+str(best)+" with diff of "+str(least_diff))
     return least_diff
 
 
@@ -45,46 +47,61 @@ def write_weights_file(weights, filename):
     f.write('\n'.join(['%s %s' % (key,value) for (key,value) in weights.items()]) + '\n')
     f.close()
 
+best = 10000000
 def eval_individual(weights):
-    print('ind = {' + ', '.join(["'%s':%d" % (key, value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])]) + '}')
-    name = ''.join(['%04d' % (value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])])
-    write_weights_file(weights, "/tmp/"+name+"_weights.conf")
-    fitness = run_tests("/tmp/"+name+".output", "/tmp/"+name+"_weights.conf")
-    print("Fitness = "+str(fitness)+"\n")
-    return (fitness,)
-
-def run_test(output, weightfile, test):
-    tf = output + "-" + test
-    hw = "../powerlogs/root/m5bins/" + test.replace("-", "/") + "/pet-log-cut";
-    print("Diffing results "+tf+" with "+hw)
-    buckets = sum(1 for line in open(hw))
-    buckets = buckets
-
-    prog = ["../pet/pet", "../workloads/m5out-stable/" + test + "/trace.out", "-v", "-b", str(buckets), "-f", "plain", "-o", tf, "-w", weightfile]
-    if not os.path.isfile(tf):
-        print(" ".join(prog)+"\n")
-        os.system(" ".join(prog))
-    return round(align(read_graph(tf), read_graph(hw))*100/buckets)
-
-def run_tests(output, weightfile):
-#    q = queue.Queue()
-#    tests = ["pi-pi", "trend-trend", "sha2-sha2"]
-#    threads = []
-#    for test in tests:
-#        threads.append(threading.Thread(target=run_test, args=(output, weightfile, test, q)))
-#
-#    for thread in threads:
-#        thread.start()
-#    for thread in threads:
-#        thread.join()
-#    
-#    fitness = 0
-#    while not q.empty():
-#        fitness = fitness + q.get()
-#    return fitness
+    global best
     fitness = 0
     for test in ['trend-trend', 'trend-submul', 'sha2-sha2', 'pi-pi']:
-        score = run_test(output, weightfile, test)
+        score = run_test(weights, test)
         fitness += score*score
-#    fitness += ( run_test(output, weightfile, 'pi-pi') * 2 )
-    return sqrt( fitness / 3 )
+    fitness = sqrt( fitness / 3 )
+    if fitness < best:
+        best = fitness
+        print('ind = {' + ', '.join(["'%s':%d" % (key, value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])]) + '}')
+        print("Fitness = "+str(fitness)+"\n")
+    return (fitness,)
+
+def read_input_matrix(tf):
+    f = open(tf)
+    a = f.readline()
+    bucket_size = ast.literal_eval(a)
+    b = f.readline()
+    return [a, ast.literal_eval(b)]
+
+def apply_weights(data, weights):
+    results = []
+    normalize = (int(data[0])/500)
+    for d in data[1]:
+        value = 0
+        numEvents = 0
+        for weight in weights:
+            value += d[weight]*weights[weight]
+            numEvents += d[weight]
+
+        ticksInCycle = 1000000/1700;
+        idleTicks = (int(data[0])/ticksInCycle) - numEvents;
+        if idleTicks > 0:
+            value +=  weights["Idle"]*idleTicks;
+
+        results.append(value/normalize + weights['Static'])
+    return results
+
+def assure_input_matrix(test, weights, buckets):
+    tf = "/tmp/" + test
+    weightfile = "/tmp/weights"
+    prog = ["../pet/pet", "../workloads/m5out-stable/" + test + "/trace.out", "-s", "-v", "-b", str(buckets), "-f", "plain", "-O", tf, "-w", weightfile]
+    if not os.path.isfile(tf):
+        write_weights_file(weights, weightfile)
+        print(" ".join(prog)+"\n")
+        os.system(" ".join(prog))
+    return tf
+
+
+def run_test(weights, test):
+    hw = "../powerlogs/root/m5bins/" + test.replace("-", "/") + "/pet-log-cut";
+#    print("Diffing results with "+hw)
+    buckets = sum(1 for line in open(hw))
+    tf = assure_input_matrix(test, weights, buckets)
+    event_data = read_input_matrix(tf)
+
+    return round(align(apply_weights(event_data, weights), read_graph(hw))*100/buckets)
