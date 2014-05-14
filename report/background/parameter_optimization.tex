@@ -56,23 +56,35 @@ it will be less prone to be stuck in a local minima.
 
 
 \begin{description}
-    \item[Linear Regression] is described as a study of dependence between
-        properties \cite{weisberg2005applied}. When set data set contains
-        values 
+
+    \item[Regression] is described as a study of dependence between properties
+        \cite{weisberg2005applied}. When set data set contains values from at least two
+        properties, regression can be used to find one value as a function of the
+        other. The simplest form of regression is the linear regression. A linear
+        regression will try to find the linear function,
+        $y=a_1x_1+a_2x_2+...+a_nx_n+b$, that minimizes the least square error. A common
+        for implementation of linear regression is to formulate the problem as a system
+        of linear equations \cite{lay2011linear}, possibly solved with Gaussian
+        elimination. More advanced forms for regressions can be used when the problem
+        cannot be well mapped with a linear function, such as the Gauss-Newton
+        algorithm \cite{myers1990classical}.
+
     \item[Simulated Annealing] is a technique that belongs to the field of
         stochastic optimization and metaheuristics, inspired by the process of
-        annealing in metallurgy \cite{van1987simulated}. Initially, it starts in a random state $s$ and
-        for each iteration it probabilistically decides between moving the
-        system to a neighboring state $s'$ or staying in in state $s$. To avoid
-        ending up in a local minima, the probability starts high, but decreases
-        after time. Hence, simulated annealing quickly considers the most
-        important parts of the state.
+        annealing in metallurgy \cite{van1987simulated}. Initially, it starts in a
+        random state $s$ and for each iteration it probabilistically decides between
+        moving the system to a neighboring state $s'$ or staying in in state $s$. To
+        avoid ending up in a local minima, the probability starts high, but decreases
+        after time. Hence, simulated annealing quickly considers the most important
+        parts of the state.
+
     \item[Evolutionary Algorithms] is a term that refers to computational
-        methods inspired by the process and mechanisms of biological evolution.
+        methods inspired by the process and mechanisms of biological evolution \cite{fogel1997evolutionary}.
         They differ from conventional algorithms by selecting the best-fit
         individuals in a population for reproduction and applying crossover and
-        mutation to produce offspring. Only the best fit individuals go on to
-        the next generation.
+        mutation to produce offspring. Only the best fit individuals go on to the next
+        generation \cite{introtoga}.
+
 \end{description}
 
 Global optimization problems is a well studied research area and there is a
