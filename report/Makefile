@@ -1,6 +1,7 @@
 # The main latex-file
 TEXFILE = main
 DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
+GAFILES=$(wildcard ~/ga-results.*)
 TRAINING_FIGS=figs/training/add-add.pdf figs/training/pi-pi.pdf figs/training/sha2-sha2.pdf figs/training/trend-trend.pdf figs/training/trend-submul.pdf figs/training/dhrystone-dhry.pdf
 
 # Fix reference file and compile source
@@ -39,5 +40,5 @@ figs/training/%-noscale-training.txt: ../workloads/m5out-stable/%/trace.out ../p
 	mkdir -p figs/training
 	../pet/pet -w ../pet/weights.conf -o $@ -f plain -B 100000000 -i ../workloads/m5out-stable/$*/trace.out -s -v
 
-../pet/weights.conf: ~/ga-results
+../pet/weights.conf: ${GAFILES}
 	../pet/scripts/update_weights.sh > $@
