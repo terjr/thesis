@@ -5,7 +5,7 @@ import sys
 import os
 import subprocess
 
-from math import sqrt
+from math import sqrt, floor
 
 #import queue
 #import threading
@@ -68,6 +68,7 @@ def read_input_matrix(tf):
     b = f.readline()
     return [a, ast.literal_eval(b)]
 
+# Data = { bucket size, stats-map }
 def apply_weights(data, weights):
     results = []
     normalize = (int(data[0])/500)
@@ -78,12 +79,12 @@ def apply_weights(data, weights):
             value += d[weight]*weights[weight]
             numEvents += d[weight]
 
-        ticksInCycle = 1000000/1700;
-        idleTicks = (int(data[0])/ticksInCycle) - numEvents;
+        ticksInCycle = floor(1000000/1700)
+        idleTicks = int(int(data[0])/ticksInCycle) - numEvents;
         if idleTicks > 0:
             value +=  weights["Idle"]*idleTicks;
 
-        results.append(value/normalize + weights['Static'])
+        results.append(floor(value/normalize) + weights['Static'])
     return results
 
 def assure_input_matrix(test, weights, buckets):

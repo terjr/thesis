@@ -43,7 +43,7 @@ class Exynos_Complex_Int(FUDesc):
     count = 1
 
 
-# Floating point and SIMD instructions 
+# Floating point and SIMD instructions
 class Exynos_FP(FUDesc):
     opList = [ OpDesc(opClass='SimdAdd', opLat=4),
                OpDesc(opClass='SimdAddAcc', opLat=4),
@@ -166,7 +166,7 @@ class Exynos_DCache(BaseCache):
     write_buffers = 16
     is_top_level = 'true'
 
-# TLB Cache 
+# TLB Cache
 # Use a cache as a L2 TLB
 class ExynosWalkCache(BaseCache):
     hit_latency = 7 #7cpu

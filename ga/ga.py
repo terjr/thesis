@@ -127,9 +127,9 @@ def main():
     ind1 = toolbox.individual()
 #    ind1.update({'Idle':60, 'IntAlu':140, 'IntMult':618, 'L1DR':40, 'L1DW':60, 'L1IR':30, 'L1IW':60, 'L2R':500, 'L2W':800, 'MemRead':140, 'MemWrite':160, 'PhysR':0, 'PhysW':0, 'SimdFloatMisc':1364, 'Static':60})
 #   Idle 302 IntAlu 268 IntMult 1123 L1DR 23 L1DW 846 L1IR 23 L1IW 129 L2R 1631 L2W 1588 MemRead 12 MemWrite 600 PhysR 0 PhysW 0 SimdFloatMisc 1367 Static 8
-#    ind1.update({'Idle':216, 'IntAlu':290, 'IntMult':1111, 'L1DR':11, 'L1DW':814, 'L1IR':11, 'L1IW':117, 'L2R':1619, 'L2W':1516, 'MemRead':0, 'MemWrite':588, 'PhysR':0, 'PhysW':0, 'SimdFloatMisc':1315, 'Static':20})
+    ind1.update({'Idle':216, 'IntAlu':290, 'IntMult':1111, 'L1DR':11, 'L1DW':814, 'L1IR':11, 'L1IW':117, 'L2R':1619, 'L2W':1516, 'MemRead':0, 'MemWrite':588, 'PhysR':0, 'PhysW':0, 'SimdFloatMisc':1315, 'Static':20})
 #    print(ind1)
-#    population = [ind1] + population
+    population = [ind1] + population
 #
 #    ind1 = toolbox.individual()
 #   ind1.update({'IntAlu':190, 'IntMult':1437, 'L1DR':202, 'L1DW':310, 'L1IR':201, 'L1IW':511, 'L2R':1150, 'L2W':1088, 'MemRead':163, 'MemWrite':17, 'PhysR':2718, 'PhysW':2765, 'SimdFloatMisc':1294, 'Static':159, 'Idle':70})
@@ -139,6 +139,6 @@ def main():
 
 
     home = os.environ.get('HOME')
-    run_evolution(population, 600, open(home + "/ga-results", "a"))
+    run_evolution(population, 6000, open(home + "/ga-results."+ str(os.getpid()), "a"))
 
 main()
