@@ -41,12 +41,33 @@ strengths and weaknesses. Often, simulators only supports a small set of
 architectures, memory systems and CPU models, and they only excel in simulating
 one specific combination.
 
-\subsection{A brief comparison of simulators}
+\subsection{A Brief Comparison of Simulators}
 \label{subsec:simulators}
-There are quite few active and open projects trying to estimate power
-consumption of unimplemented platforms. Since the public available information
-regarding such approches are sparse, this thesis will try to reason some about
-the design choices on its own.
+There are numerous Computer Architecture Simulators available to the
+public, both commercial, free and open source alternatives exists. In order
+to estimate power consumption, the simulator needs to be able to give a good estimate
+of the events which will happen in the hardware implementation of the architecture,
+as this is the base for the calculations. The hardware platform used in this thesis
+is an out-of-order ARM Cortex-A9 based core fitted with memory and and peripherals
+in a von Neumann architectural scheme. The out-of-order propery significantly
+increases the level of complexity which the simulator must handle.
+
+\begin{description}
+\item[Sniper] \hfill\\
+    Sniper is a high-speed, multicore, multi-threaded and cycle-accurate computer
+    architecture simulator \cite{sniperwebpage,carlson2013ssomta}. It already integrates with McPAT, and it is open source.
+    Sniper does only work x86, and is thus not applicable for simulation of ARM-based
+    architectures.
+
+\item[SimpleScalar] \hfill\\
+    SimpleScalar LLC
+
+\item[QEMU]\hfill\\
+
+\item[gem5]\hfill\\
+
+\end{description}
+
 
 
 \begin{table}
