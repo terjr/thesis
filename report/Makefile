@@ -3,11 +3,12 @@ TEXFILE = main
 DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
 GAFILES=$(wildcard ~/ga-results.*)
 TRAINING_FIGS=figs/training/add-add.pdf figs/training/pi-pi.pdf figs/training/sha2-sha2.pdf figs/training/trend-trend.pdf figs/training/trend-submul.pdf figs/training/dhrystone-dhry.pdf
+SVG_FIGS=figs/ga_genome.pdf_tex
 
 # Fix reference file and compile source
 default: full
 
-full: ${DOTFILES} ${TRAINING_FIGS}
+full: ${DOTFILES} ${TRAINING_FIGS} ${SVG_FIGS}
 	#latexmk -latexoption='-interaction nonstopmode -shell-escape' -use-make -pdf ${TEXFILE}
 	pdflatex -shell-escape $(TEXFILE); \
 	bibtex $(TEXFILE); \
@@ -22,6 +23,9 @@ clean:
 	rm -f *.aux $(TEXFILE).bbl $(TEXFILE).blg *.log *.out $(TEXFILE).toc $(TEXFILE).lot $(TEXFILE).lof $(TEXFILE).glg $(TEXFILE).glo $(TEXFILE).gls $(TEXFILE).ist $(TEXFILE).acn $(TEXFILE).acr $(TEXFILE).alg $(TEXFILE).xdy $(TEXFILE).loa
 	rm -f figs/*-gv.pdf
 	rm -f figs/training/*.pdf
+
+%.pdf_tex: %.svg
+	inkscape -D -z --file=$< --export-pdf=$@ --export-latex
 
 figs/%-gv.pdf: figs/%.gv
 	dot figs/$*.gv -Tpdf -ofigs/$*-gv.pdf

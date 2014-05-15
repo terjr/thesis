@@ -15,23 +15,36 @@ assign each of these events a cost.
 
 We attack this problem by running a multi-objective optimization algorithm. We
 pick a subset of event types that is believed to impact energy consumption, as
-we described in \autoref{subsec:powerevents}.
+we described in \autoref{subsec:powerevents}. Choosing too many events could
+give us overfitting issues, but taking too few out could lead to lack of detail
+in our model. We experimented with dozens of optimization algorithms and ended
+up combining a $1 + \lambda$ evolutionary strategy with simulated annealing. The
+evolutionary part would make sure that our algorithm was explorative enough
+(i.e. it covered large parts of the solution space), while the simulated
+annealing part made the algorithm more aggressive to start with.  Using DEAP
+\cite{DEAP_JMLR2012}, a Python framework for evolutionary algorithms we were
+able to prototype our ideas rapidly. The pseudocode in
+\autoref{lst:ga-algorithm} describes the algorithm we ended up on.
 
-%TODO: Any kind of opt.alg. could have been used
+\begin{lstlisting}[caption={Algorithm used to evolve a set of event weights},label={lst:ga-algorithm}]
+Generate 10 random individuals
+%TODO: Insert rest of algorithm here
+\end{lstlisting}
 
-
-We tested many evolutionary strategies
-and were able to prototype quickly using DEAP \cite{DEAP_JMLR2012}, a Python
-framework for evolutionary algorithms. In the end, we do not care how the
-weights are found, as long as they match well to the hardware measurements.
-Please note that any optimization algorithm could be used to find a proper set
-of weights.
+\begin{figure}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \input{figs/ga_genome.pdf_tex}
+\end{figure}
 
 The genome is a set of CPU events, each mapped to an energy cost. E.g.
 \texttt{\{IntAlu: 170, IntMult: 1300, MemRead: 80, MemWrite: 50, SimdFloatMisc:
 1400, L1R: 230, L1W: 340, L2R: 1100, L2W: 1300, PhysR: 2600, PhysW: 2800\}} is a
 valid individual in the population. To calculate the fitness of an individual,
 we run PET with the genome weights on a set of workloads and compare the energy
-profiles with measurements on hardware. Note that hardware measurements only
-needs to be done once per workload. The evolution can now run without
-supervision until a set of reasonable weights are evaluated.
+profiles with measurements on hardware.
+
+We emphasize that the use of an evolutionary algorithm is an arbitrary choice;
+technically, we could have picked any algorithm to do this for us. When the
+weights have evolved to match our hardware measurements, we no longer care how
+these weights were obtained.
