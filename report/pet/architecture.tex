@@ -27,12 +27,15 @@ the lines from the log file into a ring buffer and let multiple consumers pick
 from this ring buffer. Each consumer parses the log lines they pick, and apply
 the weight of each read event to each their result vector. When all lines are
 read and parsed, the results vectors are merged, and idle-task power and static
-power consumption is added.
+power consumption is added. Finally, output is produces, either as a gnuplot
+line graph or as formatted or plain text output.
 
 \subsection{Details}
 
-
-\autoref{fig:callgraph}
+PET is no huge nor advanced program, but it embeds features ranging from string
+parsing functionality to thread pooling to number crunching. As seen in the call graph
+in \autoref{fig:callgraph} PET starts out as any other ordinary program in it's main
+function. PET is initialized and parses 
 
 
 PET is a tool which main task will be to 
