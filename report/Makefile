@@ -24,6 +24,7 @@ clean:
 	rm -f figs/*-gv.pdf
 	rm -f figs/training/*.pdf
 	rm -f figs/ga_genome.pdf*
+	rm -r figs/*ps-converted-to.pdf
 
 %.pdf: %.svg
 	inkscape -D -z --file=$< --export-pdf=$@
