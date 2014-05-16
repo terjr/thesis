@@ -23,9 +23,10 @@ clean:
 	rm -f *.aux $(TEXFILE).bbl $(TEXFILE).blg *.log *.out $(TEXFILE).toc $(TEXFILE).lot $(TEXFILE).lof $(TEXFILE).glg $(TEXFILE).glo $(TEXFILE).gls $(TEXFILE).ist $(TEXFILE).acn $(TEXFILE).acr $(TEXFILE).alg $(TEXFILE).xdy $(TEXFILE).loa
 	rm -f figs/*-gv.pdf
 	rm -f figs/training/*.pdf
+	rm -f figs/ga_genome.pdf*
 
 %.pdf: %.svg
-	inkscape -D -z --file=$< --export-pdf=$@ --export-latex
+	inkscape -D -z --file=$< --export-pdf=$@
 
 figs/%-gv.pdf: figs/%.gv
 	dot figs/$*.gv -Tpdf -ofigs/$*-gv.pdf
