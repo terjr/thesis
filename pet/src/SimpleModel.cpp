@@ -39,6 +39,7 @@ int SimpleModel::calculate(const SimEvent *se) {
         // Only consider non-Null memory events
         if (MemType::Null != mem->getMemType()) {
             output[mem->getTick()/bucket_size].sum += getWeight(mem->getMemType());
+            output[mem->getTick()/bucket_size].num++;
         }
     }
 

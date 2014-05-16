@@ -71,7 +71,8 @@ def read_input_matrix(tf):
 # Data = { bucket size, stats-map }
 def apply_weights(data, weights):
     results = []
-    normalize = (int(data[0])/500)
+    normalize = int(data[0])/500
+    bucket = 0
     for d in data[1]:
         value = 0
         numEvents = 0
@@ -80,9 +81,10 @@ def apply_weights(data, weights):
             numEvents += d[weight]
 
         ticksInCycle = floor(1000000/1700)
-        idleTicks = int(int(data[0])/ticksInCycle) - numEvents;
+        idleTicks = int(data[0])/ticksInCycle - numEvents
+        bucket += 1
         if idleTicks > 0:
-            value +=  weights["Idle"]*idleTicks;
+            value += weights['Idle']*idleTicks
 
         results.append(floor(value/normalize) + weights['Static'])
     return results

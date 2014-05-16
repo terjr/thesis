@@ -257,7 +257,7 @@ void Pet::sumBuckets(const vector<PowerModel*> &in, vector<unsigned long> &out) 
             out[j] += in[i]->getOutput()[j].sum;
             numEvents += in[i]->getOutput()[j].num;
         }
-        long idleTicks = (options.bucketSize / options.ticksInCycle) - numEvents;
+        double idleTicks = (((double)options.bucketSize) / options.ticksInCycle) - numEvents;
         if (idleTicks > 0)
             out[j] +=  in[0]->getWeight("Idle")*idleTicks;
     }
@@ -297,7 +297,6 @@ void normalize(const unsigned long bucketSize, const unsigned long staticPowerDr
         normalize = bucketSize/500;
         staticDrain = staticPowerDrain;
     }
-
     for (unsigned long i = 0; i < results.size(); ++i)
         results[i] = (results[i] / normalize) + staticPowerDrain;
 }

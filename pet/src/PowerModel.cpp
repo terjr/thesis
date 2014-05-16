@@ -78,7 +78,10 @@ void PowerModel::updateStats(SimEvent *se) {
         case MemEvent:
             {
                 Memory *mem = static_cast<Memory*>(se);
-                eventStats[mem->getTick()/bucket_size][memTypeToString(mem->getMemType())]++;
+                // Only consider non-Null memory events
+                if (MemType::Null != mem->getMemType()) {
+                    eventStats[mem->getTick()/bucket_size][memTypeToString(mem->getMemType())]++;
+                }
             }
             break;
         default:
