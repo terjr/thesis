@@ -33,7 +33,7 @@ now explain how gem5 can be configured to improve simulator accuracy for a
 particular CPU core, as well as pointing out difficulties with this approach.
 
 
-\subsection{gem5 configuration files}
+\subsection{gem5 CPU configuration}
 The gem5 simulator is bundled with an out-of-order ARMv7 core and serves as a
 basis for the evolution of our custom core meant to model an A9 core on the
 Exynos 4412. ARM cores can be configured with caches of varying sizes decided
@@ -54,24 +54,15 @@ accomodate the new processor definition. Please refer to
 
 As implementation details for commercial processors are hidden from the end
 user, the Internet can deem helpful in the search for clues. We found many
-sources of information claiming to know implementation details of the Cortex-A9:
-
-\begin{itemize}
-    \item{\cite{blem2013detailed}}
-    \item{\cite{butko2012accuracy}}
-    \item{\cite{armtech}}
-    \item{\url{http://en.wikipedia.org/wiki/Odroid}}
-    \item{\url{http://en.wikipedia.org/wiki/Exynos}}
-    \item{\url{http://www.geekland.co/ARM-Cortex-A9-Exynos-Quad-Core-4412-Android-Development-Board-GK-4412P.htm}}
-    \item{\url{http://www.7-cpu.com/cpu/Cortex-A9.html}}
-    \item{\url{http://www.arm.com/products/processors/cortex-a/cortex-a9.php?tab=Specifications}}
-\end{itemize}
+sources of information claiming to know implementation details of the Cortex-A9,
+including
+\cite{blem2013detailed,butko2012accuracy,armtech,exynoswiki,odroidwiki,geekland,7cpu,armcortexa9specs}.
 
 Combining this information helps us build a gem5 model for the Exynos SoC, but
 it is still not trivial.  We found the simulator to perform different from the
 physical hardware, even though the system parameters are set equal. We claim
 that this is due to the abstraction the simulator provides us; the simulator is
-not a complete model of the hardware. Gibson et. al.\cite[gibson2000flash] have
+not a complete model of the hardware. Gibson et. al. \cite[gibson2000flash] have
 done a similar experiment using different simulators and concluded that bugs and
 ommisions in system simulators may make performance tuning very difficult.
 
