@@ -13,14 +13,16 @@ class Gnuplot;
  */
 class OutputFormatter {
     public:
-        OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options);
+        OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options, const double scale);
         ~OutputFormatter();
         void produceOutput();
 
         void addAnnotations(std::map<unsigned long, std::string> annot);
     private:
         std::vector<double> dVector;
+        std::vector<double> tVector;
         std::map<unsigned long, std::string> annotations;
+        double scale;
         Gnuplot *plot;
         const options_t *options;
 
