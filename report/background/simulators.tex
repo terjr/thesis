@@ -15,7 +15,7 @@ significantly increases the level of complexity which the simulator must handle.
 \item[Sniper] \hfill\\
     Sniper is a high-speed, multicore, multi-threaded and cycle-accurate
     computer architecture simulator \cite{sniperwebpage,carlson2013ssomta}. It
-    already integrates with McPAT, and it is open source.  Sniper does only work
+    already integrates with McPAT, and it is open source. Sniper does only work
     x86, and is thus not applicable for simulation of ARM-based architectures.
 
 \item[SimpleScalar] \hfill\\
@@ -53,23 +53,23 @@ for using M5 and gem5 in earlier research projects and subjects, gem5 is the nat
 winner for the choise of an architectural simulator.
 
 
-
 \subsection{The gem5 Simulator}
 
 Joint effort between many academic and industrial institutions has resulted in
-an open source computer simulation framework, the gem5 simulator \cite{gem5,gem5simulator}.
-Its core is written in C++ and has a highly modular interface that allows users
-to specify simulator target through simple Python scripts.
+an open source computer simulation framework, the gem5 simulator
+\cite{gem5,gem5simulator}. Its core is written in C++ and has a highly modular
+interface that allows users to specify simulator target through simple Python
+scripts.
 
-The project merges the best features of M5 \cite{binkert2006m5} and GEMS \cite{GEMS} and
-includes a wide range of CPU and memory models\cite{gem5hipeac}. The simulator has two main
-execution modes; \textit{Syscall Emulation} (SE) or \textit{Full System} (FS).
-In SE mode, the simulator traps system calls in the binary and emulates them,
-often by passing them to the host operating system. In FS mode, the simulator
-can load an operating system binary and run application within the OS. The
-latter mode is well suited when the OS in its entirety must be simulated.
-
-% TODO: Write about the input to gem5 (i.e. arm binaries)
+The project merges the best features of M5 \cite{binkert2006m5} and GEMS
+\cite{GEMS} and includes a wide range of CPU and memory models
+\cite{gem5hipeac}. The simulator has two main execution modes; \textit{Syscall
+Emulation} (SE) or \textit{Full System} (FS). In SE mode, the simulator traps
+system calls in the binary and emulates them, often by passing them to the host
+operating system. In FS mode, the simulator can load an operating system binary
+and run application within the OS. The latter mode is well suited when the OS in
+its entirety must be simulated. gem5 supports many architectures; it can run
+binaries compiled for ALPHA, SPARC, MIPS, ARM, x86 and POWER architectures.
 
 During simulation, gem5 keeps track of hundreds of events related to the CPU
 core and memory system. In-detail statistics, similar to performance counters on
