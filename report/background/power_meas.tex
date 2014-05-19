@@ -10,14 +10,37 @@ In \cite{rundehvatum2013exploring}, we conducted experiments to quantify the
 energy cost of an instruction executing on a modern out-of-order mobile
 processor while sampling at significantly lower rate. We were able to do this by
 completely bypassing the memory hierarchy utilizing special hardware
-(\emph{fast-loop mode}) and sampling a running average. Voltage drop
-over a shunt resistor in series with the ODROID-X2 development board is
-measured, and we calculate energy used in the processor core. We isolate
-the energy used in the CPU (in which we are interested in) with energy used for
-on-board peripherals by modifying the development board and driving the CPU core
-with a separate power supply.
+(\emph{fast-loop mode}) and sampling a running average. Voltage drop over a
+shunt resistor in series with the ODROID-X2 development board is measured, and
+we calculate energy used in the processor core. We isolate the energy used in
+the CPU (in which we are interested in) with energy used for on-board
+peripherals by modifying the development board and driving the CPU core with a
+separate power supply.
 
-The ultimate goal in this context is to estimate power consumption and energy
-efficiency of new hardware, the first step is to measure different more or less
-power consuming events on real hardware that is similar to the one simulated.
+To derive the energy used in the processor, we first calculate the amount of
+current flowing through the circuit. We assume that the shunt resistor voltage
+drop is negligible compared the voltage drop over the ODROID, so that we have
+1.3V on both sides of the resistor. Ohms law expresses current as
+
+\begin{equation}
+    I=\frac{U}{R}
+    \label{eq:ohm}
+\end{equation}
+
+The voltage $U$ is being measured, while the restistance $R$ is a known fixed
+value (12 m$\Omega$ in our experiments). Relating current to energy consumption
+is done by applying the definition of electric power.
+
+\begin{equation}
+    P=U \cdot I
+    \label{eq:power}
+\end{equation}
+
+Now, the current through the shunt resistor is the same as through the CPU core,
+and the voltage is assumed to a fixed 1.3V.
+
+% TODO: Where does this fit?
+% The ultimate goal in this context is to estimate power consumption and energy
+% efficiency of new hardware, the first step is to measure different more or less
+% power consuming events on real hardware that is similar to the one simulated.
 
