@@ -41,52 +41,6 @@ strengths and weaknesses. Often, simulators only supports a small set of
 architectures, memory systems and CPU models, and they only excel in simulating
 one specific combination.
 
-\subsection{A Brief Comparison of Simulators}
-\label{subsec:simulators}
-There are numerous Computer Architecture Simulators available to the
-public, both commercial, free and open source alternatives exists. In order
-to estimate power consumption, the simulator needs to be able to give a good estimate
-of the events which will happen in the hardware implementation of the architecture,
-as this is the base for the calculations. The hardware platform used in this thesis
-is an out-of-order ARM Cortex-A9 based core fitted with memory and and peripherals
-in a von Neumann architectural scheme. The out-of-order propery significantly
-increases the level of complexity which the simulator must handle.
-
-\begin{description}
-\item[Sniper] \hfill\\
-    Sniper is a high-speed, multicore, multi-threaded and cycle-accurate computer
-    architecture simulator \cite{sniperwebpage,carlson2013ssomta}. It already integrates with McPAT, and it is open source.
-    Sniper does only work x86, and is thus not applicable for simulation of ARM-based
-    architectures.
-
-\item[SimpleScalar] \hfill\\
-    SimpleScalar is a popular commercial architectural simulator that comes with a free academic
-    license providing full source code. SimpleScalar supports the ARM instruction set amongst many others,
-    and looks like a decent simulator for advanced out-of-order core simulation. SimpleScalar is
-    also the simulator used by the Wattch-project \cite{brooks2000wattch}. However, the SimpleScalar
-    web page seems to be last updated in 2004 and all mailing list archives are gone for the moment of
-    writing. The source code for SimpleScalar v3 was still available and has been changed in 2011, but
-    the entire SimpleScalar core has not changed since 2003.
-
-\item[QEMU]\hfill\\
-    QEMU is a generic and open machine emulator witch enables near real-time performance on
-    architectures such as ARM, even when the host machine is running x86. However, QEMU is a machine emulator
-    rather than an architectural simulator, thus despite it's great performance of running ARM-binaries, it
-    will not produce CPU and memory event trace logs, and cannot be used in this project.
-
-\item[gem5]\hfill\\
-    gem5 is a merger \cite{gem5hipeac} between the M5 simulator \cite{binkert2006m5} project and the GEMS simulator project \cite{GEMS}. gem5 provides
-    ARM-support with out-of-order execution out of the box, and provide great and cycle-accurate
-    trace logs which is very applicable for this project \cite{gem5simulator}. gem5 is written in C and is configured
-    with Python scripts, which makes it not so difficult to extend or change. Many of the maintainers
-    are employees of ARM Corp., and the activity on the mailing lists suggests high project activity \cite{gem5dev}.
-
-\end{description}
-
-Provided this comparison of simulators, and given the fact that NTNU has a tradition
-for using M5 and gem5 in earlier research projects and subjects, gem5 is the natural
-winner for the choise of an architectural simulator.
-
 
 \subsection{Power Consuming Events}
 \label{subsec:powerevents}
