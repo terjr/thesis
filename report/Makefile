@@ -27,7 +27,7 @@ clean:
 	rm -r figs/*ps-converted-to.pdf
 
 %.pdf: %.svg
-	inkscape -D -z --file=$< --export-pdf=$@
+	inkscape -D -z --file=$< --export-pdf=$@ --export-text-to-path
 
 figs/%-gv.pdf: figs/%.gv
 	dot figs/$*.gv -Tpdf -ofigs/$*-gv.pdf
