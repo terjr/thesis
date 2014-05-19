@@ -10,7 +10,7 @@ using namespace std;
 /**
  * Create a new instance of OutputFormatter using a given dataset and a set of options
  */
-OutputFormatter::OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options) : annotations(), options(options) {
+OutputFormatter::OutputFormatter(const std::vector<unsigned long> &statistics, const options_t *options, double scale) : annotations(), scale(scale), options(options) {
     importAsDouble(statistics);
     if (Graph == options->outputFormat) {
         plot = new Gnuplot("lines");
@@ -35,25 +35,23 @@ void OutputFormatter::showBarchart() {
         showBarchart(options->title);
     else
         showBarchart(options->inputName);
-
 }
 
 void OutputFormatter::saveBarchart(const string &filename, const string &title) {
     if (plot)
-        plot->savetofigure(filename).plot_x(this->dVector, title);
+        plot->savetofigure(filename).plot_xy(this->dVector, this->tVector, title);
     else
         cerr << "Cannot save barchart without Gnuplot instance." << endl;
 }
 
 void OutputFormatter::showBarchart(const string &title) {
-    plot->plot_x(this->dVector, title).showonscreen();
+    plot->plot_xy(this->dVector, this->tVector, title).showonscreen();
     cout << "Displaying graph. Press any char to continue..." << endl;
     cin.get();
-
 }
 
 void OutputFormatter::addLabel(unsigned long x, unsigned long y, const string& label) {
-    plot->addLabel(x,y,label);
+    plot->addLabel(x,y*scale,label);
 }
 
 void OutputFormatter::addAnnotations(std::map<unsigned long, std::string> annot) {
@@ -77,6 +75,10 @@ void OutputFormatter::importAsDouble(const std::vector<unsigned long> &statistic
             [](unsigned long l) -> double {
             return l;
             });
+    tVector.resize(statistics.size());
+    for (unsigned long i = 0; i < statistics.size(); i++) {
+        tVector.push_back(i*scale);
+    }
 }
 
 /**
@@ -86,6 +88,8 @@ void OutputFormatter::importAsDouble(const std::vector<unsigned long> &statistic
 void OutputFormatter::produceOutput() {
     switch (options->outputFormat) {
         case Graph:
+            plot->set_xlabel("ms");
+            plot->set_ylabel("mA");
             if (!options->output.empty())
                 saveBarchart(options->output);
             else
@@ -117,7 +121,7 @@ void OutputFormatter::produceOutput() {
                     out = stdout;
 
                 fprintf(out, "/-------------------------------------\\\n");
-                fprintf(out, "|   Bucket   |   Energy   |   Symbol  |\n");
+                fprintf(out, "|   Bucket   | milliAmps  |   Symbol  |\n");
                 fprintf(out, "|-------------------------------------|\n");
 
                 for (unsigned long i = 0; i < dVector.size(); ++i)

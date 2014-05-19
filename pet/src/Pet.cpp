@@ -149,7 +149,7 @@ void Pet::processStreams() {
  * Produce output using an instance of OutputFormatter
  */
 void Pet::produceOutput() const {
-    OutputFormatter gnuplotter(results, &options);
+    OutputFormatter gnuplotter(results, &options, 1000000/options.bucketSize);
     for (unsigned long i = 0; i < this->pm.size(); ++i) {
         auto annot = this->pm[i]->getAnnotations();
         gnuplotter.addAnnotations(annot);
