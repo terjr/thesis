@@ -39,19 +39,19 @@ void OutputFormatter::showBarchart() {
 
 void OutputFormatter::saveBarchart(const string &filename, const string &title) {
     if (plot)
-        plot->savetofigure(filename).plot_xy(this->dVector, this->tVector, title);
+        plot->savetofigure(filename).plot_xy(this->tVector, this->dVector, title);
     else
         cerr << "Cannot save barchart without Gnuplot instance." << endl;
 }
 
 void OutputFormatter::showBarchart(const string &title) {
-    plot->plot_xy(this->dVector, this->tVector, title).showonscreen();
+    plot->plot_xy(this->tVector, this->dVector, title).showonscreen();
     cout << "Displaying graph. Press any char to continue..." << endl;
     cin.get();
 }
 
 void OutputFormatter::addLabel(unsigned long x, unsigned long y, const string& label) {
-    plot->addLabel(x,y*scale,label);
+    plot->addLabel(x*scale,y,label);
 }
 
 void OutputFormatter::addAnnotations(std::map<unsigned long, std::string> annot) {
@@ -75,7 +75,6 @@ void OutputFormatter::importAsDouble(const std::vector<unsigned long> &statistic
             [](unsigned long l) -> double {
             return l;
             });
-    tVector.resize(statistics.size());
     for (unsigned long i = 0; i < statistics.size(); i++) {
         tVector.push_back(i*scale);
     }

@@ -148,7 +148,7 @@ private:
 
 public:
 
-    Gnuplot& addLabel(unsigned long x, unsigned long y, const std::string &label) {
+    Gnuplot& addLabel(double x, double y, const std::string &label) {
         static unsigned long i = 1;
 
         std::ostringstream cmdstr;
