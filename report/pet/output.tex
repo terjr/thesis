@@ -1,12 +1,60 @@
 \section{Output}
 Depending on application, different output formats might come in handy. PET
-supports printing plain time power dump, a somewhat more readable table to
-plain, table and a gnuplot figure with time as X-axis and power drain on the
-Y-axis. The output format is understood as timeslots in which the architecture
+supports three output options:
+
+\begin{description}
+    \item[plain]\hfill\\
+        The example in \autoref{lst:pet_output_plain} shows the simple
+        \emph{plain}-format, which is a simple output format intended for
+        use as input for further processing.
+    \item[table]\hfill\\
+        The table format, with an example shown in \autoref{lst:pet_output_table},
+        shows a terminal-printable output which is easier to understand by
+        humans, and is intended for further study of the numbers. This might
+        come in handy as the last format, GNUPlot-graph, might be hard to
+        read when you are out after very specific information.
+    \item[graph]\hfill\\
+        This last format is the default, and will try to give an overview of
+        the entire program in a easy digestible format. An example of such
+        a graph is printed in \autoref{fig:annot}.
+\end{description}
+
+The output format is understood as timeslots in which the architecture
 has a certain current drain, which should be multiplied with applied voltage to
 get numbers on consumed energy, heat generation and so on. The numbers are
 scaled as milliamperes, which of course is equal to milliwatt if voltage is
-$1V$.
+$1V$. PET displays its output as mA as it was easier to find current drain
+rather than wattage using our test bench. Current can be found measuring the
+voltage drop of the core supply rail over a shunt resistor, finding wattage meant that we also had
+to monitor the exact voltage drop over the entire circuit, correlate these numbers in time, and
+multiply them together.
+
+It is known from Ohms law in \autoref{eq:ohm} and the definition of electric power in \autoref{eq:power}
+
+\begin{equation}
+I=\frac{U}{R}
+\label{eq:ohm}
+\end{equation}
+
+\begin{equation}
+P=U \cdot I
+\label{eq:power}
+\end{equation}
+
+that power equals current squared times resistance:
+
+\[U=R \cdot I\]
+\[P=(R \cdot I) \cdot I\]
+\[P=I^2 \cdot R\]
+and that power equals voltage squared divided by resistance:
+\[P=U \cdot \frac{U}{R}\]
+\[P=\frac{U^2}{R}\]
+
+Thus, measuring the current drain as amperes means that energy consumption will be
+very dependent on values like resistance and voltage, but these are not yet known,
+and the result will have to be scaled proportionally as voltage and resistance becomes
+known.
+
 
 All output formats supports annotation of function calls. This is achieved by
 giving PET a list of symbols and their corresponding program counter value. PET
@@ -37,7 +85,7 @@ is the \texttt{table} format. An example using this option is rendered in
 
 \begin{lstlisting}[float,label={lst:pet_output_table},caption={PET Table Output}]
 /----------------------------------------\
-|   Bucket   |   Energy   |    Symbol    |
+|   Bucket   |  milliAmps |    Symbol    |
 |------------|------------|--------------|
 |          0 | 120.000000 |    memcpy    |
 |          1 | 113.000000 |    start     |
