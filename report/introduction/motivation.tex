@@ -4,48 +4,43 @@
 
 Ever since the birth of computers, the world has seen an ever-increasing demand
 for computing power. Computers have revolutionized our lives and become
-fundamental for our society to function. They have made it possible for
-researchers to do simulations in great detail, helped the government to
-streamline operations in health and economics and made banking systems more
-flexible. The Internet, made possible by computers, has had a massive impact on
-how we live our lives; anyone with an Internet connection can exchange
-information and communicate across land borders. Today, personal computers have
-become ubiquitous and found uses ranging from home entertainment systems to
-portable tablet computers. As applications in all these segments becomes richer,
-they demand even better performance. Home users require higher frame rates on
-their multimedia applications, researchers wants more accurate simulations in
-their experiments and the government will put better use to its resources by
-information processing.
+fundamental for our society. They have made it possible for researchers to do
+simulations in great detail, helped the government to streamline operations in
+health and economics and made banking systems more flexible. The Internet, made
+possible by computers, has had a massive impact on how we live our lives; anyone
+with an Internet connection can exchange information and communicate across land
+borders. Today, personal computers have become ubiquitous and found uses ranging
+from home entertainment systems to portable tablet computers. As applications in
+all these segments becomes richer, the market demand for greater performance.
+Home users require higher frame rates on their multimedia applications,
+researchers want more accurate simulations for their experiments and the
+government will put better use to its resources by processing more data.
 
-To meet the increasing demand for performance throughout the 80's and 90's,
-researchers came up with ways to increase the clock frequency. By shortening the
-critical path in the CPU and exploiting instruction level parallelism, they were
-able to double single-threaded performance approximately every 18th month. The
-tremendous growth in performance is depicted in \autoref{fig:moore}.
+Throughout the 80's and 90's, the increasing demand for performance was met by
+increasing the clock frequency. Shortening the critical path and exploiting
+instruction level parallelism allowed the CPU to run at higher clock speeds to
+improve performance. Consequently, processor manufacturers were able to double
+single-threaded performance approximately every 18th month.  The tradeoff,
+however, was an increased amount of complex logic added complexity to the
+processor core. Greater complexity required a greater amount of transistors
+which must fit on the same die, made possible by the reduction of transistor
+size. For a long time, new process technologies allowed for smaller and less
+energy consuming transistors, but as we approached the end of Dennard scaling
+\cite{dennard1974design,esmaeilzadeh2011dark}, the amount of logic required to
+accomodate speedups could not fit on the die due to thermal constraints. Heat
+generation on-chip became overwhelming and one could not simply increase the
+frequency or add extra logic to gain additional performance.
 
 \begin{figure}
-\includegraphics[width=\textwidth]{analyze-spec-benchmarks/int_graph.png}
-\caption{Single-threaded performance relative to the SUN Ultra Enterprise 2,
-recreated from \cite{preshing}.}
-\label{fig:moore}
+    \includegraphics[width=\textwidth]{figs/cpu-performance.png}
+    \caption{Historical trends in CPU performance, from \cite{salishan2011}.}
+    \label{fig:cpuperformance}
 \end{figure}
 
-\begin{figure}
-\includegraphics[width=\textwidth]{figs/cpu-performance.png}
-\caption{Different numbers regarding CPU performace, figure from \cite{salishan2011}.}
-\label{fig:cpuperformance}
-\end{figure}
-
-
-The tradeoff, however, was an increased amount of complex logic added complexity
-to the processor core. Greater complexity required a greater amount of
-transistors which must fit on the same die, made possible by the reduction of
-transistor size. For a long time, new process technologies allowed for smaller
-and less energy consuming transistors, but as we approached the end of Dennard
-scaling \cite{dennard}, the amount of logic required to accomodate speedups
-could not fit on the die due to thermal constraints. Heat generation on-chip
-became overwhelming and one could not simply increase the frequency or add
-extra logic to gain additional performance.
+The tremendous growth in performance is depicted in
+\autoref{fig:cpuperformance}. We note that although the transistor count is
+steadily increasing, single-threaded performance has only seen a minor increase
+the last few years.
 
 
 \subsection{Problems of the New World}
@@ -55,7 +50,7 @@ to meet the market demand with respect to performance, while keeping the energy
 consumption down. Energy consumption directly translates into heat generated
 on-chip and is currently the limiting factor of processor design. Dealing with
 this requires hardware designers to emphasize energy efficiency over pure
-performance during the design phase; we are now in an era where a processor's
+performance during the design phase; we are entering an era where a processor's
 performance per Watt is more important than performance itself.
 
 Heat is not the the only motivation factor to keep energy consumption down.
@@ -67,11 +62,12 @@ More recently, however, mobile processors has become increasingly popular in
 alternative domains too, such as supercomputing. Their low cost and good
 performance per Watt ratio makes them attractive for massively parallel
 problems, which is currently done on large and expensive supercomputers. These
-machines have huge energy budgets and are frequently taken out of service after
-just a couple of years, and replaced by new machines that offer better
+machines have huge energy budgets and are taken out of service after
+just a couple of years, being replaced by new machines that offer better
 performance for less power. For this reason, building datacenters from low-cost
 embedded processors is believed to have a huge potential and change the
 landscape of supercomputing the years to come.
+%TODO: Add cite
 
 Not only data centers benefit from the use of mobile processors. The SHMAC
 research project at NTNU aims to build a single-ISA heterogeneous computing
@@ -111,9 +107,9 @@ processor-implementation is more energy efficient than an other given a specific
 workloads, thus it can help building workload optimized tiles for the SHMAC
 project \cite{shmacwebpage}. Using the features of PET, one can also adjust the
 energy metric profile and simulate power usage as if one component was cheaper
-or more expensive in terms of energy. This will enable the hardware designers to
+or more expensive to use (in terms of energy). This will enable hardware designers to
 understand which optimizations are most beneficial and identify possible routes
-of exploration.
+of exploration in their journey of processor energy optimization.
 
 
 \subsection{Related Work}
