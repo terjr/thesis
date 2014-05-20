@@ -26,7 +26,10 @@ annealing part made the algorithm more aggressive to start with.  Using DEAP
 able to prototype our ideas rapidly. \autoref{lst:ga-algorithm} describes the
 final algorithm.
 
-\begin{lstlisting}[caption={Algorithm used to generate individuals},label={lst:ga-create-algorithm},language=python,float]
+\begin{algorithm}
+\caption{Algorithm used to generate individuals}
+\label{lst:ga-create-algorithm}
+\begin{lstlisting}[language=python]
 #Properties kept by each individual
 individualProperties = {
     'IntAlu', 'IntMult', 'IntAlu', 'IntMult', 'MemRead', 'MemWrite',
@@ -50,8 +53,12 @@ def createIndividuals():
     return individuals
 
 \end{lstlisting}
+\end{algorithm}
 
-\begin{lstlisting}[caption={Algorithm used to mutate individuals},label={lst:ga-mutate-algorithm},language=python,float]
+\begin{algorithm}
+\caption{Algorithm used to mutate individuals}
+\label{lst:ga-mutate-algorithm}
+\begin{lstlisting}[language=python]
 #Mutate individual, each property with a given probability
 def mutate(ind, probability):
     mutateDegree = ind.fitness^1.4 + 100
@@ -60,8 +67,12 @@ def mutate(ind, probability):
             ind[prop] = ind[prop] + ( (random()-0.5) * mutateDegree)
     return ind
 \end{lstlisting}
+\end{algorithm}
 
-\begin{lstlisting}[caption={Algorithm used to evolve a set of event weights},label={lst:ga-algorithm},language=python,float]
+\begin{algorithm}
+\caption{Algorithm used to evolve a set of event weights}
+\label{lst:ga-algorithm},
+\begin{lstlisting}[language=python]
 individuals = createIndividuals()
 generations = 6000
 
@@ -75,8 +86,12 @@ for 1 to generations:
 
 print best
 \end{lstlisting}
+\end{algorithm}
 
-\begin{lstlisting}[caption={Algorithm used to evaluate an individual},label={lst:ga-eval-algorithm},language=python,float]
+\begin{algorithm}
+\caption{Algorithm used to evaluate an individual}
+\label{lst:ga-eval-algorithm}
+\begin{lstlisting}[language=python]
 #Evaluate individual
 tests = {'trend', 'submul', 'sha2', 'pi'}
 
@@ -100,8 +115,8 @@ def evaluate(ind):
         testFit =  runTest(ind, test)
         fitness = fitness + testFit^2
     return sqrt(fitness)
-
 \end{lstlisting}
+\end{algorithm}
 
 \begin{figure}
     \centering
