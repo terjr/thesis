@@ -48,13 +48,15 @@ def write_weights_file(weights, filename):
     f.close()
 
 best = 10000000
+tests = ['trend-trend', 'trend-submul', 'sha2-sha2', 'pi-pi']
 def eval_individual(weights):
     global best
+    global tests
     fitness = 0
-    for test in ['trend-trend', 'trend-submul', 'sha2-sha2', 'pi-pi']:
+    for test in tests:
         score = run_test(weights, test)
         fitness += score*score
-    fitness = sqrt( fitness / 3 )
+    fitness = sqrt( fitness / len(tests) )
     if fitness < best:
         best = fitness
         print('ind = {' + ', '.join(["'%s':%d" % (key, value) for (key,value) in sorted(weights.items(), key=lambda t: t[0])]) + '}')
@@ -107,4 +109,4 @@ def run_test(weights, test):
     tf = assure_input_matrix(test, weights, buckets)
     event_data = read_input_matrix(tf)
 
-    return round(align(apply_weights(event_data, weights), read_graph(hw))*100/buckets)
+    return round(align(apply_weights(event_data, weights), read_graph(hw)))
