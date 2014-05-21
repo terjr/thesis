@@ -30,15 +30,18 @@ of an event. We can then model energy by the following formula.
 Here, C represents the global cost vector -- a matrix enumerating the cost
 for all event types. Please note that it is global and do not depend on time.
 
+\subsection{Power Consuming Events}
+\label{subsec:powerevents}
 The choice of events/workload metrics is an important part of our method. We
 account for two types of events; CPU instruction events and memory activity
 events.
 
-\subsection{Power Consuming Events}
-\label{subsec:powerevents}
 It is desirable to estimate energy consumption on literally all types of
 computing systems, ranging from large-size clusters to embedded systems. To
-provide this flexibility it was decided to write the tool as simulator agnostic
+provide this flexibility it was decided that PET should parse log files
+from the simulators rather than being built into a chosen simulator.
+
+write the tool as simulator agnostic
 as possible, but still track \emph{simulator events} rather than executed instructions.
 
 A simulator event is defined as a unit of work that uses a specified amount of
