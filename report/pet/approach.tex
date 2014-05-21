@@ -1,4 +1,4 @@
-\section{Methodology}
+\section{Approach}
 
 While computer architecture simulators have been around for quite some time,
 energy estimation techniques is a more recent necessity. Song et. al
@@ -47,7 +47,8 @@ one specific combination.
 It is desirable to estimate energy consumption on literally all types of
 compututing systems, ranging from large-size clusters to embedded systems. To
 provide this flexibility it was decided to write the tool as simulator agnostic
-as possible, tracking \emph{simulator events} rather than executed instructions.
+as possible, but still track \emph{simulator events} rather than executed instructions.
+
 A simulator event is defined as a unit of work that uses a specified amount of
 energy, and increases modelled energy consumption to the simulated time. We
 defined a set of simulator events that PET should consider. The selected events
@@ -100,22 +101,7 @@ are briefly described in \autoref{tbl:events}.
     \label{tbl:events}
 \end{table}
 
+This 
 
 gem5 was used as a basis for development and the only simulation front-end
 implemented.
-
-
-
-
-- ARM support (Sniper has not)
-
-QEMU -- feil abstraksjonsnivå/formål
-McPat - multicore, power AND AREA???? Optimizer
-CACTI - cache power estimation
-gem5 is flexible because
-- it is easy to add new processor architectures
-- memory system
-=> in-house experience
-
-LLVM traces?
-
