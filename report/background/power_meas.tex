@@ -6,16 +6,18 @@ each clock cycle \cite{nikolaidis2005instruction}. As modern processors commonly
 operate at a few GHz, expensive measurement devices are required to sample
 at sufficient frequency.
 
-In \cite{rundehvatum2013exploring}, we conducted experiments to quantify the
-energy cost of an instruction executing on a modern out-of-order mobile
-processor while sampling at significantly lower rate. We were able to do this by
-completely bypassing the memory hierarchy utilizing special hardware
-(\emph{fast-loop mode}) and sampling a running average. Voltage drop over a
-shunt resistor in series with the ODROID-X2 development board is measured, and
-we calculate energy used in the processor core. We isolate the energy used in
-the CPU (in which we are interested in) with energy used for on-board
-peripherals by modifying the development board and driving the CPU core with a
-separate power supply.
+The results contributed through this work relies on the existence of a method to
+isolate and measure core voltage on a hardware implemented reference CPU. This
+is made easy due to the $V_{core}$ separation on our development kit. In
+\cite{rundehvatum2013exploring}, we conducted experiments to quantify the energy
+cost of an instruction executing on a modern out-of-order mobile processor while
+sampling at significantly lower rate. We were able to do this by completely
+bypassing the memory hierarchy utilizing special hardware (\emph{fast-loop
+mode}) and sampling a running average. Voltage drop over a shunt resistor in
+series with the ODROID-X2 development board is measured, and we calculate energy
+used in the processor core. We isolate the energy used in the CPU (in which we
+are interested in) with energy used for on-board peripherals by modifying the
+development board and driving the CPU core with a separate power supply.
 
 To derive the energy used in the processor, we first calculate the amount of
 current flowing through the circuit. We assume that the shunt resistor voltage
