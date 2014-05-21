@@ -311,7 +311,6 @@
       {\noindent%
        \begin{tabular}{@{}ll}
          Submission date:       & \dateITEM\@date \\
-         Responsible professor: & \@professor     \\
          Supervisor:            & \@supervisor    \\
          Co-supervisor:         & \@cosupervisor    \\
        \end{tabular}\par
