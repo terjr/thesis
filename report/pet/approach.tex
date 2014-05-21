@@ -1,12 +1,12 @@
 \section{Approach}
 
-While computer architecture simulators have been around for quite some time,
-energy estimation techniques is a more recent necessity. Song et. al
-\cite{song2012instruction} identifies three major approaches to processor power
-modelling used in the past, and introduces an instruction-based energy
-estimation model that can be used for energy simulation at high speed. Their
-proposed method is expressed through the following equation and includes the
-desired features of past energy models.
+While HDL-languages as well as computer architecture simulators have been around
+for quite some time, energy estimation techniques is a more recent necessity.
+Song et. al \cite{song2012instruction} identifies three major approaches to
+processor power modelling used in the past, and introduces an instruction-based
+energy estimation model that can be used for energy simulation at high speed.
+Their proposed method is expressed through the following equation and includes
+the desired features of past energy models.
 
 \[
     P_{core}(t) = \frac{E_{unit} \cdot A_{datapath} \cdot w(t) +
@@ -34,18 +34,10 @@ The choice of events/workload metrics is an important part of our method. We
 account for two types of events; CPU instruction events and memory activity
 events.
 
-A major design choice made on how PET should be designed was to decide whether
-it should be a standalone program or incorporated into an existing simulator.
-There already exists a lot of computer architecture simulators, all with
-strengths and weaknesses. Often, simulators only supports a small set of
-architectures, memory systems and CPU models, and they only excel in simulating
-one specific combination.
-
-
 \subsection{Power Consuming Events}
 \label{subsec:powerevents}
 It is desirable to estimate energy consumption on literally all types of
-compututing systems, ranging from large-size clusters to embedded systems. To
+computing systems, ranging from large-size clusters to embedded systems. To
 provide this flexibility it was decided to write the tool as simulator agnostic
 as possible, but still track \emph{simulator events} rather than executed instructions.
 
@@ -102,6 +94,18 @@ are briefly described in \autoref{tbl:events}.
 \end{table}
 
 This 
-
+%TODO: Fikse her
 gem5 was used as a basis for development and the only simulation front-end
 implemented.
+
+-----------------------------------------------------------------------------
+
+A major design choice made on how PET should be designed was to decide whether
+it should be a standalone program or incorporated into an existing simulator.
+There already exists a lot of computer architecture simulators, all with
+strengths and weaknesses. Often, simulators only supports a small set of
+architectures, memory systems and CPU models, and they only excel in simulating
+one specific combination.
+
+
+
