@@ -1,39 +1,29 @@
 \pagestyle{empty}
 \begin{abstract}
 
-\noindent
-    * dark silicon \\
-    * power wall \\
-    * shmac \\
-    * good modelling tools \\
-    * need for SIMPLE and EARLY STAGE energy estimations \\
+\noindent Since the beginning of semiconductor technology, transistor size has
+decreased and are still decreasing with a tremendous rate. Computer engineers
+and architects have utilized higher transistor count to create more advance and
+more dense computer chips, but are now facing problems with power consumption
+and heat dissipation. In this thesis, an ARM-based SoC is studied in great
+detail and is simulated using the gem5 architectural simulator. Using a genetic
+algorithm, different power consuming events was mapped to a fixed energy
+contribution.
 
-    \noindent Since the beginning of semiconductor technology, transistor size has decreased and are still decreasing with a tremendous rate.
-This has enabled engineers to build faster and faster single core processors. Faster and more dense processors 
+Similar to measuring the execution of a program on a real processor using an
+ammeter, we have built a tool called PET which provides the same for a
+simulated program on unrealized hardware. PET parses trace logs from the
+simulator and applies the energy contribution from each event. The output is
+given as a textual or graphical timeline with current drain plotted at each data
+point.
 
-, as there is more space for fancy solutions, and smaller
-transistors means shorter switching latencies. In the last couple of years, processors have been kept down by the power wall, which
-means that no more power can be dissipated without very clever cooling solutions. This turns out as a lot of space left for transistors
-that we cannot use, a phenomenon called dark silicon.
-
-
-
-
-
-
-The SHMAC project at NTNU aims to create a heterogeneous computer system that
-can make use of dark silicon as space for energy efficient processors and special accelerators. Even though 
-
-
-
-
-
-
-
-
-
-
-
-
+Comparing to other tools which does much the same, PET works much earlier in the
+design stage, and can be applied without knowledge about process technology, RTL
+or physical layout of a chip. This tool can help engineers figure out how a new
+feature or a change in an existing chip will influence energy efficiency.
+Benchmarks and test data indicates that PET is able to predict power consumption
+within 10\% of the real value, and given the abstraction level which PET works,
+any more accurate would needed more information. PET will give an indication of
+better or worse, not an exact prediction of energy consumption.
 
 \end{abstract}
