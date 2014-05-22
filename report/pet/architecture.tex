@@ -21,7 +21,7 @@ it, weight it and apply it to the grand total, as it would be an entirely serial
 
 In order to maintain good speed while still keeping the PET source code
 readable, PET has been implemented using ideas from the producer-consumer scheme
-as explained by Gamma et.  al.  in\cite{designpatterns}. As depicted in
+as explained by Gamma et.  al. in \cite{designpatterns}. As depicted in
 \autoref{fig:pipeline}, this scheme makes it rather easy to let a producer read
 the lines from the log file into a ring buffer and let multiple consumers pick
 from this ring buffer. Each consumer parses the log lines they pick, and apply
