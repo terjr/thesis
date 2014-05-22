@@ -10,10 +10,10 @@ default: full
 
 full: ${DOTFILES} ${TRAINING_FIGS} ${SVG_FIGS}
 	#latexmk -latexoption='-interaction nonstopmode -shell-escape' -use-make -pdf ${TEXFILE}
-	pdflatex -shell-escape $(TEXFILE); \
-	bibtex $(TEXFILE); \
-	makeglossaries $(TEXFILE);\
-	pdflatex -shell-escape $(TEXFILE);\
+	pdflatex -shell-escape $(TEXFILE) && \
+	bibtex $(TEXFILE) && \
+	makeglossaries $(TEXFILE) && \
+	pdflatex -shell-escape $(TEXFILE) && \
 	pdflatex -shell-escape $(TEXFILE)
 
 
