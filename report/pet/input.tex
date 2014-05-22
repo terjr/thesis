@@ -74,7 +74,7 @@ bucket size estimation algorithm is shown in \autoref{alg:bucket_size}.
 %        \State \Return $\Call{getTick}{simulatorEvent}$
 %        \EndFunction
 %    \end{algorithmic}
-    \begin{lstlisting}[language=Python]
+    \begin{lstlisting}[language=Python,style=algo]
 function numTicks( traceFile ):
     # Find file size
     eof_pos = traceFile.getSize()
@@ -129,7 +129,7 @@ simplified version of this algorithm can be found in
 \begin{algorithm}
 \caption{Power Accumulation Algorithm}
 \label{alg:power_accum_algo}
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python,style=algo]
 # map of accumulated power for each time step
 map<time,power> output
 

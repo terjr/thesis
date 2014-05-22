@@ -29,7 +29,7 @@ final algorithm.
 \begin{algorithm}
 \caption{Algorithm used to generate individuals}
 \label{lst:ga-create-algorithm}
-\begin{lstlisting}[language=python]
+\begin{lstlisting}[language=python,style=algo]
 #Properties kept by each individual
 individualProperties = {
     'IntAlu', 'IntMult', 'IntAlu', 'IntMult', 'MemRead', 'MemWrite',
@@ -58,7 +58,7 @@ def createIndividuals():
 \begin{algorithm}
 \caption{Algorithm used to mutate individuals}
 \label{lst:ga-mutate-algorithm}
-\begin{lstlisting}[language=python]
+\begin{lstlisting}[language=python,style=algo]
 #Mutate individual, each property with a given probability
 def mutate(ind, probability):
     mutateDegree = ind.fitness^1.4 + 100
@@ -72,7 +72,7 @@ def mutate(ind, probability):
 \begin{algorithm}
 \caption{Algorithm used to evolve a set of event weights}
 \label{lst:ga-algorithm},
-\begin{lstlisting}[language=python]
+\begin{lstlisting}[language=python,style=algo]
 individuals = createIndividuals()
 generations = 6000
 
@@ -91,7 +91,7 @@ print best
 \begin{algorithm}
 \caption{Algorithm used to evaluate an individual}
 \label{lst:ga-eval-algorithm}
-\begin{lstlisting}[language=python]
+\begin{lstlisting}[language=python,style=algo]
 #Evaluate individual
 tests = {'trend', 'submul', 'sha2', 'pi'}
 
