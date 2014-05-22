@@ -32,22 +32,23 @@ for all event types. Please note that it is global and do not depend on time.
 
 \subsection{Power Consuming Events}
 \label{subsec:powerevents}
+
 The choice of events/workload metrics is an important part of our method. We
 account for two types of events; CPU instruction events and memory activity
-events.
-
-It is desirable to estimate energy consumption on literally all types of
+events. It is desirable to estimate energy consumption on literally all types of
 computing systems, ranging from large-size clusters to embedded systems. To
-provide this flexibility it was decided that PET should parse log files
-from the simulators rather than being built into a chosen simulator.
+provide this flexibility it was decided that PET should parse log files from the
+simulators rather than being built-in on a chosen simulator.  Most active and
+working architectural simulators supports this sort of trace logs, and even if
+they are formatted different, the effort of adjusting to a new format is a lot
+less than the effort of building this tool within even another simulator.
 
-write the tool as simulator agnostic
-as possible, but still track \emph{simulator events} rather than executed instructions.
-
-A simulator event is defined as a unit of work that uses a specified amount of
-energy, and increases modelled energy consumption to the simulated time. We
-defined a set of simulator events that PET should consider. The selected events
-are briefly described in \autoref{tbl:events}.
+The trace logs contains information about everything that goes on within the
+fictional computer, and thus PET can extract useful information from this log
+file. A piece of such useful information is defined in PET at a \emph{simulator
+event}. A simulator event can be thought of as a unit of work that uses a
+specified amount of energy. When PET finds such an event, it increases the
+modelled energy consumption along the timeline at the time the event took place.
 
 \begin{table}[ht]
     \centering
@@ -96,19 +97,19 @@ are briefly described in \autoref{tbl:events}.
     \label{tbl:events}
 \end{table}
 
-This 
-%TODO: Fikse her
-gem5 was used as a basis for development and the only simulation front-end
-implemented.
+The events which PET recognizes are briefly described in \autoref{tbl:events}.
+These events are chosen mainly based on what information that is easily
+extracted from a gem5-formatted trace log, but also adjusted by what information
+we could check with performance counters without a very high amount of effort.
+Most of this information is available from \cite{rundehvatum2013exploring},
+where different instruction loops where measured with both ammeter and
+performance counters. This is then correlated with \autoref{fig:a9arch} which
+gives an architectural overview of the CPU core where different parts of the
+pipeline is visible.
 
------------------------------------------------------------------------------
-
-A major design choice made on how PET should be designed was to decide whether
-it should be a standalone program or incorporated into an existing simulator.
-There already exists a lot of computer architecture simulators, all with
-strengths and weaknesses. Often, simulators only supports a small set of
-architectures, memory systems and CPU models, and they only excel in simulating
-one specific combination.
-
-
-
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figs/A9-Pipeline-hres.jpg}
+    \caption{A brief overview of the Cortex A9 Pipeline, figure from the ARM Cortex-A9 Whitepaper \cite{a9whitepaper}}
+    \label{fig:a9arch}
+\end{figure}
