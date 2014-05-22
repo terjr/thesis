@@ -11,10 +11,22 @@ change at least once every clock tick, a cycle accurate measurement would
 require the instrumentations would have to sample much faster than any equipment
 available at our laboratory.
 
-In \cite{rundehvatum2013exploring}, single instructions was measured 
+In \cite{rundehvatum2013exploring}, single instructions was measured by
+exploting fast-loop-mode and looping over a group of equal instructions. An
+Agilent bench multimeter and a shunt resistor was set up like shown in
+\autoref{fig:setup}.  This method provides an average power consumption when the
+pipeline is (mostly) filled with a single type of instruction. Instead of normal
+serial connected ammeter, the power rail is connected in series with a shunt
+resistor equal to the one display in \autoref{fig:shunt}, and the almost
+neglectable voltage drop over this resistor is measured using a voltmeter. This
+method provides a way to measure currents outside the range of the ammeter.
 
-
-
+\begin{figure}
+    \centering
+    \input{figs/test_setup.tex}
+    \caption{Bench setup for measuring single instruction current drain}
+    \label{fig:setup}
+\end{figure}
 
 \begin{figure}
     \centering
