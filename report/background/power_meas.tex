@@ -2,9 +2,17 @@
 
 High quality instruction level energy models can be derived for pipelined
 processors by monitoring the instantaneous current drawn by the processor at
-each clock cycle \cite{nikolaidis2005instruction}. As modern processors commonly
-operate at a few GHz, expensive measurement devices are required to sample
-at sufficient frequency.
+each clock cycle \cite{nikolaidis2005instruction}. Modern processors commonly
+operate at a few GHz, which means that expensive measurement devices are
+required to sample at sufficient frequency. According to Harry Nyquist the
+sampling frequency must be twice the speed of the signal being measured
+\cite{nyquist1928certain}. As the signal sampled from the processor might
+change at least once every clock tick, a cycle accurate measurement would
+require the instrumentations would have to sample much faster than any equipment
+available at our laboratory.
+
+In \cite{rundehvatum2013exploring}, single instructions was measured 
+
 
 
 
