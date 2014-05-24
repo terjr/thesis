@@ -8,36 +8,44 @@ digraph PET {
     subgraph {
         rankdir = TB;
         rank="same";
-        read
         parse3 [shape="none",label=<.<br/>.<br/>.>,height="0.3",margin="0",fixedsize="true"]
-        read->parse1
-        read->parse2
-        read->parse3 [style="dashed",arrowhead="none"]
-        read->parse4
         parse1->parse2 [style="invis"]
         parse2->parse3 [style="invis"]
         parse3->parse4 [style="invis"]
     }
+    subgraph {
+        rankdir = TB;
+        rank="same";
 
-    read [label=<Read<br/>input>]
-
-    setup [label=<Setup>]
+        text->setup
+        text [label=<Trace<br/>log>,fillcolor=gray,style=filled]
+        setup [label=<Produce>]
+    }
     setup -> split
-    split [label=<Split<br/>work>];
-    split -> read;
+    split [label=<Ring<br/>buffer>];
     split -> parse1 -> merge;
     split -> parse2 -> merge;
     split -> parse4 -> merge;
     split -> parse3->merge [style="dashed",arrowhead="none"]
 
 
-    parse1 [label=<Parse>,style=filled,fillcolor=gray];
-    parse2 [label=<Parse>,style=filled,fillcolor=gray];
-    parse4 [label=<Parse>,style=filled,fillcolor=gray];
+    parse1 [label=<Map>];
+    parse2 [label=<Map>];
+    parse4 [label=<Map>];
 
-    merge [label=<Accumulate<br/>numbers>]
-    output [label=<Format<br/>output>]
+    merge [label=<Reduce>]
+
+    subgraph {
+        rankdir = TB;
+        rank="same";
+
+        output [label=<Format<br/>output>]
+        readable [label=<Output>,fillcolor=gray,style=filled]
+
+        output->readable
+    }
 
     merge->output
+
 }
 

@@ -20,15 +20,20 @@ it, weight it and apply it to the grand total, as it would be an entirely serial
 \end{figure}
 
 In order to maintain good speed while still keeping the PET source code
-readable, PET has been implemented using ideas from the producer-consumer scheme
-as explained by Gamma et.  al. in \cite{designpatterns}. As depicted in
+readable, we have looked at different ways of chewing through large data sets.
+The final implementation of PET follows a scheme borrowing ideas from the
+producer-consumer patterb as explained by Gamma et. al. in \cite{designpatterns}
+and the MapReduce algorithm \cite{dean2008mapreduce}.  As depicted in
 \autoref{fig:pipeline}, this scheme makes it rather easy to let a producer read
-the lines from the log file into a ring buffer and let multiple consumers pick
-from this ring buffer. Each consumer parses the log lines they pick, and apply
-the weight of each read event to each their result vector. When all lines are
-read and parsed, the results vectors are merged, and idle-task power and static
-power consumption is added. Finally, output is produces, either as a gnuplot
-line graph or as formatted or plain text output.
+the lines from the log file into a ring buffer (produce) and let multiple
+consumers pick from this ring buffer (consume). Each consumer parses the log
+lines they pick, and apply the weight of each read event to each their result
+vector (map). When all lines are read and parsed, the results vectors are
+merged, and idle-task power and static power consumption is added (reduce). This
+combination of algorithms allows PET to take advantage of as many cores as
+possible, limted only by how fast the producer can read the log files. Finally,
+a human readable output is produces, either as a gnuplot line graph or as
+formatted or plain text output.
 
 \subsection{Details}
 
