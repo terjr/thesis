@@ -43,12 +43,10 @@ typically smartphones and tablets.
 
 After the decode stage, an out-of-order multi-issue module with speculation can
 schedule two arithmetic operations, in which one can be a multiply (the
-processor has only one hardware multiply unit). It also features a multiplexed lane
-for address operations and floating point operations (the \emph{NEON} FPU). The
-Cortex-A9 is often used as 1-4 cores \cite{armsite}, where the implementation
-used on the Exynos 4412 is a 4-core variant \cite{somesite}. In this experiment,
-3 of the cores are disabled to ease both the measurement and the simulation
-process.
+processor has only one hardware multiply unit). It also features a multiplexed
+lane for address operations and floating point operations (the \emph{NEON} FPU).
+In this experiment, a 4-core variant of the processor was used, but 3 of the
+cores was disabled to ease both the measurement and the simulation process.
 
 To achieve good simulation correctness, a high level of architectural knowledge
 is crucial. Despite that most proprietary architectures have a lot of details

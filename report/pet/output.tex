@@ -19,17 +19,21 @@ supports three output options:
         a graph is printed in \autoref{fig:annot}.
 \end{description}
 
-The output format is understood as timeslots in which the architecture
-has a certain current drain, which should be multiplied with applied voltage to
-get numbers on consumed energy, heat generation and so on. The numbers are
-scaled as milliamperes, which of course is equal to milliwatt if voltage is
-$1V$. PET displays its output as mA as it was easier to find current drain
-rather than wattage using our test bench. Current can be found measuring the
-voltage drop of the core supply rail over a shunt resistor, finding wattage meant that we also had
-to monitor the exact voltage drop over the entire circuit, correlate these numbers in time, and
-multiply them together.
+\subsection{Units}
 
-It is known from Ohms law in \autoref{eq:ohm} and the definition of electric power in \autoref{eq:power}
+The output format is understood as timeslots in which the architecture has a
+certain current drain, which should be multiplied with applied voltage to get
+numbers on consumed energy, heat generation and so on. The numbers are given as
+milliamperes, which is equal to milliwatt if voltage is $1V$. PET displays its
+output as mA as it was easier to find current drain rather than wattage using
+our test bench. As described in \autoref{sec:energymeasure}, current can be
+found measuring the voltage drop of the core supply rail over a shunt resistor,
+finding wattage meant that we also had to monitor the exact voltage drop over
+the entire circuit, correlate these numbers in time, and multiply them together.
+
+When power is estimated for a new architecture, the resistance of the circuit is
+hard to guess, and voltage might also be an unknown factor. Given Ohms law in
+\autoref{eq:ohm} and the definition of electric power in \autoref{eq:power}
 
 \begin{equation}
 I=\frac{U}{R}
@@ -41,20 +45,26 @@ P=U \cdot I
 \label{eq:power}
 \end{equation}
 
-that power equals current squared times resistance:
+it can be found that power equals current squared times resistance
 
 \[U=R \cdot I\]
 \[P=(R \cdot I) \cdot I\]
 \[P=I^2 \cdot R\]
-and that power equals voltage squared divided by resistance:
+and that power equals voltage squared divided by resistance
 \[P=U \cdot \frac{U}{R}\]
 \[P=\frac{U^2}{R}\]
 
-Thus, measuring the current drain as amperes means that energy consumption will be
-very dependent on values like resistance and voltage, but these are not yet known,
-and the result will have to be scaled proportionally as voltage and resistance becomes
-known.
+Thus, estimating only the current drain means that the power at each point will
+be known without knowing resistance or voltage, further, energy comsumption can
+not be estimated unless the architecture is mostly equal in voltage and
+resitance to a chip where these numbers are available. Even the current drain
+might not be representable at all if resitance or voltage is far away from the
+levels found in the reference chip. With this in mind, PET will never give
+accurate power estimations for new chips, but will guide you on the way to
+figyre out if a new feature or architectural fix will render the final
+architecture more energy efficient.
 
+\subsection{Annotation}
 
 All output formats supports annotation of function calls. This is achieved by
 giving PET a list of symbols and their corresponding program counter value. PET
