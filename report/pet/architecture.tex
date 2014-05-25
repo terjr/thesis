@@ -3,13 +3,15 @@
 Modern computer science emphasize parallelism as a highly important property in
 order to achieve speed on multicore processors. As the size of the log files
 which PET has to parse can easily be 10s of gigabytes large, PET has to be
-designed with performance in mind. This means that PET must be lightweight and parallel
-in order to be fast, while it must maintain correctness and be easy to use.
+designed with performance in mind. This means that PET must be lightweight and
+parallel in order to be fast, while it must maintain correctness and be easy to
+use.
 
-Due to memory constraints on commonly available computers, it is not feasible to read the entire log
-file into memory and then start parsing. It would also make the reading step a serial part of the program,
-which hinders parallelism. It will also be a bad idea to read one line, parse
-it, weight it and apply it to the grand total, as it would be an entirely serial process.
+Due to memory constraints on commonly available computers, it is not feasible to
+read the entire log file into memory and then start parsing. It would also make
+the reading step a serial part of the program, which hinders parallelism. It
+will also be a bad idea to read one line, parse it, weight it and apply it to
+the grand total, as it would be an entirely serial process.
 
 \subsection{Overview}
 
@@ -25,8 +27,8 @@ The final implementation of PET follows a scheme borrowing ideas from the
 producer-consumer patterb as explained by Gamma et. al. in \cite{designpatterns}
 and the MapReduce algorithm \cite{dean2008mapreduce}. As depicted in
 \autoref{fig:pipeline}, this scheme makes it rather easy to let a producer read
-the lines from the log file into a ring buffer (produce) and let multiple
-consumers pick from this ring buffer (consume). Each consumer parses the log
+the lines from the log file into ring buffers (produce) and let multiple
+consumers pick from each their ring buffer (consume). Each consumer parses the log
 lines they pick, and apply the weight of each read event to each their result
 vector (map). When all lines are read and parsed, the results vectors are
 merged, and idle-task power and static power consumption is added (reduce). This
@@ -50,9 +52,25 @@ and short (\texttt{\textemdash o~\emph{value}})option style.
 
 \subsection{Reading Trace Logs}
 
+When arguments are parsed and a trace log has been specified, either by path or
+as \texttt{stdin}, a single thread is kicked off reading each line of the log
+file into a C++ string container. The string container is then inserted into one
+of many circular buffers. The circular buffers are implemented with
+\texttt{boost::lockfree::spsc\_queue}, a lock free single producer, single
+consumer queue. The property of beeing lock free is explained by Tim Blechmann
+and the boost-community in \cite{boostlockfree} as follows: "data structures are
+\emph{lock-free}, if some concurrent operations are guaranteed to be finished in a
+finite number of steps. While it is in theory possible that some operations
+never make any progress, it is very unlikely to happen in practical
+applications". In PET, this queue has a fixed size of 8192, but dynamic size is
+also available in the library implementation.  Which buffer the string is
+inserted into is determined by a simple circular algorithm; the next ring buffer
+is selected when current one is full. When the buffers are small enough, this
+creates a lot less locking than using a single ring buffer shared by all worker
+threads.
 
 
-\subsection{Strig to Event Mapping and Power Accumulation}
+\subsection{String to Event Mapping and Power Accumulation}
 
 \subsection{Data Reduction}
 
