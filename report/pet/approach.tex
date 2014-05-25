@@ -1,5 +1,13 @@
 \section{Approach}
 
+There are many considerations to take before creating a tool that should pretend
+to understand the implementation of hardware and the implications of features
+regarding energy efficiency. Care must be taken so that as much important
+information as possible is extracted from the hardware model, concurrent, as
+much noise and irrelevant information as possible must be filtered out.
+
+\subsection{Energy Modelling}
+
 While HDL-languages as well as computer architecture simulators have been around
 for quite some time, energy estimation techniques is a more recent necessity.
 Song et. al \cite{song2012instruction} identifies three major approaches to
@@ -33,15 +41,17 @@ for all event types. Please note that it is global and do not depend on time.
 \subsection{Power Consuming Events}
 \label{subsec:powerevents}
 
-The choice of events/workload metrics is an important part of our method. We
-account for two types of events; CPU instruction events and memory activity
-events. It is desirable to estimate energy consumption on literally all types of
-computing systems, ranging from large-size clusters to embedded systems. To
-provide this flexibility it was decided that PET should parse log files from the
-simulators rather than being built-in on a chosen simulator.  Most active and
-working architectural simulators supports this sort of trace logs, and even if
-they are formatted different, the effort of adjusting to a new format is a lot
-less than the effort of building this tool within even another simulator.
+Choosing which events should be tracked and what workload that would give good
+metrics is an important part of our method. We account for two main groups of
+events; CPU instruction events and memory activity events. The contents of these
+groups are listed in \autoref{tbl:events}. It is desirable to estimate energy
+consumption on literally all types of computing systems, ranging from large-size
+clusters to embedded systems. To provide this flexibility it was decided that
+PET should parse log files from the simulators rather than being built-in on a
+chosen simulator. Most active and working architectural simulators supports this
+sort of trace logs, and even if they are formatted different, the effort of
+adjusting to a new format is a lot less than the effort of building this tool
+within even another simulator.
 
 The trace logs contains information about everything that goes on within the
 fictional computer, and thus PET can extract useful information from this log
@@ -97,8 +107,8 @@ modelled energy consumption along the timeline at the time the event took place.
     \label{tbl:events}
 \end{table}
 
-The events which PET recognizes are briefly described in \autoref{tbl:events}.
-These events are chosen mainly based on what information that is easily
+The events briefly described in \autoref{tbl:events} are the ones recognized by
+PET.  These events are selected based mainly on what information that is easily
 extracted from a gem5-formatted trace log, but also adjusted by what information
 we could check with performance counters without a very high amount of effort.
 Most of this information is available from \cite{rundehvatum2013exploring},
