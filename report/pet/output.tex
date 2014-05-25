@@ -49,17 +49,30 @@ it can be found that power equals current squared times resistance
 
 \[U=R \cdot I\]
 \[P=(R \cdot I) \cdot I\]
-\[P=I^2 \cdot R\]
+\begin{equation}
+P=I^2 \cdot R
+\label{eq:currentsquared}
+\end{equation}
 and that power equals voltage squared divided by resistance
 \[P=U \cdot \frac{U}{R}\]
-\[P=\frac{U^2}{R}\]
+\begin{equation}
+P=\frac{U^2}{R}
+\label{eq:voltagesquared}
+\end{equation}
 
 Thus, estimating only the current drain means that the power at each point will
 be known without knowing resistance or voltage, further, energy comsumption can
-not be estimated unless the architecture is mostly equal in voltage and
+not be estimated unless the new architecture is mostly equal in voltage and
 resitance to a chip where these numbers are available. Even the current drain
-might not be representable at all if resitance or voltage is far away from the
-levels found in the reference chip. With this in mind, PET will never give
+might not be representable at all; if resitance or voltage is far away from the
+levels found in the reference chip, the final numbers will be far off.
+
+From \autoref{eq:currentsquared} and \autoref{eq:voltagesquared} it is easy to
+see that voltage and current is very imporant for power and then also enery. The
+current is, from \autoref{eq:ohm}, dependent on resistance as well as voltage.
+With this in mind, and knowing that power in a complex environment is a delicate
+matter, the most important application for a simple tool as PET this early in
+the design phase is to point in the right direction. PET will never give
 accurate power estimations for new chips, but will guide you on the way to
 figyre out if a new feature or architectural fix will render the final
 architecture more energy efficient.
@@ -74,7 +87,18 @@ of symbols can be extracted from non-stripped binaries using the script listed
 in \autoref{lst:annotscript}. This script is also included in the \texttt{scripts}-folder
 of PET.
 
-\lstinputlisting[float=hbt,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
+\lstinputlisting[float=htb,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
+
+It should be mentioned that a program compiled with debugging symbols contains
+hundreds, if not thousands of symbols. Often, many of these symbols are called
+in clusters, while long periods of the program are spent in loops that are not
+using any symbols at all. This often renders a graphical representation of the
+power log with complete annotation as a complete mess. We have found it to be a
+good recommendation to create the annotation file using the mentioned tools, but
+manually filtering out only the symbols of interest.
+
+
+\subsection{Examples of Output Data}
 
 Example of the \texttt{plain} output format can be seen in
 \autoref{lst:pet_output_plain}. The left column is the bucket number, while the
@@ -111,7 +135,8 @@ new problems. As it is hard to get a good overview from huge text log files, PET
 provides, as stated in \autoref{subsec:annot}. In effect, it is formatting
 temporary output files and calling GNUPlot do do the hard work.
 
-\begin{figure}
+\begin{figure}[htb]
+    \centering
     \includegraphics[width=0.9\textwidth]{figs/annot.pdf}
     \caption{PET Annotated Graphical Output}
     \label{fig:annot}
