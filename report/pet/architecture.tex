@@ -23,7 +23,7 @@ In order to maintain good speed while still keeping the PET source code
 readable, we have looked at different ways of chewing through large data sets.
 The final implementation of PET follows a scheme borrowing ideas from the
 producer-consumer patterb as explained by Gamma et. al. in \cite{designpatterns}
-and the MapReduce algorithm \cite{dean2008mapreduce}.  As depicted in
+and the MapReduce algorithm \cite{dean2008mapreduce}. As depicted in
 \autoref{fig:pipeline}, this scheme makes it rather easy to let a producer read
 the lines from the log file into a ring buffer (produce) and let multiple
 consumers pick from this ring buffer (consume). Each consumer parses the log
@@ -34,6 +34,32 @@ combination of algorithms allows PET to take advantage of as many cores as
 possible, limted only by how fast the producer can read the log files. Finally,
 a human readable output is produces, either as a gnuplot line graph or as
 formatted or plain text output.
+
+
+\subsection{Argument Parsing and Program Options}
+
+As any other non-trivial programs, PET has to adapt to input options given from
+the command line or from a settings-file. PET makes extensive use of the
+\texttt{Boost}-library \cite{boostwebpage} and utilize
+\texttt{Boost::Program\_options} for parsing the command line. Making use of
+\texttt{Boost} for common tasks all over the program made the development cycle
+less cumbersome and more rapid. \texttt{Boost::Program\_options} allows easy
+extraction of program options, both with long (\texttt{\textemdash \textemdash option=\emph{value}})
+and short (\texttt{\textemdash o~\emph{value}})option style.
+
+
+\subsection{Reading Trace Logs}
+
+
+
+\subsection{Strig to Event Mapping and Power Accumulation}
+
+\subsection{Data Reduction}
+
+\subsection{Output Production and Annotations}
+
+\subsection{Unit Tests}
+
 
 \subsection{Details}
 

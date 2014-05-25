@@ -154,16 +154,40 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
 %weightfiles
 %
 
-\subsection{Annotation files}
+\subsection{Program Annotation files}
 \label{subsec:annot}
-PET has the ability to annotate it's output using a map from PC to function name. The
-simulated binary itself is not an input to PET, as it would contain to much information to display nicely in
-an ordinary graph. Instead, PET comes along with a tool called \texttt{scripts/annotate.sh} which takes
-a binary file as input and prints out all function names in the binary file. The binary file must be compiled
-with debugging symbols for this to work. The usual situation would then be to pull out those function names you want
-to annotate be editing the output from this tool, and then giving this file to PET as annotation input.
 
-An example of how this map can look like is printed in \autoref{lst:annot}. The
-left column is simply the PC value where the function label points, and the
-right column is the function name.
+PET has the ability to annotate it's output using a map from PC to function
+name. The simulated binary itself is not an input to PET, instead PET comes
+bundled with a tool called \texttt{scripts/annotate.sh}. This tool simply
+extracts symbols from the binary files, which must be compiled with debugging
+symbols, to a new text file in a format equal to the one seen in
+\autoref{lst:annot}. The left column in the output file is simply the address
+where the function label points, and the right column is the function name. The
+function names are also commonly referred to as symbols. PET will tag each power
+bucket with the last seen symbol within that bucket, that is the last match
+between the simulators program counter and the referred address. PET chooses the
+last seen symbol over any other symbols within the same bucket since chances are
+that this is a function call with a long lasting loop. If this is not the case,
+a new symbol would appear early in the next measure point, and we have not found
+any good reason not to select that particular symbol for data point annotation.
+
 \lstinputlisting[caption={Annotation file example},label={lst:annot},float,language=Python]{examples/annot.conf}
+
+The symbols extraction tool itself is actually just a simple script, it's source is printed
+in \autoref{lst:annotscript}.
+
+\lstinputlisting[float=htb,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
+
+It should be mentioned that a program compiled with debugging symbols contains
+hundreds, if not thousands of symbols. Often, many of these symbols are called
+in clusters, while long periods of the program are spent in loops that are not
+using any symbols at all. This often renders a graphical representation of the
+power log with complete annotation as a complete mess. We have found it to be a
+good recommendation to create the annotation file using the mentioned tools, but
+manually filtering out only the symbols of interest.
+
+
+
+
+

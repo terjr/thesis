@@ -1,6 +1,11 @@
 \section{Output}
-Depending on application, different output formats might come in handy. PET
-supports three output options:
+
+After a log file is consumbed by PET, it's output should have to be usable for
+many different aspects. On early basis or when big differences are excepected, a
+sparse annotated graphical output might be the best way of displaying where most
+power is consumbed, but as the project evolves and mose subtile changes are
+evaluated, a textual output will be easier to compare. PET supports three
+different output options:
 
 \begin{description}
     \item[plain]\hfill\\
@@ -77,26 +82,6 @@ accurate power estimations for new chips, but will guide you on the way to
 figyre out if a new feature or architectural fix will render the final
 architecture more energy efficient.
 
-\subsection{Annotation}
-
-All output formats supports annotation of function calls. This is achieved by
-giving PET a list of symbols and their corresponding program counter value. PET
-will tag each power bucket with the last seen symbol within that bucket, as this
-symbol is the one most likly to continue over to the next measure point. Lists
-of symbols can be extracted from non-stripped binaries using the script listed
-in \autoref{lst:annotscript}. This script is also included in the \texttt{scripts}-folder
-of PET.
-
-\lstinputlisting[float=htb,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
-
-It should be mentioned that a program compiled with debugging symbols contains
-hundreds, if not thousands of symbols. Often, many of these symbols are called
-in clusters, while long periods of the program are spent in loops that are not
-using any symbols at all. This often renders a graphical representation of the
-power log with complete annotation as a complete mess. We have found it to be a
-good recommendation to create the annotation file using the mentioned tools, but
-manually filtering out only the symbols of interest.
-
 
 \subsection{Examples of Output Data}
 
@@ -104,7 +89,7 @@ Example of the \texttt{plain} output format can be seen in
 \autoref{lst:pet_output_plain}. The left column is the bucket number, while the
 right column is instant current draw from the modelled architecture.
 
-\begin{lstlisting}[float=hbt,label={lst:pet_output_plain},caption={PET Plain Output}]
+\begin{lstlisting}[float=hbt,label={lst:pet_output_plain},caption={PET Plain Output with annotations}]
 0 120 memcpy
 1 113 start
 2 150 main
@@ -117,7 +102,7 @@ When reading the output directly from console, a more descriptive output format
 is the \texttt{table} format. An example using this option is rendered in
 \autoref{lst:pet_output_table}.
 
-\begin{lstlisting}[float=hbt,label={lst:pet_output_table},caption={PET Table Output}]
+\begin{lstlisting}[float=hbt,label={lst:pet_output_table},caption={PET Table Output with annotations}]
 /----------------------------------------\
 |   Bucket   |  milliAmps |    Symbol    |
 |------------|------------|--------------|
@@ -138,7 +123,7 @@ temporary output files and calling GNUPlot do do the hard work.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\textwidth]{figs/annot.pdf}
-    \caption{PET Annotated Graphical Output}
+    \caption{PET Graphical Output with annotations}
     \label{fig:annot}
 \end{figure}
 
