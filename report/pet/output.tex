@@ -74,13 +74,13 @@ of symbols can be extracted from non-stripped binaries using the script listed
 in \autoref{lst:annotscript}. This script is also included in the \texttt{scripts}-folder
 of PET.
 
-\lstinputlisting[float,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
+\lstinputlisting[float=hbt,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
 
 Example of the \texttt{plain} output format can be seen in
 \autoref{lst:pet_output_plain}. The left column is the bucket number, while the
 right column is instant current draw from the modelled architecture.
 
-\begin{lstlisting}[float,label={lst:pet_output_plain},caption={PET Plain Output}]
+\begin{lstlisting}[float=hbt,label={lst:pet_output_plain},caption={PET Plain Output}]
 0 120 memcpy
 1 113 start
 2 150 main
@@ -93,7 +93,7 @@ When reading the output directly from console, a more descriptive output format
 is the \texttt{table} format. An example using this option is rendered in
 \autoref{lst:pet_output_table}.
 
-\begin{lstlisting}[float,label={lst:pet_output_table},caption={PET Table Output}]
+\begin{lstlisting}[float=hbt,label={lst:pet_output_table},caption={PET Table Output}]
 /----------------------------------------\
 |   Bucket   |  milliAmps |    Symbol    |
 |------------|------------|--------------|
