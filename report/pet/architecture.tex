@@ -88,9 +88,36 @@ disk. The benchmark used a log file of 5458MB and was run in 40.871 seconds.
 As the producer fills the ring buffers for each of the workers, the workers pick
 strings from their pool. The strings are pop'ed from the ring buffer, thus making space
 for new elements right away. Each string is parsed by the TraceLine class, which looks
-for 
+for patterns in the strings containing known event types. When connecting PET with gem5,
+the trace logs as previously seen \autoref{lst:trace} contains an event type designation
+in the second :-separated column. The TraceLine class extracts this part using a very simple
+method to make this part go fast, outline of this method is listed in \autoref{alg:extract}.
+
+\begin{algorithm}
+    \begin{lstlisting}[style=algo,language=python]
+function extractEventType( line ):
+    start = line.find(":") + 1
+    end = line.find(":", start)
+
+    while (line[start] == ' ')
+        start = from + 1
+    while (line[end-1] == ' ')
+        end = to - 1
+
+    return line.substring(start, end)
+    \end{lstlisting}
+    \caption{Event Type Extraction}
+    \label{alg:extract}
+\end{algorithm}
+
+In the real program, some more error handling is present, and the event types are instansiated as
+objects of their parent type (Instruction- or Memory-event) with the right parameters set. If
+the event is not recognized, an "empty" object of type UnknownEvent is returned. Each
+event object is able to figure out it's own weight as written in the \emph{weights}-file. After
+the event has been parsed, it's weight is added to the power model at the right timestep.
 
 \subsection{Data Reduction}
+
 
 \subsection{Output Production and Annotations}
 
