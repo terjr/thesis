@@ -14,16 +14,6 @@ After modeling different configurations for gem5, accuracy as depicted in \autor
 was achieved. Each test was run with the command written out in \autoref{lst:gem5commandline}, with \texttt{CPU}
 changed with  \texttt{exynos\_4412p}, \texttt{arm\_detailed} and \texttt{timing}.
 
-\begin{lstlisting}[language=sh,numbers=none,label={lst:gem5commandline},caption={gem5 Command Line}]
-$ build/ARM/gem5.opt --remote-gdb-port=0 -d m5out-time/sha2-sha2
-    configs/example/se.py -c bin/sha2/sha2 --cpu-type=CPU
-    --mem-type=LPDDR2_S4_800_x32 --sys-clock=440MHz
-    --cpu-clock=1700MHz --num-l3caches=0 --caches --l2cache
-    --l2_assoc=16 --l2_size=1MB --l1d_size=32kB
-    --mem-size=2048MB --l1d_assoc=4 --l1i_assoc=4
-\end{lstlisting}
-
-
 % Move table to result chapter
 \begin{table}
 \centering
@@ -41,42 +31,90 @@ gem5 timing simple  & 0.035039 & 0.019564 & 0.040659 & 0.020503 & \\
 \label{tbl:gem5runtimeaccuracy}
 \end{table}
 
+\begin{lstlisting}[float=htb,language=sh,numbers=none,label={lst:gem5commandline},caption={gem5 Command Line}]
+$ build/ARM/gem5.opt --remote-gdb-port=0 -d m5out-time/sha2-sha2
+    configs/example/se.py -c bin/sha2/sha2 --cpu-type=CPU
+    --mem-type=LPDDR2_S4_800_x32 --sys-clock=440MHz
+    --cpu-clock=1700MHz --num-l3caches=0 --caches --l2cache
+    --l2_assoc=16 --l2_size=1MB --l1d_size=32kB
+    --mem-size=2048MB --l1d_assoc=4 --l1i_assoc=4
+\end{lstlisting}
+
+\subsection{GA optimization and results}
+
+As PET has been optimized by a genetic inspired algorithm, and it was expected
+to perform very well on the data sets it has been optimized for. When such
+training is done, a controll test is needed in order to verify that the result
+is good for the general problem solved, not only the specific instances used for
+training.
 
 
+Results from the training session arer displayed in
+\autoref{fig:trend-training}, \autoref{fig:pi-training},
+\autoref{fig:sha2-training} and \autoref{fig:add-training}. Each figure
+represents one of the workloads explained in \autoref{sec:workloads}.
+The red line in each figure represents the prediction done by PET, while
+the green line is a direct plot of readings from the bench setup (see \autoref{fig:setup} for a recap).
 
-\subsection{GA optimization}
-As PET has been optimized by a genetic inspired algorithm, it is likly to perform very well on the data sets it
-has been optimized for. When such training is done, a controll test is needed in order to verify that the result
-is good for the general problem solved, not only the specific instances used for training.
-
-\subsection{Training}
-
-The training sets are displayed in \autoref{fig:trend-training},
-\autoref{fig:pi-training}, \autoref{fig:sha2-training} and
-\autoref{fig:add-training}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figs/training/trend-trend.pdf}
-\caption{Training results for the trend-test}
-\label{fig:trend-training}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{figs/training/trend-trend.pdf}
+    \caption{Training results for the trend-test}
+    \label{fig:trend-training}
 \end{figure}
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figs/training/trend-submul.pdf}
-\caption{Overlay of PET training results (red) and training data (green)}
-\label{fig:submul-training}
+
+The training set for \emph{trend} as printed in \autoref{fig:trend-training}.
+This test checks if PET can follow the flow from a ALU-intensive program to a
+memory-intensive program. The graph shows that PET misses with a little more
+than 10mA, but the most important factor is that the change after about 7ms is
+resembled in the prediction. Given this change, we know that PET adjusts
+correctly for the change in instruction flow. The fact that the sudden drop in
+power consumption seems to come a bit too slow is most likely due to
+discrepancys between the gem5-model and the real hardware. It is also
+interesting that the begining and the end of the program is the most power
+consuming pieces. This is probably due to the simplistic method idle-time is
+calculated, and the out-of-order-nature of the processor makes the genetic
+algorithm over-estimate the cost of idle.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{figs/training/trend-submul.pdf}
+    \caption{Overlay of PET training results (red) and training data (green)}
+    \label{fig:submul-training}
 \end{figure}
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figs/training/pi-pi.pdf}
-\caption{Overlay of PET training results (red) and training data (green)}
-\label{fig:pi-training}
+
+Further, the \emph{submul}-test shown in \autoref{fig:submul-training} is
+created to follow the shift from simple integer operations and over to
+a multiplication-dominated loop. PET again follows the trend, but is
+overly hard on the cost of multiply. Again, the trend is the most important
+factor. It should also be noted that even tough the loop contains a lot of
+multiply, the assembled binary still uses a lot of "ordinary" integer
+operations for program flow, storage, registers, adresses, and so on.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{figs/training/pi-pi.pdf}
+    \caption{Overlay of PET training results (red) and training data (green)}
+    \label{fig:pi-training}
 \end{figure}
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figs/training/sha2-sha2.pdf}
-\caption{Overlay of PET training results (red) and training data (green)}
-\label{fig:sha2-training}
+
+The \emph{pi}-test displayed in \autoref{fig:pi-training} uses floating point
+and random-values (with a static seed).  the program is compiled with
+soft-float, thus it makes just another integer-test, but with a more intense use
+of different registers. This test has rather good accuracy, and as it represents
+a rather common workload, this is a very promissing result.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{figs/training/sha2-sha2.pdf}
+    \caption{Overlay of PET training results (red) and training data (green)}
+    \label{fig:sha2-training}
 \end{figure}
+
+The last test in the performance tuning algorithm, \emph{sha2}, calculates a
+sha512 hash sum.  The test results is figured in \autoref{fig:sha2-training} and
+differes from the other tests by beeing more memory intensive at the same time
+as it is an extensive user of both multiply and simple integer operations. This
+test is also well within 10\% of measured and is yet another example of good
+performance on general workloads.
 
