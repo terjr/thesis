@@ -22,7 +22,7 @@ digraph PET {
         setup [label=<Produce>]
     }
     setup -> split
-    split [label=<Ring<br/>buffer>];
+    split [label=<Ring<br/>buffers>];
     split -> parse1 -> merge;
     split -> parse2 -> merge;
     split -> parse4 -> merge;
