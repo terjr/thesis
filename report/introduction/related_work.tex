@@ -1,3 +1,23 @@
+
+\subsection{Related Work}
+
+Wattch \cite{brooks2000wattch} and McPAT \cite{hpmcpat,li2013mcpat} are two
+approaches on energy modelling, but both work on a relatively low level.
+
+NTNU have a long tradition of using M5/gem5 for simulation purposes, and it
+would be most beneficial for the SHMAC project if such solutions could be
+applied to an unmodified version of gem5. Wattch seems to be a good fit, but it
+only works with SimpleScalar \cite{wattchanalysis}. McPAT worked with the old M5
+\cite{m5mcpatparser}, which joined with GEMS to become gem5 \cite{gem5hipeac},
+but seems to have problems with the latest versions of gem5
+\cite{mcpatgem5problems}. CACTI is a system for understanding trade-offs between
+power, area and performance within memory systems
+\cite{hpcacti,muralimanohar2010memory}. Both McPAT and Wattch uses models and
+methods found in CACTI \cite{li2009mcpat}.
+
+
+
+
 \section{Related Work}
 
 Butko et. al. \cite{butko2012accuracy} evaluated the accuracy of the gem5
