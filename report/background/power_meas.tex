@@ -1,16 +1,14 @@
 \section{CPU-level Energy Measurements}
 \label{sec:energymeasure}
 
-High quality instruction level energy models can be derived for pipelined
+High precision instruction level energy models can be derived for pipelined
 processors by monitoring the instantaneous current drawn by the processor at
-each clock cycle \cite{nikolaidis2005instruction}. Modern processors commonly
-operate at a few GHz, which means that expensive measurement devices are
-required to sample at sufficient frequency. According to Harry Nyquist the
-sampling frequency must be twice the speed of the signal being measured
-\cite{nyquist1928certain}. As the signal sampled from the processor might
-change at least once every clock tick, a cycle accurate measurement would
-require the instrumentations would have to sample much faster than any equipment
-available at our laboratory.
+each clock cycle, as explained in \cite{nikolaidis2005instruction}. Modern
+processors commonly operate at a few GHz, and Nyquist sampling theorem
+\cite{nyquist1928certain} states that the sampling frequency must be twice the
+frequency of the signal being measured. The signal sampled from the processor
+might change at least once every clock cycle, so a cycle accurate measurement
+would require very expensive instruments.
 
 In \cite{rundehvatum2013exploring}, single instructions was measured by
 exploting fast-loop-mode and looping over a group of equal instructions. An
@@ -18,17 +16,15 @@ Agilent bench multimeter and a shunt resistor was set up like shown in
 \autoref{fig:setup}. This method provides an average power consumption when the
 pipeline is (mostly) filled with a single type of instruction. Instead of normal
 serial connected ammeter, the power rail is connected in series with a shunt
-resistor equal to the one display in \autoref{fig:shunt}, and the almost
-neglectable voltage drop over this resistor is measured using a voltmeter. This
-method provides a way to measure currents either outside the range of the ammeter or with
-greater accuracy.
-
-An example of how a shunt resistor can provide better accuracy; when an Agilent
-34410A is used to meassure a current in which the voltage exeeds 0.8V, the
-readings is within 0.1\% error when the system is correctly calibrated, but if a
-shunt resistor with the right characteristics is used, the voltage drop across
-the shunt resistor would lie in the range beneeth 100mV, and then readings will,
-according to the datasheet, be within 0.003\% error \cite{agilent34410a}.
+resistor equal to the one figured in \autoref{fig:shunt}, and voltage drop over
+this resistor is measured using a voltmeter. This method provides a way to
+measure currents either outside the range of the ammeter or with greater
+accuracy. An example of how a shunt resistor can provide greater accuracy; when
+an Agilent 34410A is used to measure a current in which the voltage exeeds 0.8V,
+the readings is within 0.1\% when the system is correctly calibrated. If a shunt
+resistor with the right characteristics is used, the voltage drop across the
+shunt resistor will lie in the range 0 -- 100 mV, and then readings will,
+according to the datasheet, be within 0.003\% \cite{agilent34410a}.
 
 \begin{figure}
     \centering

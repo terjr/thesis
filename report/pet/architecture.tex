@@ -152,6 +152,23 @@ arithmetics to make a difference in a tight loop.
 
 \subsection{Data Reduction}
 
+When all lines from the trace log are consumed by the workers, the threads are
+joined and their data is contained as standard C++-vectors in a standard C++-vector.
+The inner vectors is looped over as and each value is added together and put in a
+result vector. This work is done as the last part of \texttt{Pet::processStreams} as seen in
+\autoref{fig:callgraph}. After a single point has been accumulated from the vectors, idle time
+is calculated from how many events that was recorded during the data point. This is
+done more simplistic than accurate using \autoref{eq:idle}. $numEvents$ is the number
+of events recorded in each vector at each measure point, and each event is pinned to
+the cycle where it originated.
+
+\begin{equation}
+    totalEvents = \sum_{n=1}^{N} numEvents_n
+\end{equation}
+\begin{equation}
+    idleEvents = \frac{ticksInDatapoint}{ticksInCycle}- totalEvents
+\label{eq:idle}
+\end{equation}
 
 
 \subsection{Output Production and Annotations}

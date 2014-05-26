@@ -2,19 +2,19 @@
 
 There are many considerations to take before creating a tool that should pretend
 to understand the implementation of hardware and the implications of features
-regarding energy efficiency. Care must be taken so that as much important
-information as possible is extracted from the hardware model, concurrent, as
-much noise and irrelevant information as possible must be filtered out.
+regarding energy efficiency. Care must be taken so that important information is
+extracted from the hardware model while irrelevant noise is filtered out.
 
-\subsection{Energy Modelling}
 
-While HDL-languages as well as computer architecture simulators have been around
-for quite some time, energy estimation techniques is a more recent necessity.
-Song et. al \cite{song2012instruction} identifies three major approaches to
-processor power modelling used in the past, and introduces an instruction-based
-energy estimation model that can be used for energy simulation at high speed.
-Their proposed method is expressed through the following equation and includes
-the desired features of past energy models.
+\subsection{Energy Modeling}
+
+While computer architecture simulators have been around for quite some time,
+energy estimation techniques is a more recent necessity. Song et. al
+\cite{song2012instruction} identifies three major approaches to processor power
+modeling used in the past, and introduces an instruction-based energy
+estimation model that can be used for energy simulation at high speed. Their
+proposed method is expressed through the following equation and includes the
+desired features of past energy models.
 
 \[
     P_{core}(t) = \frac{E_{unit} \cdot A_{datapath} \cdot w(t) +
@@ -48,14 +48,14 @@ groups are listed in \autoref{tbl:events}. It is desirable to estimate energy
 consumption on literally all types of computing systems, ranging from large-size
 clusters to embedded systems. To provide this flexibility it was decided that
 PET should parse log files from the simulators rather than being built-in on a
-chosen simulator. Most active and working architectural simulators supports this
+specific simulator. Most active and working architectural simulators supports this
 sort of trace logs, and even if they are formatted different, the effort of
 adjusting to a new format is a lot less than the effort of building this tool
-within even another simulator.
+within another simulator.
 
 The trace logs contains information about everything that goes on within the
 fictional computer, and thus PET can extract useful information from this log
-file. A piece of such useful information is defined in PET at a \emph{simulator
+file. A piece of such useful information is defined in PET as a \emph{simulator
 event}. A simulator event can be thought of as a unit of work that uses a
 specified amount of energy. When PET finds such an event, it increases the
 modelled energy consumption along the timeline at the time the event took place.
@@ -108,7 +108,7 @@ modelled energy consumption along the timeline at the time the event took place.
 \end{table}
 
 The events briefly described in \autoref{tbl:events} are the ones recognized by
-PET.  These events are selected based mainly on what information that is easily
+PET. These events are selected based mainly on what information that is easily
 extracted from a gem5-formatted trace log, but also adjusted by what information
 we could check with performance counters without a very high amount of effort.
 Most of this information is available from \cite{rundehvatum2013exploring},
