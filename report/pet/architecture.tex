@@ -37,6 +37,17 @@ possible, limted only by how fast the producer can read the log files. Finally,
 a human readable output is produces, either as a gnuplot line graph or as
 formatted or plain text output.
 
+The next subsections will describe in detail the most imporatant parts of the
+workflow. For further understanding of the program flow, a call graph extracted
+from the entire source code can be found in \autoref{fig:callgraph}.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{figs/maincallgraph.pdf}
+    \caption{Call graph}
+    \label{fig:callgraph}
+\end{figure}
+
+
 
 \subsection{Argument Parsing and Program Options}
 
@@ -55,16 +66,17 @@ style.
 
 When arguments are parsed and a trace log has been specified, either by path or
 as \texttt{stdin}, a single thread is kicked off reading each line of the log
-file into a C++ string container. The string container is then inserted into one
-of many circular buffers. The circular buffers are implemented with
-\texttt{boost::lockfree::spsc\_queue}, a lock free single producer, single
-consumer queue. The property of beeing lock free is explained by Tim Blechmann
-and the boost-community in \cite{boostlockfree} as follows: "data structures are
-\emph{lock-free}, if some concurrent operations are guaranteed to be finished in a
-finite number of steps. While it is in theory possible that some operations
-never make any progress, it is very unlikely to happen in practical
-applications". In PET, this queue has a fixed size of 8192, but dynamic size is
-also available in the library implementation.
+file into a C++ string container. This happens in the
+\texttt{Pet::processStreams} method seen in \autoref{fig:callgraph}. The string
+container is then inserted into one of many circular buffers. The circular
+buffers are implemented with \texttt{boost::lockfree::spsc\_queue}, a lock free
+single producer, single consumer queue. The property of beeing lock free is
+explained by Tim Blechmann and the boost-community in \cite{boostlockfree} as
+follows: "data structures are \emph{lock-free}, if some concurrent operations
+are guaranteed to be finished in a finite number of steps. While it is in theory
+possible that some operations never make any progress, it is very unlikely to
+happen in practical applications". In PET, this queue has a fixed size of 8192,
+but dynamic size is also available in the library implementation.
 
 Which buffer the string is inserted into is determined by a simple circular
 algorithm; the next ring buffer is selected when current one is full. When the
@@ -85,13 +97,23 @@ disk. The benchmark used a log file of 5458MB and was run in 40.871 seconds.
 
 \subsection{String to Event Mapping and Power Accumulation}
 
+String parsing and mapping resembles the most compute-intensive parts of PET.
+These parts of the program is kicked off as thread starting the
+\texttt{doWork}-function, as the thread library cannot start running in methods
+of instanceiated objects. As displayed in the callgraph in
+\autoref{fig:callgraph}, this function simply starts the
+\texttt{PowerModel::run}-method on it's input, which an instance of the
+PowerModel-class.
+
 As the producer fills the ring buffers for each of the workers, the workers pick
-strings from their pool. The strings are pop'ed from the ring buffer, thus making space
-for new elements right away. Each string is parsed by the TraceLine class, which looks
-for patterns in the strings containing known event types. When connecting PET with gem5,
-the trace logs as previously seen \autoref{lst:trace} contains an event type designation
-in the second :-separated column. The TraceLine class extracts this part using a very simple
-method to make this part go fast, outline of this method is listed in \autoref{alg:extract}.
+strings from their pool. The strings are popped from the ring buffer, thus
+making space for new elements right away. Each string is parsed by the TraceLine
+class, which looks for patterns in the strings containing known event types.
+When connecting PET with gem5, the trace logs as previously seen
+\autoref{lst:trace} contains an event type designation in the second :-separated
+column. The TraceLine class extracts this part using a very simple method to
+make this part go fast, outline of this method is listed in
+\autoref{alg:extract}.
 
 \begin{algorithm}
     \begin{lstlisting}[style=algo,language=python]
@@ -110,50 +132,30 @@ function extractEventType( line ):
     \label{alg:extract}
 \end{algorithm}
 
-In the real program, some more error handling is present, and the event types are instansiated as
-objects of their parent type (Instruction- or Memory-event) with the right parameters set. If
-the event is not recognized, an "empty" object of type UnknownEvent is returned. Each
-event object is able to figure out it's own weight as written in the \emph{weights}-file. After
-the event has been parsed, it's weight is added to the power model at the right timestep.
+In the real program, some more error handling is present, and the event types
+are instanceiated as objects of their parent type (Instruction- or
+Memory-event). The right parameters are further found from progressive string
+parsing. If the event is not recognized, an "empty" object of type UnknownEvent
+is returned, this type always has zero weight. Each event object is able to
+figure out it's own weight as written in the \emph{weights}-file. After the
+event has been parsed, it's weight is added to the power model at the right
+time step.
+
+In order to reduce the time used for disposal of the string objects
+after they are parsed, they are places in a static-size array. When
+this array is full, or the ring buffer is empty, the worker deletes
+all the strings in a chunk. This methods keeps the memory footprint
+low while not calling \texttt{free()} at a continuous rate. The \texttt{free()}
+function is not considered very slow, but from the reference implementation
+shown in \cite{kernighan1988c}, it does contain enough pointer
+arithmetics to make a difference in a tight loop.
 
 \subsection{Data Reduction}
+
 
 
 \subsection{Output Production and Annotations}
 
 \subsection{Unit Tests}
-
-
-\subsection{Details}
-
-PET is no huge nor advanced program, but it embeds features ranging from string
-parsing functionality to thread pooling to number crunching. As seen in the call graph
-in \autoref{fig:callgraph} PET starts out as any other ordinary program in it's main
-function. PET is initialized and parses 
-
-
-PET is a tool which main task will be to 
-
-When designing a tool for parsing large input files and applying flexible configuration alternatives,
-there are quite a few aspects that needs to be considered. Through this section the design choises
-briefly explained in \autoref{sec:whatispet} will be further explained and more deeply understood.
-
-PET has to be designed for good performance.
-
-
-\begin{figure}
-%    \includesvg[clean,eps,pretex=\relscale{0.25},width=\textwidth]{figs/maincallgraph}
-    \includegraphics[width=\textwidth]{figs/maincallgraph.pdf}
-    \caption{Call graph}
-    \label{fig:callgraph}
-\end{figure}
-
-put UML-figures here
-trådpool
-concurency
-arbeidsdeling
-ringbuffer, statisk vs. ikke statis størrelse
-
-
 
 
