@@ -153,10 +153,11 @@ arithmetics to make a difference in a tight loop.
 \subsection{Data Reduction}
 
 When all lines from the trace log are consumed by the workers, the threads are
-joined and their data is contained as standard C++-vectors in a standard
-C++-vector. The inner vectors is looped over together, and the value from the
-current data point in each vector is added together and put in a result vector.
-This work is done as the last part of \texttt{Pet::processStreams} as seen in
+joined and their data is returned as standard C++-vectors. These result vectors
+are further wrapped in yet another standard C++-vector. The inner vectors is
+then looped over together, and the value from the current data point in each
+vector is added together and put in a result vector. This accumulation happens
+as the last part of \texttt{Pet::processStreams} as seen in
 \autoref{fig:callgraph}. After a single point has been accumulated from the
 vectors, idle time is calculated from how many events that was recorded during
 the data point. This is done more simplistic than accurate using
@@ -172,12 +173,39 @@ originated.
 \label{eq:idle}
 \end{equation}
 
+It should be noted that even though this method might work well in a
+single-cycle in-order CPU, the out-of-order nature of the Cortex-A9 makes it
+hard to tell how much idle time actually exists. E.g. A single cycle may fill
+the pipeline with four events, then idle the three next cycles; this would be
+calculated as no idle time. When the approximate numbers of \texttt{idleEvents} have been
+estimated, that number is multiplied by the \emph{Idle}-weight and added to the
+sum in the result vector. Finally, the entire vector is normalized according to
+bucket size and then static current drain is applied.
 
 
 \subsection{Output Production and Annotations}
 
+After the result vector has been completely accumulated, annotation
+is added to a new result vector in the same manner as the data reduction.
+With the new, merged annotation map containing all last matches between
+a symbol and the program counter within each measure point, this map
+is feed to the \texttt{OutputProducer}-object as seen in \autoref{fig:callgraph}.
+The \texttt{OutputProducer}-object is responsible for generating output as defined
+by the input arguments. It's options have already been described in \autoref{sec:output},
+and it's implementation is a simple nested if-else-clause that calls internal functions for
+each output type. The graphical output is produced using a wrapper around GNUPlot, while
+the textual outputs are created by \texttt{printf}-statements.
 
 
 \subsection{Unit Tests}
 
+All internal string parsing are verified by unit tests. The unit tests
+are written with help from the Boost Test Library Unit Test Framework \cite{boostunittest}.
+
+The test library generates a new binary with the same program content, except the
+main function, thus the program flow, is different. The test binary will
+run through the listed functions with a certain input, and if the output is unexpected,
+the test binary will print to the console an error message containing a description of what
+went wrong. This approach helps refactoring and correctness in general, such that
+the focus can be kept on the program surroundings.
 

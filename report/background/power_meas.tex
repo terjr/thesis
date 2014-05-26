@@ -1,6 +1,13 @@
 \section{CPU-level Energy Measurements}
 \label{sec:energymeasure}
 
+\begin{figure}[tbh]
+    \centering
+    \input{figs/test_setup.tex}
+    \caption{Bench setup for measuring single instruction current drain}
+    \label{fig:setup}
+\end{figure}
+
 High precision instruction level energy models can be derived for pipelined
 processors by monitoring the instantaneous current drawn by the processor at
 each clock cycle, as explained in \cite{nikolaidis2005instruction}. Modern
@@ -26,14 +33,7 @@ resistor with the right characteristics is used, the voltage drop across the
 shunt resistor will lie in the range 0 -- 100 mV, and then readings will,
 according to the datasheet, be within 0.003\% \cite{agilent34410a}.
 
-\begin{figure}
-    \centering
-    \input{figs/test_setup.tex}
-    \caption{Bench setup for measuring single instruction current drain}
-    \label{fig:setup}
-\end{figure}
-
-\begin{figure}
+\begin{figure}[tbh]
     \centering
     \includegraphics[width=0.8\textwidth]{figs/shunt.jpg}
     \caption{An example shunt resistor}
