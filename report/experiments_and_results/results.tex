@@ -57,7 +57,7 @@ would exclude it as it not always correlating.
 
 The \texttt{add-add} test which is displayed in \autoref{fig:add-training} is
 especially interesting because is utilized the fast-loop mode of the Cortex-A9.
-This means that it would not need to use it's L1 cache way near as much as the
+This means that it would not need to use its L1 cache way near as much as the
 simulator thinks, as the simulator does not embed fast-loop. PET would then
 predict a higher power drain, as it thinks that the caches are in use. This is
 a problem one must be aware of when the simulator and realized hardware does not

@@ -157,7 +157,7 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
 \subsection{Program Annotation files}
 \label{subsec:annot}
 
-PET has the ability to annotate it's output using a map from PC to function
+PET has the ability to annotate its output using a map from PC to function
 name. The simulated binary itself is not an input to PET, instead PET comes
 bundled with a tool called \texttt{scripts/annotate.sh}. This tool simply
 extracts symbols from the binary files, which must be compiled with debugging
@@ -174,7 +174,7 @@ any good reason not to select that particular symbol for data point annotation.
 
 \lstinputlisting[caption={Annotation file example},label={lst:annot},float,language=Python]{examples/annot.conf}
 
-The symbols extraction tool itself is actually just a simple script, it's source is printed
+The symbols extraction tool itself is actually just a simple script, its source is printed
 in \autoref{lst:annotscript}.
 
 \lstinputlisting[float=htb,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}

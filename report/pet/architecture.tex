@@ -102,7 +102,7 @@ These parts of the program is kicked off as thread starting the
 \texttt{doWork}-function, as the thread library cannot start running in methods
 of instanceiated objects. As displayed in the callgraph in
 \autoref{fig:callgraph}, this function simply starts the
-\texttt{PowerModel::run}-method on it's input, which an instance of the
+\texttt{PowerModel::run}-method on its input, which an instance of the
 PowerModel-class.
 
 As the producer fills the ring buffers for each of the workers, the workers pick
@@ -137,8 +137,8 @@ are instanceiated as objects of their parent type (Instruction- or
 Memory-event). The right parameters are further found from progressive string
 parsing. If the event is not recognized, an "empty" object of type UnknownEvent
 is returned, this type always has zero weight. Each event object is able to
-figure out it's own weight as written in the \emph{weights}-file. After the
-event has been parsed, it's weight is added to the power model at the right
+figure out its own weight as written in the \emph{weights}-file. After the
+event has been parsed, its weight is added to the power model at the right
 time step.
 
 In order to reduce the time used for disposal of the string objects
@@ -191,8 +191,8 @@ With the new, merged annotation map containing all last matches between
 a symbol and the program counter within each measure point, this map
 is feed to the \texttt{OutputProducer}-object as seen in \autoref{fig:callgraph}.
 The \texttt{OutputProducer}-object is responsible for generating output as defined
-by the input arguments. It's options have already been described in \autoref{sec:output},
-and it's implementation is a simple nested if-else-clause that calls internal functions for
+by the input arguments. Its options have already been described in \autoref{sec:output},
+and its implementation is a simple nested if-else-clause that calls internal functions for
 each output type. The graphical output is produced using a wrapper around GNUPlot, while
 the textual outputs are created by \texttt{printf}-statements.
 
