@@ -75,9 +75,11 @@ binaries compiled for ALPHA, SPARC, MIPS, ARM, x86 and POWER architectures.
 
 During simulation, gem5 keeps track of hundreds of events related to the CPU
 core and memory system. In-detail statistics, similar to performance counters on
-real hardware, are then dumped for subsequent inspection. gem5 can also output a
-trace of currently activity while it runs, originally intended for debugging of
-gem5. These trace logs grow quickly in size when saved to file, but provide useful
-insights of the simulated execution. In particular, it describes CPU activity
-down to the microarchitecture level and outputs simulated processor activity.
+real hardware, are then dumped for subsequent inspection. gem5 is also able to
+output a trace log while it runs, originally intended for debugging of gem5.A
+trace log contains user-selected events that happens within the simulated
+hardware. These trace logs grow quickly in size, easily 10s of gigabytes, but
+provides useful insights of the simulated execution. In particular, they describes
+CPU activity down to the microarchitecture level and outputs simulated processor
+activity.
 
