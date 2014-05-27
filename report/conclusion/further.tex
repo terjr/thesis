@@ -1,12 +1,17 @@
 \section{Further work}
 
-PET has proven to work quite well with the ARM Cortex-A9, but it remains to be
-tested against other both realized and non-realized processors. An interesting
-experiment would be to compare its accuracy to RTL-level tools, even though the
-major purpose of PET is to point in the right direction rather than hitting spot
-on values for energy usage.
+PET has proven to work quite well with the ARM Cortex-A9, but still no effort at
+all has been put into verifying that the concept works for multiple
+architectures.  Testing against other both realized and non-realized processors
+has to be done. An interesting experiment would be to compare the accuracy of
+PET to tools that work on the RTL-level, even though the major purpose of PET is
+to point in the right direction rather than hitting spot on values for energy
+usage.
 
-PET is also not tested very well for memory hierarchies, as it is not clear from
-the provided data sheets which power rail that supplies the main memory.
+An other important section where PET could provide useful is in the development of memory
+hierarchies. PET has not been tested very well for this purpose as it is not clear from
+the provided data sheets how the main memory is powered on the ODROID-X2 platform. A similar
+experiment on fully disclosed hardware would most likely provide much more fruitful information
+for the entire idea of event based power consumption prediction.
 
 

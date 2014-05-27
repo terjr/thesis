@@ -1,8 +1,20 @@
 \section{Usefulness}
-When hardware developers have access to tools like PET, the cost of doing energy efficiency estimations will fall
-to a much lower level. It is not unusual to have to go all the way to the RTL level and use some sort of
-low-level power modeling such as SPICE \cite{ponomarev2002accupower} or PowerTheater \cite{bruno2005rtl} to
-get values of decent accuracy. Wattch and McPAT has provided some sort of easier access to architectural level
-power estimation, but is still requires too much effort to be really easy in use. PET simply needs a trace log
-from gem5, or with minor modifications any application able to output some sort of trace log.
 
+When hardware developers have access to tools like PET, the cost of doing energy
+efficiency estimations will fall to a much lower level. It is not unusual to
+have to go all the way to the RTL level and use some sort of low-level power
+modeling such as SPICE \cite{ponomarev2002accupower} or PowerTheater
+\cite{bruno2005rtl} to get values of decent accuracy. Wattch and McPAT has
+provided some sort of easier access to architectural level power estimation, but
+is still requires too much effort to be really easy in use. PET simply needs a
+trace log from gem5, or with minor modifications, any application able to output
+some sort of trace log. It seems that PET allows evaluation of the big picture much
+earlier in the design stage than other existing options, simply because it is much
+more agnostic regarding hardware details, thus we hope that PET will provide usefull
+when developing both tiles for SHMAC and processors in general.
+
+All in all, PET or other tools built from the same concept of weighting architectural
+events are indeed possible for a set of scenarios, but it has not yet been validated for
+any other architectures. The process of settings weights for PET seems cumbersome, but
+for most practical settings the most important thing is to have the weights reasonably
+propotioned amongst themselves.
