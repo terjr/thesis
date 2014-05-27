@@ -12,7 +12,7 @@ is clearly designed with emphasis on energy efficiency. This processor is
 primarily found in low-powered embedded devices with some performance demands,
 typically smartphones and tablets.
 
-\begin{figure}
+\begin{figure}[bth]
     \centering
     \includegraphics[width=0.7\textwidth]{figs/odroid.jpg}
     \caption{Image of the Hardkernel ODROID-X2 from the Hardkernel ODROID-X2 product page \cite{hardkernelodroidx2}}
@@ -41,12 +41,20 @@ typically smartphones and tablets.
     \label{tab:hwspecx2}
 \end{table}
 
-After the decode stage, an out-of-order multi-issue module with speculation can
+As seen in \autoref{fig:a9arch} there is an out-of-order multi-issue module
+right after the decode stage. This module can do speculative issue and can
 schedule two arithmetic operations, in which one can be a multiply (the
 processor has only one hardware multiply unit). It also features a multiplexed
 lane for address operations and floating point operations (the \emph{NEON} FPU).
 In this experiment, a 4-core variant of the processor was used, but 3 of the
 cores was disabled to ease both the measurement and the simulation process.
+
+\begin{figure}[bht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/A9-Pipeline-hres.jpg}
+    \caption{A brief overview of the Cortex A9 Pipeline, figure from the ARM Cortex-A9 Whitepaper \cite{a9whitepaper}}
+    \label{fig:a9arch}
+\end{figure}
 
 To achieve good simulation correctness, a high level of architectural knowledge
 is crucial. Despite that most proprietary architectures have a lot of details

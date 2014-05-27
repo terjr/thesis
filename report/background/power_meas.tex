@@ -1,13 +1,6 @@
 \section{CPU-level Energy Measurements}
 \label{sec:energymeasure}
 
-\begin{figure}[tbh]
-    \centering
-    \input{figs/test_setup.tex}
-    \caption{Bench setup for measuring single instruction current drain}
-    \label{fig:setup}
-\end{figure}
-
 High precision instruction level energy models can be derived for pipelined
 processors by monitoring the instantaneous current drawn by the processor at
 each clock cycle, as explained in \cite{nikolaidis2005instruction}. Modern
@@ -16,6 +9,13 @@ processors commonly operate at a few GHz, and Nyquist sampling theorem
 frequency of the signal being measured. The signal sampled from the processor
 might change at least once every clock cycle, so a cycle accurate measurement
 would require very expensive instruments.
+
+\begin{figure}[tbh]
+    \centering
+    \input{figs/test_setup.tex}
+    \caption{Bench setup for measuring single instruction current drain}
+    \label{fig:setup}
+\end{figure}
 
 In \cite{rundehvatum2013exploring}, single instructions was measured by
 exploting fast-loop-mode and looping over a group of equal instructions. An
