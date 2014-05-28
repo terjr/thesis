@@ -1,4 +1,48 @@
-\section{Usefulness}
+\section{Conclusion}
+
+% Hva
+Throughout this thesis we have created and evaluated PET, a tool for estimating
+power consumption on existing as well as non-existing computer architectures.
+PET uses output from gem5 together with a set of weighted parameters to estimate
+energy consumption of a program on a given hardware model. The weighted
+parameters are selected by investigating the pipeline of an ARM Cortex-A9
+processor. We have run a set of workloads on the hardware platform an logged
+their current drain over time. Further, the results was used as input for a
+genetic algorithm that mapped the correct energy usage to each architectural
+event.
+
+PET is not designed to be as accurate as possible, but to assist hardware
+developers as early in the design stage as possible. As opposed to classical
+methods, PET can be applied to a design already when only a simulation model
+exists. Well known tools such as Wattch or McPAT also utilizes a simulator, but
+requires a more knowledge about the final hardware, e.g. RTL and process
+technology.
+
+
+  results as training data
+
+These results was
+used as the 
+a genetic algorithm is used to map correct energy usage to 
+
+
+  found by combining energy measurements on real hardware with a genetic
+search algorithm to find 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 When hardware developers have access to tools like PET, the cost of doing energy
 efficiency estimations will fall to a much lower level. It is not unusual to
