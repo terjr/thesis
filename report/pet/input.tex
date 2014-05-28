@@ -107,10 +107,10 @@ correct amount of power consumption. As each event will count differently
 depending on the architecture, PET will read a weight file along with the gem5
 trace log. A sample weight file is listed out in \autoref{lst:weights_example}.
 As the timeslots are specified in simulator ticks instead of CPU cycles, the
-values have been chosen to match a 2GHz processor, which then means one CPU
+values have been chosen to match a 2~GHz processor, which then means one CPU
 cycle pr. 500 simulator ticks using standard gem5 simulation granularity.  If
 you are applying this method to a processor with a different clock speed than
-2GHz, be aware that the numbers has to be scaled propotionally. This is not the
+2~GHz, be aware that the numbers has to be scaled propotionally. This is not the
 case for the static power drain, as it is simply added to each timeslot, and is
 not scaled in accordance with bucket size. It is also important to understand
 that the weight is applied once for each event, so events that naturally takes a
