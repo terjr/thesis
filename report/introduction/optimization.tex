@@ -1,0 +1,37 @@
+\section{Optimizing for Energy Efficiency}
+
+Given the advanced tools used to support hardware design these days, it is more
+easy than ever to model and simulate performance of an unimplemented
+architecture. However, modeling power consumption is a much more elaborate
+process: Current techniques works on a very low level and uses circuit-level
+models to obtain energy metrics. This makes them accurate, but also heavy and
+time consuming to simulate. Being able to rapidly prototype and visualize how
+changes in the microarchitecture affects energy performance is a key to build
+energy efficient hardware as well as an important metric at the design stage. Some
+solutions already exists, but most of them inspect energy consumption at very
+fine granularity and requires ASIC synthesis of HDL code to work. During the
+design process, there is a great need for tools that help developers predict
+the changes in power consumption when new features are implemented.
+
+The immediate lack of a system that is easy to use and easy to set up motivates
+the creation of a new high-level tool. We introduce PET; a tool that is able to
+estimate power usage per time for a given workload on a given architecture. It
+will use an energy metric profile estimated from similar processors together
+with a simulator trace log to calculate energy usage. Using this approach, PET
+will be able to detect if hardware modifications done to the simulation level
+model will be beneficial in the realized hardware. PET will also tell if a
+processor-implementation is more energy efficient than an other given a specific
+workload, thus it can help building workload optimized tiles for the SHMAC
+project \cite{shmacwebpage}. Using the features of PET, one can also adjust the
+energy metric profile and simulate power usage as if one component was cheaper
+or more expensive to use (in terms of energy). This will enable hardware designers to
+understand which optimizations are most beneficial and identify possible routes
+of exploration in their journey of processor energy optimization.
+
+% SHMAC, power profiles. Velg beste kjerne for gitt workload/application
+
+% TODO: Introduce the notion of 'energy profiles', i.e. energy/time graphs
+
+% motivation: early design stage, check architectural differences using same
+% characteristics or set different weights to spesific events in the hunt for
+% which components that needs optimization
