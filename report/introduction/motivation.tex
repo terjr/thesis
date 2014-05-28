@@ -1,4 +1,3 @@
-\section{Motivation}
 
 Modern hardware design is an immensely complex matter. Designs are getting
 increasingly complex and there are a growing number of considerations to take.
@@ -6,34 +5,20 @@ To support further growth in performance, we need tools and methods that
 facilitate a good design process where novel techniques can be prototyped
 quickly.
 
-\subsection{Historical Perspective}
+\section{Historical Perspective}
 
-Ever since the birth of computers, the world has seen an ever-increasing demand
-for computing power. Computers have revolutionized our lives and become
-fundamental for our society \cite{tanenbaum1984structured}. They have made it possible for
-researchers to do simulations in great detail, helped the government to
-streamline operations in healthcare and economics and made banking systems more
-flexible. The Internet, made possible by computers, has had a massive impact on
-how we live our lives; anyone with an Internet connection can exchange
-information and communicate across land borders. Today, personal computers have
-become ubiquitous and found uses ranging from home entertainment systems to
-portable tablet computers. As applications in all these segments becomes richer,
-the market demand for greater performance. Home users require higher frame
-rates on their multimedia applications, researchers want more accurate
-simulations for their experiments and the government can put more efficient use to
-their resources by processing more data.
 
 Throughout the 80's and 90's, the increasing demand for performance was met by
 increasing the clock frequency. Shortening the critical path and exploiting
 instruction level parallelism allowed the CPU to run at higher clock speeds to
-improve performance. Consequently, processor manufacturers were able to double
-single-threaded performance approximately every 18th month
-\cite{moore1965cramming}. The tradeoff, however, was an increased amount of
-complex logic added complexity to the processor core. Greater complexity
-required a greater amount of transistors which must fit on the same die, made
-possible by the reduction of transistor size. For a long time, new process
-technologies allowed for smaller and less energy consuming transistors, but as
-we approached the end of Dennard scaling
+improve performance \cite{tanenbaum1984structured}. Consequently, processor
+manufacturers were able to double single-threaded performance approximately
+every 18th month \cite{moore1965cramming}. The tradeoff, however, was an
+increased amount of complex logic added complexity to the processor core.
+Greater complexity required a greater amount of transistors which must fit on
+the same die, made possible by the reduction of transistor size. For a long
+time, new process technologies allowed for smaller and less energy consuming
+transistors, but as we approached the end of Dennard scaling
 \cite{dennard1974design,esmaeilzadeh2011dark}, the amount of logic required to
 accomodate speedups could not fit on the die due to thermal constraints. Heat
 generation on-chip became overwhelming and one could not simply increase the
@@ -51,7 +36,7 @@ steadily increasing, single-threaded performance has only seen a minor increase
 the last few years.
 
 
-\subsection{Problems of the New World}
+\section{Problems of the New World}
 
 Today's hardware designers are facing really hard problems. They must continue
 to meet the market demand with respect to performance, while keeping the energy
@@ -90,7 +75,7 @@ performance increase to continue. Thus, performance alone is no longer the most
 important attribute of processors, energy efficiency is even more important.
 
 
-\subsection{Better Tools for Optimizing Energy Efficiency}
+\section{Optimizing for Energy Efficiency}
 
 Given the advanced tools used to support hardware design these days, it is more
 easy than ever to model and simulate performance of an unimplemented
