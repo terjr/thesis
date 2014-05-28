@@ -1,6 +1,5 @@
 \section{Conclusion}
 
-% Hva
 Throughout this thesis we have created and evaluated PET, a tool for estimating
 power consumption on existing as well as non-existing computer architectures.
 PET uses output from gem5 together with a set of weighted parameters to estimate
@@ -19,58 +18,28 @@ requires a more knowledge about the final hardware, e.g. RTL and process
 technology. Regardless, PET is able to estimate current drain within 10~\% of
 actual drain when testing against the ARM Cortex-A9 processor.
 
-Since PET is tool meant to be used early and rapidly in the design phase, it
-has to be fast and easy to use. PET will predict power usage from log files,
-reading of a speed of 133 MB/s on when run on an Intel Core i7 4820, and
-needs only the log file and a set of weights to operate. Even when log files
-easily expands to more than 10s of gigabytes, running PET is cheaper in terms of
-time than running gem5.
+Since PET is tool meant to be used early and rapidly in the design phase, it has
+to be fast and easy to use. PET will predict power usage from log files, reading
+of a speed of 133 MB/s on when run on an Intel Core i7 4820, and needs only the
+log file and a set of weights to operate. Even when log files easily expands to
+more than 10s of gigabytes, running PET is cheaper in terms of time than running
+gem5.
 
-an excessive amount of time has been used for tweaking the PET, gem5 and the genetic
-algorithm to match the real hardware as good as possible. We believe that fitting
-PET and its environment to a new processor technology 
+An excessive amount of time has been used for tweaking the PET, gem5 and the
+genetic algorithm to match our hardware platform as good as possible, but still,
+we believe that the effort needed to port our methods to a new hardware platform
+or architecture is much less.  The genetic algorithm was in our case able to
+find good weights within few hours, and with carefully selected power consuming
+events it is likely that this is the same for other architectures. Unrealized
+hardware still needs similar hardware to generate data for the weights.
 
+Our observation is that PET allows evaluation of the big picture much easier and
+earlier in the design stage than other existing options, simply because it
+calculates power with less hardware details. We hope that PET will provide
+useful when developing both tiles for SHMAC and processors in general.
 
-  results as training data
-
-These results was
-used as the 
-a genetic algorithm is used to map correct energy usage to 
-
-
-  found by combining energy measurements on real hardware with a genetic
-search algorithm to find 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-When hardware developers have access to tools like PET, the cost of doing energy
-efficiency estimations will fall to a much lower level. It is not unusual to
-have to go all the way to the RTL level and use some sort of low-level power
-modeling such as SPICE \cite{ponomarev2002accupower} or PowerTheater
-\cite{bruno2005rtl} to get values of decent accuracy. Wattch and McPAT has
-provided some sort of easier access to architectural level power estimation, but
-is still requires too much effort to be really easy in use. PET simply needs a
-trace log from gem5, or with minor modifications, any application able to output
-some sort of trace log. It seems that PET allows evaluation of the big picture much
-earlier in the design stage than other existing options, simply because it is much
-more agnostic regarding hardware details, thus we hope that PET will provide usefull
-when developing both tiles for SHMAC and processors in general.
-
-All in all, PET or other tools built from the same concept of weighting architectural
-events are indeed possible for a set of scenarios, but it has not yet been validated for
-any other architectures. The process of settings weights for PET seems cumbersome, but
-for most practical settings the most important thing is to have the weights reasonably
-propotioned amongst themselves.
+All in all, PET or other tools built from the same concept of weighting
+architectural events are indeed possible for a set of scenarios, but it has not
+yet been validated for any other architectures. The process of settings weights
+for PET seems cumbersome, but for most practical settings the most important
+thing is to have the weights reasonably proportioned amongst themselves.
