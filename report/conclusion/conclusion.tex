@@ -16,7 +16,19 @@ developers as early in the design stage as possible. As opposed to classical
 methods, PET can be applied to a design already when only a simulation model
 exists. Well known tools such as Wattch or McPAT also utilizes a simulator, but
 requires a more knowledge about the final hardware, e.g. RTL and process
-technology.
+technology. Regardless, PET is able to estimate current drain within 10~\% of
+actual drain when testing against the ARM Cortex-A9 processor.
+
+Since PET is tool meant to be used early and rapidly in the design phase, it
+has to be fast and easy to use. PET will predict power usage from log files,
+reading of a speed of 133 MB/s on when run on an Intel Core i7 4820, and
+needs only the log file and a set of weights to operate. Even when log files
+easily expands to more than 10s of gigabytes, running PET is cheaper in terms of
+time than running gem5.
+
+an excessive amount of time has been used for tweaking the PET, gem5 and the genetic
+algorithm to match the real hardware as good as possible. We believe that fitting
+PET and its environment to a new processor technology 
 
 
   results as training data
