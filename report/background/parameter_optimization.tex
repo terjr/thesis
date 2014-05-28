@@ -24,9 +24,7 @@ classical \emph{local} optimization methods such as the Simple Hill Climbing
 Algorithm. However, these methods cannot always be used to find a global minimum
 \cite{russellnorvig}. A wide range of algorithms to search through a subset of
 the solution space exists, each with different approaches and properties.
-\autoref{fig:metaheuristics} shows a map of how different optimization
-algorithms are related to each other. Most of these are described in detail in
-\cite{russellnorvig}.
+Most of these are described in detail in \cite{russellnorvig}.
 
 \begin{figure}[bth]
     \centering
@@ -42,7 +40,7 @@ suboptimal solution and ends at the best solution, while the non-deterministic
 approaches usually selects one or more paths by random such that each run might
 have a different outcome. Deterministic algorithms will always find the same
 solution, but if the search space is large enough, this might take extremely
-long time do.  With the case of non-deterministic algorithms, they tend to have
+long time.  With the case of non-deterministic algorithms, they tend to have
 an explorative behaviour \cite{poli2008field}; each computation of next state
 includes some form of randomness. E.g. simulated annealing will do the same as
 the hill climbing algorithm, but will have some chance of moving downhill, thus
@@ -52,7 +50,7 @@ overview of algorithms considered for use in this thesis.
 
 \begin{description}
     \item[Regression] is described as a study of dependence between properties
-        \cite{weisberg2005applied}. When set data set contains values from at
+        \cite{weisberg2005applied}. When data set contains values from at
         least two properties, regression can be used to find one value as a
         function of the other. The simplest form of regression is the linear
         regression. A linear regression will try to find the linear function,
@@ -68,10 +66,11 @@ overview of algorithms considered for use in this thesis.
         stochastic optimization and metaheuristics, inspired by the process of
         annealing in metallurgy \cite{van1987simulated}. Initially, it starts in
         a random state $s$ and for each iteration it probabilistically decides
-        between moving the system to a neighboring state $s'$ or staying in in
+        between moving the system to a neighboring state $s'$ or staying in
         state $s$. To avoid ending up in a local minima, the probability starts
         high, but decreases after time. Hence, simulated annealing quickly
-        considers the most important parts of the state if configured adequately.
+        considers the most important parts of the state if configured
+        adequately.
 
     \item[Evolutionary Algorithms] is a term that refers to computational
         methods inspired by the process and mechanisms of biological evolution
@@ -82,14 +81,7 @@ overview of algorithms considered for use in this thesis.
 
 \end{description}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{figs/630px-Metaheuristics_classification.png}
-    \caption{Different classifications of searching algorithms, borrowed from Johann "nojhan" Dréo and Caner Candan \cite{wikimetaheuristics}}
-    \label{fig:metaheuristics}
-\end{figure}
-
-Global optimization problems is a well studied research area and there is a
+Global optimization problems are a well studied research area and there is a
 wealth of different ways to solve them. It can be difficult to know in advance
 which methods will provide the most fruitful results. Also, multiple approaches
 can be combined in efforts to extract the best properties from several worlds,

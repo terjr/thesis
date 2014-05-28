@@ -3,20 +3,21 @@
 As computer architecture development meets more challenging demands, a versatile
 set of software tools have been developed to help the designers. In this set of
 tools lies a set of computer architecture simulators meant to evaluate
-processors at the architectural level. The simulators often provides the ability
-to write hardware in a language more abstract than HDL-languages, provides the
-ability to run compiled binaries, and provides detailed trace logs and
-performance data. The benefits of architectural simulators are many, but it is
-important to find one that fits the demands given by the problem.
+processors at the architectural level.  They provide the ability to model
+hardware at a higher abstraction layer than what's expressed by the underlying
+circuit. When executing a binary program, they can output detailed trace logs of
+the processor activity, together with performance data.  The benefits of
+architectural simulators are many, but it is important to find one that fits the
+demands given by the problem.
 
 \subsection{A Brief Comparison}
 \label{subsec:simulators}
 There are numerous computer architecture simulators available to the public,
-both commercial, free and open source alternatives exists. To support our power
-estimation tool, a simulator frontend must provide a good picture of events
+both commercial, free and open source alternatives exist. To support our power
+estimation tool, a simulator front end must provide a good picture of events
 that occur in a hardware implementation of the architecture. The hardware
 platform used for reference in this thesis is an out-of-order ARM Cortex-A9
-based core fitted with memory and and peripherals in a von Neumann architectural
+based core fitted with memory and peripherals in a von Neumann architectural
 scheme. The out-of-order property significantly increases the level of
 complexity which the simulator must handle.
 
@@ -47,8 +48,8 @@ complexity which the simulator must handle.
 
 \item[gem5]\hfill\\
     gem5 is a merger between the M5 simulator \cite{binkert2006m5} and the GEMS
-    simulator project \cite{GEMS}. gem5 provides ARM-support with out-of-order
-    execution out of the box, and provide great cycle-accurate trace logs which
+    simulator project \cite{GEMS}. gem5 includes ARM-support with out-of-order
+    execution out of the box, and provides great cycle-accurate trace logs which
     are appropriate for this project \cite{gem5simulator}. Its core is written
     in C++ and has a highly modular interface that allows users to specify
     simulator target through simple Python scripts. Many of the maintainers are
@@ -56,9 +57,9 @@ complexity which the simulator must handle.
     project activity \cite{gem5dev}.
 \end{description}
 
-Provided this comparison of simulators, and given the fact that NTNU has a tradition
-for using M5 and gem5 in earlier research projects and subjects, gem5 is the natural
-winner for the choise of an architectural simulator.
+Provided this comparison of simulators, and given the fact that NTNU have a
+tradition for using M5 and gem5 in previous research projects, gem5 is the
+natural winner for the choice of an architectural simulator.
 
 
 \subsection{The gem5 Simulator}
@@ -68,10 +69,10 @@ and GEMS \cite{GEMS} and includes a wide range of CPU and memory models
 \cite{gem5hipeac}. The simulator has two main execution modes; \textit{Syscall
 Emulation} (SE) or \textit{Full System} (FS). In SE mode, the simulator traps
 system calls in the binary and emulates them, often by passing them to the host
-operating system. In FS mode, the simulator can load an operating system binary
-and run application within the OS. The latter mode is well suited when the OS in
-its entirety must be simulated. gem5 supports many architectures; it can run
-binaries compiled for ALPHA, SPARC, MIPS, ARM, x86 and POWER architectures.
+operating system. In FS mode, the simulator can load an entiry operating system
+binary (e.g. a GNU/Linux distribution) and run applications within the OS. gem5
+supports many architectures; it can run binaries compiled for ALPHA, SPARC,
+MIPS, ARM, x86 and POWER architectures.
 
 During simulation, gem5 keeps track of hundreds of events related to the CPU
 core and memory system. In-detail statistics, similar to performance counters on

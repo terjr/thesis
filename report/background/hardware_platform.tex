@@ -15,26 +15,27 @@ typically smartphones and tablets.
 \begin{figure}[bth]
     \centering
     \includegraphics[width=0.7\textwidth]{figs/odroid.jpg}
-    \caption{Image of the Hardkernel ODROID-X2 from the Hardkernel ODROID-X2 product page \cite{hardkernelodroidx2}}
+    \caption{Image of the Hardkernel ODROID-X2 from the Hardkernel ODROID-X2
+    product page \cite{hardkernelodroidx2}.}
     \label{fig:odroidx2}
 \end{figure}
 
+\rowcolors{2}{gray!25}{white}
 \begin{table}
     \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        Component      & Spesification\\
+    \begin{tabular}{|c|l|}
+        \rowcolor{gray!25}
         \hline
         Manufacturer   & Hardkernel \\
         Platform       & ODROID-X2 \\
         SoC            & Samsung Exynos 4412 ``Prime'' \\
-        CPU Core       & ARM Cortex-A9 \\
+        CPU Core       & ARM Cortex-A9 (r3p0) \\
         Number of Cores& 4 \\
         Clock Frequency& 1.7~GHz \\
         Core Voltage   & 1.3~V \\
-        L1             & Dual 32~KB \\
-        L2             & 1~MB \\
-        Main memory    & 2~GB LP-DDR2 880~MHz \\
+        L1 Cache       & Dual 32~KB \\
+        L2 Cache       & 1~MB \\
+        Main Memory    & 2~GB LP-DDR2 880~MHz \\
         \hline
     \end{tabular}
     \caption{Hardware specifications ODROID-X2}
@@ -47,12 +48,13 @@ schedule two arithmetic operations, in which one can be a multiply (the
 processor has only one hardware multiply unit). It also features a multiplexed
 lane for address operations and floating point operations (the \emph{NEON} FPU).
 In this experiment, a 4-core variant of the processor was used, but 3 of the
-cores was disabled to ease both the measurement and the simulation process.
+cores were disabled to ease both the measurement and the simulation process.
 
 \begin{figure}[bht]
     \centering
     \includegraphics[width=0.8\textwidth]{figs/A9-Pipeline-hres.jpg}
-    \caption{A brief overview of the Cortex A9 Pipeline, figure from the ARM Cortex-A9 Whitepaper \cite{a9whitepaper}}
+    \caption{A brief overview of the Cortex A9 Pipeline, figure from the ARM
+    Cortex-A9 Whitepaper \cite{a9whitepaper}.}
     \label{fig:a9arch}
 \end{figure}
 
