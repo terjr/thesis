@@ -6,13 +6,13 @@ is shown in \autoref{fig:odroidx2}. Its core voltage is easily accessible on an
 attached daughter board right beneath the heat sink, making it easy to conduct
 power measurements. The board is equipped with a Samsung Exynos 4412 ``Prime'',
 a modern System-on-Chip featuring four ARM Cortex-A9 CPU cores, Mali-400 GPU and
-2GB of on-chip DRAM. The Cortex-A9 is one of ARM's mid-to-high-range application
+2~GB of on-chip DRAM. The Cortex-A9 is one of ARM's mid-to-high-range application
 processors. It features an out-of-order dual-issue speculative RISC core, and it
 is clearly designed with emphasis on energy efficiency. This processor is
 primarily found in low-powered embedded devices with some performance demands,
 typically smartphones and tablets.
 
-\begin{figure}
+\begin{figure}[bth]
     \centering
     \includegraphics[width=0.7\textwidth]{figs/odroid.jpg}
     \caption{Image of the Hardkernel ODROID-X2 from the Hardkernel ODROID-X2 product page \cite{hardkernelodroidx2}}
@@ -30,23 +30,31 @@ typically smartphones and tablets.
         SoC            & Samsung Exynos 4412 ``Prime'' \\
         CPU Core       & ARM Cortex-A9 \\
         Number of Cores& 4 \\
-        Clock Frequency& 1.7GHz \\
-        Core Voltage   & 1.3V \\
-        L1             & Dual 32KB \\
-        L2             & 1MB \\
-        Main memory    & 2GB LP-DDR2 880MHz \\
+        Clock Frequency& 1.7~GHz \\
+        Core Voltage   & 1.3~V \\
+        L1             & Dual 32~KB \\
+        L2             & 1~MB \\
+        Main memory    & 2~GB LP-DDR2 880~MHz \\
         \hline
     \end{tabular}
     \caption{Hardware specifications ODROID-X2}
     \label{tab:hwspecx2}
 \end{table}
 
-After the decode stage, an out-of-order multi-issue module with speculation can
+As seen in \autoref{fig:a9arch} there is an out-of-order multi-issue module
+right after the decode stage. This module can do speculative issue and can
 schedule two arithmetic operations, in which one can be a multiply (the
 processor has only one hardware multiply unit). It also features a multiplexed
 lane for address operations and floating point operations (the \emph{NEON} FPU).
 In this experiment, a 4-core variant of the processor was used, but 3 of the
 cores was disabled to ease both the measurement and the simulation process.
+
+\begin{figure}[bht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/A9-Pipeline-hres.jpg}
+    \caption{A brief overview of the Cortex A9 Pipeline, figure from the ARM Cortex-A9 Whitepaper \cite{a9whitepaper}}
+    \label{fig:a9arch}
+\end{figure}
 
 To achieve good simulation correctness, a high level of architectural knowledge
 is crucial. Despite that most proprietary architectures have a lot of details

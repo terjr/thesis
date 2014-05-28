@@ -66,7 +66,7 @@ the green line is a direct plot of readings from the bench setup (see \autoref{f
 The training set for \emph{trend} as printed in \autoref{fig:trend-training}.
 This test checks if PET can follow the flow from a ALU-intensive program to a
 memory-intensive program. The graph shows that PET misses with a little more
-than 10mA, but the most important factor is that the change after about 7ms is
+than 10~mA, but the most important factor is that the change after about 7ms is
 resembled in the prediction. Given this change, we know that PET adjusts
 correctly for the change in instruction flow. The fact that the sudden drop in
 power consumption seems to come a bit too slow is most likely due to
@@ -115,6 +115,6 @@ The last test in the performance tuning algorithm, \emph{sha2}, calculates a
 sha512 hash sum.  The test results is figured in \autoref{fig:sha2-training} and
 differes from the other tests by beeing more memory intensive at the same time
 as it is an extensive user of both multiply and simple integer operations. This
-test is also well within 10\% of measured and is yet another example of good
+test is also well within 10~\% of measured and is yet another example of good
 performance on general workloads.
 

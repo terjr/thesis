@@ -31,11 +31,11 @@ In \autoref{fig:variation}, recreated from Fig. 8 in \cite{rundehvatum2013explor
 same power measurement setup, it is clear that the measured current drain varies over
 time seemingly uncorrelated to both on-chip and ambient temperature. Each data point
 in the figure represents the results from a test run of the \texttt{add-add} test with
-about one hour between each run. The results ranges from 208mA to 224mA and averages to 216mA.
+about one hour between each run. The results ranges from $208~mA$ to $224~mA$ and averages to $216~mA$.
 The results can be written as:
-\[I_{add} = 216mA\pm8mA = 216mA\pm3.8\%\]
+\[I_{add} = 216~mA\pm8~mA = 216~mA\pm3.8~\%\]
 
-With a measured error of $\pm3.8\%$ it is not unreasonable to calculate a $10\%$ error in
+With a measured error of $\pm3.8~\%$ it is not unreasonable to calculate a $10~\%$ error in
 all measurements. This means that the weights found using measurements and a genetic algorithm might
 have had a slight discrepancy between each training set, which again makes renders it impossible to get
 correct results. It would be possible, that by chance, some genome would fit all training set even though
@@ -57,7 +57,7 @@ would exclude it as it not always correlating.
 
 The \texttt{add-add} test which is displayed in \autoref{fig:add-training} is
 especially interesting because is utilized the fast-loop mode of the Cortex-A9.
-This means that it would not need to use it's L1 cache way near as much as the
+This means that it would not need to use its L1 cache way near as much as the
 simulator thinks, as the simulator does not embed fast-loop. PET would then
 predict a higher power drain, as it thinks that the caches are in use. This is
 a problem one must be aware of when the simulator and realized hardware does not

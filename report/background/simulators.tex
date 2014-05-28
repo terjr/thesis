@@ -2,13 +2,12 @@
 
 As computer architecture development meets more challenging demands, a versatile
 set of software tools have been developed to help the designers. In this set of
-tools lies a set of computer architecture simulators, which is a tool meant to
-evaluate architectural changes and features early in the design stage. The
-simulators often provides the ability to write hardware in a language more
-abstract than HDL-languages, provides the ability to run compiled binaries, and
-provides detailed trace logs and performance data. The benefits of architectural
-simulators are many, but it is important to find one that fits the demands
-given by the problem.
+tools lies a set of computer architecture simulators meant to evaluate
+processors at the architectural level. The simulators often provides the ability
+to write hardware in a language more abstract than HDL-languages, provides the
+ability to run compiled binaries, and provides detailed trace logs and
+performance data. The benefits of architectural simulators are many, but it is
+important to find one that fits the demands given by the problem.
 
 \subsection{A Brief Comparison}
 \label{subsec:simulators}
@@ -40,10 +39,10 @@ complexity which the simulator must handle.
     2003.
 
 \item[QEMU]\hfill\\
-    QEMU is a generic and open machine emulator witch enables near real-time
+    QEMU is a generic and open machine emulator which enables near real-time
     performance on architectures like ARM, even on x86 host machines. However,
     QEMU is a machine emulator rather than an architectural simulator, thus
-    despite it's great performance of running ARM-binaries, it will not produce
+    despite its great performance of running ARM-binaries, it will not produce
     CPU and memory event trace logs, and is not suitable for this project.
 
 \item[gem5]\hfill\\
@@ -76,9 +75,11 @@ binaries compiled for ALPHA, SPARC, MIPS, ARM, x86 and POWER architectures.
 
 During simulation, gem5 keeps track of hundreds of events related to the CPU
 core and memory system. In-detail statistics, similar to performance counters on
-real hardware, are then dumped for subsequent inspection. gem5 can also output a
-trace of currently activity while it runs, originally intended for debugging of
-gem5. These traces grow quickly in size when saved to file, but provide useful
-insights of the simulated execution. In particular, it describes CPU activity
-down to the microarchitecture level and outputs simulated processor activity.
+real hardware, are then dumped for subsequent inspection. gem5 is also able to
+output a trace log while it runs, originally intended for debugging of gem5.A
+trace log contains user-selected events that happens within the simulated
+hardware. These trace logs grow quickly in size, easily 10s of gigabytes, but
+provides useful insights of the simulated execution. In particular, they describes
+CPU activity down to the microarchitecture level and outputs simulated processor
+activity.
 
