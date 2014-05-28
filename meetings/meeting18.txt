@@ -1,0 +1,80 @@
+Ikke noedvendig å distansere oss fra prosjektoppgaven.
+
+-- Introduksjon --
+Det kan være et problem at en simulator er på et abstraksjonsnivå som ikke
+stemmer overens med hardware
+
+Flytt graf om Moore's law lenger opp. Intro til problemstillingen og en
+motivasjon for det vi gjoer.
+
+Introduksjon: Problemet kort og enkelt. Hva vi gjore kort og enkelt. Uten å vise resultatet.
+=> F.eks. ta med statisk og dynamisk stroemforbruk. Se på prosjektoppgaven --
+den var bra.
+
+Zippe foerste foerste paragraf i introduksjon ("ever since the birth of
+computing").
+
+Skriv masse om figuren. Pentium 4, ekstremt dype pipelines, etc.. Skriv mer om
+detaljer om datamaskinarkitektur (f.eks. frequency scaling, ILP +++?).
+
+Få fram at designene er komplekse i introduksjonen; det er ikke noedvendig å
+repetere det hele tiden.
+
+Stryk related work og få referansene inn under andre kapitler.
+
+"Masse simulatorer å sjå på [ref,ref,ref,ref], men vi har valgt gem5."
+
+1.1 Introduction and motivation
+1.2 Problems of the new world
+
+
+-- Background --
+CPU-level energy measurements foerst (2.1)
+Hardware platform foerst (flytt til 2.2)
+Åpne med:
+Få med at Cortex A9 er et ekstremt griseri -- komplisert, multiple caches, OoO++
+
+Få inn en av instruksjon -> mA * cycle-grafene fra prosjektoppgave.
+
+I bakgrunn: Gli delkapitlene over i hverandre.
+
+Fjern figuren fra Wikipedia.
+
+Global Optimization: Skriv hvilken algoritme vi har valgt og fortell hvordan
+1+lambda fungerer.
+1. Generate x random
+2. Evaluate
+3. Select
+4. Mutate
+
+SHMAC trenger slike verktoey i designfasen.
+
+
+-- PET --
+Skriv hva bokstavene i ligningene betyr, også de vi har sitert (Song et. al.)
+Få nummer på ligningene.
+
+Forklar alle figurer. F.eks. 3.1 og 3.4; forklar hva boksene betyr.
+
+Fjern 5.4.
+
+Bytte navn på konklusjonskapittelet.
+
+
+-- Conclusion and Future Work --
+Vi har laga et power estimation tool, basert på målinger.
+Eksempel på at man kan bruke fysiske målinger på å bygge modeller på
+energiforbruk. Går an å lage power estimation tool som er ganske noeyaktig.
+Mulig å lage et hoeynivå et power estimation tool med god noeyaktighet som
+oppfoerer seg sånn som hardware.
+
+Vi har brukt en evolusjonær algoritme til å vekte eventene og det ser ut til å
+være en effektivt metode.
+
+- Future work -
+Ok, vi har brukt én prosessorarkitektur, vi har bare brukt én test. Hele loopen
+burde ha vært proevd for flere prosessorarkitekturer, forskjellige benchmarks
+osv.
+
+Kanskje også noe om SHMAC? Det verktoeyet vi har laget kan være en del av
+designprosessen.
