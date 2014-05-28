@@ -1,10 +1,26 @@
 \chapter{Introduction}
 
-This thesis looks into many aspects regarding prediction of energy consumption
-on both existing and non-existing hardware. Methods for mapping power
-consumption to specific events at the architectural level are looked into.
-Further, a program that leverages modern architectural simulators for
-power-aware hardware development are being created and evaluated.
+The field of computer science have reached an era where further boost in
+single-threaded performance is increasingly complex. Even though Moore's law
+\cite{moore1965cramming} is still going strong, Dennard scaling
+\cite{dennard1974design} has already dropped far out a few years ago.
+\autoref{fig:cpuperformance} sketches up the current state of the art, and it is
+easy to see that even though the numbers of transistors per chip is still
+increasing, single-threaded performance has flatted out along with frequency and
+wattage.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{figs/cpu-performance.png}
+    \caption{Historical trends in CPU performance, from \cite{salishan2011}.}
+    \label{fig:cpuperformance}
+\end{figure}
+
+The reason for this flattening out of performance, frequency and wattage is
+mainly because of the Dark Silicon Effect \cite{esmaeilzadeh2011dark}, the
+phenomenon of too high power density to be able to cool down a fully powered
+chip with ordinary cooling solutions. Where earlier designs exploited a higher
+transistor count by adding faster, but more complex components to their designs,
+this is no longer possible as it would create too much heat.
 
 \input{introduction/intro.tex}
 \input{introduction/historical.tex}
