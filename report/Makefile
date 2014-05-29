@@ -3,7 +3,7 @@ TEXFILE = main
 DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
 GAFILES=$(wildcard ~/ga-results.*)
 TRAINING_FIGS=figs/training/add-add.pdf figs/training/pi-pi.pdf figs/training/sha2-sha2.pdf figs/training/trend-trend.pdf figs/training/trend-submul.pdf figs/training/dhrystone-dhry.pdf
-SVG_FIGS=figs/ga_genome.pdf
+SVG_FIGS=figs/ga_genome.pdf figs/static-dynamic.pdf
 
 # Fix reference file and compile source
 default: full
