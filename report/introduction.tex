@@ -1,26 +1,22 @@
 \chapter{Introduction}
 
 The field of computer science have reached an era where further boost in
-single-threaded performance is increasingly complex. Even though Moore's law
-\cite{moore1965cramming} is still going strong, Dennard scaling
-\cite{dennard1974design} has already dropped far out a few years ago.
-\autoref{fig:cpuperformance} sketches up the current state of the art, and it is
-easy to see that even though the numbers of transistors per chip is still
-increasing, single-threaded performance has flatted out along with frequency and
-wattage.
+single-threaded performance is rapidly becoming more difficult. Up until recent,
+single-threaded performance increased linearly along with the shrinking of transistors as
+seen in \autoref{fig:cpuperformance}.
+As predicted by Gordon Moore, hardware designers were able to cram more logic
+onto the CPU dies, thus allowing for more and more clever ways of doing the
+common things fast \cite{moore1965cramming}. As transistors scaled down, so did
+the voltage needed to keep the logic doing its work \cite{dennard1974design}. We
+have now seen the end of Dennard scaling \cite{esmaeilzadeh2011dark} and voltage scaling
+does no longer apply. This leaves us with a higher power density every time
+more components are added, making it a lot harder to achieve higher performance.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{figs/cpu-performance.png}
     \caption{Historical trends in CPU performance, from \cite{salishan2011}.}
     \label{fig:cpuperformance}
 \end{figure}
-
-The reason for this flattening out of performance, frequency and wattage is
-mainly because of the Dark Silicon Effect \cite{esmaeilzadeh2011dark}, the
-phenomenon of too high power density to be able to cool down a fully powered
-chip with ordinary cooling solutions. Where earlier designs exploited a higher
-transistor count by adding faster, but more complex components to their designs,
-this is no longer possible as it would create too much heat.
 
 \input{introduction/intro.tex}
 \input{introduction/historical.tex}
