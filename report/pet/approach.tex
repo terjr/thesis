@@ -8,13 +8,11 @@ extracted from the hardware model while irrelevant noise is filtered out.
 
 \subsection{Energy Modeling}
 
-While computer architecture simulators have been around for quite some time,
-energy estimation techniques is a more recent necessity. Song et. al
-\cite{song2012instruction} identifies three major approaches to processor power
-modeling used in the past, and introduces an instruction-based energy
-estimation model that can be used for energy simulation at high speed. Their
-proposed method is expressed through the following equation and includes the
-desired features of past energy models.
+Song et. al \cite{song2012instruction} identifies three major approaches to
+processor power modeling used in the past, and introduces an instruction-based
+energy estimation model that can be used for energy simulation at high speed.
+Their proposed method is expressed through the following equation and includes
+the desired features of past energy models.
 
 \[
     P_{core}(t) = \frac{E_{unit} \cdot A_{datapath} \cdot w(t) +
@@ -23,20 +21,25 @@ desired features of past energy models.
 
 This method depends on two things. First, one must know sufficient details of
 the processor to identify datapath components in order to form the
-$A_{datapath}$ matrix. Secondly, the energy unit vector $E_{unit}$ requires
-circuit-level knowledge of the target processor. The former information can
-often be found by reverse engineering and benchmarking, however, the latter is
-rarely available for commercial processors. When building the model for PET, we
-simplify the model from \cite{song2012instruction} by combining $A_{datapath}$
-and $E_{unit}$ to form a vector of weights that directly corresponds to the cost
-of an event. We can then model energy by the following formula.
+$A_{datapath}$ matrix. The entries in $A_{datapath}$ are the invocation counts
+of physical components in the datapath with respect to the workload metric
+$w(t)$. $w(t)$ is typically comprised of instruction types or key operational
+parameters such as cache miss, ratio, pipeline stall cycles and number of
+executed instructions. Secondly, the energy unit vector $E_{unit}$, a vector
+enumerating the per-access energy cost, requires circuit-level knowledge of the
+target processor to calculate. $A_{datapath}$ can often be found by reverse
+engineering and benchmarking, however, the $E_{unit}$ is rarely available for
+commercial processors. When building the model for PET, we simplify the model
+from \cite{song2012instruction} by combining $A_{datapath}$ and $E_{unit}$ to
+form a vector of weights that directly corresponds to the cost of an event. We
+can then model energy by the following formula.
 
 \[
     P_{core}(t) = \frac{C \cdot w(t) + E_{static}}{T_{sampling}}
 \]
 
 Here, C represents the global cost vector -- a matrix enumerating the cost
-for all event types. Please note that it is global and do not depend on time.
+for all event types. Note that it is global and do not depend on time.
 
 \subsection{Power Consuming Events}
 \label{subsec:powerevents}
