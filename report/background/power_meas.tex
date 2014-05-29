@@ -7,10 +7,8 @@ each clock cycle, as explained in \cite{nikolaidis2005instruction}. Modern
 processors commonly operate at a few GHz, and the Nyquist-Shannon sampling theorem
 \cite{nyquist1928certain} states that the sampling frequency must be at least
 twice the frequency of the signal being measured. The signal sampled from the
-processor might change at least once every clock cycle,
-
-so a cycle accurate
-measurement would require very expensive instruments.
+processor might change at least once per clock cycle, so obtaining accurate
+measurements would require use of very expensive instruments.
 
 \begin{figure}[tbh]
     \centering
@@ -23,8 +21,8 @@ In \cite{rundehvatum2013exploring}, single instructions were measured by
 exploting fast-loop-mode and looping over a group of equal instructions. An
 Agilent bench multimeter and a shunt resistor were set up like shown in
 \autoref{fig:setup}. This method provides an average power consumption when the
-pipeline is (mostly) filled with a single type of instruction. Instead of normal
-serial connected ammeter, the power rail is connected in series with a shunt
+pipeline is (mostly) filled with a single type of instruction. Instead of using
+a serial connected ammeter, the power rail is connected in series with a shunt
 resistor equal to the one seen in \autoref{fig:shunt}, and voltage drop over
 this resistor is measured using a voltmeter. This method provides a way to
 measure currents either outside the range of the ammeter or with greater
@@ -42,9 +40,4 @@ used, the voltage drop across the shunt resistor will lie in the range 0 --
     \caption{An example shunt resistor.}
     \label{fig:shunt}
 \end{figure}
-
-% TODO: Where does this fit?
-% The ultimate goal in this context is to estimate power consumption and energy
-% efficiency of new hardware, the first step is to measure different more or less
-% power consuming events on real hardware that is similar to the one simulated.
 
