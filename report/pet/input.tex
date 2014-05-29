@@ -11,9 +11,9 @@ configure, and trace is well implemented. As mentioned in
 \autoref{subsec:simulators} other options are available, but the support for
 easily configurable CPU- and memory system along with the pre-implemented ARM
 processors and in-department hands-on experience with this simulator made gem5
-the most logical choise.
+the most logical choice.
 
-\subsection{gem5 trace logs}
+\subsection{gem5 Trace Logs}
 When run with \texttt{--debug-flags=Bus,Cache,MemoryAccess,Exec} gem5 will output trace files look like
 the text displayed in \autoref{lst:trace}.
 
@@ -101,7 +101,7 @@ time. This means that we are unable to produce continous output, but have to sto
 results in memory and dump them when the entire input is parsed.
 
 
-\subsection{PET weight files}
+\subsection{PET Weight Files}
 Equally important as finding the correct events is assigning each event the
 correct amount of power consumption. As each event will count differently
 depending on the architecture, PET will read a weight file along with the gem5
@@ -154,7 +154,7 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
 %weightfiles
 %
 
-\subsection{Program Annotation files}
+\subsection{Program Annotation Files}
 \label{subsec:annot}
 
 PET has the ability to annotate its output using a map from PC to function
