@@ -24,7 +24,7 @@ the grand total, as it would be an entirely serial process.
 In order to maintain good speed while still keeping the PET source code
 readable, we have looked at different ways of chewing through large data sets.
 The final implementation of PET follows a scheme borrowing ideas from the
-producer-consumer patterb as explained by Gamma et. al. in \cite{designpatterns}
+producer-consumer pattern as explained by Gamma et. al. in \cite{designpatterns}
 and the MapReduce algorithm \cite{dean2008mapreduce}. As depicted in
 \autoref{fig:pipeline}, this scheme makes it rather easy to let a producer read
 the lines from the log file into ring buffers (produce) and let multiple
