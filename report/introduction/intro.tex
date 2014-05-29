@@ -14,26 +14,29 @@
 
 
 % Hva skjer
-As we are standing on the doorstep of the ages of Dark Silicon,
-increased energy efficiency is a key factor to allow more performance.
-\autoref{fig:cpuperformace} tells us how single-threaded performance
-almost halted as we hit the power wall. Because of the end of Dennard
-scaling, further shrinking of the transistor did not shrink the power
-dissipated by each one of them. This leads to a rapid increase in
-power denisty, and if the industry continues cramming more logic to
-single threaded performace, wattage per area would be too high
-for common cooling techniques.
+As we are standing on the doorstep of the ages of Dark Silicon, increased energy
+efficiency is a key factor to allow more performance.
+\autoref{fig:cpuperformace} tells us how single-threaded performance almost
+halted as we hit the power wall. Because of the end of Dennard scaling, further
+shrinking of the transistor did not shrink the power dissipated by each one of
+them. This leads to a rapid increase in power denisty, and if the industry
+continues cramming more logic to single threaded performace, wattage per area
+would be too high for common cooling techniques.
 
-Another problem arising as feature size decreases is that the
-static power drain seems to be a more and more significant part of energy
-consumption, and thus also heat. As transistors went below below 0.1 micron,
-static power drain started to pose a real challenge
-\cite{kim2003leakage,martin2002combined}.  \autoref{fig:staticdynamic} shows how
-power flows through a set of transistors. When the network toggles, a small
-charge is let from VCC to C or from C to GND, also, as the transistors are
-becomming smaller some current leaks over it as if it was an ordinary resistor
-\cite{wolf}. As feature size becomes small enough, simply powering the chip
-without toggeling bits generates a significant amount of heat.
+Another problem arising as feature size decreases is that the static power drain
+seems to be a more and more significant part of energy consumption, and thus
+also heat. As transistors went below below 0.1 micron, static power drain
+started to pose a real challenge \cite{kim2003leakage,martin2002combined}.
+\autoref{fig:staticdynamic} shows how power flows through a set of transistors.
+When the network toggles, a small charge is let from VCC to C or from C to GND
+as denoted with red in the figure.  Unrelated to switchin, as the transistors
+are becomming smaller some current leaks over it as drawn in green. This can be
+though of as if the transistor is an ordinary resistor \cite{wolf}. As feature
+size becomes small enough, a significant part of overall energy consumption is
+due to static leakage \cite{nguyen2003minimization}. This means that simply
+powering the chip without toggling bits generates a significant amount of heat!
+Future hardware development has to emphasize energy efficiency over pure
+performance to allow 
 
 
 \begin{figure}
@@ -43,25 +46,40 @@ without toggeling bits generates a significant amount of heat.
     \label{fig:staticdynamic}
 \end{figure}
 
+With the mentioned problems in mind, more energy efficient ways of doing common
+tasks will be a key to allow further expansion of the hardware.  Since the
+entire chip cannot be powered at once, it is more and more common to let parts
+of the chip be specialized for a specific task. This is a major research area
+for the SHMAC-project, which aims to create an energy efficient composition of
+specialized as well as general purpose processing tiles. This thesis will
+look more towards how the dynamic energy consumption can be further decreased
+by creating a tool which can evaluate different processor features before they
+are realized.
 
+From the research performed in \cite{rundehvatum2013exploring} we have found
+that different instructions consume a slightly different amount of energy.
+\autoref{fig:consumptioncond} shows some results showing how conditional
+execution affects energy consumption, while \autoref{fig:consumptionmulti}
+shows that different execution times affects the total energy spent. Base
+refers to the cheapest instruction found in the instruction set, \texttt{setned}.
+\texttt{setend} is used here just to set the same endianess as already set,
+and thus it flushes the processor without doing anything else.
 
-When faster hardware can no longer be created by just adding more
-logic, engineers have to look for more energy efficient solutions
-in order to keep power density down. Current research consists of
-many branches reaching from homogeneous processors to heterogeneous
-systems with loads of interconnect.
 
 \begin{figure}
 \begin{subfigure}[b]{0.48\textwidth}
 \includegraphics[width=\textwidth]{graph_01_base_cond-0c6.eps}
 \caption{Conditional execution (eq is false).}
+\label{fig:consumptioncond}
 \end{subfigure}
 \begin{subfigure}[b]{0.52\textwidth}
 \includegraphics[width=\textwidth]{graph_023_base_quad_saturate_extend-0c6.eps}
 \caption{Non-multiply multi-cycle instructions.}
+\label{fig:consumptionmulti}
 \end{subfigure}
 \caption{Figures from \cite{rundehvatum2013exploring} showing the results of measuring the
 current drain through the CPU core while running isolated instructions in a loop.}
+\label{fig:consumption}
 \end{figure}
 
 \cite{wolf} talks about static vs. dynamic as well as energy vs. power in chapter 3.6.
