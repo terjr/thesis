@@ -25,7 +25,8 @@ report/*.glg
 report/*.gls
 report/*.loa
 report/*.xdy
-report/figs/*-gv.pdf
+*.pdf
+figs/test_setup.tex
 workloads/bin
 __pycache__
 doxy/
