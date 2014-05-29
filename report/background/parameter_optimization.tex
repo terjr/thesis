@@ -12,7 +12,7 @@ In general, the possible solution can be thought of as a space that has two or
 more dimensions, directly related to the number of variables in the solution
 in addition to one axis for calculated fitness. If a problem contains a single
 variable, its solution space might look like \autoref{fig:fitnesslandscape}
-where the X-axis is the value of the single variable, while the Y-axis is the
+where the X-axis is the value of the single variable and the Y-axis is the
 fitness of this solution. Problems with more variables will have more axis. The
 optimization algorithms can be thought of as methods for exploring and finding
 the highest or lowest point in of the fitness-axis.
@@ -29,7 +29,10 @@ Most of these are described in detail in \cite{russellnorvig}.
 \begin{figure}[bth]
     \centering
     \includegraphics[width=0.8\textwidth]{figs/Fitness-landscape-cartoon.png}
-    \caption{Sketch of a fitness landscape, borrowed from \cite{wikifitnesslandscape}}
+    \caption{A one-dimensional fitness landscape. The arrows indicate the
+        preferred flow of a population on the landscape, and the points A and C
+        are local optima. The red ball indicates a population that moves from a
+        very low fitness value to the top of a peak. Borrowed from \cite{wikifitnesslandscape}.}
     \label{fig:fitnesslandscape}
 \end{figure}
 
@@ -39,8 +42,8 @@ a single path in solution space that starts at a defined but most likely
 suboptimal solution and ends at the best solution, while the non-deterministic
 approaches usually selects one or more paths by random such that each run might
 have a different outcome. Deterministic algorithms will always find the same
-solution, but if the search space is large enough, this might take extremely
-long time.  With the case of non-deterministic algorithms, they tend to have
+solution, but if the search space is large this might be extremely time
+consuming. With the case of non-deterministic algorithms, they tend to have
 an explorative behaviour \cite{poli2008field}; each computation of next state
 includes some form of randomness. E.g. simulated annealing will do the same as
 the hill climbing algorithm, but will have some chance of moving downhill, thus

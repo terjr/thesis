@@ -12,14 +12,12 @@ demands given by the problem.
 
 \subsection{A Brief Comparison}
 \label{subsec:simulators}
-There are numerous computer architecture simulators available to the public,
-both commercial, free and open source alternatives exist. To support our power
-estimation tool, a simulator front end must provide a good picture of events
-that occur in a hardware implementation of the architecture. The hardware
-platform used for reference in this thesis is an out-of-order ARM Cortex-A9
-based core fitted with memory and peripherals in a von Neumann architectural
-scheme. The out-of-order property significantly increases the level of
-complexity which the simulator must handle.
+There are numerous computer architecture simulators available. To support our
+power estimation tool, a simulator frontend must provide a good picture of
+events that occur in a hardware implementation of the architecture. The
+out-of-order property significantly increases the level of complexity which the
+simulator must handle. The following simulators include properties that can
+support our approach:
 
 \begin{description}
 \item[Sniper] \hfill\\
@@ -57,9 +55,9 @@ complexity which the simulator must handle.
     project activity \cite{gem5dev}.
 \end{description}
 
-Provided this comparison of simulators, and given the fact that NTNU have a
-tradition for using M5 and gem5 in previous research projects, gem5 is the
-natural winner for the choice of an architectural simulator.
+Provided this comparison of simulators, and given the fact that NTNU have
+experience with gem5, gem5 is the natural winner and our choice of an
+architectural simulator.
 
 
 \subsection{The gem5 Simulator}

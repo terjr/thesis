@@ -14,10 +14,10 @@ energy estimation model that can be used for energy simulation at high speed.
 Their proposed method is expressed through the following equation and includes
 the desired features of past energy models.
 
-\[
+\begin{equation}
     P_{core}(t) = \frac{E_{unit} \cdot A_{datapath} \cdot w(t) +
     E_{static}}{T_{sampling}}
-\]
+\end{equation}
 
 This method depends on two things. First, one must know sufficient details of
 the processor to identify datapath components in order to form the
@@ -34,9 +34,9 @@ from \cite{song2012instruction} by combining $A_{datapath}$ and $E_{unit}$ to
 form a vector of weights that directly corresponds to the cost of an event. We
 can then model energy by the following formula.
 
-\[
+\begin{equation}
     P_{core}(t) = \frac{C \cdot w(t) + E_{static}}{T_{sampling}}
-\]
+\end{equation}
 
 Here, C represents the global cost vector -- a matrix enumerating the cost
 for all event types. Note that it is global and do not depend on time.
