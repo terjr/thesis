@@ -41,6 +41,13 @@ used, the voltage drop across the shunt resistor will lie in the range 0 --
     \label{fig:shunt}
 \end{figure}
 
+Another interesting phenomenon one must be aware of when measuring current
+through a variable load is that ordinary ammeters use the exact same technique
+as with the shunt resistor, but might contain a resistor larger than desired. A
+to large resistor would change the voltage relative to the impedance in the
+load, and in the case of a processor it is not very easy to reason about its
+behaviour. \autoref{fig:varcurrent} shows how voltage drops over a $0.1 \Omega$
+
 \begin{figure}[tbh]
     \centering
     \input{figs/varcurrent.tex}
