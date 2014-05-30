@@ -184,7 +184,7 @@
         <dia:point val="25.5996,12.8272"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="25.5996,12.2136;28.8407,13.0144"/>
+        <dia:rectangle val="25.5996,12.2322;28.8221,12.9772"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">

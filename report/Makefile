@@ -8,7 +8,7 @@ SVG_FIGS=figs/ga_genome.pdf figs/static-dynamic.pdf
 # Fix reference file and compile source
 default: full
 
-full: ${DOTFILES} ${TRAINING_FIGS} ${SVG_FIGS} figs/test_setup.tex
+full: ${DOTFILES} ${TRAINING_FIGS} ${SVG_FIGS} figs/test_setup.tex figs/varcurrent.tex
 	#latexmk -latexoption='-interaction nonstopmode -shell-escape' -use-make -pdf ${TEXFILE}
 	pdflatex -shell-escape $(TEXFILE) && \
 	bibtex $(TEXFILE) && \
@@ -50,7 +50,7 @@ figs/training/%-noscale-training.txt: ../workloads/m5out-stable/%/trace.out ../p
 ../pet/weights.conf: ${GAFILES}
 	../pet/scripts/update_weights.sh > $@
 
-figs/test_setup.tex: figs/test_setup.xml
-		dia figs/test_setup.xml -t pgf-tex -e figs/test_setup.tex
-			sed -i -e 's|Ohm|$$\\Omega$$|' -e 's|Vcore|$$V{core}$$|' -e 's|Vsys|V$${sys}$$|' figs/test_setup.tex
+figs/%.tex: figs/%.dia
+		dia figs/$*.dia -t pgf-tex -e $@
+		sed -i -e 's|Ohm|$$\\Omega$$|' -e 's|Vcore|$$V{core}$$|' -e 's|Vsys|V$${sys}$$|' $@
 
