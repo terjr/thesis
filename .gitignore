@@ -30,7 +30,7 @@ report/figs/training/*.pdf
 report/figs/*-eps-converted-to.pdf
 report/figs/ga_genome.pdf
 report/figs/static-dynamic.pdf
-report/figs/test_setup.tex
+report/figs/*.tex
 workloads/bin
 __pycache__
 doxy/
