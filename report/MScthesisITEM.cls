@@ -279,7 +279,7 @@
 % Title page and project description
 \let\ordinal\undefined
 \RequirePackage{datetime}
-\newdateformat{dateITEM}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{dateITEM}{\monthname[\THEMONTH] \THEDAY, \THEYEAR}
 
 \let\@supervisor\@empty
 \newcommand{\supervisor}[1]{\def\@supervisor{#1}}
