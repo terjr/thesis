@@ -1,51 +1,34 @@
 \chapter{Introduction}
 
-The steep increase in single-threaded performance seen over the last decades is
-decelerating and seems to be flattening out. \autoref{fig:cpuperformance} shows
-how Moore's law is still continuing \cite{moore1965cramming,
-tanenbaum1984structured}, but as we have seen the end of Dennard scaling
-\cite{dennard1974design,esmaeilzadeh2011dark}, power density increases as more
-transistors is crammed together. Today, computer architects are struggling for
-more energy efficient solutions in order to avoid the dark silicon effect and
-gain further performance.
+The steep increase in single-threaded performance during the last few decades
+seems to have come to an end. \autoref{fig:cpuperformance} shows how Moore's law
+is continuing \cite{moore1965cramming, tanenbaum1984structured}; the transistor
+count on-die is still increasing exponentially. As we have seen the end of
+Dennard scaling \cite{dennard1974design,esmaeilzadeh2011dark}, power density
+increases as more transistors is crammed together. Too much power on a tiny area
+leads to more heat than conventional cooling solutions can dissipate. Today,
+computer designers are striving to achieve higher performance without further
+increase in power density.
+
 
 \begin{figure}[bht]
-    \includegraphics[width=\textwidth]{figs/cpu-performance.png}
-    \caption{Historical trends in CPU performance, from \cite{salishan2011}.}
+\includegraphics[width=\textwidth]{figs/cpu-performance.png}
+\caption{Historical trends in CPU performance, from \cite{salishan2011}.}
     \label{fig:cpuperformance}
 \end{figure}
 
-
-\section{The Need for Energy Efficiency}
-
-As CPUs hit the power wall \cite{kuroda2001cmos},
-
-\cite{hennessy}
+\input{introduction/historical.tex}
+\input{introduction/problems.tex}
 
 
 
+%\cite{kuroda2001cmos},
+%\cite{hennessy}
 
 
 
---------------------------------
-
-
-
-The field of computer science have reached an era where further boost in
-single-threaded performance is rapidly becoming more difficult. Up until recent,
-single-threaded performance increased linearly along with the shrinking of transistors as
-seen in \autoref{fig:cpuperformance}.
-As predicted by Gordon Moore, hardware designers were able to cram more logic
-onto the CPU dies, thus allowing for more and more clever ways of doing the
-common things fast \cite{moore1965cramming}. As transistors scaled down, so did
-the voltage needed to keep the logic doing its work \cite{dennard1974design}. We
-have now seen the end of Dennard scaling \cite{esmaeilzadeh2011dark} and voltage scaling
-does no longer apply. This leaves us with a higher power density every time
-more components are added, making it a lot harder to achieve higher performance.
 
 %\input{introduction/intro.tex}
-%\input{introduction/historical.tex}
-%\input{introduction/problems.tex}
 %\input{introduction/optimization.tex}
 \input{introduction/assignment_interpretation.tex}
 \input{introduction/report_organization.tex}
