@@ -18,11 +18,11 @@ requires more knowledge about the final hardware, e.g. RTL and process
 technology. Irrespective such information, PET is able to estimate current drain
 within 10~\% of actual drain when testing against the ARM Cortex-A9 processor.
 
-Because PET is tool meant to be used early and rapidly in the design phase, it has
-to be fast and easy to use. PET will predict power usage from log files and is
-tested to evaluate 133~MB of log files per second on an Intel Core i7 4820. Even
-with log files expanding tens of gigabytes, running PET takes less time than
-running a simulator.
+Because PET is tool meant to be used early and rapidly in the design phase, it
+has to be fast and easy to use. PET will predict power usage from log files and
+is tested to evaluate 133~MB of log files per second on an Intel Core i7 4820.
+Even with log files expanding tens of gigabytes, running PET takes less time
+than running a simulator.
 
 An excessive amount of time has been used for tweaking PET, gem5 and the genetic
 algorithm to match our reference hardware platform as good as possible. Still,
@@ -30,7 +30,7 @@ we believe that the effort needed to port our methods to a new hardware platform
 or architecture is much less. The genetic algorithm was in our case able to find
 good weights within few hours, and with carefully selected power consuming
 events it is likely that this is the same for other architectures. Unrealized
-hardware still needs similar hrdware to generate data for the weights.
+hardware still needs similar hardware to generate data for the weights.
 
 Our observation is that PET allows evaluation of the big picture much easier and
 earlier in the design stage than other existing options, simply because it

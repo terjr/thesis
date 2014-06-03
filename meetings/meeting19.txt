@@ -1,0 +1,12 @@
+- Konklusjon -
+Ville poengtert at vi har ordentlige målinger i foerst setningen eller andre.
+
+- Tittel -
+Få med: Measurements, hardware, simulator
+From Power Measurements to
+
+Simulated Energy Efficiency using Hardware Measurements
+
+Power Profiling: from measurements to processor modeling
+Power Profiling: from measurements to architecture modeling
+
