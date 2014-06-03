@@ -5,26 +5,26 @@ set of parameters to optimize an objective function. A problem with $N$
 variables $\{n_0, \dots, n_{N-1}\}$ in range $n_i \in \{0, \dots, k-1\}$ will
 have a search space with $k^N$ possible solutions. Each solution can be
 evaluated by applying the objective function to it, to obtain the solutions
-\emph{fitness}. The fitness is a measure of how good the solution is and is used
-to assist the selection of candidate solutions for evaluation.
+\emph{fitness}. The fitness is a measure of how good the solution is and it is
+used to assist the selection of candidate solutions for evaluation.
 
-In general, the possible solution can be thought of as a space that has two or
-more dimensions, directly related to the number of variables in the solution
-in addition to one axis for calculated fitness. If a problem contains a single
-variable, its solution space might look like \autoref{fig:fitnesslandscape}
-where the X-axis is the value of the single variable and the Y-axis is the
-fitness of this solution. Problems with more variables will have more axis. The
-optimization algorithms can be thought of as methods for exploring and finding
-the highest or lowest point in of the fitness-axis.
+The solution space can be thought of as a (N+1)-dimensional space that directly
+relates to the number of variables in the solution, plus one axis for the
+fitness value. E.g. when a problem contains a single variable, its solution
+space might look like \autoref{fig:fitnesslandscape} where the X-axis is the
+value of the single variable and the Y-axis is the fitness of this solution.
+Problems with more variables will have more axis. The optimization algorithms
+can be thought of as methods for exploring and finding the highest or lowest
+point in of the fitness-axis.
 
 As both $k$ and $N$ grow large, it becomes infeasible to search through and
 evaluate the vast amount of permutations. In such cases, other techniques must
 be employed. Finding an arbitrary local minimum is often straight forward using
-classical \emph{local} optimization methods such as the Simple Hill Climbing
-Algorithm. However, these methods cannot always be used to find a global minimum
-\cite{russellnorvig}. A wide range of algorithms to search through a subset of
-the solution space exists, each with different approaches and properties.
-Most of these are described in detail in \cite{russellnorvig}.
+classical \emph{local} optimization methods such as a simple hill climbing
+algorithm. However, these methods cannot always be used to find a global
+minimum. A wide range of algorithms to search through a subset of the solution
+space exists, each with different approaches and properties. Most of these are
+described in detail in \cite{russellnorvig}.
 
 \begin{figure}[bth]
     \centering
@@ -89,4 +89,15 @@ wealth of different ways to solve them. It can be difficult to know in advance
 which methods will provide the most fruitful results. Also, multiple approaches
 can be combined in efforts to extract the best properties from several worlds,
 or to get the speed of convergence up.
+
+In this thesis, we have chosen to use an evolutionary approach called $1 +
+\lambda$, with $\lambda = 4$. It includes the following steps:
+
+\begin{enumerate}
+    \item Generate $\lambda$ random individuals.
+    \item Evaluate population.
+    \item Select the best individual.
+    \item Mutate $\lambda$ new individuals from current fittest.
+    \item Repeat step 2 through 4 for each generation.
+\end{enumerate}
 
