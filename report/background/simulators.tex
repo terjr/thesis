@@ -64,12 +64,13 @@ architectural simulator.
 The gem5 project \cite{gem5} merges the best features of M5 \cite{binkert2006m5}
 and GEMS \cite{GEMS} and includes a wide range of CPU and memory models
 \cite{gem5hipeac}. The simulator has two main execution modes; \textit{Syscall
-Emulation} (SE) or \textit{Full System} (FS). In SE mode, the simulator traps
-system calls in the binary and emulates them, often by passing them to the host
-operating system. In FS mode, the simulator can load an entiry operating system
-binary (e.g. a GNU/Linux distribution) and run applications within the OS. gem5
-supports many architectures; it can run binaries compiled for ALPHA, SPARC,
-MIPS, ARM, x86 and POWER architectures.
+Emulation} (SE) or \textit{Full System} (FS). In SE mode, the simulator runs
+without any real operating system, but traps system calls from the executable
+and emulates them, often by passing them to the host operating system. In FS
+mode, the simulator can load an entire operating system (e.g. a GNU/Linux
+distribution) and run applications within the OS. gem5 supports many
+architectures; it can run binaries compiled for ALPHA, SPARC, MIPS, ARM, x86 and
+POWER architectures.
 
 During simulation, gem5 keeps track of hundreds of different events related to
 the CPU core and memory system. In-detail statistics, similar to performance
