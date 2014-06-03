@@ -17,7 +17,7 @@ the most logical choice.
 When run with \texttt{--debug-flags=Bus,Cache,MemoryAccess,Exec} gem5 will output trace files look like
 the text displayed in \autoref{lst:trace}.
 
-\begin{lstlisting}[basicstyle=\tiny,caption={gem5 trace log},label={lst:trace},escapeinside={@}{@},float]
+\begin{lstlisting}[basicstyle=\tiny,caption={gem5 Trace Log.},label={lst:trace},escapeinside={@}{@},float]
 @\label{line:physmem}@3021: system.physmem: Write of size 8 on address 0x82fe0 data 0xe1a0f00eee1d0f70
 @\label{line:icache}@3021: system.cpu.icache: access for ReadReq address 9c0 size 64
 @\label{line:cachemiss}@3021: system.cpu.icache: ReadReq (ifetch) 9c0 miss-
@@ -57,7 +57,7 @@ but it will commonly be at approximatly the last tick at the last line. The
 bucket size estimation algorithm is shown in \autoref{alg:bucket_size}.
 
 \begin{algorithm}
-    \caption{Bucket Size Detection Algorithm}
+    \caption{Bucket Size Detection Algorithm.}
     \label{alg:bucket_size}
 %    \begin{algorithmic}
 %        \Function{numTicks}{$traceFile$}
@@ -119,7 +119,7 @@ many ticks. This will not be accurate if an expensive event is applied at the
 border of a bucket, but we assume that accuracy at this level is not important
 enought to add complexity to PET in order to get correct.
 
-\lstinputlisting[caption={Weight file example},label={lst:weights_example},float,language=Python]{examples/weights.conf}
+\lstinputlisting[caption={Weight File Example.},label={lst:weights_example},float,language=Python]{examples/weights.conf}
 
 The weights displayed in \autoref{lst:weights_example} are assigned and
 accumulated each time PET discovers a recognisable event in the log file. A
@@ -127,7 +127,7 @@ simplified version of this algorithm can be found in
 \autoref{alg:power_accum_algo}
 
 \begin{algorithm}
-\caption{Power Accumulation Algorithm}
+\caption{Power Accumulation Algorithm.}
 \label{alg:power_accum_algo}
 \begin{lstlisting}[language=Python,style=algo]
 # map of accumulated power for each time step
@@ -172,12 +172,12 @@ that this is a function call with a long lasting loop. If this is not the case,
 a new symbol would appear early in the next measure point, and we have not found
 any good reason not to select that particular symbol for data point annotation.
 
-\lstinputlisting[caption={Annotation file example},label={lst:annot},float,language=Python]{examples/annot.conf}
+\lstinputlisting[caption={Annotation File Example.},label={lst:annot},float,language=Python]{examples/annot.conf}
 
 The symbols extraction tool itself is actually just a simple script, its source is printed
 in \autoref{lst:annotscript}.
 
-\lstinputlisting[float=htb,label={lst:annotscript},caption={Extract symbols from binary},language=sh]{../pet/scripts/annotate.sh}
+\lstinputlisting[float=htb,label={lst:annotscript},caption={Extract Symbols from Binary.},language=sh]{../pet/scripts/annotate.sh}
 
 It should be mentioned that a program compiled with debugging symbols contains
 hundreds, if not thousands of symbols. Often, many of these symbols are called

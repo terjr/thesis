@@ -27,11 +27,11 @@ gem5 original O3    & 0.008777 & 0.006708 & 0.010368 & 0.004344 & 0.008653\\
 gem5 timing simple  & 0.035039 & 0.019564 & 0.040659 & 0.020503 & 0.041964 \\
 \hline
 \end{tabular}
-\caption{gem5 runtime accuracy (O3 with classic memory system)}
+\caption{gem5 runtime accuracy (O3 with classic memory system).}
 \label{tbl:gem5runtimeaccuracy}
 \end{table}
 
-\begin{lstlisting}[float=htb,language=sh,numbers=none,label={lst:gem5commandline},caption={gem5 Command Line}]
+\begin{lstlisting}[float=htb,language=sh,numbers=none,label={lst:gem5commandline},caption={gem5 Command Line.}]
 $ build/ARM/gem5.opt --remote-gdb-port=0 -d m5out-time/sha2-sha2
     configs/example/se.py -c bin/sha2/sha2 --cpu-type=CPU
     --mem-type=LPDDR2_S4_800_x32 --sys-clock=440MHz
@@ -59,7 +59,7 @@ the green line is a direct plot of readings from the bench setup (see \autoref{f
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/trend-trend.pdf}
-    \caption{Training results for the trend-test}
+    \caption{Training results for the trend-test.}
     \label{fig:trend-training}
 \end{figure}
 
@@ -79,7 +79,7 @@ algorithm over-estimate the cost of idle.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/trend-submul.pdf}
-    \caption{Overlay of PET training results (red) and training data (green)}
+    \caption{Overlay of PET training results (red) and training data (green).}
     \label{fig:submul-training}
 \end{figure}
 
@@ -94,7 +94,7 @@ operations for program flow, storage, registers, adresses, and so on.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/pi-pi.pdf}
-    \caption{Overlay of PET training results (red) and training data (green)}
+    \caption{Overlay of PET training results (red) and training data (green).}
     \label{fig:pi-training}
 \end{figure}
 
@@ -107,7 +107,7 @@ a rather common workload, this is a very promissing result.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/sha2-sha2.pdf}
-    \caption{Overlay of PET training results (red) and training data (green)}
+    \caption{Overlay of PET training results (red) and training data (green).}
     \label{fig:sha2-training}
 \end{figure}
 

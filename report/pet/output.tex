@@ -90,7 +90,7 @@ Example of the \texttt{plain} output format can be seen in
 \autoref{lst:pet_output_plain}. The left column is the bucket number, while the
 right column is instant current draw from the modelled architecture.
 
-\begin{lstlisting}[float=hbt,label={lst:pet_output_plain},caption={PET Plain Output with annotations}]
+\begin{lstlisting}[float=hbt,label={lst:pet_output_plain},caption={PET Plain Output with function annotations.}]
 0 120 memcpy
 1 113 start
 2 150 main
@@ -103,7 +103,7 @@ When reading the output directly from console, a more descriptive output format
 is the \texttt{table} format. An example using this option is rendered in
 \autoref{lst:pet_output_table}.
 
-\begin{lstlisting}[float=hbt,label={lst:pet_output_table},caption={PET Table Output with annotations}]
+\begin{lstlisting}[float=hbt,label={lst:pet_output_table},caption={PET Table Output with function annotations.}]
 /----------------------------------------\
 |   Bucket   |  milliAmps |    Symbol    |
 |------------|------------|--------------|
@@ -124,7 +124,8 @@ temporary output files and calling GNUPlot do do the hard work.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\textwidth]{figs/annot.pdf}
-    \caption{PET Graphical Output with annotations}
+    \caption{PET Graphical Output. This example contains annotations, each label
+    represents the entrance of a function.}
     \label{fig:annot}
 \end{figure}
 
