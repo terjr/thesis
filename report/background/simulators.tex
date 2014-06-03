@@ -18,29 +18,30 @@ support our approach:
 \begin{description}
 \item[Sniper] \hfill\\
     Sniper is a high-speed, multicore, multi-threaded and cycle-accurate
-    computer architecture simulator \cite{sniperwebpage,carlson2013ssomta}. It
-    already integrates with McPAT and it is open source. Sniper does only work
-    x86, and is thus not applicable for simulation of ARM-based architectures.
+    computer architecture simulator
+    \cite{sniperwebpage,carlson2011sniper,carlson2013ssomta}. It already integrates
+    with McPAT and it is open source. Sniper does only work x86, and is thus not
+    applicable for simulation of ARM-based architectures.
 
-    %TODO: Add cite
 \item[SimpleScalar] \hfill\\
     SimpleScalar is a popular commercial architectural simulator that comes with
-    a free academic license providing full source code. SimpleScalar supports
-    the ARM instruction set amongst many others, and looks like a decent
-    simulator for advanced out-of-order core simulation. SimpleScalar is also
-    the simulator used by the Wattch-project \cite{brooks2000wattch}. However,
-    the SimpleScalar web page seems to be last updated in 2004 and all mailing
-    list archives are gone at the time of writing. The source code for
-    SimpleScalar v3 is still available, but has only been patched once since
-    2003.
+    a free academic license providing full source code
+    \cite{burger1996evaluating,manjikian2001multiprocessor,austin2002simplescalar}.
+    SimpleScalar supports the ARM instruction set amongst many others, and looks
+    like a decent simulator for advanced out-of-order core simulation.
+    SimpleScalar is also the simulator used by the Wattch-project
+    \cite{brooks2000wattch}. However, the SimpleScalar web page seems to be last
+    updated in 2004 and all mailing list archives are gone at the time of
+    writing. The source code for SimpleScalar v3 is still available, but has
+    only been patched once since 2003.
 
-    %TODO: Add cite
 \item[QEMU]\hfill\\
     QEMU is a generic and open machine emulator which enables near real-time
-    performance on architectures like ARM, even on x86 host machines. However,
-    QEMU is a machine emulator rather than an architectural simulator, thus
-    despite its great performance of running ARM-binaries, it will not produce
-    CPU and memory event trace logs, and is not suitable for this project.
+    performance on architectures like ARM, even on x86 host machines
+    \cite{bartholomew2006qemu,shen2010full,bellard2005qemu}. However, QEMU is a
+    machine emulator rather than an architectural simulator, thus despite its great
+    performance of running ARM-binaries, it will not produce CPU and memory event
+    trace logs, and is not suitable for this project.
 
 \item[gem5]\hfill\\
     gem5 is a merger between the M5 simulator \cite{binkert2006m5} and the GEMS
