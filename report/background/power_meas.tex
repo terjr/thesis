@@ -12,47 +12,70 @@ measurements would require use of very expensive instruments.
 
 \begin{figure}[tbh]
     \centering
-    \input{figs/test_setup.tex}
-    \caption{Bench setup for measuring single instruction current drain.}
-    \label{fig:setup}
-\end{figure}
-
-In \cite{rundehvatum2013exploring}, single instructions were measured by
-exploting fast-loop-mode and looping over a group of equal instructions. An
-Agilent bench multimeter and a shunt resistor were set up like shown in
-\autoref{fig:setup}. This method provides an average power consumption when the
-pipeline is (mostly) filled with a single type of instruction. Instead of using
-a serial connected ammeter, the power rail is connected in series with a shunt
-resistor equal to the one seen in \autoref{fig:shunt}, and voltage drop over
-this resistor is measured using a voltmeter. This method provides a way to
-measure currents either outside the range of the ammeter or with greater
-accuracy than using the built-in ammeter. An example of how a shunt resistor can
-provide better accuracy; when an Agilent 34410A is used to measure a current in
-which the voltage exeeds 0.8~V, the readings is within 0.1~\% when the system is
-correctly calibrated. If a shunt resistor with the right characteristics is
-used, the voltage drop across the shunt resistor will lie in the range 0 --
-100~mV, and then readings will, according to the datasheet, be within 0.003~\%
-\cite{agilent34410a}.
-
-\begin{figure}[tbh]
-    \centering
     \includegraphics[width=0.8\textwidth]{figs/shunt.jpg}
-    \caption{An example shunt resistor.}
+    \caption{The shunt resistor used in our experiments.}
     \label{fig:shunt}
 \end{figure}
 
-Another interesting phenomenon one must be aware of when measuring current
-through a variable load is that ordinary ammeters use the exact same technique
-as with the shunt resistor, but might contain a resistor larger than desired. A
-to large resistor would change the voltage relative to the impedance in the
-load, and in the case of a processor it is not very easy to reason about its
-behaviour. \autoref{fig:varcurrent} shows how voltage drops over a $0.1 \Omega$
+In \cite{rundehvatum2013exploring}, single instructions were measured by
+exploiting fast-loop-mode \cite{a9whitepaper} and looping over a group of equal
+instructions. A bench multimeter were used to measure the voltage drop over a
+shunt resistor like \autoref{fig:shunt}, setup as in \autoref{fig:setup}. From
+this, we infer the current flowing from the $V_{core}$ power rail and through
+the processor core. The peripherals are isolated and not part of the
+measurements. The shunt resistor is chosen such that the voltage drop over it
+resides in the range 0 -- 100~mV. According to the datasheet
+\cite{agilent34410a}, the voltage readings will have a margin of error of
+0.003~\%.
+
+\begin{figure}[bth]
+    \centering
+    \input{figs/test_setup.tex}
+    \caption{Experiment setup for measuring single instruction current drain.}
+    \label{fig:setup}
+\end{figure}
+
+The use of a shunt resistor to infer current is equivalent to how ammeters work
+internally. However, the internal shunt resistor is not scaled for the dynamic
+range of a specific target. Also, a too large resistor would drop the voltage
+relative to the impedance in the load, and in the case of a processor this can
+give unpredictable results. \autoref{fig:varcurrent} illustrates two scenarios
+where voltage drops over a $0.1~\Omega$ shunt resistor and a variable load (e.g.
+the CPU core). There is a trade-off between accuracy in measurements and voltage
+variations across the circuit. If the shunt resistor is too small, the voltage
+drop diminishes and is impossible to measure.
 
 \begin{figure}[tbh]
     \centering
     \input{figs/varcurrent.tex}
-    \caption{Current measurement of a variable load.}
+    \caption{The red and green lines represents two snapshots in time with
+    different variable loads. A higher current drain through the circuit
+    changes the ratio of voltage drop between the two loads.}
     \label{fig:varcurrent}
+\end{figure}
+
+\autoref{fig:consumption} presents results from \cite{rundehvatum2013exploring},
+and shows how different instructions use a different amount of energy. This
+indicates that the architecture impacts how efficient each instruction is.
+$base$ refers to the cheapest instruction in the ISA and roughly corresponds to
+the static power consumption.
+
+\begin{figure}[tbh]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{graph_01_base_cond-0c6.eps}
+        \caption{Conditional execution (eq is false).}
+        \label{fig:consumptioncond}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.52\textwidth}
+        \includegraphics[width=\textwidth]{graph_023_base_quad_saturate_extend-0c6.eps}
+        \caption{Non-multiply multi-cycle instructions.}
+        \label{fig:consumptionmulti}
+    \end{subfigure}
+    \caption{Figures from \cite{rundehvatum2013exploring} showing the results of
+        measuring the current drain through the CPU core while running isolated
+        instructions in a loop. The values are measured current drain multiplied
+        by the average number of cycles used.}
+    \label{fig:consumption}
 \end{figure}
 
 
