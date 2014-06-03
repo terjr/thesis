@@ -1,5 +1,13 @@
 \section{Hardware Platform}
 
+\begin{figure}[bth]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figs/odroid.jpg}
+    \caption{Image of the Hardkernel ODROID-X2 from the Hardkernel ODROID-X2
+    product page \cite{hardkernelodroidx2}.}
+    \label{fig:odroidx2}
+\end{figure}
+
 The ODROID-X2 developer platform \cite{hardkernelodroidx2} is used as a
 reference hardware for all experiments in this thesis. An image of the platform
 is shown in \autoref{fig:odroidx2}. Its core voltage is easily accessible on an
@@ -12,13 +20,23 @@ is clearly designed with emphasis on energy efficiency. This processor is
 primarily found in low-powered embedded devices with some performance demands,
 typically smartphones and tablets.
 
-\begin{figure}[bth]
+\begin{figure}[bht]
     \centering
-    \includegraphics[width=0.7\textwidth]{figs/odroid.jpg}
-    \caption{Image of the Hardkernel ODROID-X2 from the Hardkernel ODROID-X2
-    product page \cite{hardkernelodroidx2}.}
-    \label{fig:odroidx2}
+    \includegraphics[width=\textwidth]{figs/A9-Pipeline-hres.jpg}
+    \caption{A brief overview of the Cortex-A9 Pipeline, figure from the ARM
+    Cortex-A9 Whitepaper \cite{a9whitepaper}.}
+    \label{fig:a9arch}
 \end{figure}
+
+\autoref{fig:a9arch} shows an overview of the ARM Cortex-A9 architectural
+structure. It features an out-of-order multi-issue module right after the decode
+stage. This module can do speculative issue and schedules two arithmetic
+operations per cycle. It also features a multiplexed lane for address operations
+and floating point operations (the \emph{NEON} FPU). In this experiment, a
+4-core variant of the processor was used, but 3 of the cores were disabled to
+ease both the measurement and the simulation process. \autoref{tab:hwspecx2}
+enumerates the most important properties of the SoC.
+
 
 \rowcolors{2}{gray!25}{white}
 \begin{table}
@@ -42,25 +60,3 @@ typically smartphones and tablets.
     \label{tab:hwspecx2}
 \end{table}
 
-As seen in \autoref{fig:a9arch} there is an out-of-order multi-issue module
-right after the decode stage. This module can do speculative issue and can
-schedule two arithmetic operations, in which one can be a multiply (the
-processor has only one hardware multiply unit). It also features a multiplexed
-lane for address operations and floating point operations (the \emph{NEON} FPU).
-In this experiment, a 4-core variant of the processor was used, but 3 of the
-cores were disabled to ease both the measurement and the simulation process.
-
-\begin{figure}[bht]
-    \centering
-    \includegraphics[width=0.8\textwidth]{figs/A9-Pipeline-hres.jpg}
-    \caption{A brief overview of the Cortex-A9 Pipeline, figure from the ARM
-    Cortex-A9 Whitepaper \cite{a9whitepaper}.}
-    \label{fig:a9arch}
-\end{figure}
-
-To achieve good simulation correctness, a high level of architectural knowledge
-is crucial. Despite that most proprietary architectures have a lot of details
-that remain undisclosed to the public, much information is still available.
-Different sources have been used to find properties needed by the simulator,
-some details regarding the OoO cores can be read about in
-\cite{blem2013detailed}.

@@ -1,22 +1,18 @@
 \section{Hardware Simulators}
 
 As computer architecture development meets more challenging demands, a versatile
-set of software tools have been developed to help the designers. In this set of
-tools lies a set of computer architecture simulators meant to evaluate
-processors at the architectural level.  They provide the ability to model
-hardware at a higher abstraction layer than what's expressed by the underlying
-circuit. When executing a binary program, they can output detailed trace logs of
-the processor activity, together with performance data.  The benefits of
-architectural simulators are many, but it is important to find one that fits the
-demands given by the problem.
+set of software tools have been developed to help the designers. In this
+collection of tools lies a set of computer architecture simulators meant to
+evaluate processors at the architectural level. They provide the ability to
+model hardware at a higher abstraction layer than what's expressed by the
+underlying circuit.
 
 \subsection{A Brief Comparison}
 \label{subsec:simulators}
-There are numerous computer architecture simulators available. To support our
-power estimation tool, a simulator frontend must provide a good picture of
-events that occur in a hardware implementation of the architecture. The
-out-of-order property significantly increases the level of complexity which the
-simulator must handle. The following simulators include properties that can
+To support our power estimation tool, a simulator frontend must provide a good
+picture of events that occur in a hardware implementation of the architecture.
+The out-of-order property significantly increases the level of complexity which
+the simulator must handle. The following simulators include properties that can
 support our approach:
 
 \begin{description}
@@ -26,6 +22,7 @@ support our approach:
     already integrates with McPAT and it is open source. Sniper does only work
     x86, and is thus not applicable for simulation of ARM-based architectures.
 
+    %TODO: Add cite
 \item[SimpleScalar] \hfill\\
     SimpleScalar is a popular commercial architectural simulator that comes with
     a free academic license providing full source code. SimpleScalar supports
@@ -37,6 +34,7 @@ support our approach:
     SimpleScalar v3 is still available, but has only been patched once since
     2003.
 
+    %TODO: Add cite
 \item[QEMU]\hfill\\
     QEMU is a generic and open machine emulator which enables near real-time
     performance on architectures like ARM, even on x86 host machines. However,
@@ -55,7 +53,7 @@ support our approach:
     project activity \cite{gem5dev}.
 \end{description}
 
-Provided this comparison of simulators, and given the fact that NTNU have
+Provided this comparison of simulators, and given that NTNU have previous
 experience with gem5, gem5 is the natural winner and our choice of an
 architectural simulator.
 
@@ -72,13 +70,13 @@ binary (e.g. a GNU/Linux distribution) and run applications within the OS. gem5
 supports many architectures; it can run binaries compiled for ALPHA, SPARC,
 MIPS, ARM, x86 and POWER architectures.
 
-During simulation, gem5 keeps track of hundreds of events related to the CPU
-core and memory system. In-detail statistics, similar to performance counters on
-real hardware, are then dumped for subsequent inspection. gem5 is also able to
-output a trace log while it runs, originally intended for debugging of gem5.A
-trace log contains user-selected events that happens within the simulated
-hardware. These trace logs grow quickly in size, easily 10s of gigabytes, but
-provides useful insights of the simulated execution. In particular, they describes
-CPU activity down to the microarchitecture level and outputs simulated processor
-activity.
+During simulation, gem5 keeps track of hundreds of different events related to
+the CPU core and memory system. In-detail statistics, similar to performance
+counters on real hardware, are then dumped for subsequent inspection. gem5 is
+also able to output a trace log while it runs, originally intended for debugging
+of gem5. A trace log contains user-selected events that happens within the
+simulated hardware. These trace logs grow quickly in size, easily 10s of
+gigabytes, but provides useful insights of the simulated execution. In
+particular, they describes CPU activity down to the microarchitecture level and
+outputs simulated processor activity.
 
