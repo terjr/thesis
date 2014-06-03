@@ -3,49 +3,21 @@
 
     \noindent Energy efficiency is currently one of the most challenging goals
     of modern computer design. High power density limits further performance
-    growth, and energy efficiency affects both the power bill for
-    supercomputers and battery lifetime for embedded devices. In this thesis we
-    investigate energy consumption and architectural properties of an ARM
-    Cortex-A9 and create a tool for estimating its power consumption through
-    simulation.
+    growth, and energy efficiency affects both the power bill for supercomputers
+    and battery lifetime for embedded devices. In this thesis we investigate
+    energy consumption and architectural properties of an ARM Cortex-A9 and
+    create a tool for estimating its power consumption through simulation.
 
     Instruction level energy consumption is determined through measurements and
     experiments done on real hardware, which are further mapped to architectural
-    events found in the gem5 simulator. We write a tool which utilizes these
-    events together with a simulator trace log and outputs a representation of
-    energy consumption over time.
+    events found in the gem5 simulator. Our tool utilizes these events together
+    with a simulator trace log and outputs a representation of energy
+    consumption over time.
 
     Our method can be applied during the development process at the simulator
     level, while traditional methods typically involves hardware synthesis. The
     results shows that our tool can estimate energy consumption within 10~\% on
     general workloads, and is able to identify power consumption trends
     throughout a program.
-
-\newpage
-{\huge Old Abstract}\\
-    \noindent Since the beginning of semiconductor technology, transistor size has
-decreased and are still decreasing with a tremendous rate. Computer engineers
-and architects have utilized higher transistor count to create more advance and
-more dense computer chips, but are now facing problems with power consumption
-and heat dissipation. In this thesis, an ARM-based SoC is studied in great
-detail and is simulated using the gem5 architectural simulator. Using a genetic
-algorithm, different power consuming events was mapped to a fixed energy
-contribution.
-
-Similar to measuring the execution of a program on a real processor using an
-ammeter, we have built a tool called PET which provides the same for a
-simulated program on unrealized hardware. PET parses trace logs from the
-simulator and applies the energy contribution from each event. The output is
-given as a textual or graphical timeline with current drain plotted at each data
-point.
-
-Comparing to other tools which does much the same, PET works much earlier in the
-design stage, and can be applied without knowledge about process technology, RTL
-or the physical layout of a chip. This tool can help engineers figure out how a new
-feature or a change in an existing chip will influence energy efficiency.
-Benchmarks and test data indicates that PET is able to predict power consumption
-within 10~\% of the real value. Given the abstraction level at which PET works,
-more accuracy would need further information. PET will give an indication of
-better or worse, not an exact prediction of energy consumption.
 
 \end{abstract}
