@@ -60,17 +60,17 @@ indicates that the architecture impacts how efficient each instruction is.
 $base$ refers to the cheapest instruction in the ISA and roughly corresponds to
 the static power consumption.
 
-\begin{figure}[tbh]
-    \begin{subfigure}[b]{0.48\textwidth}
+\begin{figure}
+    \begin{minipage}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{graph_01_base_cond-0c6.eps}
-        \caption{Conditional execution (eq is false).}
+        \subcaption{Conditional execution (eq is false).}
         \label{fig:consumptioncond}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.52\textwidth}
+    \end{minipage}
+    \begin{minipage}[b]{0.52\textwidth}
         \includegraphics[width=\textwidth]{graph_023_base_quad_saturate_extend-0c6.eps}
-        \caption{Non-multiply multi-cycle instructions.}
+        \subcaption{Non-multiply multi-cycle instructions.}
         \label{fig:consumptionmulti}
-    \end{subfigure}
+    \end{minipage}
     \caption{Figures from \cite{rundehvatum2013exploring} showing the results of
         measuring the current drain through the CPU core while running isolated
         instructions in a loop. The values are measured current drain multiplied
