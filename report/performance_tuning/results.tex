@@ -59,7 +59,7 @@ the green line is a direct plot of readings from the bench setup (see \autoref{f
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/trend-trend.pdf}
-    \caption{Training results for the trend-test.}
+    \caption{Overlay of PET training results (red) and training data (green) for the trend-test.}
     \label{fig:trend-training}
 \end{figure}
 
@@ -79,7 +79,7 @@ algorithm over-estimate the cost of idle.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/trend-submul.pdf}
-    \caption{Overlay of PET training results (red) and training data (green).}
+    \caption{Overlay of PET training results (red) and training data (green) for the submul-test.}
     \label{fig:submul-training}
 \end{figure}
 
@@ -94,7 +94,7 @@ operations for program flow, storage, registers, adresses, and so on.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/pi-pi.pdf}
-    \caption{Overlay of PET training results (red) and training data (green).}
+    \caption{Overlay of PET training results (red) and training data (green) for the pi-test.}
     \label{fig:pi-training}
 \end{figure}
 
@@ -107,7 +107,7 @@ a rather common workload, this is a very promissing result.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/sha2-sha2.pdf}
-    \caption{Overlay of PET training results (red) and training data (green).}
+    \caption{Overlay of PET training results (red) and training data (green) for the sha2-test.}
     \label{fig:sha2-training}
 \end{figure}
 
@@ -116,5 +116,8 @@ sha512 hash sum.  The test results is figured in \autoref{fig:sha2-training} and
 differes from the other tests by beeing more memory intensive at the same time
 as it is an extensive user of both multiply and simple integer operations. This
 test is also well within 10~\% of measured and is yet another example of good
-performance on general workloads.
+performance on general workloads. A caveat with this last benchmark is that it
+utilized the \texttt{read} system call, thus the power will be slightly
+uncorrect. Wherever power is overestimated or underestimated depends on how
+cheap the \texttt{read}-procedure is for the CPU-core and how long it takes.
 
