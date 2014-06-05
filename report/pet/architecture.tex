@@ -34,8 +34,8 @@ vector (map). When all lines are read and parsed, the results vectors are
 merged, and idle-task power and static power consumption is added (reduce). This
 combination of algorithms allows PET to take advantage of as many cores as
 possible, limted only by how fast the producer can read the log files. Finally,
-a human readable output is produces, either as a gnuplot line graph or as
-formatted or plain text output.
+a human readable output is produces, either as a \texttt{gnuplot} line graph or
+as formatted or plain text output.
 
 The next subsections will describe in detail the most imporatant parts of the
 workflow. For further understanding of the program flow, a call graph extracted
@@ -193,8 +193,9 @@ is feed to the \texttt{OutputProducer}-object as seen in \autoref{fig:callgraph}
 The \texttt{OutputProducer}-object is responsible for generating output as defined
 by the input arguments. Its options have already been described in \autoref{sec:output},
 and its implementation is a simple nested if-else-clause that calls internal functions for
-each output type. The graphical output is produced using a wrapper around GNUPlot, while
-the textual outputs are created by \texttt{printf}-statements.
+each output type. The graphical output is produced using a wrapper around
+\texttt{gnuplot}, while the textual outputs are created by
+\texttt{printf}-statements.
 
 
 \subsection{Unit Tests}
