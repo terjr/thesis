@@ -5,19 +5,20 @@
     in modern computer design. High power density limits further performance
     growth, and energy efficiency affects both the power bill for supercomputers
     and battery lifetime for embedded devices. In this thesis we investigate
-    energy consumption and architectural properties of an ARM Cortex-A9 and
-    create a tool for estimating its power consumption through simulation.
+    energy consumption and architectural properties of an ARM Cortex-A9.
+    Further, we use this information to create a tool for estimating its power
+    consumption through simulation.
 
     Instruction level energy consumption is determined through measurements and
-    experiments done on real hardware, which are further mapped to architectural
-    events found in the gem5 simulator. Our tool utilizes these events together
-    with a simulator trace log and outputs a representation of energy
-    consumption over time.
+    experiments done on real hardware, which are further mapped to certain
+    architectural events found in the gem5 simulator. Our tool utilizes these
+    events together with a simulator trace log and outputs a representation of
+    energy consumption over time.
 
     Our method can be applied during the development process at the simulator
     level, while traditional methods typically involves hardware synthesis. The
-    results shows that our tool can estimate energy consumption within 10~\% on
-    general workloads, and is able to identify power consumption trends
+    results shows that our tool can estimate energy consumption within 10~\% 
+    error on general workloads, and is able to identify power consumption trends
     throughout a program.
 
 \end{abstract}
