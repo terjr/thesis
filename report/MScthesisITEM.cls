@@ -46,7 +46,7 @@
 \clubpenalty  = 5000
 \widowpenalty = 5000
 
-\setlength{\parindent}{1.5em}
+\setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 
 % Divisors
