@@ -2,8 +2,8 @@
 
 There are many considerations to take before creating a tool that should pretend
 to understand the implementation of hardware and the implications of features
-regarding energy efficiency. Care must be taken so that important information is
-extracted from the hardware model while irrelevant noise is filtered out.
+regarding energy efficiency. Through the next sections, we develop a model to be
+used in PET and define its input.
 
 
 \subsection{Energy Modeling}
@@ -19,8 +19,8 @@ the desired features of past energy models.
     E_{static}}{T_{sampling}}
 \end{equation}
 
-This method depends on two things. First, one must know sufficient details of
-the processor to identify datapath components in order to form the
+This method depends on two things. First, one must have sufficient details of
+the processor in order to identify datapath components to form the
 $A_{datapath}$ matrix. The entries in $A_{datapath}$ are the invocation counts
 of physical components in the datapath with respect to the workload metric
 $w(t)$. $w(t)$ is typically comprised of instruction types or key operational
@@ -32,19 +32,22 @@ engineering and benchmarking, however, the $E_{unit}$ is rarely available for
 commercial processors. When building the model for PET, we simplify the model
 from \cite{song2012instruction} by combining $A_{datapath}$ and $E_{unit}$ to
 form a vector of weights that directly corresponds to the cost of an event. We
-can then model energy by the following formula.
+call this vector $C$. Power for each core over time, $P_{core}(t)$, is then
+modeled by the following formula.
 
 \begin{equation}
     P_{core}(t) = \frac{C \cdot w(t) + E_{static}}{T_{sampling}}
 \end{equation}
 
-Here, C represents the global cost vector -- a matrix enumerating the cost
+Here, $C$ represents the global cost vector -- a matrix enumerating the cost
 for all event types. Note that it is global and do not depend on time.
+$T_{sampling}$ represents the sampling period and $E_{static}$ the static energy
+consumption.
 
 \subsection{Power Consuming Events}
 \label{subsec:powerevents}
 
-Choosing which events should be tracked and what workload that would give good
+Choosing which events should be tracked and which workloads that would give good
 metrics is an important part of our method. We account for two main groups of
 events; CPU instruction events and memory activity events. The contents of these
 groups are listed in \autoref{tbl:events}. It is desirable to estimate energy
@@ -56,28 +59,21 @@ sort of trace logs, and even if they are formatted different, the effort of
 adjusting to a new format is a lot less than the effort of building this tool
 within another simulator.
 
-The trace logs contains information about everything that goes on within the
-fictional computer, and thus PET can extract useful information from this log
-file. A piece of such useful information is defined in PET as a \emph{simulator
-event}. A simulator event can be thought of as a unit of work that uses a
-specified amount of energy. When PET finds such an event, it increases the
-modelled energy consumption along the timeline at the time the event took place.
-
 \begin{table}[ht]
     \centering
     \begin{minipage}[b]{\linewidth}
         \centering
         \begin{tabular}{|l|l|}
             \hline
-            IntAlu    & Integer basic ALU operation\\
+            IntAlu      & Basic integer ALU operation\\
             \hline
-            IntMult    & Integer multiply ALU operation \\
+            IntMult     & Integer multiply ALU operation \\
             \hline
-            MemRead    & Memory Read issued, triggers LS-unit \\
+            MemRead     & Memory Read issued, triggers LS unit \\
             \hline
-            MemWrite    & Memory Write issued, triggeres LS-unit \\
+            MemWrite    & Memory Write issued, triggers LS unit \\
             \hline
-            SimdFloatMisc     & NEON-unit activated \\
+            SimdFloatMisc     & NEON unit activated \\
             \hline
         \end{tabular}
         \subcaption{CPU Core Events.}
@@ -110,12 +106,19 @@ modelled energy consumption along the timeline at the time the event took place.
     \label{tbl:events}
 \end{table}
 
-The events briefly described in \autoref{tbl:events} are the ones recognized by
-PET. These events are selected based mainly on what information that is easily
-extracted from a gem5-formatted trace log, but also adjusted by what information
-we could check with performance counters without a very high amount of effort.
-Most of this information is available from \cite{rundehvatum2013exploring},
-where different instruction loops where measured with both ammeter and
-performance counters. This is then correlated with the workings of
-the pipeline (as seen in \autoref{fig:a9arch}).
+The trace logs contains information about everything that goes on within the
+fictional computer. A piece of such useful information is defined in PET as a
+\emph{simulator event}. A simulator event can be thought of as a unit of work
+that uses a specified amount of energy. When PET finds such an event, it
+increases the modeled energy consumption at the correct point in time where the
+event took place.
+
+The events briefly described in \autoref{tbl:events} are the ones currently
+recognized by PET, but adding more (or removing) events is trivial. These events
+are selected mainly based on the information which is easily extracted from a
+gem5-formatted trace log, but also adjusted according to what we could check
+with performance counters on hardware. Most of this information is available
+from \cite{rundehvatum2013exploring}, where different instruction loops were
+measured with both ammeter and performance counters. This is then correlated
+with the workings of the pipeline (as seen in \autoref{fig:a9arch}).
 

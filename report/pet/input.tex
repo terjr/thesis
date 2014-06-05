@@ -1,23 +1,18 @@
 \section{Input}
-New hardware architectures are not easily analysed without physical
-implementation, but often we are able to simulate its behaviour to acceptable
-accuracy, and thus we are able to test different implementations with low cost.
-These simulation runs can often be set up to produces trace logs which contains
-a user controlled amount of detail. PET can use these trace logs and scan them
-for predefined events, each affecting the power consumption of the simulated
-hardware. Different simulators have different trace log formats and different
-trace abilities. We have chosen gem5 as our target simulator as it is easy to
-configure, and trace is well implemented. As mentioned in
-\autoref{subsec:simulators} other options are available, but the support for
-easily configurable CPU- and memory system along with the pre-implemented ARM
-processors and in-department hands-on experience with this simulator made gem5
-the most logical choice.
+
+PET needs two types of data in order to model power; a simulator trace log and
+event-type weights. Optionally, PET can also read an annotation file and display
+function calls in the output.
 
 \subsection{gem5 Trace Logs}
-When run with \texttt{--debug-flags=Bus,Cache,MemoryAccess,Exec} gem5 will output trace files look like
-the text displayed in \autoref{lst:trace}.
+In order to create the simulator trace log with required information, gem5 must
+be run with a specific set of parameters. By executing gem5 with
+\texttt{\textemdash\textemdash
+debug-flags=Bus,\allowbreak{}Cache,\allowbreak{}MemoryAccess,\allowbreak{}Exec},
+gem5 will output trace files that look like \autoref{lst:trace}.
 
-\begin{lstlisting}[basicstyle=\tiny,caption={gem5 Trace Log.},label={lst:trace},escapeinside={@}{@},float]
+\begin{lstlisting}[basicstyle=\tiny,caption={gem5 Trace
+Log.},label={lst:trace},escapeinside={@}{@},float=htb]
 @\label{line:physmem}@3021: system.physmem: Write of size 8 on address 0x82fe0 data 0xe1a0f00eee1d0f70
 @\label{line:icache}@3021: system.cpu.icache: access for ReadReq address 9c0 size 64
 @\label{line:cachemiss}@3021: system.cpu.icache: ReadReq (ifetch) 9c0 miss-
@@ -42,38 +37,22 @@ physical memory has happened. \autoref{line:icache} is the event of instruction
 cache access, while \autoref{line:cachemiss} shows that this request failed.
 During this simulation, there is also events like \autoref{line:cacheupdate}
 which represents that the data cache updates some content. The discrete
-instructions running through the CPU is also logged, eg. \autoref{line:memread}
-shows a load-instruction and \autoref{line:intalu} shows an
-addition-instruction.
+instructions running through the CPU is also logged, e.g. \autoref{line:memread}
+shows a load instruction and \autoref{line:intalu} shows an add instruction.
 
-As discrete events are picked out from the trace logs, PET accumulates power
-consumption in equally sized timeslots, called buckets. Each bucket has a
-parameter controlled size in terms of simulator ticks. Often it is more
-practical to specify the number of buckets in the output rather then specifying
-the number of simulator ticks in each bucket. Because of this, PET is able to
-estimate the bucket size by peeking at the tick at the last line of the trace
-file. It has been shown that the trace file is not nessesary in tick order,
-but it will commonly be at approximatly the last tick at the last line. The
-bucket size estimation algorithm is shown in \autoref{alg:bucket_size}.
+Discrete events are extracted from the trace log and power consumption is
+accumulated in equally sized timeslots in PET. Internally, these time steps are
+called buckets and its size is parameter controlled (in terms of simulator
+ticks). Often, it is more practical to specify the number of buckets in the
+output rather then specifying the number of simulator ticks in each bucket.
+PET is able to estimate the bucket size by peeking at the last tick of a trace
+file. The trace file is not necessarily in tick order, but close enough to set
+a reasonable bucket size. The bucket size estimation algorithm is shown in
+\autoref{alg:bucket_size}.
 
-\begin{algorithm}
+\begin{algorithm}[htb]
     \caption{Bucket Size Detection Algorithm.}
     \label{alg:bucket_size}
-%    \begin{algorithmic}
-%        \Function{numTicks}{$traceFile$}
-%
-%        \State $eofPos \gets \Call{getSize}{traceFile}$
-%        \State $\Call{seek}{traceFile, eofPos - 3}$
-%        \State
-%        \State $char \gets \Call{getChar}{traceFile}$
-%        \While{$char \ne newline$}
-%            \State $\Call{seek}{traceFile, -1}$
-%        \EndWhile
-%        \State $line \gets \Call{getLine}{traceFile}$
-%        \State $simulatorEvent \gets \Call{parseLine}{line}$
-%        \State \Return $\Call{getTick}{simulatorEvent}$
-%        \EndFunction
-%    \end{algorithmic}
     \begin{lstlisting}[language=Python,style=algo]
 function numTicks( traceFile ):
     # Find file size
@@ -95,29 +74,31 @@ function numTicks( traceFile ):
     \end{lstlisting}
 \end{algorithm}
 
-\autoref{lst:trace} also shows that the events in the trace log is not nessesary in their
-correct order, thus PET has to be able to add power consumption to the entire timeline at all
-time. This means that we are unable to produce continous output, but have to store the
-results in memory and dump them when the entire input is parsed.
+\autoref{lst:trace} shows that the events in the trace log is not necessarily in
+their correct order. This means that PET must accumulate power consumption to the
+entire timeline at all time. Consequently, we are unable to produce a continous
+output flow, but have to store the results in memory and dump them when the
+entire input is parsed.
 
 
 \subsection{PET Weight Files}
+
 Equally important as finding the correct events is assigning each event the
 correct amount of power consumption. As each event will count differently
 depending on the architecture, PET will read a weight file along with the gem5
-trace log. A sample weight file is listed out in \autoref{lst:weights_example}.
-As the timeslots are specified in simulator ticks instead of CPU cycles, the
-values have been chosen to match a 2~GHz processor, which then means one CPU
-cycle pr. 500 simulator ticks using standard gem5 simulation granularity.  If
-you are applying this method to a processor with a different clock speed than
-2~GHz, be aware that the numbers has to be scaled propotionally. This is not the
-case for the static power drain, as it is simply added to each timeslot, and is
+trace log. A sample weight file is shown in \autoref{lst:weights_example}. As
+the timeslots are specified in simulator ticks instead of CPU cycles, the values
+have been chosen to match a 2~GHz processor, i.e. one CPU cycle per 500
+simulator ticks \footnote{This is the default gem5 simulation granularity.}.
+If you are applying this method to a processor with a different clock speed than
+2~GHz, be aware that the weights has to be scaled proportionally. This is not
+the case for the static power drain, as it is simply added to each timeslot, and
 not scaled in accordance with bucket size. It is also important to understand
 that the weight is applied once for each event, so events that naturally takes a
 number of cycles will have a high weight which is in reality distributed over
 many ticks. This will not be accurate if an expensive event is applied at the
 border of a bucket, but we assume that accuracy at this level is not important
-enought to add complexity to PET in order to get correct.
+enough to increase the complexity of PET.
 
 \lstinputlisting[caption={Weight File Example.},label={lst:weights_example},float,language=Python]{examples/weights.conf}
 
@@ -151,33 +132,23 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
     return output
 \end{lstlisting}
 \end{algorithm}
-%weightfiles
-%
 
 \subsection{Program Annotation Files}
 \label{subsec:annot}
 
-PET has the ability to annotate its output using a map from PC to function
-name. The simulated binary itself is not an input to PET, instead PET comes
-bundled with a tool called \texttt{scripts/annotate.sh}. This tool simply
-extracts symbols from the binary files, which must be compiled with debugging
-symbols, to a new text file in a format equal to the one seen in
-\autoref{lst:annot}. The left column in the output file is simply the address
-where the function label points, and the right column is the function name. The
-function names are also commonly referred to as symbols. PET will tag each power
-bucket with the last seen symbol within that bucket, that is the last match
-between the simulators program counter and the referred address. PET chooses the
-last seen symbol over any other symbols within the same bucket since chances are
-that this is a function call with a long lasting loop. If this is not the case,
-a new symbol would appear early in the next measure point, and we have not found
-any good reason not to select that particular symbol for data point annotation.
+PET has the ability to annotate its output using a map from PC to function name
+(or rather, symbol name). The simulated binary itself is not an input to PET,
+instead PET comes bundled with an annotation tool: \texttt{scripts/annotate.sh}.
+This tool extracts symbols from the binary file, compiled with debugging
+symbols, to a text file in the format seen in \autoref{lst:annot}. The left
+column represents the address where the function is found, and the right
+column is the function name. PET will tag each bucket with the last seen
+symbol within that bucket. \texttt{scripts/annotate.sh} is constructed by using
+\texttt{objdump} and is printed in \autoref{lst:annotscript}.
 
 \lstinputlisting[caption={Annotation File Example.},label={lst:annot},float,language=Python]{examples/annot.conf}
-
-The symbols extraction tool itself is actually just a simple script, its source is printed
-in \autoref{lst:annotscript}.
-
-\lstinputlisting[float=htb,label={lst:annotscript},caption={Extract Symbols from Binary.},language=sh]{../pet/scripts/annotate.sh}
+\lstinputlisting[float=htb,label={lst:annotscript},caption={\texttt{scripts/annotate.sh}:
+Script to extract symbols from a binary.},language=sh]{../pet/scripts/annotate.sh}
 
 It should be mentioned that a program compiled with debugging symbols contains
 hundreds, if not thousands of symbols. Often, many of these symbols are called
@@ -186,8 +157,4 @@ using any symbols at all. This often renders a graphical representation of the
 power log with complete annotation as a complete mess. We have found it to be a
 good recommendation to create the annotation file using the mentioned tools, but
 manually filtering out only the symbols of interest.
-
-
-
-
 
