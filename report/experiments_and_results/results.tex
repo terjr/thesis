@@ -1,12 +1,21 @@
 \section{Results and Discussion}
 
+PET has been benchmarked by simulating the test workloads and comparing measured
+current drain from the ammeter with the output from PET, similar to how fitness
+is calculated from the training data sets and their corresponding measurements
+in \autoref{sec:multiobjective}.
+
+
+\subsection{Presentation of Test Sets}
+
 The \texttt{dhrystone-dhry} test results drawn in \autoref{fig:dhry-training}
-is chosen as the final test for PET as it utilize a wide range of both the
+is chosen as one of the final tests for PET as it utilize a wide range of both the
 integer parts and memory system of the processors. The Dhrystone benchmark will
 provide a scenario where all input weights for PET at least must add up to the correct
-overall power drain. There is, of course, a chance that the values are weighted wrongly, but
-still matches the sum of the real power drain. We cannot guarantee that 
-
+overall power drain. There is a chance that the values are weighted wrongly, but
+still matches the sum of the real power drain, but the indication given by a decent hit
+on both training sets and the \texttt{dhrystone-dhry} is that the genetic algorithm
+found a good weight set for the ARM Cortex-A9-based processor.
 
 \begin{figure}[ht]
 \centering
@@ -15,7 +24,26 @@ still matches the sum of the real power drain. We cannot guarantee that
 \label{fig:dhry-training}
 \end{figure}
 
+The next test is \texttt{add-add}, which is displayed in \autoref{fig:add-training}.
+It is especially interesting because is utilized the fast-loop mode of the
+Cortex-A9. This means that it would not need to use its L1 cache way near as
+much as the simulator thinks, as the simulator does not embed fast-loop. PET
+would then predict a higher power drain, as it thinks that the caches are in
+use. This is a problem one must be aware of when the simulator and realized
+hardware does not completely corresponds to each other. However, the main
+purpose of PET is to estimate changes done on simulation level, thus this is not
+a real problem in the ordinary usage scenarios.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figs/training/add-add.pdf}
+\caption{Overlay of PET training results (red) and training data (green).}
+\label{fig:add-training}
+\end{figure}
+
+
 \subsection{Explanations and Errors}
+
 The estimates given by PET is clearly created from a very high level of abstraction,
 and will never have enough information to exactly resemble the power profile of
 the realized chip. However, given that the power consuming events are carefully
@@ -48,24 +76,7 @@ randomly, but a specific event often happens at the same time as the power
 drain, the algorithm would try to blame the event for the drain, even if a human
 would exclude it as it not always correlating.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\textwidth]{figs/training/add-add.pdf}
-\caption{Overlay of PET training results (red) and training data (green).}
-\label{fig:add-training}
-\end{figure}
-
-The \texttt{add-add} test which is displayed in \autoref{fig:add-training} is
-especially interesting because is utilized the fast-loop mode of the Cortex-A9.
-This means that it would not need to use its L1 cache way near as much as the
-simulator thinks, as the simulator does not embed fast-loop. PET would then
-predict a higher power drain, as it thinks that the caches are in use. This is
-a problem one must be aware of when the simulator and realized hardware does not
-completely corresponds to each other. However, the main purpose of PET is to
-estimate changes done on simulation level, thus this is not a real problem in the
-ordinary usage scenarios.
-
-It is also clear from \autoref{tbl:gem5runtimeaccuracy} that the CPU model used
+It is clear from \autoref{tbl:gem5runtimeaccuracy} that the CPU model used
 in gem5 is not exactly equal to the Cortex-A9 core used in the Samsung Exynos
 4412 Prime SoC, thus each graph in both training and results are stretched to
 match each other. This is certainly a source of error, but from
