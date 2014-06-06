@@ -8,44 +8,36 @@ digraph PET {
     subgraph {
         rankdir = TB;
         rank="same";
-        parse3 [shape="none",label=<.<br/>.<br/>.>,height="0.3",margin="0",fixedsize="true"]
-        parse1->parse2 [style="invis"]
-        parse2->parse3 [style="invis"]
-        parse3->parse4 [style="invis"]
-    }
-    subgraph {
-        rankdir = TB;
-        rank="same";
+        parse3 [shape="none",label=<.<br/>.<br/>.>,height="0.3",margin="0",fixedsize="true"];
+        parse1->parse2 [style="invis"];
+        parse2->parse3 [style="invis"];
+        parse3->parse4 [style="invis"];
+    };
 
-        text->setup
-        text [label=<Trace<br/>log>,fillcolor=gray,style=filled]
-        setup [label=<Produce>]
-    }
-    setup -> split
-    split [label=<Ring<br/>buffers>];
-    split -> parse1 -> merge;
-    split -> parse2 -> merge;
-    split -> parse4 -> merge;
-    split -> parse3->merge [style="dashed",arrowhead="none"]
+    text->setup;
+    text [label=<Trace<br/>log>,fillcolor=gray,style=filled];
+    setup [label=<Produce>];
+
+    setup -> split1,split2,split4;
+    split1,split2,split4 [label=<Ring<br/>buffer>];
+    split3 [shape="none",label=<.<br/>.<br/>.>,height="0.3",margin="0",fixedsize="true"];
+    split1 -> parse1 -> merge;
+    split2 -> parse2 -> merge;
+    split4 -> parse4 -> merge;
+    setup->split3 ->parse3->merge [style="dashed",arrowhead="none"];
 
 
     parse1 [label=<Map>];
     parse2 [label=<Map>];
     parse4 [label=<Map>];
 
-    merge [label=<Reduce>]
+    merge [label=<Reduce>];
 
-    subgraph {
-        rankdir = TB;
-        rank="same";
+    output [label=<Format<br/>output>];
+    readable [label=<Output>,fillcolor=gray,style=filled];
 
-        output [label=<Format<br/>output>]
-        readable [label=<Output>,fillcolor=gray,style=filled]
-
-        output->readable
-    }
-
-    merge->output
+    output->readable;
+    merge->output;
 
 }
 
