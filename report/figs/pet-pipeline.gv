@@ -18,8 +18,12 @@ digraph PET {
     text [label=<Trace<br/>log>,fillcolor=gray,style=filled];
     setup [label=<Produce>];
 
-    setup -> split1,split2,split4;
-    split1,split2,split4 [label=<Ring<br/>buffer>];
+    setup -> split1;
+    setup -> split2;
+    setup -> split4;
+    split1 [label=<Ring<br/>buffer>];
+    split2 [label=<Ring<br/>buffer>];
+    split4 [label=<Ring<br/>buffer>];
     split3 [shape="none",label=<.<br/>.<br/>.>,height="0.3",margin="0",fixedsize="true"];
     split1 -> parse1 -> merge;
     split2 -> parse2 -> merge;

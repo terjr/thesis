@@ -40,14 +40,16 @@ which represents that the data cache updates some content. The discrete
 instructions running through the CPU is also logged, e.g. \autoref{line:memread}
 shows a load instruction and \autoref{line:intalu} shows an add instruction.
 
+The trace log input can be opened as a file or read from a \texttt{Unix} pipe.
 Discrete events are extracted from the trace log and power consumption is
 accumulated in equally sized timeslots in PET. Internally, these time steps are
 called buckets and its size is parameter controlled (in terms of simulator
 ticks). Often, it is more practical to specify the number of buckets in the
-output rather then specifying the number of simulator ticks in each bucket.
-PET is able to estimate the bucket size by peeking at the last tick of a trace
-file. The trace file is not necessarily in tick order, but close enough to set
-a reasonable bucket size. The bucket size estimation algorithm is shown in
+output rather then specifying the number of simulator ticks in each bucket. PET
+is able to estimate the bucket size by peeking at the last tick of a trace file.
+This is not possible when reading from a pipe (i.e. \texttt{stdin}). The trace
+file is not necessarily in tick order, but close enough to set a reasonable
+bucket size. The bucket size estimation algorithm is shown in
 \autoref{alg:bucket_size}.
 
 \begin{algorithm}[htb]
@@ -78,8 +80,7 @@ function numTicks( traceFile ):
 their correct order. This means that PET must accumulate power consumption to the
 entire timeline at all time. Consequently, we are unable to produce a continous
 output flow, but have to store the results in memory and dump them when the
-entire input is parsed.
-
+entire input is parsed. 
 
 \subsection{PET Weight Files}
 

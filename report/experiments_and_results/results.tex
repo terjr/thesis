@@ -84,3 +84,18 @@ match each other. This is certainly a source of error, but from
 in \autoref{fig:submul-training} it is reasonable to believe that the scaling
 works, as the change in program flow is shown not far from each other in the
 predicted graph and real measurement graph.
+
+
+\subsection{PET Processing Performance}
+
+We have run a simple benchmark by running PET on a system consisting of an
+Intel~Core~i7~4820, 32~GB DDR3~SDRAM and keeping the log files on a software RAID
+Level-0 consisting of two Western~Digital Caviar~Black 750~GB disks.
+
+It is our experience that reading the log file is not the bottleneck, and it is
+easy to feed at least 8 cores when the log file is hosted on a reasonable fast
+drive.
+PET running with 8 threads on this particular system is consuming the log files
+with a rate of 133MB/s regardless of where the log files resides in RAM or on
+disk. The benchmark used a log file of 5458MB and was run in 40.871 seconds.
+
