@@ -70,6 +70,18 @@ def read_input_matrix(tf):
     b = f.readline()
     return [a, ast.literal_eval(b)]
 
+def alu_type(weight):
+    if weight == 'IntAlu':
+        return True
+    elif weight == 'IntMult':
+        return True
+    elif weight == 'MemRead':
+        return True
+    elif weight == 'MemWrite':
+        return True
+    elif weight == 'SimdMiscFloat':
+        return True
+
 # Data = { bucket size, stats-map }
 def apply_weights(data, weights):
     results = []
@@ -80,7 +92,8 @@ def apply_weights(data, weights):
         numEvents = 0
         for weight in weights:
             value += d[weight]*weights[weight]
-            numEvents += d[weight]
+            if alu_type(weight):
+                numEvents += d[weight]
 
         ticksInCycle = floor(1000000/1700)
         idleTicks = int(data[0])/ticksInCycle - numEvents

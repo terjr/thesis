@@ -11,7 +11,7 @@ NUM_WEIGHTS = 9
 toolbox = base.Toolbox()
 
 def mutate_weights(individual, indpb):
-    degree = (individual.fitness.values[0])**1.4 + 100
+    degree = (individual.fitness.values[0])**1.5 + 100
     if random.random() < sqrt(indpb):
         degree = degree * 3
         indpb = 0.7
@@ -139,6 +139,6 @@ def main():
 
 
     home = os.environ.get('HOME')
-    run_evolution(population, 6000, open(home + "/ga-results."+ str(os.getpid()), "a"))
+    run_evolution(population, 10000, open(home + "/ga-results."+ str(os.getpid()), "a"))
 
 main()
