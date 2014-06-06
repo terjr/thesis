@@ -6,38 +6,37 @@ correct direction. In our case, this is done by providing a reasonable set of
 workloads (i.e. ARMv7 programs) that stresses distinct modules in the processor.
 For instance, a memory intensive workload will have high density of
 memory-related events from the simulator, and will support the genetic algorithm
-in determining cost for memory accesses. It is very important for the set of
+in determining cost for memory accesses. It is important for the set of
 workloads that are chosen to be diverse and stress many conditions the processor
-can operate in, e.g. mixes of compute intensive and memory intensive programs.
-A poorly chosen set of workloads will not give a fair judgement on which genomes
-that fit fit well. A bad workload might be to biased towards a single or a set
-of parameters, neglecting the rest, or even mislead the genetic algorithm into a
-local minimum \cite{introtoga}. Another worry is that within the training set,
-there will most likely exist multiple Pareto-optimal solutions
-\cite{deb2014multi}, but no more than one of these can truly match the real
-power consumption.
+can operate in, e.g. mixes of compute intensive and memory intensive programs. A
+poorly chosen set of workloads will not give a fair judgement on which genomes
+that fit well. A bad workload might be to biased towards a single or a subset of
+parameters, neglecting the rest, or even mislead the GA into a local optimum
+\cite{introtoga}. Another worry is that within the training set, there will most
+likely exist multiple Pareto optimal solutions \cite{deb2014multi}, but only one
+of these can truly match the real power consumption.
 
-We came up with the following four workloads. The binary name is is the
-parenthesis.
+We came up with the following four workloads.
 
 \begin{description}
-    \item[Pi (pi-pi)] \hfill \\
-        This test calculates Pi using the Monte-Carlo method. It includes
-        floating point and more advanced operations such as multiply.
-    \item[Trend (trend-trend)] \hfill \\
-        This test resembles a two-part program consisting of
-        one part with ALU-operations and one part with intense memory usage.
-    \item[Submul (trend-submul)] \hfill \\
-        The submul test borrows ideas of a trend change in the middle of
-        the program, but instead of testing memory and ALU, this test compares
-        subtract and multiply.
-    \item[SHA-512 (sha2-sha2)]
-        \footnote{Despite the name, this implementation runs a SHA-512
-        algorithm} \hfill \\
-        The SHA-512 algorithm includes a mix of integer operations and
-        memory usage. Source code fetched from sha2-1.0.tgz at \cite{sha2}.
+    \item[Pi] \hfill \\
+        This test calculates Pi using Monte Carlo simulation. It includes
+        floating point and more advanced operations such as multiply. It runs
+        for a fixed amount of iterations.
+    \item[SHA-512] \hfill \\
+        The SHA-512 algorithm is a hashing algorithm used in cryptography. It
+        includes a mix of integer operations and memory usage. Source code
+        fetched from sha2-1.0.tgz at \cite{sha2}.
+    \item[Trend] \hfill \\
+        This test has two parts. It starts with a tight add loop, and then
+        continues with extensive memory allocation. Presumably, this will create
+        a shift in energy consumption between the two stages.
+    \item[SubMul] \hfill \\
+        The SubMul test borrows ideas from the previous program, but instead of
+        testing ALU and memory, this test compares subtract and multiply.
 \end{description}
 
 We claim that the workloads used in this experiment spans the most common
-instruction types while being simple enough to be simulated in reasonable time.
+instruction types while being simple enough to be simulated in gem5 on
+reasonable time.
 

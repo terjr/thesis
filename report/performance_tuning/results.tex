@@ -1,123 +1,135 @@
 \section{Results}
 
-
-
-There are several factors that together makes up the total performance of PET. First, the simulator must be
-configured as close to the real hardware as time and knowledge permits. Next, one must find power weights that
-seems close to those of the realized hardware. In this particular research, the processor is already existing,
-and the simulator, PET and the strategy of the gentetic algorithm will determine how close power consumption
-can be estimated. This section will take a closer look to each of these parameters.
+We have now discussed how PET must be tuned to work with satisfying accuracy.
+Here we present the results obtained by tuning towards the ARM Cortex-A9.
 
 \subsection{gem5 CPU Model Accuracy}
 
-After modeling different configurations for gem5, accuracy as depicted in \autoref{tbl:gem5runtimeaccuracy}
-was achieved. Each test was run with the command written out in \autoref{lst:gem5commandline}, with \texttt{CPU}
-changed with  \texttt{exynos\_4412p}, \texttt{arm\_detailed} and \texttt{timing}.
+We modeled different CPU configurations for gem5 and achieved runtime in
+milliseconds as tabulated in \autoref{tbl:gem5runtimeaccuracy}. Each test was
+run with the command in \autoref{lst:gem5commandline}, with \texttt{\$CPU}
+changed to \texttt{exynos\_4412p}, \texttt{arm\_detailed} and \texttt{timing}.
 
-% Move table to result chapter
-\begin{table}
-\centering
-\begin{tabular}{|l|c|c|c|c|c|}
-\hline
-   & add-add & pi-pi & sha2-sha2 & trend-trend & trend-submul\\
-\hline
-Real hardware & 0.014900  & 0.013500 & 0.022600 & 0.014600 & 0.028200\\
-gem5 modified O3    & 0.017541 & 0.013790 & 0.022819 & 0.011898 & 0.023978 \\
-gem5 original O3    & 0.008777 & 0.006708 & 0.010368 & 0.004344 & 0.008653\\
-gem5 timing simple  & 0.035039 & 0.019564 & 0.040659 & 0.020503 & 0.041964 \\
-\hline
-\end{tabular}
-\caption{gem5 runtime accuracy (O3 with classic memory system).}
-\label{tbl:gem5runtimeaccuracy}
-\end{table}
-
-\begin{lstlisting}[float=htb,language=sh,numbers=none,label={lst:gem5commandline},caption={gem5 Command Line.}]
-$ build/ARM/gem5.opt --remote-gdb-port=0 -d m5out-time/sha2-sha2
-    configs/example/se.py -c bin/sha2/sha2 --cpu-type=CPU
+\begin{lstlisting}[float=htb,language=sh,numbers=none,label={lst:gem5commandline},caption={gem5
+Command Line.}]
+$ build/ARM/gem5.opt --remote-gdb-port=0 -d m5out
+    configs/example/se.py -c bin --cpu-type=$CPU
     --mem-type=LPDDR2_S4_800_x32 --sys-clock=440MHz
     --cpu-clock=1700MHz --num-l3caches=0 --caches --l2cache
     --l2_assoc=16 --l2_size=1MB --l1d_size=32kB
     --mem-size=2048MB --l1d_assoc=4 --l1i_assoc=4
 \end{lstlisting}
 
-\subsection{GA Optimization and Results}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+                & Pi      & SHA-512 & Trend   & SubMul \\
+\hline
+Real hardware   & 13.500  & 22.600  & 14.600  & 28.200 \\
+exynos\_4412p   & 13.790  & 22.819  & 11.898  & 23.978 \\
+arm\_detailed   &  6.708  & 10.368  &  4.344  &  8.653 \\
+timing          & 19.564  & 40.659  & 20.503  & 41.964 \\
+\hline
+\end{tabular}
+\caption{gem5 runtime accuracy (O3 with classic memory system).}
+\label{tbl:gem5runtimeaccuracy}
+\end{table}
+
+As can be seen, we were able to get the runtime of our modified O3
+model (\texttt{exynos\_4412p}) pretty close. With ordinary workloads Pi and
+SHA-512, the execution time differed by less
+than 2.2~\%. Trend and SubMul, the synthetic tests, differed by 22.7~\% and
+17.6~\%, respectively.
+
+
+
+\subsection{GA Optimization}
 
 As PET has been optimized by a genetic inspired algorithm, and it was expected
-to perform very well on the data sets it has been optimized for. When such
-training is done, a controll test is needed in order to verify that the result
-is good for the general problem solved, not only the specific instances used for
-training.
+to perform very well on the data sets it has been optimized for. When training
+is done, a control test is needed in order to verify that the result is good for
+the general problem solved, not only the specific instances used for training.
 
+Results from the training session are displayed in \autoref{fig:pi-training},
+\autoref{fig:sha2-training}, \autoref{fig:trend-training} and
+\autoref{fig:submul-training}. Each figure represents one of the workloads
+explained in \autoref{sec:workloads}. The red line in each figure represents the
+prediction done by PET, while the green line is a direct plot of readings from
+the test setup.
 
-Results from the training session arer displayed in
-\autoref{fig:trend-training}, \autoref{fig:pi-training},
-\autoref{fig:sha2-training} and \autoref{fig:add-training}. Each figure
-represents one of the workloads explained in \autoref{sec:workloads}.
-The red line in each figure represents the prediction done by PET, while
-the green line is a direct plot of readings from the bench setup (see \autoref{fig:setup} for a recap).
+\newpage
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=\textwidth]{figs/training/trend-trend.pdf}
-    \caption{Overlay of PET training results (red) and training data (green) for the trend-test.}
-    \label{fig:trend-training}
-\end{figure}
-
-The training set for \emph{trend} as printed in \autoref{fig:trend-training}.
-This test checks if PET can follow the flow from a ALU-intensive program to a
-memory-intensive program. The graph shows that PET misses with a little more
-than 10~mA, but the most important factor is that the change after about 7ms is
-resembled in the prediction. Given this change, we know that PET adjusts
-correctly for the change in instruction flow. The fact that the sudden drop in
-power consumption seems to come a bit too slow is most likely due to
-discrepancys between the gem5-model and the real hardware. It is also
-interesting that the begining and the end of the program is the most power
-consuming pieces. This is probably due to the simplistic method idle-time is
-calculated, and the out-of-order-nature of the processor makes the genetic
-algorithm over-estimate the cost of idle.
-
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=\textwidth]{figs/training/trend-submul.pdf}
-    \caption{Overlay of PET training results (red) and training data (green) for the submul-test.}
-    \label{fig:submul-training}
-\end{figure}
-
-Further, the \emph{submul}-test shown in \autoref{fig:submul-training} is
-created to follow the shift from simple integer operations and over to
-a multiplication-dominated loop. PET again follows the trend, but is
-overly hard on the cost of multiply. Again, the trend is the most important
-factor. It should also be noted that even tough the loop contains a lot of
-multiply, the assembled binary still uses a lot of "ordinary" integer
-operations for program flow, storage, registers, adresses, and so on.
-
+\subsubsection{Pi}
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/pi-pi.pdf}
-    \caption{Overlay of PET training results (red) and training data (green) for the pi-test.}
+    \caption{Overlay of PET training results (red) and training data (green) for the Pi test.}
     \label{fig:pi-training}
 \end{figure}
 
-The \emph{pi}-test displayed in \autoref{fig:pi-training} uses floating point
-and random-values (with a static seed).  the program is compiled with
-soft-float, thus it makes just another integer-test, but with a more intense use
-of different registers. This test has rather good accuracy, and as it represents
-a rather common workload, this is a very promissing result.
+The \emph{Pi} test uses floating point and random values with a static seed. The
+program is compiled with soft-float, so it really just becomes a integer stress
+test. We obtain rather good accuracy with this test and as it represents a
+common workload, this is a very promising result. It is interesting that the
+beginning and the end of the program is the most power consuming pieces. This is
+probably due to the simplistic method idle time is calculated, and the
+out-of-order nature of the processor makes the genetic algorithm overestimate
+the cost of idle.
 
+\newpage
+
+\subsubsection{Trend}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{figs/training/trend-trend.pdf}
+    \caption{Overlay of PET training results (red) and training data (green) for the Trend test.}
+    \label{fig:trend-training}
+\end{figure}
+
+The \emph{Trend} test checks if PET can follow the flow from an ALU intensive
+program to a memory intensive program. The graph shows that PET misses with a
+little more than 10~mA, but the most important factor is that the drop at $7~ms$
+is resembled in the prediction. Given that PET recognizes this drop, we know that PET adjusts
+correctly for the change in instruction flow. The fact that the sudden drop in
+power consumption seems to come a bit too slow is most likely due to
+discrepancies between the gem5 model and the real hardware.
+
+\newpage
+
+\subsubsection{SubMul}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{figs/training/trend-submul.pdf}
+    \caption{Overlay of PET training results (red) and training data (green) for the SubMul test.}
+    \label{fig:submul-training}
+\end{figure}
+
+Further, the \emph{SubMul} test is created to follow the shift from simple
+integer operations and over to a multiplication-dominated loop. PET again
+follows the trend, but is overly rough on the cost of multiply. Again, the trend
+is the most important factor. It should also be noted that even tough the loop
+contains a lot of multiply, the assembled binary still uses a lot of "ordinary"
+integer operations for program flow, storage, registers, addresses, and so on.
+
+\newpage
+
+\subsubsection{SHA-512}
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/sha2-sha2.pdf}
-    \caption{Overlay of PET training results (red) and training data (green) for the sha2-test.}
+    \caption{Overlay of PET training results (red) and training data (green) for
+    the SHA-512 test.}
     \label{fig:sha2-training}
 \end{figure}
 
-The last test in the performance tuning algorithm, \emph{sha2}, calculates a
-sha512 hash sum.  The test results is figured in \autoref{fig:sha2-training} and
-differes from the other tests by beeing more memory intensive at the same time
-as it is an extensive user of both multiply and simple integer operations. This
+The last test in the performance tuning algorithm calculates a
+SHA-512 hash sum. The test results is figured in \autoref{fig:sha2-training} and
+differs from the other tests by being more memory intensive at the same time
+as it is an extensive user of both multiply and simpler integer operations. This
 test is also well within 10~\% of measured and is yet another example of good
 performance on general workloads. A caveat with this last benchmark is that it
-utilized the \texttt{read} system call, thus the power will be slightly
-uncorrect. Wherever power is overestimated or underestimated depends on how
-cheap the \texttt{read}-procedure is for the CPU-core and how long it takes.
+utilized the \texttt{read} system call. Thus, the power will be slightly
+incorrect. Wherever power is overestimated or underestimated depends on how
+cheap the \texttt{read} procedure is for the CPU core and how long it takes.
 
