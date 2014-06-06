@@ -1,31 +1,32 @@
-\section{Description of the Ultimate Power Estimator}
-The goal of any power estimator tool would be deliver the correct answer
-of how much power a certain architecture would use, but there are many
-caveats making this almost impossible with our current methods.
+\section{Power Estimation Challenges}
 
-A simple and non-complete list of things that are important with respect to power consumption,
-but are very hard to get correct in a simulator are described in the following list:
-    \begin{description}
-    \item[Cache and memory state]
-        The cache and memory systems, together with all sorts of cache prefetchers, branch predictors,
-        fast-loop queues and so on will make it difficult to assure that the simulated system are in
-        the exact same state as the physical system.
-    \item[Interrupts]
-        It is very hard to predict when interrupts will come. Interrupts mostly cause context switches,
-        and thus a change in system behaviour and power drain.
-    \item[CPU and system specifications not disclosed to tester]
-        Unless the whole system is built in-house, there will often be certain specifications that
-        are not available to the tester. PET was built against a CPU where some details where not disclosed,
-        and thus it was not trivial to find the most likly details to feed to the simulator.
-    \item[Real world implementation vs. simulated architecture]
-        A simulated system will in most cases resemble ideas, not the exact implementation. This means
-        that one can test if an idea work, but it is hardly assumed that the simulated system is exactly
-        equal to any real world system.
-    \end{description}
-This presented list is by no means a show stopper, but tells us
-that we need to focus on something that is good enough. The best power estimator that could
-ever be built around a simulator would be the one that reflected the ideas of the simulated
-hardware in the best way possible. Such an estimator would also give a hint about final power
-consumption and its trend over a set of test programs, and would such be usable for application
-specific power optimization as well as general power optimizations. PET aims to be applicable for
-both these concepts.
+Creating PET has revealed a number of challenges of simulator supported power
+estimation. The goal of any power estimator tool would be deliver the correct
+answer of how much power a certain architecture would use, but many caveats
+makes this almost impossible with current methods. A non-complete list of things
+that are important with respect to power consumption, but are hard to get
+correct in a simulator are described in the following list.
+
+\begin{description}
+    \item[Cache and memory state:]
+        The cache and memory systems, together with all sorts of cache
+        prefetchers, branch predictors, fast-loop queues and so on will make it
+        difficult to assure that the simulated system are in the exact same
+        state as the physical system.
+    \item[Interrupts:]
+        It is very hard to predict when interrupts occur. Interrupts causes
+        context switches, and thus a change in system behaviour and power drain.
+    \item[Undisclosed CPU and system specifications:]
+        Unless the whole system is built in-house, there will often be certain
+        specifications that are not available to the tester. PET was built
+        against a CPU where many details were undisclosed; it was not trivial to
+        find sufficient details to configure the simulator.
+\end{description}
+
+The above list is by no means a show stopper. However, half-measures must be
+taken if a non-complete simulator is used. Nevertheless, fruitful results can
+still be obtained. The best power estimator that could ever be built around a
+simulator would be the one that reflected the ideas of the simulated hardware in
+the best possible way. This estimator would give a hint about final power
+consumption and its trend over a set of test programs, and would be usable for
+application specific power optimization.
