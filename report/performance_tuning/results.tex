@@ -58,6 +58,8 @@ explained in \autoref{sec:workloads}. The red line in each figure represents the
 prediction done by PET, while the green line is a direct plot of readings from
 the test setup.
 
+\lstinputlisting[caption={Final weight configuration.},label={lst:weights},float,language=Python]{../pet/weights.conf}
+
 \newpage
 
 \subsubsection{Training Set: Pi}
@@ -89,7 +91,7 @@ the cost of idle.
 
 The \emph{Trend} test checks if PET can follow the flow from an ALU intensive
 program to a memory intensive program. The graph shows that PET misses with a
-little more than 10~mA, but the most important factor is that the drop at $7~ms$
+little more than $10~mA$, but the most important factor is that the drop at $7~ms$
 is resembled in the prediction. Given that PET recognizes this drop, we know that PET adjusts
 correctly for the change in instruction flow. The fact that the sudden drop in
 power consumption seems to come a bit too slow is most likely due to
