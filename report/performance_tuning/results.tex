@@ -43,7 +43,6 @@ than 2.2~\%. Trend and SubMul, the synthetic tests, differed by 22.7~\% and
 17.6~\%, respectively.
 
 
-
 \subsection{GA Optimization}
 
 As PET has been optimized by a genetic inspired algorithm, and it was expected
@@ -51,14 +50,29 @@ to perform very well on the data sets it has been optimized for. When training
 is done, a control test is needed in order to verify that the result is good for
 the general problem solved, not only the specific instances used for training.
 
-Results from the training session are displayed in \autoref{fig:pi-training},
+\autoref{lst:weights} lists out the final weights found by the GA. The weights
+have resonable values for the ALU operations (\texttt{IntAlu, IntMult, MemRead,
+MemWrite, SimdFloatMisc}) with respect to the results found in
+\cite{rundehvatum2013exploring}.  The values for the cache hierarcy
+(\texttt{L1DR, L1DW, L1IR, L1IW, L2R, L2W}) does also seem advocate.
+\texttt{PhysR} and \texttt{PhysW} are set to zero since the pyhsical memory of
+the Exynos~4412~Prime are not believed to be powered by $V_{core}$. However,
+peculiar values are set for \texttt{Idle} and \texttt{Static}. Without knowing
+how these values tend to match the hardware platform, it is likely to think
+about high bus activity while the ALU is ideling, as this often is the case
+during intense memory activity.  One must also remember that the \texttt{Idle}
+events are calculated by a very simple model, and thus the cost might be high
+since too few idle cycles are recognized by PET.
+
+\lstinputlisting[caption={Final weight configuration.},label={lst:weights},float,language=Python]{../pet/weights.conf}
+
+Results for each training set after the training session are displayed in \autoref{fig:pi-training},
 \autoref{fig:sha2-training}, \autoref{fig:trend-training} and
 \autoref{fig:submul-training}. Each figure represents one of the workloads
 explained in \autoref{sec:workloads}. The red line in each figure represents the
 prediction done by PET, while the green line is a direct plot of readings from
 the test setup.
 
-\lstinputlisting[caption={Final weight configuration.},label={lst:weights},float,language=Python]{../pet/weights.conf}
 
 \newpage
 
@@ -72,14 +86,12 @@ the test setup.
 
 The \emph{Pi} test uses floating point and random values with a static seed. The
 program is compiled with soft-float, so it really just becomes a integer stress
-test. We obtain rather good accuracy with this test and as it represents a
-common workload, this is a very promising result. It is interesting that the
-beginning and the end of the program is the most power consuming pieces. This is
-probably due to the simplistic method idle time is calculated, and the
-out-of-order nature of the processor makes the genetic algorithm overestimate
-the cost of idle.
-
-\newpage
+test. We obtain rather good accuracy with this test, in general the error is a
+little less than $10~mA$. As it represents a common workload, this is a very
+promising result. It is interesting that the beginning and the end of the
+program is the most power consuming pieces. This is probably due to the
+simplistic method idle time is calculated, and the out-of-order nature of the
+processor makes the genetic algorithm overestimate the cost of idle.
 
 \subsubsection{Training Set: Trend}
 \begin{figure}[htb]
@@ -90,12 +102,12 @@ the cost of idle.
 \end{figure}
 
 The \emph{Trend} test checks if PET can follow the flow from an ALU intensive
-program to a memory intensive program. The graph shows that PET misses with a
-little more than $10~mA$, but the most important factor is that the drop at $7~ms$
-is resembled in the prediction. Given that PET recognizes this drop, we know that PET adjusts
-correctly for the change in instruction flow. The fact that the sudden drop in
-power consumption seems to come a bit too slow is most likely due to
-discrepancies between the gem5 model and the real hardware.
+program to a memory intensive program. The accuracy is close to the Pi training
+set, but the most important factor with this test is that the drop at $7~ms$ is
+resembled in the prediction. Given that PET recognizes this drop, we know that
+PET adjusts correctly for the change in instruction flow. The fact that the
+sudden drop in power consumption seems to come a bit too slow is most likely due
+to discrepancies between the gem5 model and the real hardware.
 
 \newpage
 
@@ -129,9 +141,5 @@ The last test in the performance tuning algorithm calculates a
 SHA-512 hash sum. The test results is figured in \autoref{fig:sha2-training} and
 differs from the other tests by being more memory intensive at the same time
 as it is an extensive user of both multiply and simpler integer operations. This
-test is also well within 10~\% of measured and is yet another example of good
-performance on general workloads. A caveat with this last benchmark is that it
-utilized the \texttt{read} system call. Thus, the power will be slightly
-incorrect. Wherever power is overestimated or underestimated depends on how
-cheap the \texttt{read} procedure is for the CPU core and how long it takes.
-
+test is well within 3~\% of measured and is yet another example of good
+performance on general workloads.
