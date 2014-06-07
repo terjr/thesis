@@ -103,6 +103,22 @@ diff --git a/configs/common/CpuConfig.py b/configs/common/CpuConfig.py
 \end{lstlisting}
 \vfill
 
+\section{src/arch/arm/linux/process.cc}
+\begin{lstlisting}[language=C++]
+diff --git a/src/arch/arm/linux/process.cc b/src/arch/arm/linux/process.cc
+--- a/src/arch/arm/linux/process.cc
++++ b/src/arch/arm/linux/process.cc
+@@ -66,7 +66,7 @@
+ 
+     strcpy(name->sysname, "Linux");
+     strcpy(name->nodename, "m5.eecs.umich.edu");
+-    strcpy(name->release, "3.0.0");
++    strcpy(name->release, "3.10.2");
+     strcpy(name->version, "#1 Mon Aug 18 11:32:15 EDT 2003");
+     strcpy(name->machine, "armv7l");
+\end{lstlisting}
+\vfill
+
 \section{scr/mem/SimpleDRAM.py}
 \label{gem5simpledram}
 \begin{lstlisting}[language=python,basicstyle=\tiny,numberstyle=\tiny]
@@ -170,18 +186,3 @@ diff --git a/src/mem/SimpleDRAM.py b/src/mem/SimpleDRAM.py
 \end{lstlisting}
 \vfill
 
-\section{src/arch/arm/linux/process.cc}
-\begin{lstlisting}[language=C++]
-diff --git a/src/arch/arm/linux/process.cc b/src/arch/arm/linux/process.cc
---- a/src/arch/arm/linux/process.cc
-+++ b/src/arch/arm/linux/process.cc
-@@ -66,7 +66,7 @@
- 
-     strcpy(name->sysname, "Linux");
-     strcpy(name->nodename, "m5.eecs.umich.edu");
--    strcpy(name->release, "3.0.0");
-+    strcpy(name->release, "3.10.2");
-     strcpy(name->version, "#1 Mon Aug 18 11:32:15 EDT 2003");
-     strcpy(name->machine, "armv7l");
-\end{lstlisting}
-\vfill
