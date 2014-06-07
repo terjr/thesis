@@ -33,11 +33,11 @@ figs/%-gv.pdf: figs/%.gv
 	dot figs/$*.gv -Tpdf -ofigs/$*-gv.pdf
 
 figs/training/%.pdf: figs/training/%-training.txt gnuplot_power.sh
-	./gnuplot_power.sh -y '200:340' -n $* -f figs/training -r ../powerlogs/root/m5bins/$(subst -,/,$*)/pet-log-cut -t $*-training.txt -g xy -o eps > $@
+	./gnuplot_power.sh -y '200:360' -n $* -f figs/training -r ../powerlogs/root/m5bins/$(subst -,/,$*)/pet-log-cut -t $*-training.txt -g xy -o eps > $@
 
 figs/training/%-training.txt: ../workloads/m5out-stable/%/trace.out ../pet/weights.conf ../pet/pet ../pet/weights.conf
 	mkdir -p figs/training
-	./apply_pet.sh $* > $@
+	./apply_pet.py $* > $@
 	#../pet/pet -w ../pet/weights.conf -o $@ -f plain -b $$(wc -l ../powerlogs/root/m5bins/$(subst -,/,$*)/pet-log-cut | awk '{print $$1}' ) -i ../workloads/m5out-stable/$*/trace.out -s -v
 
 figs/training/%-noscale.pdf: figs/training/%-noscale-training.txt gnuplot_power.sh
@@ -48,7 +48,8 @@ figs/training/%-noscale-training.txt: ../workloads/m5out-stable/%/trace.out ../p
 	../pet/pet -w ../pet/weights.conf -o $@ -f plain -B 100000000 -i ../workloads/m5out-stable/$*/trace.out -s -v
 
 ../pet/weights.conf: ${GAFILES}
-	../pet/scripts/update_weights.sh > $@
+#	../pet/scripts/update_weights.sh > $@
+	echo "Done"
 
 figs/%.tex: figs/%.dia
 		dia figs/$*.dia -t pgf-tex -e $@
