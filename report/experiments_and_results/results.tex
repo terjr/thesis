@@ -28,7 +28,7 @@ weighted wrongly, but still matches the sum of the real power drain. We claim
 that decent hits on all four training sets and the Dhrystone test indicates that
 the GA found a proper set of weight for the ARM Cortex-A9 processor. Please note
 that the y axis in \autoref{fig:dhry-training} starts at $200~mA$, and that the
-error is less than $8.8~\%$.
+error is less than $3.9~\%$.
 
 
 \newpage
@@ -46,10 +46,11 @@ test.}
 The next test is \texttt{Add}, which is displayed in \autoref{fig:add-training}.
 It is particularly interesting because it utilized the fast-loop in the
 Cortex-A9. This implies that it would not need its L1-cache nearly as much as
-the simulator, as the simulator does not implement fast-loop. PET would then
-predict a higher power drain, as it thinks that the caches are in use. This is a
-problem one must be aware of when the simulator and realized hardware does not
-completely correspond to each other. However, the main purpose of PET is to
+the simulator, as the simulator does not implement fast-loop. However, the real
+hardware would keep its ALUs more active than the simulated results, thus PET
+will predict a lower power drain, as it thinks that the caches are in use. This
+is a problem one must be aware of when the simulator and realized hardware does
+not completely correspond to each other. However, the main purpose of PET is to
 estimate changes visible at the simulation level. Thus, this is not a real
 problem in the ordinary usage scenarios.
 
