@@ -26,8 +26,11 @@ bin/dhrystone/dhry:
 bin/scrypt/scrypt:
 	echo "Done"
 
+bin/sha2/sha2: bin/sha2-1.0.1/sha2
+	cp $< $@
+
 bin/sha2-1.0.1/sha2:
-	echo "Done"
+	${CC} sha2-1.0.1/main.c sha2-1.0.1/sha2.c ${CFLAGS} -o $@
 
 bin/sha2-1.0.1/sha2speed:
 	echo "Done"
