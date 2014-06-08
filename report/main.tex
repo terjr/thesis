@@ -36,7 +36,10 @@
 \newcommand{\algorithmautorefname}{Algorithm}
 
 %% Only for the project
-\titleITEM
+\ifx\frontpage\undefined
+\else
+    \titleITEM
+\fi
 
 %% Only for the master's thesis; for the project report the description is taken from It's Learning and added by the department
 % \selectlanguage{english} % Change to 'norsk' if you are writing in Norwegian

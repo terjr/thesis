@@ -1,4 +1,5 @@
 # The main latex-file
+FRONTPAGE = main_frontpage
 TEXFILE = main
 DOTFILES=$(subst .gv,-gv.pdf, $(wildcard figs/*.gv))
 GAFILES=$(wildcard ~/ga-results.*)
@@ -16,6 +17,8 @@ full: ${DOTFILES} ${TRAINING_FIGS} ${SVG_FIGS} figs/test_setup.tex figs/varcurre
 	pdflatex -shell-escape $(TEXFILE) && \
 	pdflatex -shell-escape $(TEXFILE)
 
+frontpage:
+	make full TEXFILE=$(FRONTPAGE)
 
 # Removes TeX-output files
 clean:
@@ -25,6 +28,9 @@ clean:
 	rm -f figs/training/*.pdf
 	rm -f figs/ga_genome.pdf*
 	rm -r figs/*ps-converted-to.pdf
+
+clean_frontpage:
+	make clean TEXFILE=$(FRONTPAGE)
 
 %.pdf: %.svg
 	inkscape -D -z --file=$< --export-pdf=$@ --export-text-to-path
