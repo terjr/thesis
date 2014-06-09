@@ -2,30 +2,29 @@
 
 Given the availability of advanced hardware design tools, it is possible to
 model and simulate performance of an unimplemented architecture with decent
-accuracy. However, modeling power consumption is a way more elaborate process:
-current techniques works on a very low level and uses circuit-level models to
-obtain energy metrics. This method makes them accurate, but also heavy and time
-consuming to execute. Being able to rapidly prototype and visualize how changes
-in the microarchitecture affects energy performance is an advantage when
-designing energy efficient hardware. Some solutions already exists
+accuracy. However, modeling power consumption is a more elaborate process:
+current techniques works on a low level and uses circuit-level models to obtain
+energy metrics. This method makes them accurate, but also heavy and time
+consuming. Being able to rapidly prototype and visualize how changes in the
+microarchitecture affects energy performance is an advantage when designing
+energy efficient hardware. Some solutions already exists
 \cite{bruno2005rtl,ponomarev2002accupower}, but most of them inspect energy
-consumption at very fine granularity and requires ASIC synthesis of HDL code to
-work. During the design process, there is a great need for tools that help
-developers predict the changes in power consumption when new features are
-implemented.
+consumption at a fine granularity and requires ASIC synthesis of HDL code.
+During the design process, there is a great need for tools that help developers
+predict the changes in power consumption when new features are implemented.
 
-The immediate lack of a system that is easy to use and easy to set up motivates
-the creation of a new high-level tool. We introduce PET; a tool that is able to
+The immediate lack of a system that is easy to use and set up motivates the
+creation of a new high-level tool. We introduce PET; a tool that is able to
 estimate power usage over time for a given workload on a given architecture. It
-will use an energy metric profile estimated from similar processors together
-with a simulator trace log to calculate energy usage. Using this approach, PET
-will be able to detect if hardware modifications done to the simulation level
-model will be beneficial in the realized hardware. PET will also tell if a
-processor implementation is more energy efficient than an other given a specific
-workload, thus it can help building workload optimized tiles for the SHMAC
-project \cite{shmacwebpage}. Using the features of PET, one can also adjust the
-energy metric profile and simulate power usage as if one component was cheaper
-or more expensive to use (in terms of energy). This will enable hardware designers to
-understand which optimizations are most beneficial and identify possible routes
-of exploration in their journey of processor energy optimization.
+will use an energy metric profile together with a simulator trace log to
+calculate energy usage. Using this approach, PET will be able to detect if
+hardware modifications done to the simulation level model will be beneficial in
+the realized hardware. PET will also tell if a processor implementation is more
+energy efficient than another given a specific workload. Thus, it can help
+building workload optimized tiles for the SHMAC project \cite{shmacwebpage}.
+Using PET, one can also adjust the energy metric profile and simulate power
+usage with one component cheaper or more expensive to use in terms of energy.
+This will enable hardware designers to understand which optimizations are most
+beneficial and identify possible routes of exploration in their journey of
+processor energy optimization.
 
