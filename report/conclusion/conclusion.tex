@@ -1,6 +1,6 @@
 \section{Conclusion}
 
-PET, a Power Estimation Tool, is a software tool for estimating power
+PET, a power estimation tool, is a software tool for estimating power
 consumption on existing as well as non-existing computer architectures. It uses
 output from gem5 together with a set of weighted parameters to estimate energy
 consumption of a program running on a given hardware model. The weighted
@@ -17,16 +17,16 @@ exists. Well known tools such as Wattch \cite{brooks2000wattch} or McPAT
 \cite{li2009mcpat,li2013mcpat} also utilizes a simulator, but requires more knowledge about
 the final hardware, e.g. RTL and process technology. Regardless of such
 information, PET is able to estimate current drain with a margin of error within
-10~\% when testing against the ARM~Cortex-A9 processor.
+5~\% when testing against the ARM~Cortex-A9 processor.
 
-Because PET is tool meant to be used early and rapidly in the design phase, it
+Because PET is a tool meant to be used early and rapidly in the design phase, it
 has to be fast and easy to use. PET will predict power usage from log files and
 is tested to evaluate about 133~MB of log files per second on a commodity
 computer. Even with log files expanding tens of gigabytes, running PET takes
 less time than running a low-level power estimator.
 
 An excessive amount of time has been used for tweaking PET, gem5 and the genetic
-algorithm to match our reference hardware platform as good as possible. Still,
+algorithm to match our reference hardware platform as precisely as possible. Still,
 we believe that the effort needed to port our methods to a new hardware platform
 or architecture is much less. The genetic algorithm was in our case able to find
 good weights within few hours, and with carefully selected power consuming
@@ -35,7 +35,7 @@ hardware still needs to derive weights from similar hardware.
 
 Our observation is that PET allows evaluation of the big picture easier and
 earlier in the design stage than existing solutions, simply because it
-calculates power with less hardware details. We hope that PET will be useful
+estimates power with less hardware details. We hope that PET will be useful
 when developing both tiles for SHMAC architecture and processors in general.
 
 All in all, using PET or other tools built from the same concept of weighting
