@@ -51,15 +51,15 @@ is done, a control test is needed in order to verify that the result is good for
 the general problem solved, not only the specific instances used for training.
 
 \autoref{lst:weights} lists out the final weights found by the GA. The weights
-have resonable values for the ALU operations (\texttt{IntAlu, IntMult, MemRead,
+have reasonable values for the ALU operations (\texttt{IntAlu, IntMult, MemRead,
 MemWrite, SimdFloatMisc}) with respect to the results found in
-\cite{rundehvatum2013exploring}.  The values for the cache hierarcy
+\cite{rundehvatum2013exploring}.  The values for the cache hierarchy
 (\texttt{L1DR, L1DW, L1IR, L1IW, L2R, L2W}) does also seem advocate.
-\texttt{PhysR} and \texttt{PhysW} are set to zero since the pyhsical memory of
+\texttt{PhysR} and \texttt{PhysW} are set to zero since the physical memory of
 the Exynos~4412~Prime are not believed to be powered by $V_{core}$. However,
 peculiar values are set for \texttt{Idle} and \texttt{Static}. Without knowing
 how these values tend to match the hardware platform, it is likely to think
-about high bus activity while the ALU is ideling, as this often is the case
+about high bus activity while the ALU is idling, as this often is the case
 during intense memory activity.  One must also remember that the \texttt{Idle}
 events are calculated by a very simple model, and thus the cost might be high
 since too few idle cycles are recognized by PET.

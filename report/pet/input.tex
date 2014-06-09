@@ -78,7 +78,7 @@ function numTicks( traceFile ):
 
 \autoref{lst:trace} shows that the events in the trace log is not necessarily in
 their correct order. This means that PET must accumulate power consumption to the
-entire timeline at all time. Consequently, we are unable to produce a continous
+entire timeline at all time. Consequently, we are unable to produce a continuous
 output flow, but have to store the results in memory and dump them when the
 entire input is parsed. 
 
@@ -104,7 +104,7 @@ enough to increase the complexity of PET.
 \lstinputlisting[caption={Weight File Example.},label={lst:weights_example},float,language=Python]{examples/weights.conf}
 
 The weights displayed in \autoref{lst:weights_example} are assigned and
-accumulated each time PET discovers a recognisable event in the log file. A
+accumulated each time PET discovers a recognizable event in the log file. A
 simplified version of this algorithm can be found in
 \autoref{alg:power_accum_algo}
 

@@ -24,7 +24,7 @@ and the MapReduce algorithm. As depicted in \autoref{fig:pipeline}, this scheme
 makes it rather easy to let a producer (sequentially) read the lines from the
 log file into ring buffers (produce) and let multiple consumers pick from their
 ring buffer (consume). Each consumer parses the log lines they pick, and apply
-the weight of each read event to thier result vector (map). When all lines are
+the weight of each read event to their result vector (map). When all lines are
 read and parsed, the result vectors are merged (reduce), and idle-task power and
 static power consumption is added. This combination of algorithms allows PET to
 take advantage of as many cores as possible, only limited by the hard drive data
@@ -60,7 +60,7 @@ file into a C++ string container. This happens in the
 \texttt{Pet::processStreams} class member function seen in \autoref{fig:callgraph}. The string
 container is then inserted into one of many circular buffers. The circular
 buffers are implemented with \texttt{boost::lockfree::spsc\_queue}, a lock-free
-single producer, single consumer queue. The property of beeing lock-free is
+single producer, single consumer queue. The property of being lock-free is
 explained by Tim Blechmann in \cite{boostlockfree}:
 
 \begin{quote}
@@ -103,7 +103,7 @@ power model at the corresponding time step.
 In order to reduce the time used for disposal of the string objects after they
 are parsed, they are places in a static-size array. When this array is full, or
 the ring buffer is empty, the worker frees all the string data together. This
-helps keeping the memory footprint low while avoiding uneecessary calls to
+helps keeping the memory footprint low while avoiding unnecessary calls to
 \texttt{free()}. This optimization does not have a massive impact on
 performance, but as we can see from \cite{kernighan1988c}, the \texttt{free()}
 implementation contains enough pointer arithmetic to make a difference in a
@@ -137,7 +137,7 @@ threads, not the number of buckets.
 
 It should be noted that even though this method might work well in a
 single-cycle in-order CPU, the out-of-order nature of the Cortex-A9 makes it
-hard to tell how much idle time actually occured. E.g. a single cycle may fill
+hard to tell how much idle time actually occurred. E.g. a single cycle may fill
 the pipeline with four events, then idle the three next cycles; this would be
 calculated as no idle time. When the approximate numbers of \texttt{idleEvents} have been
 estimated, that number is multiplied by the \emph{Idle}-weight and added to the
