@@ -2,8 +2,8 @@
 
 There are many considerations to take before creating a tool that should pretend
 to understand the implementation of hardware and the implications of features
-regarding energy efficiency. Through the next sections, we develop a model to be
-used in PET and define its input.
+regarding energy efficiency. Through the next sections, we a model to be
+used in PET is developed and its inputs are defined.
 
 
 \subsection{Energy Modeling}
@@ -11,29 +11,31 @@ used in PET and define its input.
 Song et. al \cite{song2012instruction} identifies three major approaches to
 processor power modeling used in the past, and introduces an instruction-based
 energy estimation model that can be used for energy simulation at high speed.
-Their proposed method is expressed through the following equation and includes
-the desired features of past energy models.
+Their proposed method is expressed through the following equation, and includes
+the desired features of previous energy models.
 
 \begin{equation}
     P_{core}(t) = \frac{E_{unit} \cdot A_{datapath} \cdot w(t) +
     E_{static}}{T_{sampling}}
 \end{equation}
 
-This method depends on two things. First, one must have sufficient details of
-the processor in order to identify datapath components to form the
-$A_{datapath}$ matrix. The entries in $A_{datapath}$ are the invocation counts
-of physical components in the datapath with respect to the workload metric
-$w(t)$. $w(t)$ is typically comprised of instruction types or key operational
-parameters such as cache miss, ratio, pipeline stall cycles and number of
-executed instructions. Secondly, the energy unit vector $E_{unit}$, a vector
-enumerating the per-access energy cost, requires circuit-level knowledge of the
-target processor to calculate. $A_{datapath}$ can often be found by reverse
-engineering and benchmarking, however, the $E_{unit}$ is rarely available for
-commercial processors. When building the model for PET, we simplify the model
-from \cite{song2012instruction} by combining $A_{datapath}$ and $E_{unit}$ to
-form a vector of weights that directly corresponds to the cost of an event. We
-call this vector $C$. Power for each core over time, $P_{core}(t)$, is then
-modeled by the following formula.
+This method has two dependencies. First, one must have sufficient details of the
+processor in order to identify datapath components to form the $A_{datapath}$
+matrix. The entries in $A_{datapath}$ are the invocation counts of physical
+components in the datapath with respect to the workload metric $w(t)$. $w(t)$ is
+typically comprised of instruction types or key operational parameters such as
+cache miss, ratio, pipeline stall cycles and number of executed instructions.
+Secondly, the energy unit vector $E_{unit}$, a vector enumerating the per-access
+energy cost, requires circuit-level knowledge of the target processor to
+calculate. $A_{datapath}$ can often be found by reverse engineering and
+benchmarking. The $E_{unit}$, however, is rarely available for commercial
+processors.
+
+When building the model for PET, the model from \cite{song2012instruction} is
+simplified by combining $A_{datapath}$ and $E_{unit}$ to form a vector of
+weights that directly corresponds to the cost of an event. We call this vector
+$C$. Power for each core over time, $P_{core}(t)$, is then modeled by the
+following formula.
 
 \begin{equation}
     P_{core}(t) = \frac{C \cdot w(t) + E_{static}}{T_{sampling}}
@@ -49,15 +51,15 @@ consumption.
 
 Choosing which events should be tracked and which workloads that would give good
 metrics is an important part of our method. We account for two main groups of
-events; CPU instruction events and memory activity events. The contents of these
+events; CPU instruction events and memory activity events. The events in these
 groups are listed in \autoref{tbl:events}. It is desirable to estimate energy
 consumption on literally all types of computing systems, ranging from large-size
 clusters to embedded systems. To provide this flexibility it was decided that
 PET should parse log files from the simulators rather than being built-in on a
 specific simulator. Most active and working architectural simulators supports this
-sort of trace logs, and even if they are formatted different, the effort of
+sort of trace logs. Even if they are formatted differently, the effort of
 adjusting to a new format is a lot less than the effort of building this tool
-within another simulator.
+within a simulator.
 
 \begin{table}[ht]
     \centering
@@ -107,18 +109,19 @@ within another simulator.
 \end{table}
 
 The trace logs contains information about everything that goes on within the
-fictional computer. A piece of such useful information is defined in PET as a
+fictional computer. Such a piece of information is defined in PET as a
 \emph{simulator event}. A simulator event can be thought of as a unit of work
 that uses a specified amount of energy. When PET finds such an event, it
 increases the modeled energy consumption at the correct point in time where the
 event took place.
 
-The events briefly described in \autoref{tbl:events} are the ones currently
-recognized by PET, but adding more (or removing) events is trivial. These events
-are selected mainly based on the information which is easily extracted from a
-gem5-formatted trace log, but also adjusted according to what we could check
-with performance counters on hardware. Most of this information is available
-from \cite{rundehvatum2013exploring}, where different instruction loops were
-measured with both ammeter and performance counters. This is then correlated
-with the workings of the pipeline (as seen in \autoref{fig:a9arch}).
+The events described in \autoref{tbl:events} are the ones currently recognized
+by PET, but adding more (or removing) events is trivial. These events are
+selected mainly based on the information which is easily extracted from a
+gem5-formatted trace log, but also adjusted according to what could be checked
+with performance counters on the target hardware. Most of this information is
+available from \cite{rundehvatum2013exploring}, where different instruction
+loops were measured with both ammeter and performance counters. This is then
+correlated with the properties of the pipeline (as seen in
+\autoref{fig:a9arch}).
 

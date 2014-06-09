@@ -5,14 +5,14 @@ event-type weights. Optionally, PET can also read an annotation file and display
 function calls in the output.
 
 \subsection{gem5 Trace Logs}
-In order to create the simulator trace log with required information, gem5 must
-be run with a specific set of parameters. By executing gem5 with
+In order to create the simulator trace log with the information required by PET,
+gem5 must be run with a specific set of parameters. By executing gem5 with
 \texttt{\textemdash\textemdash
 debug-flags=Bus,\allowbreak{}Cache,\allowbreak{}MemoryAccess,\allowbreak{}Exec},
 gem5 will output trace files that look like \autoref{lst:trace}.
 
-\begin{lstlisting}[basicstyle=\tiny,caption={gem5 Trace
-Log.},label={lst:trace},escapeinside={@}{@},float=htb]
+\begin{lstlisting}[basicstyle=\tiny,caption={gem5 trace
+log.},label={lst:trace},escapeinside={@}{@},float=htb]
 @\label{line:physmem}@3021: system.physmem: Write of size 8 on address 0x82fe0 data 0xe1a0f00eee1d0f70
 @\label{line:icache}@3021: system.cpu.icache: access for ReadReq address 9c0 size 64
 @\label{line:cachemiss}@3021: system.cpu.icache: ReadReq (ifetch) 9c0 miss-
@@ -43,17 +43,17 @@ shows a load instruction and \autoref{line:intalu} shows an add instruction.
 The trace log input can be opened as a file or read from a \texttt{Unix} pipe.
 Discrete events are extracted from the trace log and power consumption is
 accumulated in equally sized timeslots in PET. Internally, these time steps are
-called buckets and its size is parameter controlled (in terms of simulator
-ticks). Often, it is more practical to specify the number of buckets in the
-output rather then specifying the number of simulator ticks in each bucket. PET
-is able to estimate the bucket size by peeking at the last tick of a trace file.
-This is not possible when reading from a pipe (i.e. \texttt{stdin}). The trace
-file is not necessarily in tick order, but close enough to set a reasonable
-bucket size. The bucket size estimation algorithm is shown in
+called buckets and its size is parameter controlled. Often, it is more practical
+to specify the number of buckets in the output rather then specifying the number
+of simulator ticks in each bucket. PET is able to estimate the bucket size by
+peeking at the last tick of a trace file. This is not possible when reading from
+a pipe, i.e., \texttt{stdin}. The trace file is not necessarily in tick order,
+but close enough to set a reasonable bucket size. The bucket size estimation
+algorithm is shown in
 \autoref{alg:bucket_size}.
 
 \begin{algorithm}[htb]
-    \caption{Bucket Size Detection Algorithm.}
+    \caption{Bucket size detection algorithm.}
     \label{alg:bucket_size}
     \begin{lstlisting}[language=Python,style=algo]
 function numTicks( traceFile ):
@@ -78,9 +78,9 @@ function numTicks( traceFile ):
 
 \autoref{lst:trace} shows that the events in the trace log is not necessarily in
 their correct order. This means that PET must accumulate power consumption to the
-entire timeline at all time. Consequently, we are unable to produce a continuous
-output flow, but have to store the results in memory and dump them when the
-entire input is parsed. 
+entire timeline at all times. Consequently, it is not possible to produce a
+continuous output flow. The results are stored in memory and written out when the
+entire input is parsed.
 
 \subsection{PET Weight Files}
 
@@ -90,26 +90,26 @@ depending on the architecture, PET will read a weight file along with the gem5
 trace log. A sample weight file is shown in \autoref{lst:weights_example}. As
 the timeslots are specified in simulator ticks instead of CPU cycles, the values
 have been chosen to match a 2~GHz processor, i.e. one CPU cycle per 500
-simulator ticks \footnote{This is the default gem5 simulation granularity.}.
-If you are applying this method to a processor with a different clock speed than
-2~GHz, be aware that the weights has to be scaled proportionally. This is not
-the case for the static power drain, as it is simply added to each timeslot, and
-not scaled in accordance with bucket size. It is also important to understand
-that the weight is applied once for each event, so events that naturally takes a
-number of cycles will have a high weight which is in reality distributed over
-many ticks. This will not be accurate if an expensive event is applied at the
-border of a bucket, but we assume that accuracy at this level is not important
-enough to increase the complexity of PET.
+simulator ticks \footnote{This is the default gem5 simulation granularity.}. If
+this method was to be applied to a processor with a different clock speed than
+2~GHz, the weights would have to be scaled proportionally. This is not the case
+for the static power drain, as it is added to each timeslot, and not scaled in
+accordance with bucket size. It is also important to understand that the weight
+is applied once for each event, so events that naturally takes a number of
+cycles will have a high weight, which is in reality distributed over many ticks.
+This will not be accurate if an expensive event is applied at the border of a
+bucket. It is assumed that accuracy at this level is not important enough to
+increase the complexity of PET.
 
-\lstinputlisting[caption={Weight File Example.},label={lst:weights_example},float,language=Python]{examples/weights.conf}
+\lstinputlisting[caption={Weight file example.},label={lst:weights_example},float,language=Python]{examples/weights.conf}
 
-The weights displayed in \autoref{lst:weights_example} are assigned and
-accumulated each time PET discovers a recognizable event in the log file. A
-simplified version of this algorithm can be found in
+The weights displayed in \autoref{lst:weights_example} are accumulated each time
+PET discovers a recognizable event in the log file. A simplified version of this
+algorithm can be found in
 \autoref{alg:power_accum_algo}
 
 \begin{algorithm}
-\caption{Power Accumulation Algorithm.}
+\caption{Power accumulation algorithm.}
 \label{alg:power_accum_algo}
 \begin{lstlisting}[language=Python,style=algo]
 # map of accumulated power for each time step
@@ -134,7 +134,7 @@ function assignWeights( traceLogLines, weightMap, bucketSize )
 \end{lstlisting}
 \end{algorithm}
 
-\subsection{Program Annotation Files}
+\subsection{Program annotation files}
 \label{subsec:annot}
 
 PET has the ability to annotate its output using a map from PC to function name
@@ -144,8 +144,8 @@ This tool extracts symbols from the binary file, compiled with debugging
 symbols, to a text file in the format seen in \autoref{lst:annot}. The left
 column represents the address where the function is found, and the right
 column is the function name. PET will tag each bucket with the last seen
-symbol within that bucket. \texttt{scripts/annotate.sh} is constructed by using
-\texttt{objdump} and is printed in \autoref{lst:annotscript}.
+symbol within that bucket. \texttt{scripts/annotate.sh} is constructed using
+\texttt{objdump} and is shown in \autoref{lst:annotscript}.
 
 \lstinputlisting[caption={Annotation File Example.},label={lst:annot},float,language=Python]{examples/annot.conf}
 \lstinputlisting[float=htb,label={lst:annotscript},caption={\texttt{scripts/annotate.sh}:
@@ -155,7 +155,7 @@ It should be mentioned that a program compiled with debugging symbols contains
 hundreds, if not thousands of symbols. Often, many of these symbols are called
 in clusters, while long periods of the program are spent in loops that are not
 using any symbols at all. This often renders a graphical representation of the
-power log with complete annotation as a complete mess. We have found it to be a
-good recommendation to create the annotation file using the mentioned tools, but
-manually filtering out only the symbols of interest.
+power log with complete annotation as a complete mess. We recommend creating the
+annotation file using the mentioned tools, but manually filtering out only the
+symbols of interest.
 

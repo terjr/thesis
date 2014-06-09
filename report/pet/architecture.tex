@@ -16,24 +16,22 @@ pattern similar to MapReduce \cite{dean2008mapreduce}.
     \label{fig:pipeline}
 \end{figure}
 
-In order to maintain good speed while still keeping the PET source code
-readable, we have looked at different ways of chewing through large data sets.
-The final implementation of PET follows a scheme borrowing ideas from the
-producer-consumer pattern as explained by Gamma et. al. in \cite{designpatterns}
-and the MapReduce algorithm. As depicted in \autoref{fig:pipeline}, this scheme
-makes it rather easy to let a producer (sequentially) read the lines from the
-log file into ring buffers (produce) and let multiple consumers pick from their
-ring buffer (consume). Each consumer parses the log lines they pick, and apply
-the weight of each read event to their result vector (map). When all lines are
-read and parsed, the result vectors are merged (reduce), and idle-task power and
-static power consumption is added. This combination of algorithms allows PET to
-take advantage of as many cores as possible, only limited by the hard drive data
-transfer rate.
+In order to obtain acceptable performance, we have looked at different ways of
+digesting large data sets. The final implementation of PET follows a scheme
+borrowing ideas from the producer-consumer pattern as explained by Gamma et. al.
+in \cite{designpatterns} and the MapReduce algorithm. As depicted in
+\autoref{fig:pipeline}, this scheme makes it rather easy to let a producer
+(sequentially) read the lines from the log file into ring buffers (produce) and
+let multiple consumers pick from their ring buffer (consume). Each consumer
+parses the log lines they pick, and apply the weight of each read event to their
+result vector (map). When all lines are read and parsed, the result vectors are
+merged (reduce) and idle-task power and static power consumption is added. This
+combination of algorithms allows PET to take advantage of as many cores as
+possible, only limited by the hard drive data transfer rate.
 
 The next subsections will describe in detail the most important parts of the
-workflow, in a rough sequential order. For further understanding of the program
-flow, a call graph extracted from the entire source code is seen in
-\autoref{fig:callgraph}.
+workflow, in sequential order. For further understanding of the program flow, a
+call graph is seen in \autoref{fig:callgraph}.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{figs/maincallgraph.pdf}
@@ -82,18 +80,18 @@ coupled with how fast the host computer is able to feed PET with the log files.
 
 \subsection{String to Event Mapping and Power Accumulation}
 
-String parsing and mapping resembles the most compute-intensive parts of PET.
+String parsing and mapping are the most compute-intensive parts of PET.
 PET spawns multiple worker threads as specified by the user. As the producer
 fills the ring buffers for each of the workers, the workers pick strings from
 their pool. The strings are popped from the ring buffer, thus making space for
 new elements right away. Each string is parsed by the \texttt{TraceLine} class,
 which looks for patterns in the strings containing known event types. When
 connecting PET with gem5, the trace logs as previously seen \autoref{lst:trace}
-contains an event type designation in the second :-separated column. The
+contains an event type designation in the second colon-separated column. The
 \texttt{TraceLine} class extracts this part by string trimming.
 
 The event types are instantiated as objects of their parent type (Instruction-
-or Memory-event). The right parameters are further found from progressive string
+or Memory-event). The right parameters are found from progressive string
 parsing. If the event is unrecognized, a dummy object of type
 \texttt{UnknownEvent} is returned. This type has zero cost later in the reduce
 phase. Each event object is able to figure out its own weight as written in the
@@ -101,29 +99,29 @@ phase. Each event object is able to figure out its own weight as written in the
 power model at the corresponding time step.
 
 In order to reduce the time used for disposal of the string objects after they
-are parsed, they are places in a static-size array. When this array is full, or
-the ring buffer is empty, the worker frees all the string data together. This
-helps keeping the memory footprint low while avoiding unnecessary calls to
+are parsed, they are placed in a static-size array. When this array is full, or
+the ring buffer is empty, the worker frees all the string data. This helps
+keeping the memory footprint low while avoiding unnecessary calls to
 \texttt{free()}. This optimization does not have a massive impact on
-performance, but as we can see from \cite{kernighan1988c}, the \texttt{free()}
+performance, but as can be seen from \cite{kernighan1988c}, the \texttt{free()}
 implementation contains enough pointer arithmetic to make a difference in a
 tight loop.
 
 
 \subsection{Data Reduction}
 
-When all lines from the trace log are consumed by the workers, the threads are
-joined and their data is returned as standard C++ vectors. These vectors are
+When all lines from the trace log have been consumed by the workers, the threads
+are joined and their data is returned as standard C++ vectors. These vectors are
 further wrapped in yet another standard C++ vector. The inner vectors are then
 combined; the value from the corresponding buckets in each vector is added
-together and put in a result vector. This reduction happens as the last part
-of \texttt{Pet::processStreams}, as seen in \autoref{fig:callgraph}.
+together and put in a result vector. This reduction happens as the last part of
+\texttt{Pet::processStreams}, as seen in \autoref{fig:callgraph}.
 
 After this reduction, the number of idle cycles is estimated by subtracting
 recorded events from the maximum number of events in a bucket. This is done more
-simplistic than accurate using \autoref{eq:idle}. \texttt{eventsInWorkerBucket} is the
-number of events recorded in each vector at each bucket, and each event is
-pinned to the cycle where it originated. Note that N is the number of worker
+simplistic than accurate using \autoref{eq:idle}. \texttt{eventsInWorkerBucket}
+is the number of events recorded in each vector at each bucket, and each event
+is pinned to the cycle where it originated. Note that N is the number of worker
 threads, not the number of buckets.
 
 \begin{equation}
@@ -135,14 +133,14 @@ threads, not the number of buckets.
 \label{eq:idle}
 \end{equation}
 
-It should be noted that even though this method might work well in a
+It should also be noted that even though this method might work well in a
 single-cycle in-order CPU, the out-of-order nature of the Cortex-A9 makes it
-hard to tell how much idle time actually occurred. E.g. a single cycle may fill
+hard to tell how many idle cycles actually occurred. E.g., a single cycle may fill
 the pipeline with four events, then idle the three next cycles; this would be
-calculated as no idle time. When the approximate numbers of \texttt{idleEvents} have been
-estimated, that number is multiplied by the \emph{Idle}-weight and added to the
-sum in the result vector. Finally, the entire vector is normalized according to
-bucket size and then static current drain is added.
+calculated as no idle time. When the approximate numbers of \texttt{idleEvents}
+have been estimated, that number is multiplied by the \emph{Idle}-weight and
+added to the sum in the result vector. Finally, the entire vector is normalized
+according to bucket size and then static current drain is added.
 
 
 \subsection{Output Production and Annotations}
@@ -150,7 +148,7 @@ bucket size and then static current drain is added.
 After the result vector has been completely accumulated, annotation is added to
 a new vector in the same manner as the data reduction. With the new, merged
 annotation map containing all last matches between a symbol and the program
-counter within each measure point, this map is feed to the
+counter within each measure point, this map is fed to the
 \texttt{OutputProducer} object as seen in \autoref{fig:callgraph}. The
 \texttt{OutputProducer} is responsible for generating output as defined by the
 input arguments. Its options have already been described in
@@ -163,12 +161,11 @@ created by \texttt{printf}-statements.
 \subsection{Unit Tests}
 
 All internal string parsing is verified by unit tests. The unit tests
-are written with help from the Boost Test Library Unit Test Framework \cite{boostunittest}.
+are written with help from the Boost Test Library \cite{boostunittest}.
 
 The test library generates a new binary with the same program content, except the
 main function, thus the program flow is different. The test binary will
 run through the listed functions with a certain input, and if the output is unexpected,
 the test binary will print to the console an error message containing a description of what
-went wrong. This approach helps refactoring and correctness in general, such that
-the focus can be kept on the program surroundings.
+went wrong.
 

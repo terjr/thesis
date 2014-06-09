@@ -2,7 +2,7 @@
 \label{sec:output}
 
 When a log file is consumed by PET, the output should be usable for many
-applications. On early stages of design phase or when great differences are
+applications. In early stages of the design phase, or when great differences are
 expected, a sparse annotated graphical output might be the best way of
 visualizing power consumption. As the project evolves and more subtle changes
 are evaluated, a textual output will be easier to compare. PET supports three
@@ -27,13 +27,13 @@ different output options:
 
 The output format is understood as timeslots in which the architecture has a
 certain current drain, which should be multiplied with applied voltage to get
-numbers on consumed energy. The numbers are given as milliamperes, equal to
-milliwatt if voltage is $1~V$. Milliamperes are used as it is easier to find
-current drain rather than wattage with our setup, as described in
+consumed energy. The values are given as milliamperes, equal to milliwatt if
+voltage is $1~V$. Milliamperes are used as it is easier to find current drain
+rather than wattage with the setup used in this project, as described in
 \autoref{sec:energymeasure}. When power is estimated for a new architecture, the
-resistance of the circuit is hard to deduce, and voltage might also be an unknown
-factor. Given Ohms law in \autoref{eq:ohm} and the definition of electric power
-in \autoref{eq:power}
+resistance of the circuit is difficult to deduce, and voltage might also be an
+unknown factor. Given Ohms law in \autoref{eq:ohm} and the definition of
+electric power in \autoref{eq:power}
 
 \begin{equation}
 I=\frac{U}{R}
@@ -62,31 +62,31 @@ P=\frac{U^2}{R}
 
 Thus, estimating only the current drain means that the power at each point will
 be unknown without knowing resistance or voltage. Further, energy consumption
-can not be estimated unless the new architecture is similar in terms of voltage
+cannot be estimated unless the new architecture is similar in terms of voltage
 and resistance to a chip where these numbers are available. Even the current
-drain might not be representable at all; if resistance or voltage is unequal
+drain might not be representable at all; if resistance or voltage is unequal to
 the levels found in the reference chip, the final numbers will be far off.
 
-From \autoref{eq:currentsquared} and \autoref{eq:voltagesquared}, it is easy to
-see that voltage and current is very important for the energy consumption. The
-current is, from \autoref{eq:ohm}, dependent on resistance as well as voltage.
-With this in mind, and knowing that power in a complex environment is a delicate
-matter, the most important application for PET is to point in the right
-direction. PET will never give accurate power estimations for new chips, but
-will guide you on the way to figure out if a new feature or architectural fix
-will render the final architecture more energy efficient or not.
+\autoref{eq:currentsquared} and \autoref{eq:voltagesquared} states how voltage
+and current is important for energy consumption. The current is, from
+\autoref{eq:ohm}, dependent on resistance as well as voltage. With this in mind,
+and knowing that power in a complex environment is a delicate matter, the most
+important application for PET is to point in the right direction. PET will never
+give accurate power estimations for new chips, but will provide useful
+information for seeing if a new feature or architectural fix will render the
+final architecture more energy efficient or not.
 
 
 \subsection{Examples of Output Data}
 
 Visualization is often a good thing when inspecting old or trying to understand
-new problems. \autoref{fig:annot} shows an example of PET outputting the
-graphical format, with annotation.
+new problems. \autoref{fig:annot} shows an example of PET \texttt{graph} output
+format, with annotations.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.9\textwidth]{figs/annot.pdf}
-    \caption{PET Graphical Output. This example contains annotations, each label
+    \caption{PET graphical output. This example contains annotations, each label
     represents the entrance of a function.}
     \label{fig:annot}
 \end{figure}

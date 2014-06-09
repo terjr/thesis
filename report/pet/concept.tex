@@ -2,30 +2,30 @@
 \label{sec:whatispet}
 \begin{figure}
     \includegraphics[width=0.9\textwidth]{figs/pet-workflow-gv.pdf}
-    \caption{Generic usage of the PET program.}
+    \caption{Example usage of the PET program.}
     \label{fig:workflow}
 \end{figure}
 
 PET is a tool for power estimation of new as well as old architectures. It is
 built by measuring existing hardware with great detail, capturing discrete events
 and assigning each event a certain energy cost. When selected events have been
-weighted, one can run test programs through a simulator set up to act as the
-new hardware, as depicted \autoref{fig:workflow}. The simulator will generate a
-trace log containing the weighted events, which is then processed by PET.
-From this workflow, PET can produce a data set containing power consumption
-distributed over the simulation lifetime -- a power profile of the program
-execution.
+weighted, one can run test programs through a simulator which is configured to
+act as the target hardware, as depicted in \autoref{fig:workflow}. The simulator
+will generate a trace log containing the weighted events, which is then
+processed by PET. From this workflow, PET can produce a data set containing
+power consumption distributed over the simulation lifetime -- a power profile of
+the program execution.
 
-In case of estimating power for an unimplemented hardware platform, the new
-hardware will be weighted similar to an existing implementation. As a
-consequence, this method requires a certain similarity between old and new
-hardware. We claim that in general, all modern computer architectures is built
-from comparable principles, and thus mappable to each other.
+When estimating power for an unimplemented hardware platform, the new hardware
+will be weighted similar to an existing implementation. As a consequence, this
+method requires a certain similarity between old and new hardware. We claim that
+in general, all modern computer architectures are built from comparable
+principles, and thus mappable to each other.
 
-The accuracy will indeed suffer the more it deviates from the reference
+The accuracy will indeed suffer the more the model deviates from the reference
 hardware. PET's primary use is to identify \emph{variations} between two
 implementations of the same instruction set architecture. For instance, one can
-experiment with a larger L2 cache to see how it affects energy usage (and
-performance). The additional energy used by a larger L2 cache can be derived
-from looking at existing implementations.
+experiment with a larger L2 cache to see how it affects energy usage and
+performance. The additional energy used by a larger L2 cache can be derived from
+existing implementations.
 
