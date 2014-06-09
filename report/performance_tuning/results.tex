@@ -45,33 +45,31 @@ than 2.2~\%. Trend and SubMul, the synthetic tests, differed by 22.7~\% and
 
 \subsection{GA Optimization}
 
-As PET has been optimized by a genetic inspired algorithm, and it was expected
-to perform very well on the data sets it has been optimized for. When training
-is done, a control test is needed in order to verify that the result is good for
-the general problem solved, not only the specific instances used for training.
-
-\autoref{lst:weights} lists out the final weights found by the GA. The weights
-have reasonable values for the ALU operations (\texttt{IntAlu, IntMult, MemRead,
-MemWrite, SimdFloatMisc}) with respect to the results found in
-\cite{rundehvatum2013exploring}.  The values for the cache hierarchy
-(\texttt{L1DR, L1DW, L1IR, L1IW, L2R, L2W}) does also seem advocate.
-\texttt{PhysR} and \texttt{PhysW} are set to zero since the physical memory of
-the Exynos~4412~Prime are not believed to be powered by $V_{core}$. However,
-peculiar values are set for \texttt{Idle} and \texttt{Static}. Without knowing
-how these values tend to match the hardware platform, it is likely to think
-about high bus activity while the ALU is idling, as this often is the case
-during intense memory activity.  One must also remember that the \texttt{Idle}
-events are calculated by a very simple model, and thus the cost might be high
-since too few idle cycles are recognized by PET.
+PET has been optimized by a genetic inspired algorithm, so it was expected to
+perform very well on the training data sets. \autoref{lst:weights} lists out the
+final weights found by the GA. The weights have reasonable values for the ALU
+operations (\texttt{IntAlu, IntMult, MemRead, MemWrite, SimdFloatMisc}) compared
+to the results found in \cite{rundehvatum2013exploring}. The values for the
+cache hierarchy (\texttt{L1DR, L1DW, L1IR, L1IW, L2R, L2W}) does also seem
+adequate. \texttt{PhysR} and \texttt{PhysW} are set to zero because the physical
+memory of the Exynos~4412~Prime is not believed to be powered by $V_{core}$.
+However, peculiar values are set for \texttt{Idle} and \texttt{Static}. Our
+theory is that CPU idle time is often caused by high I/O activity; this would
+explain how an idle CPU could use much power. However, we can not be certain how
+the events match to the hardware. The GA only optimizes the event weights and
+ignores the intended meaning of them. One must also remember that the
+\texttt{Idle} events are calculated by a very simple model, and the cost can
+be high if too few idle cycles are recognized by PET.
 
 \lstinputlisting[caption={Final weight configuration.},label={lst:weights},float,language=Python]{../pet/weights.conf}
 
-Results for each training set after the training session are displayed in \autoref{fig:pi-training},
-\autoref{fig:sha2-training}, \autoref{fig:trend-training} and
-\autoref{fig:submul-training}. Each figure represents one of the workloads
-explained in \autoref{sec:workloads}. The red line in each figure represents the
-prediction done by PET, while the green line is a direct plot of readings from
-the test setup.
+Results for each training set after the training session are displayed in
+\autoref{fig:pi-training}, \autoref{fig:sha2-training},
+\autoref{fig:trend-training} and \autoref{fig:submul-training}. Each figure
+represents one of the workloads explained in \autoref{sec:workloads}. The red
+line in each figure represents the prediction done by PET, while the green line
+is a direct plot of readings from the test setup. To remedy the mismatch in
+execution time, the prediction done by PET is stretched.
 
 
 \newpage
