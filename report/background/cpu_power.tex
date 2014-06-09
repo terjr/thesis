@@ -1,6 +1,6 @@
 \section{Energy Consumption in CPUs}
 
-Two sources of energy consumption in a CPU can be distinguished; static and
+Two sources of energy consumption in a CPU can be distinguished: static and
 dynamic. Static energy consumption is caused by a small current continuously
 leaking through the transistors, while dynamic is due to charges being moved
 towards ground when transistors are toggling \cite{wolf}.
@@ -10,13 +10,14 @@ two red arrows shows where charges escapes when switching. As feature size
 decreases, a significant part of overall energy consumption is due to static
 leakage \cite{nguyen2003minimization}. This means that simply powering the chip
 without any toggling generates a significant amount of heat
-\cite{kim2003leakage,martin2002combined}. While static power consumption origins
-from transistor size and layout, dynamic power consumption can be treated at the
-architectural level by minimizing transistor switching.
+\cite{kim2003leakage,martin2002combined}. Static power consumption origins
+from transistor size and layout, while dynamic power consumption depends on the
+amount of transistor switching. From an architectural point of view, the dynamic
+power consumption is easier to influence.
 
 \begin{figure}[tbh]
     \centering
     \includegraphics[width=0.4\textwidth]{figs/static-dynamic.pdf}
-    \caption{Static and dynamic power through a PMOS and NMOS transistor.}
+    \caption{Static and dynamic power through a NOT gate.}
     \label{fig:staticdynamic}
 \end{figure}

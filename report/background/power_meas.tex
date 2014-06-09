@@ -19,14 +19,14 @@ measurements would require use of very expensive instruments.
 
 In \cite{rundehvatum2013exploring}, single instructions were measured by
 exploiting fast-loop-mode \cite{a9whitepaper} and looping over a group of equal
-instructions. A bench multimeter were used to measure the voltage drop over a
-shunt resistor like \autoref{fig:shunt}, setup as in \autoref{fig:setup}. From
-this, we infer the current flowing from the $V_{core}$ power rail and through
-the processor core. The peripherals are isolated and not part of the
-measurements. The shunt resistor is chosen such that the voltage drop over it
-resides in the range 0 -- 100~mV. According to the datasheet
-\cite{agilent34410a}, the voltage readings will have a margin of error of
-0.003~\%.
+instructions. A bench multimeter was used to measure the voltage drop over a
+shunt resistor as seen in \autoref{fig:shunt}, set up as illustrated in
+\autoref{fig:setup}. From this, the current flowing from the $V_{core}$ power
+rail and through the processor core was inferred. The peripherals were isolated
+and excluded from the measurements. The shunt resistor was chosen such that the
+voltage drop over it resided in the range 0 -- 100~mV. According to the
+datasheet \cite{agilent34410a}, the voltage readings would then have 0.003~\%
+margin of error.
 
 \begin{figure}[bth]
     \centering
@@ -40,10 +40,10 @@ internally. However, the internal shunt resistor is not scaled for the dynamic
 range of a specific target. Also, a too large resistor would drop the voltage
 relative to the impedance in the load, and in the case of a processor this can
 give unpredictable results. \autoref{fig:varcurrent} illustrates two scenarios
-where voltage drops over a $0.1~\Omega$ shunt resistor and a variable load (e.g.
-the CPU core). There is a trade-off between accuracy in measurements and voltage
-variations across the circuit. If the shunt resistor is too small, the voltage
-drop diminishes and is impossible to measure.
+where voltage drops over a $0.1~\Omega$ shunt resistor and a variable load
+(e.g., the CPU core). There is a trade-off between accuracy in measurements and
+voltage variations across the circuit. If the shunt resistor is too small, the
+voltage drop diminishes and is difficult to measure.
 
 \begin{figure}[tbh]
     \centering
@@ -55,7 +55,7 @@ drop diminishes and is impossible to measure.
 \end{figure}
 
 \autoref{fig:consumption} presents results from \cite{rundehvatum2013exploring},
-and shows how different instructions use a different amount of energy. This
+and shows how different instructions use different amounts of energy. This
 indicates that the architecture impacts how efficient each instruction is.
 $base$ refers to the cheapest instruction in the ISA and roughly corresponds to
 the static power consumption.
@@ -63,7 +63,7 @@ the static power consumption.
 \begin{figure}
     \begin{minipage}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{graph_01_base_cond-0c6.eps}
-        \subcaption{Conditional execution (eq is false).}
+        \subcaption{Conditional execution (\texttt{eq} is false).}
         \label{fig:consumptioncond}
     \end{minipage}
     \begin{minipage}[b]{0.52\textwidth}

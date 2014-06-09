@@ -9,28 +9,28 @@
     \label{fig:odroidx2}
 \end{figure}
 
-The ODROID-X2 developer platform \cite{hardkernelodroidx2} is used as a
+The ODROID-X2 developer platform \cite{hardkernelodroidx2} was used as the
 reference hardware for all experiments in this thesis. An image of the platform
-is shown in \autoref{fig:odroidx2}. Its core voltage is easily accessible on an
-attached daughter board right beneath the heat sink, making it easy to conduct
-power measurements. The board is equipped with a Samsung Exynos 4412 ``Prime'',
-a modern System-on-Chip featuring four ARM Cortex-A9 CPU cores, Mali-400 GPU and
-2~GB of on-chip DRAM. The Cortex-A9 is one of ARM's mid-to-high-range application
-processors. It features an out-of-order dual-issue speculative RISC core, and it
-is clearly designed with emphasis on energy efficiency. This processor is
-primarily found in low-powered embedded devices with some performance demands,
-typically smartphones and tablets.
+is shown in \autoref{fig:odroidx2}. Its core voltage is accessible on an
+attached daughter board beneath the heat sink, making it easy to conduct power
+measurements. The board is equipped with a Samsung Exynos 4412 ``Prime''
+\cite{exynossamsung}, a modern SoC (``System-on-Chip'') featuring four ARM
+Cortex-A9 \cite{a9whitepaper} CPU cores, a Mali-400 GPU and 2~GB of on-chip
+DRAM. The Cortex-A9 is one of ARM's mid-to-high-range application processors. It
+features an out-of-order dual-issue speculative RISC core, and it seems to be
+designed with emphasis on energy efficiency. This processor is primarily found
+in low-powered embedded devices with a modest demand for performance, such as
+smartphones and tablets.
 
 \begin{figure}[bht]
     \centering
     \includegraphics[width=\textwidth]{figs/A9-Pipeline-hres.jpg}
-    \caption{A brief overview of the Cortex-A9 Pipeline, figure from the ARM
-    Cortex-A9 White paper \cite{a9whitepaper}.}
-    \label{fig:a9arch}
+    \caption{An overview of the Cortex-A9 Pipeline, figure taken from the ARM
+    Cortex-A9 White paper \cite{a9whitepaper}.} \label{fig:a9arch}
 \end{figure}
 
 \autoref{fig:a9arch} shows an overview of the ARM Cortex-A9 architectural
-structure. It features an out-of-order multi-issue module right after the decode
+structure. It features an out-of-order multi-issue module after the decode
 stage. This module can do speculative issue and schedules two arithmetic
 operations per cycle. It also features a multiplexed lane for address operations
 and floating point operations (the \emph{NEON} FPU). In this experiment, a

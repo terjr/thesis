@@ -4,7 +4,7 @@ As computer architecture development meets more challenging demands, a versatile
 set of software tools have been developed to help the designers. In this
 collection of tools lies a set of computer architecture simulators meant to
 evaluate processors at the architectural level. They provide the ability to
-model hardware at a higher abstraction layer than what's expressed by the
+model hardware at a higher abstraction layer than what is expressed by the
 underlying circuit.
 
 \subsection{A Brief Comparison of Hardware Simulators}
@@ -12,16 +12,16 @@ underlying circuit.
 To support our power estimation tool, a simulator front-end must provide a good
 picture of events that occur in a hardware implementation of the architecture.
 The out-of-order property significantly increases the level of complexity which
-the simulator must handle. The following simulators include properties that can
-support our approach:
+the simulator must handle. The following simulators were considered:
 
 \begin{description}
 \item[Sniper] \hfill\\
     Sniper is a high-speed, multicore, multi-threaded and cycle-accurate
     computer architecture simulator
     \cite{sniperwebpage,carlson2011sniper,carlson2013ssomta}. It already integrates
-    with McPAT and it is open source. Sniper does only work x86, and is thus not
-    applicable for simulation of ARM-based architectures.
+    with McPAT \cite{li2009mcpat,li2013mcpat} and it is open source. Sniper only
+    works with x86 targets, and is therefore not applicable for simulation of
+    ARM-based architectures.
 
 \item[SimpleScalar] \hfill\\
     SimpleScalar is a popular commercial architectural simulator that comes with
@@ -30,32 +30,31 @@ support our approach:
     SimpleScalar supports the ARM instruction set among many others, and looks
     like a decent simulator for advanced out-of-order core simulation.
     SimpleScalar is also the simulator used by the Wattch-project
-    \cite{brooks2000wattch}. However, the SimpleScalar web page seems to be last
-    updated in 2004 and all mailing list archives are gone at the time of
-    writing. The source code for SimpleScalar v3 is still available, but has
-    only been patched once since 2003.
+    \cite{brooks2000wattch}. However, the SimpleScalar project seems to be in a
+    state of abandonment. The source code for SimpleScalar v3 is still available
+    and received patches in 2003.
 
 \item[QEMU]\hfill\\
-    QEMU is a generic and open machine emulator which enables near real-time
+    QEMU is a generic open source machine emulator which enables near real-time
     performance on architectures like ARM, even on x86 host machines
     \cite{bartholomew2006qemu,shen2010full,bellard2005qemu}. However, QEMU is a
-    machine emulator rather than an architectural simulator, thus despite its great
-    performance of running ARM-binaries, it will not produce CPU and memory event
-    trace logs, and is not suitable for this project.
+    machine emulator rather than an architectural simulator. Despite its great
+    performance of running ARM-binaries, it will not produce CPU and memory
+    event trace logs, and is not suitable for this project.
 
 \item[gem5]\hfill\\
     gem5 is a merger between the M5 simulator \cite{binkert2006m5} and the GEMS
     simulator project \cite{GEMS}. gem5 includes ARM-support with out-of-order
-    execution out of the box, and provides great cycle-accurate trace logs which
-    are appropriate for this project \cite{gem5simulator}. Its core is written
-    in C++ and has a highly modular interface that allows users to specify
-    simulator target through simple Python scripts. Many of the maintainers are
-    employees of ARM Corp., and the activity on the mailing lists suggests high
-    project activity \cite{gem5dev}.
+    execution and provides cycle-accurate trace logs which are appropriate for
+    this project \cite{gem5simulator}. Its core is written in C++ and has a
+    highly modular interface that allows users to specify simulator targets
+    through Python scripts. Many of the maintainers are employees of ARM Corp.,
+    and the activity on the mailing lists suggests high project activity
+    \cite{gem5dev}.
 \end{description}
 
-Provided this comparison of simulators, and given that NTNU have previous
-experience with gem5, gem5 is the natural winner and our choice of an
+Provided this comparison of simulators, and given that NTNU has previous
+experience with gem5, gem5 was the natural winner and our choice of an
 architectural simulator.
 
 
@@ -63,12 +62,12 @@ architectural simulator.
 
 The gem5 project \cite{gem5} merges the best features of M5 \cite{binkert2006m5}
 and GEMS \cite{GEMS} and includes a wide range of CPU and memory models
-\cite{gem5hipeac}. The simulator has two main execution modes; \textit{Syscall
+\cite{gem5hipeac}. The simulator has two main execution modes: \textit{Syscall
 Emulation} (SE) or \textit{Full System} (FS). In SE mode, the simulator runs
-without any real operating system, but traps system calls from the executable
+without any real operating system. gem5 traps system calls from the executable
 and emulates them, often by passing them to the host operating system. In FS
-mode, the simulator can load an entire operating system (e.g. a GNU/Linux
-distribution) and run applications within the OS. gem5 supports many
+mode, the simulator can load an entire operating system, e.g., a GNU/Linux
+distribution, and run applications within the OS. gem5 supports many
 architectures; it can run binaries compiled for ALPHA, SPARC, MIPS, ARM, x86 and
 POWER architectures.
 
@@ -77,7 +76,7 @@ the CPU core and memory system. In-detail statistics, similar to performance
 counters on real hardware, are then dumped for subsequent inspection. gem5 is
 also able to output a trace log while it runs, originally intended for debugging
 of gem5. A trace log contains user-selected events that happens within the
-simulated hardware. These trace logs grow quickly in size, easily 10s of
+simulated hardware. These trace logs grow quickly in size, easily tens of
 gigabytes, but provides useful insights of the simulated execution. In
 particular, they describes CPU activity down to the microarchitecture level and
 outputs simulated processor activity.

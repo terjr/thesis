@@ -13,7 +13,7 @@ relates to the number of variables in the solution, plus one axis for the
 fitness value. E.g. when a problem contains a single variable, its solution
 space might look like \autoref{fig:fitnesslandscape} where the X-axis is the
 value of the single variable and the Y-axis is the fitness of this solution.
-Problems with more variables will have more axis. The optimization algorithms
+Problems with more variables will have more axes. The optimization algorithms
 can be thought of as methods for exploring and finding the highest or lowest
 point in of the fitness-axis.
 
@@ -36,43 +36,42 @@ detail in \cite{russellnorvig}.
     \label{fig:fitnesslandscape}
 \end{figure}
 
-On a high level, optimization algorithms can be divided into deterministic and
+In general terms, optimization algorithms can be divided into deterministic and
 non-deterministic approaches. The deterministic approaches can be thought of as
-a single path in solution space that starts at a defined but most likely
+a single path in the solution space that starts at a defined but most likely
 suboptimal solution and ends at the best solution. The non-deterministic
 approaches usually selects one or more paths at random such that each run might
-yields a different outcome. Deterministic algorithms will always find the same
+yield a different outcome. Deterministic algorithms will always find the same
 solution, but if the search space is large this might be extremely time
-consuming. With the case of non-deterministic algorithms, they tend to have
-an explorative behavior \cite{poli2008field}; each computation of next state
-includes some form of randomness. E.g. simulated annealing will do the same as
-the hill climbing algorithm, but will have some chance of moving downhill, thus
-it will be less prone to be stuck in a local optimum. We will now provide a brief
-overview of algorithms considered for use in this thesis.
+consuming. Non-deterministic algorithms tend to have an explorative behavior
+\cite{poli2008field}; each computation of the next state includes some form of
+randomness. E.g., simulated annealing will do the same as the hill climbing
+algorithm, but will have some chance of moving downhill, thus it will be less
+prone to be stuck in a local optimum. A brief overview of algorithms considered
+for this thesis is provided below.
 
 
 \begin{description}
     \item[Regression] is described as a study of dependence between properties
-        \cite{weisberg2005applied}. When data set contains values from at
-        least two properties, regression can be used to find one value as a
-        function of the other. The simplest form of regression is the linear
-        regression. A linear regression will try to find the linear function,
+        \cite{weisberg2005applied}. When data set contains values from at least
+        two properties, regression can be used to find one value as a function
+        of the other. An example of a regression technique is the least square
+        method. This method will try to find a linear function,
         $y=a_1x_1+a_2x_2+...+a_nx_n+b$, that minimizes the least square error.
-        Common for implementation of linear regression solvers is to formulate
-        the problem as a system of linear equations \cite{lay2011linear}, which
-        can be solved by Gaussian elimination. More advanced forms for
-        regressions can be used when the problem cannot be well mapped with a
-        linear function, such as the Gauss-Newton algorithm
-        \cite{myers1990classical}.
+        Implementations of linear regression solvers often formulate the problem
+        as a system of linear equations \cite{lay2011linear}, which can be
+        solved by Gaussian elimination. More advanced forms for regressions can
+        be used when the problem cannot be well mapped with a linear function,
+        such as the Gauss-Newton algorithm \cite{myers1990classical}.
 
     \item[Simulated Annealing] is a technique that belongs to the field of
         stochastic optimization and metaheuristics, inspired by the process of
-        annealing in metallurgy \cite{van1987simulated}. Initially, it starts in
-        a random state $s$ and for each iteration it probabilistically decides
-        between moving the system to a neighboring state $s'$ or staying in
-        state $s$. To avoid ending up in a local optimum, the probability starts
-        high, but decreases over time. Hence, simulated annealing can quickly
-        consider the most important parts of the state if configured adequately.
+        annealing in metallurgy \cite{van1987simulated}. It starts in a random
+        state $s$, and for each iteration it probabilistically decides between
+        moving the system to a neighboring state $s'$ or staying in state $s$.
+        To avoid ending up in a local optimum, the probability starts high, but
+        decreases over time. Hence, simulated annealing can quickly consider the
+        most important parts of the state if configured adequately.
 
     \item[Evolutionary Algorithms] is a term that refers to computational
         methods inspired by the process and mechanisms of biological evolution
@@ -83,11 +82,11 @@ overview of algorithms considered for use in this thesis.
 
 \end{description}
 
-Global optimization problems are a well studied research area and there is a
-wealth of different ways to solve them. It can be difficult to know in advance
-which methods will provide the most fruitful results. Also, multiple approaches
-can be combined in efforts to extract the best properties from several worlds,
-or to get the speed of convergence up.
+Global optimization problems are a well studied research area and there are
+countless ways to solve them. It can be difficult to know in advance which
+methods will provide the most rewarding results. Also, multiple approaches can
+be combined in efforts to extract the best properties from several branches, or
+to speed up convergence.
 
 In this thesis, we have chosen to use an evolutionary approach called $1 +
 \lambda$, with $\lambda = 4$. It includes the following steps:
@@ -96,7 +95,7 @@ In this thesis, we have chosen to use an evolutionary approach called $1 +
     \item Generate $\lambda$ random individuals.
     \item Evaluate population.
     \item Select the best individual.
-    \item Mutate $\lambda$ new individuals from the most-fit individual.
+    \item Mutate $\lambda$ new individuals from the best-fit individual.
     \item Repeat step 2 through 4 for each generation.
 \end{enumerate}
 
