@@ -72,9 +72,7 @@ direct plot of readings from the test setup. To remedy the mismatch in execution
 time, the prediction done by PET is stretched.
 
 
-\newpage
-
-\subsubsection{Training Set: Pi}
+\subsubsection{Training Set: \texttt{Pi}}
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/pi-pi.pdf}
@@ -82,7 +80,7 @@ time, the prediction done by PET is stretched.
     \label{fig:pi-training}
 \end{figure}
 
-The \emph{Pi} test uses floating point and random values with a static seed. The
+The \texttt{Pi} test uses floating point and random values with a static seed. The
 program is compiled with soft-float, so it can be viewed as an integer stress
 test. We obtain rather good accuracy with this test, in general the error is a
 below $10~mA$. As it represents a common workload, this is a very promising
@@ -91,7 +89,7 @@ most power consuming pieces. This is probably due to the simplistic method idle
 time is calculated, and the out-of-order nature of the processor makes the
 genetic algorithm overestimate the cost of idle.
 
-\subsubsection{Training Set: Trend}
+\subsubsection{Training Set: \texttt{Trend}}
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/trend-trend.pdf}
@@ -99,7 +97,7 @@ genetic algorithm overestimate the cost of idle.
     \label{fig:trend-training}
 \end{figure}
 
-The \emph{Trend} test checks if PET can follow the flow from an ALU intensive
+The \texttt{Trend} test checks if PET can follow the flow from an ALU intensive
 program to a memory intensive program. The accuracy is close to the Pi training
 set, but the most important factor with this test is that the drop at $7~ms$ is
 resembled in the prediction. Given that PET recognizes this drop, we know that
@@ -109,7 +107,7 @@ to discrepancies between the gem5 model and the real hardware.
 
 \newpage
 
-\subsubsection{Training Set: SubMul}
+\subsubsection{Training Set: \texttt{SubMul}}
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/trend-submul.pdf}
@@ -117,16 +115,19 @@ to discrepancies between the gem5 model and the real hardware.
     \label{fig:submul-training}
 \end{figure}
 
-Further, the \emph{SubMul} test is created to follow the shift from simple
+Further, the \texttt{SubMul} test is created to follow the shift from simple
 integer operations to a multiplication-dominated loop. PET again follows the
 trend, but overestimates the cost of multiply. Again, the trend is the most
 important factor. It should also be noted that even tough the loop contains a
 lot of multiply instructions, the assembled binary still uses a lot of basic
 integer operations for program flow, storage, registers, addresses, and so on.
+Note that the shift now happens earlier in PET than in the hardware, the
+opposite of \texttt{Trend}. This is likely due to runtime variatons in gem5
+versus real hardware.
 
 \newpage
 
-\subsubsection{Training Set: SHA-512}
+\subsubsection{Training Set: \texttt{SHA-512}}
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{figs/training/sha2-sha2.pdf}
