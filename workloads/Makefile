@@ -23,22 +23,14 @@ $(TARGETS): $(FOLDERS) bin ${SOURCES}
 bin/dhrystone/dhry:
 	echo "Done"
 
-bin/scrypt/scrypt:
-	echo "Done"
-
-bin/sha2/sha2: bin/sha2-1.0.1/sha2
+bin/sha2/sha2: bin/sha2/sha2
+	mkdir -p bin/sha2
 	cp $< $@
 
-bin/sha2-1.0.1/sha2:
-	${CC} sha2-1.0.1/main.c sha2-1.0.1/sha2.c ${CFLAGS} -o $@
+bin/sha2/sha2:
+	${CC} sha2/main.c sha2/sha2.c ${CFLAGS} -o $@
 
-bin/sha2-1.0.1/sha2speed:
-	echo "Done"
-
-bin/sha2-1.0.1/sha2prog:
-	echo "Done"
-
-bin/sha2-1.0.1/main:
+bin/sha2/main:
 	echo "Done"
 
 
