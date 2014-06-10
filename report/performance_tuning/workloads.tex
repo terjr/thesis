@@ -3,12 +3,12 @@
 
 When running a genetic algorithm, it is critical to lead the evolution in the
 correct direction. In our case, this is done by providing a reasonable set of
-workloads (i.e. ARMv7 programs) that stresses distinct modules in the processor.
+workloads (i.e., ARMv7 programs) that stresses distinct modules in the processor.
 For instance, a memory intensive workload will have high density of
 memory-related events from the simulator, and will support the genetic algorithm
 in determining cost for memory accesses. It is important for the set of
 workloads that are chosen to be diverse and stress many conditions the processor
-can operate in, e.g. mixes of compute intensive and memory intensive programs. A
+can operate in, e.g., mixes of compute intensive and memory intensive programs. A
 poorly chosen set of workloads will not give a fair judgment on which genomes
 that fit well. A bad workload might be too biased towards a few parameters,
 neglecting the rest, or even mislead the GA into a local optimum

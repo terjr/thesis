@@ -56,13 +56,13 @@ print best
 
 Each individual is a set of CPU events, each mapped to an energy cost.
 \autoref{fig:ga-genome} illustrates what individuals in the population look
-like. The top row enumerates all event types; e.g. the cost of an integer
+like. The top row enumerates all event types; e.g., the cost of an integer
 multiply event for individual 2 is 1400. The unit here is not really important,
 but roughly corresponds to $Ampere \cdot cycles$, with static drain deducted.
 The evolutionary algorithm starts by generating 10 individuals by using the
 algorithm shown in \autoref{lst:ga-create-algorithm}. It assigns most weights a
 random value in range $\{0, \ldots, 999\}$, while guiding some weights to a
-known value. E.g. the static energy contribution is known to lie around $96~mA$
+known value. E.g., the static energy contribution is known to lie around $96~mA$
 by physical measurements, so its weight is believed to be close to that number.
 Please note that there is not necessarily a direct mapping between the GA
 (\emph{Genetic Algorithm}) weights and measured milliamperes; it is up to the

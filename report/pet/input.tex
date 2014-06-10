@@ -37,7 +37,7 @@ physical memory has happened. \autoref{line:icache} is the event of instruction
 cache access, while \autoref{line:cachemiss} shows that this request failed.
 During this simulation, there is also events like \autoref{line:cacheupdate}
 which represents that the data cache updates some content. The discrete
-instructions running through the CPU is also logged, e.g. \autoref{line:memread}
+instructions running through the CPU is also logged, e.g., \autoref{line:memread}
 shows a load instruction and \autoref{line:intalu} shows an add instruction.
 
 The trace log input can be opened as a file or read from a \texttt{Unix} pipe.
@@ -89,7 +89,7 @@ correct amount of power consumption. As each event will count differently
 depending on the architecture, PET will read a weight file along with the gem5
 trace log. A sample weight file is shown in \autoref{lst:weights_example}. As
 the timeslots are specified in simulator ticks instead of CPU cycles, the values
-have been chosen to match a 2~GHz processor, i.e. one CPU cycle per 500
+have been chosen to match a 2~GHz processor, i.e., one CPU cycle per 500
 simulator ticks \footnote{This is the default gem5 simulation granularity.}. If
 this method was to be applied to a processor with a different clock speed than
 2~GHz, the weights would have to be scaled proportionally. This is not the case
