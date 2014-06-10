@@ -26,8 +26,7 @@ let multiple consumers pick from their ring buffer (consume). Each consumer
 parses the log lines they pick, and apply the weight of each read event to their
 result vector (map). When all lines are read and parsed, the result vectors are
 merged (reduce) and idle-task power and static power consumption is added. This
-combination of algorithms allows PET to take advantage of as many cores as
-possible, only limited by the hard drive data transfer rate.
+combination of algorithms allows PET to take advantage of all available cores.
 
 The next subsections will describe in detail the most important parts of the
 workflow, in sequential order. For further understanding of the program flow, a

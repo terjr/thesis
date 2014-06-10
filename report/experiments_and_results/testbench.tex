@@ -1,17 +1,16 @@
 \section{Test Environment}
 
 PET has already proven that it is able to do the job of power estimation for the
-training data. The set of workloads has been split in a training set as
-presented in \autoref{sec:workloads} and a test set. This separation is
-necessary in order to achieve a good result from the genetic algorithm
-\cite{russellnorvig,rajer2003separation}.
+training data. The set of workloads has been split in training sets and test
+sets. This separation is necessary in order to achieve a good result from the
+genetic algorithm \cite{russellnorvig,rajer2003separation}.
 
 The test data set consists of a short Dhrystone run and a synthetic add loop,
-each representing very different use of the processor. The Dhrystone test aims
+each representing different use of the processor. The Dhrystone test aims
 to measure overall performance of the general processor, while the add loop will
-stress the ALUs leaving most of the other parts of the CPU idle. The Dhrystone
-test is run for $100~000$ iterations. This is too short for a performance
-benchmark, but it is long enough to measure current drain and short enough to
+stress the ALUs, leaving most of the other parts of the CPU idle. The Dhrystone
+test is run for $100~000$ iterations. This is too short for benchmarking
+performance, but it is long enough to measure current drain and short enough to
 simulate on a simple workstation.
 
 There are sources claiming that gem5 is very accurate
@@ -19,8 +18,8 @@ There are sources claiming that gem5 is very accurate
 on overall performance of long-running benchmarks, not the correctness of the
 architectural events. This renders a problem for PET, which needs correct
 architectural events to happen in order to calculate the power profile. Yet
-another important recap is that the gem5 processor model is not identical, but
-merely similar to the Exynos~4412. Properties like the fast-loop mode is not
-implemented in gem5 and parameters for the branch-predictor is not publicly
+another important issue is that the gem5 processor model is not identical, but
+merely similar to the Exynos~4412. Properties like the fast-loop mode are not
+implemented in gem5, and parameters for the branch-predictor are not publicly
 available. Further, this means that some discrepancy between the measurements
 and PET's prediction is inevitable.

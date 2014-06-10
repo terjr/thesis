@@ -8,20 +8,20 @@ measurements in \autoref{sec:multiobjective}.
 
 \subsection{Presentation of Test Sets}
 
-We now present the two test sets used to evaluate PET performance, Dhrystone and
-Add.
+We now present the two test sets used to evaluate PET performance,
+\texttt{Dhrystone} and \texttt{Add}.
 
-\subsubsection{Evaluation Set: Dhrystone}
+\subsubsection{Evaluation Set: \texttt{Dhrystone}}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figs/training/dhrystone-dhry.pdf}
 \caption{Overlay of PET training results (red) and training data (green),
-Dhrystone test.}
+\texttt{Dhrystone} test.}
 \label{fig:dhry-training}
 \end{figure}
 
-The Dhrystone test results drawn in \autoref{fig:dhry-training} is chosen as one
+The \texttt{Dhrystone} test results drawn in \autoref{fig:dhry-training} is chosen as one
 of the final tests for PET as it utilize a wide range of both the integer parts
 and memory system of the processors. There is a chance that the values are
 weighted wrongly, but still matches the sum of the real power drain. We claim
@@ -33,13 +33,13 @@ error is less than $3.9~\%$.
 
 \newpage
 
-\subsubsection{Evaluation Set: Add}
+\subsubsection{Evaluation Set: \texttt{Add}}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{figs/training/add-add.pdf}
-\caption{Overlay of PET training results (red) and training data (green), Add
-test.}
+\caption{Overlay of PET training results (red) and training data (green),
+\texttt{Add} test.}
 \label{fig:add-training}
 \end{figure}
 
@@ -52,16 +52,16 @@ will predict a lower power drain, as it thinks that the caches are in use. This
 is a problem one must be aware of when the simulator and realized hardware does
 not completely correspond to each other. However, the main purpose of PET is to
 estimate changes visible at the simulation level. Thus, this is not a real
-problem in the ordinary usage scenarios.
+problem in the ordinary scenarios.
 
 
 \subsection{Explanations and Errors}
 
-The estimates given by PET is clearly created from a very high level of
-abstraction, and will never have enough information to exactly resemble the
-power profile of the realized chip. However, given that the power consuming
-events are carefully selected and properly weighted, the current results
-indicate that this method works quite well.
+The estimates given by PET is created from a very high level of abstraction, and
+will never contain enough information to exactly resemble the power profile of the
+realized chip. However, given that the power consuming events are carefully
+selected and properly weighted, the current results indicate that this method
+works satisfactory.
 
 \begin{figure}[ht]
     \includegraphics{figs/heat}
@@ -73,26 +73,25 @@ In \autoref{fig:variation}, recreated from Figure 8 in
 \cite{rundehvatum2013exploring} which uses exactly the same power measurement
 setup, it is clear that the measured current drain varies over time seemingly
 uncorrelated to both on-chip and ambient temperature. Each data point in the
-figure represents the results from a test run of the \texttt{add-add} test with
+figure represents the results from a test run of the \texttt{Add} test with
 about one hour between each run. The results ranges from $208~mA$ to $224~mA$
 and averages to $216~mA$. The results can be written as:
 \[
     I_{add} = 216~mA\pm8~mA = 216~mA\pm3.8~\%
 \]
 
-With a measured error of $\pm3.8~\%$ it is not unreasonable to expect a $10~\%$
+With a measured error of $\pm3.8~\%$ it is not unreasonable to expect a $7.6~\%$
 error in all measurements. This means that the weights found using measurements
-and a GA might be wrong since each training set possibly have slight
-discrepancies between each other. This again renders it impossible to get
-correct results. By chance, some genome could fit all training set even though
-it contains errors, but the weights would most likely be unequal to the
-``correct'' weights.
+and a GA might be wrong since each training set might have slight discrepancies
+between each other. This again renders it impossible to get correct results. By
+chance, some genome could fit all training set even though it contains errors,
+but the weights would most likely be unequal to the ``correct'' weights.
 
-It is also such that most search algorithms are prone to a phenomenon called
-overfitting \cite{russellnorvig}. Overfitting happens because the genetic
-algorithms will find any kind of obscure patterns in the data sets, e.g. if a
-high power drain was seen randomly, but a specific event often happens at that
-particular time, the algorithm would try to blame the event for it.
+Most search algorithms are prone to a phenomenon called overfitting
+\cite{russellnorvig}. Overfitting happens because the genetic algorithms will
+find any kind of obscure patterns in the data sets, e.g. if a high power drain
+was seen randomly, but a specific event often happens at that particular time,
+the algorithm would try to blame the event for it.
 
 It is clear from \autoref{tbl:gem5runtimeaccuracy} that the CPU model used in
 gem5 is not exactly equal to the Cortex-A9 core used in the Samsung
