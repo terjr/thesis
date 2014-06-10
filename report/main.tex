@@ -1,6 +1,7 @@
 \PassOptionsToPackage{table}{xcolor}
 
 \documentclass{MScthesisITEM}
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}} 
 
 % this package is just to generate text for demo-purposes
 %\usepackage{blindtext}
@@ -87,8 +88,8 @@
 %\glsaddall[]
 
 %% include if relevant
-\printglossary[title=List of Acronyms,type=\acronymtype] % prints just the list of acronyms
-\cleardoublepage
+%\printglossary[title=List of Acronyms,type=\acronymtype] % prints just the list of acronyms
+%\cleardoublepage
 
 \pagenumbering{arabic}
 \pagestyle{ruled}
