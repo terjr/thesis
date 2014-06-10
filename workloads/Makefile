@@ -20,8 +20,14 @@ all: $(TARGETS)
 $(TARGETS): $(FOLDERS) bin ${SOURCES}
 	${CC} $(patsubst bin/%, %.c, $@) ${CFLAGS} -o $@
 
-bin/dhrystone/dhry:
+bin/dhrystone/dhry_2:
 	echo "Done"
+
+bin/dhrystone/dhry_1:
+	echo "Done"
+
+bin/dhrystone/dhry:
+	${CC} dhrystone/dhry_1.c dhrystone/dhry_2.c  dhrystone/dhry.h  -static -o $@  -O2 -DHZ=60 -DREG=register -DTIME -DNDEBUG -DDRUNS=100000
 
 bin/sha2/sha2: bin/sha2/sha2
 	mkdir -p bin/sha2
@@ -32,7 +38,6 @@ bin/sha2/sha2:
 
 bin/sha2/main:
 	echo "Done"
-
 
 clean:
 	rm -rf bin
