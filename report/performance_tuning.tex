@@ -1,11 +1,10 @@
 \chapter{PET Performance Tuning}
 
-Several factors affect the PET model accuracy. To improve accuracy, there are
-many points to tune and optimize throughout the workflow. We now consider the
-steps needed to adapt the use of PET on a new CPU platform. First, one must
-create a CPU model using gem5's Python interface, resembling the modeled
-hardware. Then, finding correct weights is formulated as a global optimization
-problem.
+Several factors affect the PET model accuracy. We now consider the steps needed
+to adapt the use of PET on a new architecture. First, one must create a CPU
+model using gem5's Python interface, resembling the modeled hardware. Then,
+finding proper weights is formulated as a global optimization problem and
+matched up against existing hardware.
 
 \input{performance_tuning/measurements.tex}
 \input{performance_tuning/gem5model.tex}

@@ -1,15 +1,15 @@
-\section{Measuring a Real World Example Processor}
+\section{Measuring a Real World Processor}
 
-The results contributed through this work relies on the existence of a method to
+The results contributed in this work relies on the existence of a method to
 isolate and measure core voltage on a hardware implemented reference CPU. This
-is possible due to the $V_{core}$ separation on our development kit, as
+is possible due to the $V_{core}$ separation on the development kit, as
 mentioned in \autoref{sec:hw}.
 
 In \cite{rundehvatum2013exploring}, we conducted experiments to quantify the
 energy cost of an instruction executing on a modern out-of-order mobile
 processor. We were able to do this by completely bypassing the memory hierarchy
 utilizing special hardware (\emph{fast-loop mode}) and sampling a running
-average. Voltage drop over a shunt resistor such as the one shown in
-\autoref{fig:shunt} was set in series with the ODROID-X2 development board is
-measured, and we calculate energy used in the processor core. The results
-obtained are further used to tune PET towards this architecture.
+average. Voltage drop over a shunt resistor set in series with the ODROID-X2
+development board was measured. This voltage drop was used to calculate energy
+used in the processor core. The results obtained are further used to tune PET
+towards this architecture.

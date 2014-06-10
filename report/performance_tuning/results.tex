@@ -32,12 +32,12 @@ arm\_detailed   &  6.708  & 10.368  &  4.344  &  8.653 \\
 timing          & 19.564  & 40.659  & 20.503  & 41.964 \\
 \hline
 \end{tabular}
-\caption{gem5 runtime accuracy (O3 with classic memory system).}
+\caption{gem5 runtime accuracy (O3 with classic memory system). In milliseconds.}
 \label{tbl:gem5runtimeaccuracy}
 \end{table}
 
 As can be seen, we were able to get the runtime of our modified O3
-model (\texttt{exynos\_4412p}) pretty close. With ordinary workloads Pi and
+model (\texttt{exynos\_4412p}) fairly close. With ordinary workloads Pi and
 SHA-512, the execution time differed by less
 than 2.2~\%. Trend and SubMul, the synthetic tests, differed by 22.7~\% and
 17.6~\%, respectively.
@@ -67,9 +67,9 @@ Results for each training set after the training session are displayed in
 \autoref{fig:pi-training}, \autoref{fig:sha2-training},
 \autoref{fig:trend-training} and \autoref{fig:submul-training}. Each figure
 represents one of the workloads explained in \autoref{sec:workloads}. The red
-line in each figure represents the prediction done by PET, while the green line
-is a direct plot of readings from the test setup. To remedy the mismatch in
-execution time, the prediction done by PET is stretched.
+line in each figure represents the prediction by PET, while the green line is a
+direct plot of readings from the test setup. To remedy the mismatch in execution
+time, the prediction done by PET is stretched.
 
 
 \newpage
@@ -83,13 +83,13 @@ execution time, the prediction done by PET is stretched.
 \end{figure}
 
 The \emph{Pi} test uses floating point and random values with a static seed. The
-program is compiled with soft-float, so it really just becomes a integer stress
+program is compiled with soft-float, so it can be viewed as an integer stress
 test. We obtain rather good accuracy with this test, in general the error is a
-little less than $10~mA$. As it represents a common workload, this is a very
-promising result. It is interesting that the beginning and the end of the
-program is the most power consuming pieces. This is probably due to the
-simplistic method idle time is calculated, and the out-of-order nature of the
-processor makes the genetic algorithm overestimate the cost of idle.
+below $10~mA$. As it represents a common workload, this is a very promising
+result. It is interesting that the beginning and the end of the program are the
+most power consuming pieces. This is probably due to the simplistic method idle
+time is calculated, and the out-of-order nature of the processor makes the
+genetic algorithm overestimate the cost of idle.
 
 \subsubsection{Training Set: Trend}
 \begin{figure}[htb]
@@ -118,10 +118,10 @@ to discrepancies between the gem5 model and the real hardware.
 \end{figure}
 
 Further, the \emph{SubMul} test is created to follow the shift from simple
-integer operations and over to a multiplication-dominated loop. PET again
-follows the trend, but is overly rough on the cost of multiply. Again, the trend
-is the most important factor. It should also be noted that even tough the loop
-contains a lot of multiply, the assembled binary still uses a lot of "ordinary"
+integer operations to a multiplication-dominated loop. PET again follows the
+trend, but overestimates the cost of multiply. Again, the trend is the most
+important factor. It should also be noted that even tough the loop contains a
+lot of multiply instructions, the assembled binary still uses a lot of basic
 integer operations for program flow, storage, registers, addresses, and so on.
 
 \newpage
@@ -135,9 +135,9 @@ integer operations for program flow, storage, registers, addresses, and so on.
     \label{fig:sha2-training}
 \end{figure}
 
-The last test in the performance tuning algorithm calculates a
-SHA-512 hash sum. The test results is figured in \autoref{fig:sha2-training} and
-differs from the other tests by being more memory intensive at the same time
-as it is an extensive user of both multiply and simpler integer operations. This
-test is well within 3~\% of measured and is yet another example of good
-performance on general workloads.
+The last test in the performance tuning algorithm calculates a SHA-512 hash sum.
+The test results are shown in \autoref{fig:sha2-training} and differs from the
+other tests by being more memory intensive at the same time as it is an
+extensive user of both multiply and simpler integer operations. This test is
+well within 3~\% of measured and is yet another example of accurate prediction
+on general workloads.
